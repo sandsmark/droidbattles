@@ -34,7 +34,7 @@ infobox::~infobox()
 {
 }
 
-void infobox::closeEvent (QCloseEvent *e)
+void infobox::closeEvent (QCloseEvent*)
 {
     delete this;
 }

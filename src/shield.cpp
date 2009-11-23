@@ -57,7 +57,7 @@ void shield::execute()
     }
 }
 
-int shield::absorbhit (int strength, int ifint)
+int shield::absorbhit (int strength, int /*ifint*/)
 {
     if (Isup == true)
     {

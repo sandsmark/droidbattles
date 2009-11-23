@@ -1007,7 +1007,7 @@ void textmodeFileManip::assemble (char *filename)
     while (!end)              //If we still have lines left to compile
     {
         curline = sin.readLine();
-        if (curline == NULL)
+        if (curline.isEmpty())
         {
             end = true;
         }
@@ -2017,7 +2017,8 @@ void textmodeFileManip::checkConfig (char *filename)
         return;
     }
     QDataStream s2 (&b);
-    unsigned int lng,cost=0,numdev=0;
+    unsigned int lng;
+    int cost=0,numdev=0;
     char *tc;
     s2.readBytes (tc,lng);
     unsigned char *my = (unsigned char *) &tc[0];

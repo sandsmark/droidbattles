@@ -55,7 +55,7 @@ public:
     createbot();
     ~createbot();
     void closeEvent (QCloseEvent *e);
-    void error (char *string, int line);
+    void error (const char *string, int line);
     void addint (QString & str,int integ);
     int devnum (int sort,int num);
 

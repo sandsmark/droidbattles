@@ -68,6 +68,8 @@ int beam::execute()
 	*/
 int beam::objhit (int type,int strength)
 {
+    Q_UNUSED(type);
+    Q_UNUSED(strength);
     return objhitdestroyed;
 }
 
@@ -86,7 +88,7 @@ int beam::returntype()
 /**
 	* Paint object
 	*/
-void beam::showobject (QWidget *buffer,int opt)
+void beam::showobject (QWidget *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,255));

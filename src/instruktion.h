@@ -31,7 +31,7 @@ class instruktion
 
 public:
 
-    instruktion (char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
+    instruktion (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
                  int op);
     ~instruktion();
     bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits);

@@ -26,8 +26,8 @@ bool SingleStepMode = false;
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-battlearea::battlearea (char *nam1,char *nam2,char *nam3,char *nam4,
-                        char *nam5,char *nam6,char *nam7,char *nam8,int numf,
+battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const char *nam4,
+                        const char *nam5,const char *nam6,const char *nam7,const char *nam8,int numf,
                         int mx, int xs, int ys, bool ifteams, int *bteams,
                         bool tourney,bool fast,int mode,int maxp,
                         bool ifdebug,Q3MultiLineEdit *dbedit,
@@ -166,7 +166,7 @@ battlearea::battlearea (char *nam1,char *nam2,char *nam3,char *nam4,
 
 }
 
-void battlearea::resizeEvent (QResizeEvent *e)
+void battlearea::resizeEvent (QResizeEvent*)
 {
     scrolling->setGeometry (16,16,width()-116,height()-46);
     playb->setGeometry (width()-100,20,70,40);
@@ -218,7 +218,6 @@ battlearea::~battlearea()
         delete *i;
     dbgwindows.clear();
 //	if( debugenabled )delete dbgwindow;
-    int x;
 //	for( x=0;x<maxobjects;x++ )
 //		delete objects[x];
 }
@@ -634,7 +633,7 @@ void battlearea::execute()
     //Here, check if the battle has ended (eg. <= 1 bot or <= 1 team is left)
 
     int numofbots = 0;
-    char botnum;
+    int botnum;
     if (isteams)     //If teams
     {
         alive[0] = 0;
@@ -853,7 +852,7 @@ void battlearea::execute()
 /**
 	* If user presses the X in the bar...
 	*/
-void battlearea::closeEvent (QCloseEvent *e)
+void battlearea::closeEvent (QCloseEvent*)
 {
     delete this;
 }

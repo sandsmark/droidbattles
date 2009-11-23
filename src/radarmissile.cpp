@@ -68,7 +68,7 @@ radarmissile::~radarmissile()
     if (ramdevice->getowners() == 0) delete ramdevice;
 }
 
-int radarmissile::objhit (int type,int strength)
+int radarmissile::objhit (int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }

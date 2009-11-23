@@ -57,7 +57,7 @@ rocket::rocket (int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
     }
 }
 
-int rocket::objhit (int type,int strength)
+int rocket::objhit (int /*type*/, int /*strength*/)
 {
     return 1;
 }
@@ -87,7 +87,7 @@ void rocket::eraseobject (QWidget *buffer)
 /**
 	* Paint the flame from the rocket
 	*/
-void rocket::showobject (QWidget *buffer, int opt)
+void rocket::showobject (QWidget *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,0,0));

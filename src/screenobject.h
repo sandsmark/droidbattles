@@ -39,11 +39,11 @@ public:
     virtual int changepos (double X,double Y);
     void changedir (int Z);
     void changespeed (int Z);
-    const int getXpos();
-    const int getYpos();
-    const int getdir();
-    const int getspeed();
-    const int getnum();
+    int getXpos();
+    int getYpos();
+    int getdir();
+    int getspeed();
+    int getnum();
     virtual void addscrobject (int X,int Y,int dir,int type,int arg1=0,
                                int arg2=0, void *arg3=0);
     virtual int getdevport (unsigned char port);

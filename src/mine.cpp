@@ -76,7 +76,7 @@ int mine::returntype()
         return 2;
 }
 
-int mine::objhit (int type,int strength)
+int mine::objhit (int /*type*/,int /*strength*/)
 {
     return objhitdestroyed;
 }

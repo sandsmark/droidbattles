@@ -51,21 +51,21 @@ void device::execute()
 {
 }
 
-int device::getfromport (unsigned char port)
+int device::getfromport (unsigned char /*port*/)
 {
     return 0;
 }
 
-int device::absorbhit (int str,int ifint)
+int device::absorbhit (int str, int /*ifint*/)
 {
     return str;
 }
 
-void device::erasegfx (QWidget *buffer)
+void device::erasegfx (QWidget* /*buffer*/)
 {
 }
 
-void device::showgfx (QWidget *buffer)
+void device::showgfx (QWidget* /*buffer*/)
 {
 }
 
@@ -90,9 +90,10 @@ int device::returnspecial()
 
 struct debugcontents device::returndbg()
 {
+    return debugcontents();
 }
 
-void device::dospecial (int x, int y)
+void device::dospecial (int /*x*/, int /*y*/)
 {
 }
 

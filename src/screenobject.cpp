@@ -31,11 +31,11 @@ screenobject::~screenobject()
 {
 }
 
-void screenobject::showobject (QWidget *buffer, int opt)
+void screenobject::showobject (QWidget* /*buffer*/, int /*opt*/)
 {
 }
 
-void screenobject::eraseobject (QWidget *buffer)
+void screenobject::eraseobject (QWidget* /*buffer*/)
 {
 }
 
@@ -66,22 +66,22 @@ void screenobject::changespeed (int Z)
     if (speed > 100) speed = 100;
 }
 
-const int screenobject::getXpos()
+int screenobject::getXpos()
 {
     return int (Xpos);
 }
 
-const int screenobject::getYpos()
+int screenobject::getYpos()
 {
     return int (Ypos);
 }
 
-const int screenobject::getdir()
+int screenobject::getdir()
 {
     return direction;
 }
 
-const int screenobject::getspeed()
+int screenobject::getspeed()
 {
     return speed;
 }
@@ -96,27 +96,27 @@ int screenobject::execute()
     return 0;
 }
 
-int screenobject::getdevport (unsigned char port)
+int screenobject::getdevport (unsigned char /*port*/)
 {
     return 0;
 }
 
-const int screenobject::getnum()
+int screenobject::getnum()
 {
     return mynum;
 }
 
-void screenobject::putdevport (unsigned char port,unsigned short value)
+void screenobject::putdevport (unsigned char /*port*/, unsigned short /*value*/)
 {
 }
 
-int screenobject::objhit (int type,int strength)
+int screenobject::objhit (int /*type*/, int /*strength*/)
 {
     return 0;
 }
 
-void screenobject::addscrobject (int X,int Y,int dir,int type, int arg1,
-                                 int arg2,void *arg3)
+void screenobject::addscrobject (int /*X*/, int /*Y*/, int /*dir*/, int /*type*/, int /*arg1*/,
+                                 int /*arg2*/, void* /*arg3*/)
 {
 }
 
@@ -125,12 +125,12 @@ int screenobject::returntype()
     return 0;
 }
 
-int screenobject::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
+int screenobject::iodevtobatt (int /*bot*/, int /*dev*/, int /*choice*/, int /*arg1*/, int /*arg2*/)
 {
     return 0;
 }
 
-int screenobject::iodevtodev (int dev,int action,int value)
+int screenobject::iodevtodev (int /*dev*/, int /*action*/, int /*value*/)
 {
     return 0;
 }
@@ -160,11 +160,11 @@ const char* screenobject::getdebug2()
     return 0;
 }
 
-void screenobject::setdebug1 (int msg)
+void screenobject::setdebug1 (int /*msg*/)
 {
 }
 
-void screenobject::setdebug2 (int msg)
+void screenobject::setdebug2 (int /*msg*/)
 {
 }
 
@@ -209,7 +209,7 @@ int screenobject::getteam()
     return team;
 }
 
-void screenobject::receiveradio (int sig)
+void screenobject::receiveradio (int /*sig*/)
 {
 }
 
@@ -218,12 +218,13 @@ int screenobject::getmem()
     return 0;
 }
 
-void screenobject::addinterrupt (int inter)
+void screenobject::addinterrupt (int /*inter*/)
 {
 }
 
 struct debugcontents screenobject::returndbgcont()
 {
+    return debugcontents();
 }
 
 bool screenobject::areaexplosionaffects()
@@ -246,7 +247,7 @@ void screenobject::sendmsg (char *msg)
     if (useUI) emit messagechanged (msg);
 }
 
-void screenobject::objscanned (int intensity,int dir)
+void screenobject::objscanned (int /*intensity*/, int /*dir*/)
 {
 }
 
@@ -260,7 +261,7 @@ QPixmap & screenobject::getgfx()
     return *graphics;
 }
 
-void screenobject::setradar (int x)
+void screenobject::setradar (int /*x*/)
 {
 }
 

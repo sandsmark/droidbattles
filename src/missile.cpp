@@ -97,7 +97,7 @@ int missile::getcollisionstrength()
     return 15;
 }
 
-int missile::objhit (int type,int strength)
+int missile::objhit (int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }

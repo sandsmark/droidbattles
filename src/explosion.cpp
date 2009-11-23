@@ -47,7 +47,7 @@ int explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void explosion::showobject (QWidget *buffer,int opt=0)
+void explosion::showobject (QWidget *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,255,0));

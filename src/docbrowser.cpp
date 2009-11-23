@@ -30,7 +30,7 @@ Docbrowser::~Docbrowser()
 {
 }
 
-void Docbrowser::closeEvent (QCloseEvent *e)
+void Docbrowser::closeEvent (QCloseEvent*)
 {
     delete this;
 }

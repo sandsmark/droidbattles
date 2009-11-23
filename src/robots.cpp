@@ -515,7 +515,7 @@ void robots::setdebug2 (int msg)
 /**
 	* Show error message (mainly for showing that bot doesn't conform to .cfg file)
 	*/
-void robots::error (char *string, char *name)
+void robots::error (const char *string, const char *name)
 {
     if (showerror && useUI)
     {
@@ -574,6 +574,8 @@ struct debugcontents robots::returndbgcont()
             break;
         }
     }
+
+    return debugcontents(); // return empty debugcontents
 }
 
 /**

@@ -100,7 +100,7 @@ public:
     const char* getdebug2();
     void setdebug1 (int);
     void setdebug2 (int);
-    void error (char *,char *);
+    void error (const char *, const char *);
     int getmem();
     void addinterrupt (int);
     struct debugcontents returndbgcont();

@@ -59,8 +59,8 @@ class battlearea : public QWidget, public textmodeBattleArea
 
 public:
 
-    battlearea (char *name1,char *name2,char *name3,char *name4,char *name5,
-                char *name6,char *name7,char *name8,int numf,int ,int xs,
+    battlearea (const char *name1,const char *name2,const char *name3,const char *name4,const char *name5,
+                const char *name6,const char *name7,const char *name8,int numf,int ,int xs,
                 int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
                 int mode = 0, int maxp=10,bool ifdebug=false,
                 Q3MultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0);

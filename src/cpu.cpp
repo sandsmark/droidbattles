@@ -21,7 +21,7 @@ CPU::CPU()
 {
 }
 
-CPU::CPU (RAM &ramdev,screenobject &object)
+CPU::CPU (RAM &ramdev, screenobject& /*object*/)
 {
     mem = &ramdev;
 }
@@ -40,7 +40,7 @@ int CPU::callobin (unsigned char one)
     return ourbot->getdevport (one);
 }
 
-void CPU::sendmsg (char *msg)
+void CPU::sendmsg (char* /*msg*/)
 {
 }
 

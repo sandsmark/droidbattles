@@ -92,7 +92,7 @@ startsbatt::startsbatt()
 
 }
 
-void startsbatt::resizeEvent (QResizeEvent *e)
+void startsbatt::resizeEvent (QResizeEvent*)
 {
     for (int x=0; x<8; x++)
     {

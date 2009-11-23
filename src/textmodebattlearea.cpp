@@ -32,6 +32,8 @@ textmodeBattleArea::textmodeBattleArea (const char *nam1,const char *nam2,const 
                                         int mx, int xs, int ys, bool ifteams, int *bteams,
                                         bool tourney,int mode)
 {
+    Q_UNUSED(tourney);
+
     battlemode = mode;
     maxpoints = numf;
     srandom (time (0));     //Initialize random seed
@@ -415,7 +417,7 @@ int textmodeBattleArea::execround()
     //Here, check if the battle has ended (eg. <= 1 bot or <= 1 team is left)
 
     int numofbots = 0;
-    char botnum;
+    int botnum;
     if (isteams)     //If teams
     {
         alive[0] = 0;
@@ -654,6 +656,8 @@ void textmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
 	*/
 int textmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
 {
+    Q_UNUSED(dev);
+
     switch (choice)
     {
     case 1 :     //getXpos

@@ -104,7 +104,7 @@ int communication::getfromport (unsigned char port)
     return 0;
 }
 
-void communication::dospecial (int x,int y)
+void communication::dospecial (int x, int /*y*/)
 {
     if (nummsg < 32)
         msglist[nummsg++] = x;

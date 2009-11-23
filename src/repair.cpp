@@ -50,7 +50,7 @@ void repair::execute()
     }
 }
 
-int repair::getfromport (unsigned char port)
+int repair::getfromport (unsigned char /*port*/)
 {
     return 0;
 }

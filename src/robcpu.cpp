@@ -1995,7 +1995,7 @@ void robCPU::execinstr()
 
             //LNZ reg
         case 0x96 :
-            if (registers[flags] & equalflag != equalflag)
+            if ((registers[flags] & equalflag) != equalflag)
                 registers[mem->getbyte (registers[eip]+1) ] = 1;
             else
                 registers[mem->getbyte (registers[eip]+1) ] = 0;
@@ -2004,7 +2004,7 @@ void robCPU::execinstr()
 
             //LA reg
         case 0x97 :
-            if (registers[flags] & aboveflag == aboveflag)
+            if ((registers[flags] & aboveflag) == aboveflag)
                 registers[mem->getbyte (registers[eip]+1) ] = 1;
             else
                 registers[mem->getbyte (registers[eip]+1) ] = 0;
@@ -2667,7 +2667,7 @@ void robCPU::execinstr()
 
             //LB reg
         case 0xEE :
-            if (registers[flags] & belowflag == belowflag)
+            if ((registers[flags] & belowflag) == belowflag)
                 registers[mem->getbyte (registers[eip]+1) ] = 1;
             else
                 registers[mem->getbyte (registers[eip]+1) ] = 0;
@@ -2676,7 +2676,7 @@ void robCPU::execinstr()
 
             //LAE/LNB reg
         case 0xEF :
-            if (registers[flags] & belowflag != belowflag)
+            if ((registers[flags] & belowflag) != belowflag)
                 registers[mem->getbyte (registers[eip]+1) ] = 1;
             else
                 registers[mem->getbyte (registers[eip]+1) ] = 0;
@@ -2685,7 +2685,7 @@ void robCPU::execinstr()
 
             //LBE/LNA reg
         case 0xF0 :
-            if (registers[flags] & aboveflag != aboveflag)
+            if ((registers[flags] & aboveflag) != aboveflag)
                 registers[mem->getbyte (registers[eip]+1) ] = 1;
             else
                 registers[mem->getbyte (registers[eip]+1) ] = 0;

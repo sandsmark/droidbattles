@@ -146,7 +146,7 @@ int armor::getfromport (unsigned char port)
 	* The repair unit uses this function in order to not issue an interrupt
 	* every time he repairs.
 	*/
-void armor::dospecial (int x,int y)
+void armor::dospecial (int x, int /*y*/)
 {
     ourbot->armorval -= x;
     strength -= x;

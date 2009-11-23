@@ -362,7 +362,7 @@ createbot::createbot()
     instrlatency[242] = 1;
 }
 
-void createbot::resizeEvent (QResizeEvent *e)
+void createbot::resizeEvent (QResizeEvent *)
 {
     int wid1 = width() /9;
     if (wid1 > 100) wid1 = 100;
@@ -411,7 +411,7 @@ createbot::~createbot()
 /**
 	* Deletes window (if user clicksthe X )
 	*/
-void createbot::closeEvent (QCloseEvent *e)
+void createbot::closeEvent (QCloseEvent*)
 {
     delete this;
 }
@@ -2539,7 +2539,7 @@ ende:
 	* Shows a message from the assembler and an OK button.
 	* It also sets the current editing line to line
 	*/
-void createbot::error (char *msg,int line)
+void createbot::error (const char *msg,int line)
 {
     QMessageBox::information (0,"Message from the almighty assembler", msg);
     if (line >= 0)	edittxt->setCursorPosition (line,0);
@@ -2752,7 +2752,7 @@ void createbot::addint (QString & str,int integ)
     str += temp;
 }
 
-void createbot::scrollview (int x)
+void createbot::scrollview (int)
 {
 //	showlatency->setYoffset( x );
 }

@@ -1,31 +1,32 @@
-Main programmer/Maintainer/Original author etc:
+Maintainer/Qt4 Port:
+ Martin Sandsmark <sandsmark@samfundet.no>
 
-Andreas Agorander <Bluefire@bluefire.nu>
+Original Author:
+ Andreas Agorander <Bluefire@bluefire.nu>
 
 Patches:
+ Raymond Martineau <dynamo_tamarin@yahoo.com>
+ Daniel F Moisset <dmoisset@grulic.org.ar>
+ Andrew P Moise <moise+@andrew.cmu.edu>
+ Peter Schmidt <peter.z.schmidt@compaq.com>
+ "karl cracker" <dektosbdav@hotmail.com>
 
-Raymond Martineau <dynamo_tamarin@yahoo.com>
-Daniel F Moisset <dmoisset@grulic.org.ar>
-Andrew P Moise <moise+@andrew.cmu.edu>
-Peter Schmidt <peter.z.schmidt@compaq.com>
-"karl cracker" <dektosbdav@hotmail.com>
-
-graphics:
-David Heremans <david.heremans@siemens.atea.be>
+Graphics:
+ David Heremans <david.heremans@siemens.atea.be>
 
 Suggestions/Bugreports/testing:
+ Richard Löfberg <richard@linux.nu>
+ Raymond Martineau <dynamo_tamarin@yahoo.com>
+ Terje Dahlström <e97td@efd.lth.se>
+ Riley Eller ("Caezar") <caezar@flashmail.com>
+ "Achiles" <achiles@retemail.es>
+ Sean Lunsford <srlunsford@qwest.net>
+ Clay Sampson <sampsonc@crosslink.net>
+ David Heremans <david.heremans@siemens.atea.be>
+ RoSS <ross@mailru.com>
+ Noah Massey <nmassey@static-245.caswell.brown.edu>
+ Peter Schmidt <peter.z.schmidt@compaq.com>
+ Marco Krohn <krohn@itp.uni-hannover.de>
+ Helge Dennhardt <dennha@itp.uni-hannover.de>
+ "karl cracker" <dektosbdav@hotmail.com>
 
-Richard Löfberg <richard@linux.nu>
-Raymond Martineau <dynamo_tamarin@yahoo.com>
-Terje Dahlström <e97td@efd.lth.se>
-Riley Eller ("Caezar") <caezar@flashmail.com>
-"Achiles" <achiles@retemail.es>
-Sean Lunsford <srlunsford@qwest.net>
-Clay Sampson <sampsonc@crosslink.net>
-David Heremans <david.heremans@siemens.atea.be>
-RoSS <ross@mailru.com>
-Noah Massey <nmassey@static-245.caswell.brown.edu>
-Peter Schmidt <peter.z.schmidt@compaq.com>
-Marco Krohn <krohn@itp.uni-hannover.de>
-Helge Dennhardt <dennha@itp.uni-hannover.de>
-"karl cracker" <dektosbdav@hotmail.com>

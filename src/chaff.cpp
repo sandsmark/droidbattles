@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "chaff.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 	/**
 		* Constructor, Init object
@@ -31,7 +33,7 @@ chaff::chaff( int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui )
 	{
 		erasegfx = new QPixmap;
 		erasegfx->resize( 12,12 );
-		erasegfx->fill( black );
+		erasegfx->fill( Qt::black );
 		graphics = Pixmapholder::getpmp( 5 );
 	}
 	timeleft = 159;

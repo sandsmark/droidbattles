@@ -21,25 +21,25 @@
 
 // include files for QT
 #include <qstring.h>
-#include <qpopupmenu.h>
-#include <qaccel.h>
+#include <q3popupmenu.h>
+#include <q3accel.h>
 #include <qmenubar.h>
-#include <qtoolbar.h>
+#include <q3toolbar.h>
 #include <qpixmap.h>
 #include <qtoolbutton.h>
-#include <qapp.h>
+#include <qapplication.h>
 #include <qstatusbar.h>
 #include <qwidget.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qmessagebox.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qpushbutton.h>
 #include <qdir.h>
 #include <qfile.h>
-#include <qtextstream.h>
-#include <qiconset.h>
+#include <q3textstream.h>
+#include <qicon.h>
 #include <qdatetime.h>
 #include <qpixmapcache.h>
 

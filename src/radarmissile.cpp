@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "radarmissile.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 	/**
 		* Init positions, devices and load gfx
@@ -40,7 +42,7 @@ radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum,
 	{
 		erasegfx = new QPixmap;
 		erasegfx->resize( 8,8 );
-		erasegfx->fill( black );
+		erasegfx->fill( Qt::black );
 		graphics = Pixmapholder::getpmp( 4 );
 	}
 	ramdevice = mem;	
@@ -179,7 +181,7 @@ int radarmissile::returnradar( )
 	return 4;
 }
 
-void radarmissile::createDbgWindow(int id, QMultiLineEdit* e,int* l,int* m)
+void radarmissile::createDbgWindow(int id, Q3MultiLineEdit* e,int* l,int* m)
 {
   if (dbgWindow) delete dbgWindow;
   dbgWindow = new debugwindow( e,&l[0],&m[0]);

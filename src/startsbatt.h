@@ -21,14 +21,17 @@
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QCloseEvent>
 #include "commonsymbols.h"
 #include <qlineedit.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include "pixmapholder.h"
 #include "pixbutton.h"
 

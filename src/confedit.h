@@ -21,16 +21,16 @@
 #include <qwidget.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qlabel.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qfile.h>
-#include <qfiledialog.h>
-#include <qtextstream.h>
+#include <q3filedialog.h>
+#include <q3textstream.h>
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
@@ -65,7 +65,7 @@ class confedit : public QWidget
 		
 		// Area covering all - menu buttons
 		QWidget *setarea;
-		QScrollView *scroll;
+		Q3ScrollView *scroll;
 
 		//Used for all numeric input
 		QIntValidator *valid;
@@ -82,7 +82,7 @@ class confedit : public QWidget
 		QComboBox *ramcostv;
 
 		//Device specific settings
-		QGroupBox *devicegroup[numdev];
+		Q3GroupBox *devicegroup[numdev];
 		QCheckBox *devicesenabled[numdev];
 		QLabel *costs[numdev];
 		QComboBox *levelcosts[numdev];

@@ -18,10 +18,12 @@
 #include "debugwindow.h"
 
 #include <qmessagebox.h>
+//Added by qt3to4:
+#include <QLabel>
 	/**
 		* Constructor, create GUI elements
 		*/
-debugwindow::debugwindow( QMultiLineEdit *Medit, int *dbl, int *dbm )
+debugwindow::debugwindow( Q3MultiLineEdit *Medit, int *dbl, int *dbm )
 {
 //	int x;
 
@@ -45,7 +47,7 @@ debugwindow::debugwindow( QMultiLineEdit *Medit, int *dbl, int *dbm )
 	memcontents[2] = new QLabel( "Mem contents @si :",this );
 	memcontents[3] = new QLabel( "Mem contents @di :",this );
 
-	execlines = new QMultiLineEdit( this );
+	execlines = new Q3MultiLineEdit( this );
 
 	dumpmemb = new QPushButton( "Dump mem-map", this );
 

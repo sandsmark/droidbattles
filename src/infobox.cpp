@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include "infobox.h"
+//Added by qt3to4:
+#include <QCloseEvent>
+#include <QLabel>
 
 infobox::infobox( QString msg, QWidget *parent, const char *name )
  : QWidget( parent,name )

@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 #include "devchoice.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QLabel>
+#include <Q3Frame>
 
 	/** Holds one group of the device choosing group of combobox etc. in
 		* the createbot dialog
@@ -54,8 +58,8 @@ devchoice::devchoice( createbot *cre,QWidget *parent,const char *name,
 //	comb->adjustSize( );
 	comb->setGeometry( 0,0,80,20 );
 
-	level = new QButtonGroup( this );
-  level->setFrameStyle( QFrame::NoFrame );
+	level = new Q3ButtonGroup( this );
+  level->setFrameStyle( Q3Frame::NoFrame );
 	for( x=0; x<5;x++ )
 	{
 		levels[x] = new QRadioButton( level );
@@ -146,13 +150,13 @@ void devchoice::costchanged( )
 	QString tempname = QDir::homeDirPath( );
 	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 	{
 		//TODO: add error message
 		return;
 	}
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	int x,y;
 
 	QString dummy;

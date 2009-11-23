@@ -16,13 +16,16 @@
  ***************************************************************************/
 
 #include "starttournament.h"
+//Added by qt3to4:
+#include <QLabel>
+#include <QCloseEvent>
 
 starttournament::starttournament( )
 {
 
 //	int x;
 
-	botfiles = new QListBox( this );
+	botfiles = new Q3ListBox( this );
 	botfiles->setGeometry( 10,75,270,170 );
 
 	press[0] = new QPushButton( "load",this );
@@ -98,12 +101,12 @@ const char* starttournament::getbotfile( int x )
 		*/
 void starttournament::choosefile( )
 {
-	QString tempname = QFileDialog::getOpenFileName( 0,"*.bot",this );
+	QString tempname = Q3FileDialog::getOpenFileName( 0,"*.bot",this );
 //	int x;
 
 	if( !tempname.isEmpty( ) )
 	{
-		botfiles->insertItem( tempname.data( ) );
+		botfiles->insertItem( tempname );
 	}
 }
 

@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 #include "startsbatt.h"
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <Q3TextStream>
+#include <QLabel>
+#include <QCloseEvent>
 
 	/**
 		* init GUI, load file from last battle
@@ -101,9 +106,9 @@ void startsbatt::loadfilesettings( )
 	QString temp = QDir::homeDirPath( );
 	temp += "/droidbattles/singlebattle.save";
 	QFile f( temp );
-	if( f.exists( ) && f.open( IO_ReadOnly ) )
+	if( f.exists( ) && f.open( QIODevice::ReadOnly ) )
 	{
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		for( int x=0; x<8;x++ )
 		{
 			s >> botfiles[x];
@@ -146,7 +151,7 @@ char* startsbatt::getbotfile( int x )
 		*/
 void startsbatt::choosefile( )
 {
-	QString tempname = QFileDialog::getOpenFileName( 0,"*.bot",this );
+	QString tempname = Q3FileDialog::getOpenFileName( 0,"*.bot",this );
 	int x;
 
 	for( x=0;x<8;x++ )
@@ -156,8 +161,8 @@ void startsbatt::choosefile( )
 	}
 	if( !tempname.isEmpty( ) && x < 8 )
 	{
-		shownames[x]->setText( tempname.data( ) );
-		botfiles[x] = tempname.data( );
+		shownames[x]->setText( tempname);
+		botfiles[x] = tempname;
 	}
 }
 
@@ -181,9 +186,9 @@ void startsbatt::ocl( )
 	QString temp = QDir::homeDirPath( );
 	temp += "/droidbattles/singlebattle.save";
 	QFile f( temp );
-	if( f.open( IO_WriteOnly ) )
+	if( f.open( QIODevice::WriteOnly ) )
 	{
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		for( int x=0; x<8;x++ )
 		{
 			if( botfiles[x] == QString( "" ) )

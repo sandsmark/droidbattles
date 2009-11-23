@@ -18,8 +18,8 @@
 #ifndef BOTINFO_H
 #define BOTINFO_H
 
-#include <qgroupbox.h>
-#include <qprogressbar.h>
+#include <q3groupbox.h>
+#include <q3progressbar.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
@@ -50,8 +50,8 @@ class botinfo : public QWidget
 
 	private:
 		QLabel *botnam;
-		QProgressBar *armorlevel;
-		QProgressBar *heatlevel;
+		Q3ProgressBar *armorlevel;
+		Q3ProgressBar *heatlevel;
 		QLabel *armormsg;
 		QLabel *heatmsg;
 		QLabel *msgmsg;

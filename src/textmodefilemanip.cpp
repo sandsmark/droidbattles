@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 #include "textmodefilemanip.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QDebug>
+
+using namespace std;
 
 textmodeFileManip::textmodeFileManip( )
 {
@@ -30,12 +35,12 @@ void textmodeFileManip::assemble( char *filename )
 	QString fname = filename;
 	fname += ".basm";
 	QFile fin( fname );
-	if( !fin.open( IO_ReadOnly ) )
+	if( !fin.open( QIODevice::ReadOnly ) )
 	{
 		cout << "could not open file" << endl;
 		return;
 	}
-	QTextStream sin( &fin );
+	Q3TextStream sin( &fin );
 	QString curline;
 	sin >> curline;
 	if( curline != QString( "RAM:" ) )
@@ -997,7 +1002,7 @@ void textmodeFileManip::assemble( char *filename )
 
 	QString tempname = filename;
 	tempname += ".bot";
-	QFile f( tempname.data( ) );
+	QFile f( tempname);
 
 	while( !end )             //If we still have lines left to compile
 	{
@@ -1240,7 +1245,7 @@ void textmodeFileManip::assemble( char *filename )
 					type[0] = 7;
 					if( exist[1] == true )
 					{
-						bool isplus = !(strcmp( (token[1].left( 1 )).data( ),"+" ));
+						bool isplus = !(token[1].left( 1 ) == "+" );
 						tpos = token[1].toInt(&ok);
 						if(ok == false)
 						{
@@ -1474,31 +1479,31 @@ void textmodeFileManip::assemble( char *filename )
 								value[i][0] = ax;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"bx" )==0 )
+							if(token[i].data( ),"bx" )
 							{
 								type[i] = 5;
 								value[i][0] = bx;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"cx" )==0 )
+							if(token[i].data( ),"cx" )
 							{
 								type[i] = 5;
 								value[i][0] = cx;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"dx" )==0 )
+							if(token[i].data( ),"dx" )
 							{
 								type[i] = 5;
 								value[i][0] = dx;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"sp" )==0 )
+							if(token[i].data( ),"sp" )
 							{
 								type[i] = 5;
 								value[i][0] = sp;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"bp" )==0 )
+							if(token[i].data( ),"bp" )
 							{
 								type[i] = 5;
 								value[i][0] = bp;
@@ -1751,7 +1756,7 @@ void textmodeFileManip::assemble( char *filename )
 					{
 						if( exist[i] == true && type[i] == 0 )
 						{
-							bool isplus = !(strcmp( (token[i].left( 1 )).data( ),"+" ));
+							bool isplus = !(token[i].left( 1 ) == "+" );
 							QString comp;
 							if( isplus )
 								comp = token[i].right( token[i].length( )-1 );
@@ -1765,7 +1770,7 @@ void textmodeFileManip::assemble( char *filename )
 								{
 									if( existn[x] == true )
 									{
-										if( strcmp( comp.data( ) , names[x].data( ) ) == 0 )
+										if(comp == names[x])
 					  				{
 											value[i][0] = nvalues[x]%256;
 											value[i][1] = nvalues[x]/256;
@@ -1798,7 +1803,7 @@ void textmodeFileManip::assemble( char *filename )
 						}
 					}
 
-          if( (strcmp( curmnem.data( ),"mov" )==0) && (type[1] == 5) &&
+          if( curmnem == "mov" && (type[1] == 5) &&
 							(type[2] == 13) && (type[3] == 3) )
 					{
 						value[1][1] = value[2][0];
@@ -1811,7 +1816,7 @@ void textmodeFileManip::assemble( char *filename )
 						}
 						goto found;
 					}
-          if( (strcmp( curmnem.data( ),"mov" )==0) && (type[1] == 13) &&
+          if( curmnem == "mov" && (type[1] == 13) &&
 							(type[2] == 3) && (type[3] == 5) )
 					{
 						value[1][1] = value[2][0];
@@ -1932,13 +1937,13 @@ newline:
 			}
 			if( resolved[i] == false )
 			{
-				cout << "Undeclared symbol " << unresn[i] << " on line " << unresline[i] << endl;
+				qWarning() << "Undeclared symbol " << unresn[i] << " on line " << unresline[i];
 				goto ende;
 			}
 		}
 	}
 	//Open the binary file and write data
-	if( f.open( IO_WriteOnly ) )
+	if( f.open( QIODevice::WriteOnly ) )
 	{
 		QDataStream s( &f );
 		s.writeBytes( (char *)mem,RAMAMOUNT+256 );
@@ -1961,13 +1966,13 @@ void textmodeFileManip::checkConfig( char *filename )
 	QString tempname = QDir::homeDirPath( );
 	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 	{
 		cout << "Couldn't open config file" << endl;
 		return;
 	}
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	QString dummy;
 	int i,x,y;
 	confstruct config;
@@ -2006,7 +2011,7 @@ void textmodeFileManip::checkConfig( char *filename )
 	f.close( );
 
 	QFile b( filename );
-	if( !b.open( IO_ReadOnly ) )
+	if( !b.open( QIODevice::ReadOnly ) )
 	{
 		cout << "Couldn't open bot-file" << endl;
 		return;
@@ -2065,14 +2070,14 @@ void textmodeFileManip::loadConfig( char *filename )
 	QString fname = QDir::homeDirPath( );
 	fname += "/droidbattles/current.cfg";
 	QFile f( fname );
-	if( !f.open( IO_WriteOnly ) )
+	if( !f.open( QIODevice::WriteOnly ) )
 	{
 		cout << "Couldnt open current.cfg... check permissions" << endl;
 		return;
 	}
 	fname = filename;
 	QFile f2( fname );
-	if( !f2.open( IO_ReadOnly ) )
+	if( !f2.open( QIODevice::ReadOnly ) )
 	{
 		cout << "Couldnt open file ,"<< filename << " not found" << endl;
 		return;
@@ -2081,8 +2086,8 @@ void textmodeFileManip::loadConfig( char *filename )
 
 	int x,y;
 
-	QTextStream s( &f );
-	QTextStream s2( &f2 );
+	Q3TextStream s( &f );
+	Q3TextStream s2( &f2 );
 
 	QString temp;
 	s2 >> temp;

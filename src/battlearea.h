@@ -22,6 +22,9 @@
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qmessagebox.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QCloseEvent>
 //#include "screenobject.h"
 //#include "commonsymbols.h"
 #include "botinfo.h"
@@ -30,12 +33,12 @@
 //#include <qtextstream.h>
 //#include <qstring.h>
 //#include <qdir.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
 #include "pixbutton.h"
 //#include <commonsymbols.h>
 //#include "ram.h"
 #include "debugwindow.h"
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qpixmap.h>
 #include "pixmapholder.h"
 
@@ -60,7 +63,7 @@ class battlearea : public QWidget, public textmodeBattleArea
 								char *name6,char *name7,char *name8,int numf,int ,int xs,
 								int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
 								int mode = 0, int maxp=10,bool ifdebug=false,
-								QMultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0 );
+								Q3MultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0 );
 		~battlearea( );
 		void closeEvent( QCloseEvent *e );
 		void addscrobject(  int owner,int X,int Y,int dir,int type,int arg1=0,
@@ -90,7 +93,7 @@ class battlearea : public QWidget, public textmodeBattleArea
 	private:
 
 		std::list<debugwindow*> dbgwindows;
-    QMultiLineEdit *_dbedit;
+    Q3MultiLineEdit *_dbedit;
     int *_dbl;
     int *_dbm;
 
@@ -98,7 +101,7 @@ class battlearea : public QWidget, public textmodeBattleArea
 
 //		screenobject *objects[256];
 		QWidget *mydrw;
-		QScrollView *scrolling;
+		Q3ScrollView *scrolling;
 		QWidget *infowindow;
 		QTimer *eventH;
 		QLabel *debug1;

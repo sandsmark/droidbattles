@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "docbrowser.h"
+//Added by qt3to4:
+#include <QCloseEvent>
 
 Docbrowser::Docbrowser( QString src )
 {

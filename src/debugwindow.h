@@ -23,7 +23,7 @@
 #include <qlabel.h>
 #include <qstring.h>
 #include <stdlib.h>
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include <qpushbutton.h>
 /**
 	* Shows some debug info (register contents, some mem contents) for the
@@ -37,7 +37,7 @@ class debugwindow : public QWidget
 	Q_OBJECT
 
 	public:
-		debugwindow( QMultiLineEdit *Medit, int *dbl, int *dbm );
+		debugwindow( Q3MultiLineEdit *Medit, int *dbl, int *dbm );
 		~debugwindow( );
 		void updatedata( struct debugcontents );
 		void addint( QString &,unsigned short );
@@ -49,12 +49,12 @@ class debugwindow : public QWidget
 		QLabel *registercontents[9]; //AX,BX,CX,DX,SP,BP,SI,DI,IP
 		QLabel *flagcontents[4];     //equal,above,below,intenabled
 		QLabel *memcontents[4];
-		QMultiLineEdit *execlines;
+		Q3MultiLineEdit *execlines;
 		QPushButton *dumpmemb;
 
 		int *debuglines;
 		int *debugmem;
-		QMultiLineEdit *maineditor;
+		Q3MultiLineEdit *maineditor;
 
 	signals:
 		void dumpmem( );

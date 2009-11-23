@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 #include "battlearea.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QLabel>
+#include <QResizeEvent>
+#include <QCloseEvent>
 bool SingleStepMode = false;
 
 	/**
@@ -25,7 +30,7 @@ battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 												char *nam5,char *nam6,char *nam7,char *nam8,int numf,
 												int mx, int xs, int ys, bool ifteams, int *bteams,
 												bool tourney,bool fast,int mode,int maxp,
-												bool ifdebug,QMultiLineEdit *dbedit,
+												bool ifdebug,Q3MultiLineEdit *dbedit,
 												int *dbl, int *dbm )
 {
 
@@ -46,14 +51,14 @@ battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 	QString tempname = QDir::homeDirPath( );
 	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 	{
 		//TODO: add error message
 		delete this;
 		return;
 	}
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	int x,y;
 	for(x=0;x<maxbots;x++)
 	{
@@ -108,7 +113,7 @@ battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 	for( x=0;x<8;x++ )
 		fightswon[x] = 0;
 
-	scrolling = new QScrollView( this,0,WPaintClever );
+	scrolling = new Q3ScrollView( this,0,Qt::WPaintClever );
 	scrolling->setGeometry( 16,16,524,524 );
 	mydrw = new QWidget( );
 	infowindow = new QWidget( );
@@ -124,7 +129,7 @@ battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 	scrolling->addChild( mydrw );
 	mydrw->setGeometry( 0,0,xsize>>6,ysize>>6 );
 	mydrw->show( );
-	mydrw->setBackgroundMode( PaletteBase );
+	mydrw->setBackgroundMode( Qt::PaletteBase );
 	mydrw->setPalette( QPalette( QColor( 0,0,0 ) ) );
 	playb = new PixButton( "Play",1,this );
 	pauseb = new PixButton( "Pause",1,this );

@@ -61,7 +61,7 @@ int CPU::writefile( int start,int length,int adress )
 	for( int x=0;x<length;x++ )
 		buffer[x] = mem->getibyte( adress+x );
 	QFile f( ourbot->myfile );
-	if( !f.open( IO_WriteOnly ) )
+	if( !f.open( QIODevice::WriteOnly ) )
 		return -1;
 	f.at( start );
 	int ret = f.writeBlock( &buffer[0],length );
@@ -76,7 +76,7 @@ int CPU::readfile( int start,int length,int adress )
 	if( start+length > maxbytes )
 		return -1;
 	QFile f( ourbot->myfile );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 		return -1;
 	f.at( start );
 	int ret = f.readBlock( buffer,length );

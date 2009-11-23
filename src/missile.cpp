@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "missile.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 	/**
 		* Init position, graphics and such
@@ -39,7 +41,7 @@ missile::missile( int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &ar
 	{
 		erasegfx = new QPixmap;
 		erasegfx->resize( 8,8 );
-		erasegfx->fill( black );
+		erasegfx->fill( Qt::black );
 		graphics = Pixmapholder::getpmp( 7 );
 	}
 }

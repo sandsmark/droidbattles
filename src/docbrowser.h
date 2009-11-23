@@ -18,15 +18,17 @@
 #ifndef DOCBROWSER_H
 #define DOCBROWSER_H
 
-#include <qtextbrowser.h>
+#include <q3textbrowser.h>
 #include <qstring.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 #include "installdir.h"
 
 /**
   *@author Andreas Agorander
   */
 
-class Docbrowser : public QTextBrowser
+class Docbrowser : public Q3TextBrowser
 {
 
 	public:

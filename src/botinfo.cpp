@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "botinfo.h"
+//Added by qt3to4:
+#include <QLabel>
 
 	/**
 		* Constructor, create all GUI elements
@@ -32,14 +34,14 @@ botinfo::botinfo( const char *botname, screenobject *rb,int armor,
 		botnam = new QLabel( temp,this );
 		botnam->setGeometry( 5,5,70,15 );
 
-		armorlevel = new QProgressBar( armor,this );
+		armorlevel = new Q3ProgressBar( armor,this );
 		armorlevel->setGeometry( 95,5,100,25 );
 		armorlevel->setProgress( armor );
 
 		armormsg = new QLabel( "A:",this );
 		armormsg->setGeometry( 75,5,15,15 );
 
-		heatlevel = new QProgressBar( 850,this );
+		heatlevel = new Q3ProgressBar( 850,this );
 		heatlevel->setGeometry( 220,5,100,25 );
 		heatlevel->setProgress( 0 );
 

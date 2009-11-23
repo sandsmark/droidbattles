@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 #include "kothtournament.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QLabel>
+#include <QCloseEvent>
 
 	/**
 		* Init GUI elements
@@ -25,7 +29,7 @@ kothtournament::kothtournament( )
 
 //	int x;
 
-	botfiles = new QListBox( this );
+	botfiles = new Q3ListBox( this );
 	botfiles->setGeometry( 10,75,270,170 );
 
 	press[0] = new PixButton( "load",1,this );
@@ -107,12 +111,12 @@ const char* kothtournament::getbotfile( int x )
 		*/
 void kothtournament::choosefile( )
 {
-	QString tempname = QFileDialog::getOpenFileName( 0,"*.bot",this );
+	QString tempname = Q3FileDialog::getOpenFileName( 0,"*.bot",this );
 //	int x;
 
 	if( !tempname.isEmpty( ) )
 	{
-		botfiles->insertItem( tempname.data( ) );
+		botfiles->insertItem( tempname );
 	}
 }
 
@@ -185,7 +189,7 @@ bool kothtournament::getiffast( )
 		*/
 void kothtournament::chooselist( )
 {
-	QString tempname = QFileDialog::getOpenFileName( 0,"*.table",this );
+	QString tempname = Q3FileDialog::getOpenFileName( 0,"*.table",this );
 	int x;
 
 	if( !tempname.isEmpty( ) )
@@ -194,8 +198,8 @@ void kothtournament::chooselist( )
 		botfiles->clear( );
 		//Load new bots
 		QFile f( tempname );
-		f.open( IO_ReadOnly );
-		QTextStream s( &f );
+		f.open( QIODevice::ReadOnly );
+		Q3TextStream s( &f );
 
 		QString temp;
 		s >> temp;

@@ -1,0 +1,344 @@
+Log for qt3to4 on man. nov. 23 19:15:14 2009. Number of log entries: 309
+No changes made to file /home/sandsmark/projects/droidbattles/src/armor.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/armor.h
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp at line 26 column 39: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp at line 47 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp at line 54 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp at line 109 column 28: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp at line 109 column 49: WPaintClever -> Qt::WPaintClever
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp at line 125 column 38: PaletteBase -> Qt::PaletteBase
+In file /home/sandsmark/projects/droidbattles/src/battlearea.cpp: Added the following include directives:
+	#include <Q3TextStream> 	#include <QLabel> 	#include <QResizeEvent> 	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/battlearea.h at line 31 column 21: qscrollview.h -> q3scrollview.h
+In file /home/sandsmark/projects/droidbattles/src/battlearea.h at line 36 column 24: qmultilineedit.h -> q3multilineedit.h
+In file /home/sandsmark/projects/droidbattles/src/battlearea.h at line 58 column 22: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/battlearea.h at line 88 column 18: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/battlearea.h at line 96 column 13: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/battlearea.h: Added the following include directives:
+	#include <QResizeEvent> 	#include <QCloseEvent> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/battlearea.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/beam.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/beam.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/beamer.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/beamer.h
+In file /home/sandsmark/projects/droidbattles/src/botinfo.cpp at line 30 column 31: QProgressBar -> Q3ProgressBar
+In file /home/sandsmark/projects/droidbattles/src/botinfo.cpp at line 37 column 30: QProgressBar -> Q3ProgressBar
+In file /home/sandsmark/projects/droidbattles/src/botinfo.cpp: Added the following include directives:
+	#include <QLabel> 
+In file /home/sandsmark/projects/droidbattles/src/botinfo.h at line 16 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/sandsmark/projects/droidbattles/src/botinfo.h at line 17 column 22: qprogressbar.h -> q3progressbar.h
+In file /home/sandsmark/projects/droidbattles/src/botinfo.h at line 45 column 14: QProgressBar -> Q3ProgressBar
+In file /home/sandsmark/projects/droidbattles/src/botinfo.h at line 46 column 14: QProgressBar -> Q3ProgressBar
+No changes made to file /home/sandsmark/projects/droidbattles/src/botinfo.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/chaff.cpp at line 29 column 23: black -> Qt::black
+In file /home/sandsmark/projects/droidbattles/src/chaff.cpp: Added the following include directives:
+	#include <QPixmap> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/chaff.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/chafflauncher.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/chafflauncher.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/chiller.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/chiller.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/cloaker.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/cloaker.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/commonsymbols.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/communication.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/communication.h
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 54 column 25: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 83 column 50: AtCurrent -> InsertAtCurrent
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 108 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 109 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 110 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 111 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 112 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 113 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 114 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 115 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 116 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 117 column 31: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 118 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 119 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 120 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 121 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 122 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 123 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 124 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 125 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 126 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 127 column 32: QGroupBox -> Q3GroupBox
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 190 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 196 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 203 column 26: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 211 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 244 column 26: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 252 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 285 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp at line 295 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/confedit.cpp: Added the following include directives:
+	#include <Q3TextStream> 	#include <QLabel> 
+In file /home/sandsmark/projects/droidbattles/src/confedit.h at line 19 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/sandsmark/projects/droidbattles/src/confedit.h at line 21 column 21: qscrollview.h -> q3scrollview.h
+In file /home/sandsmark/projects/droidbattles/src/confedit.h at line 27 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/confedit.h at line 28 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/confedit.h at line 61 column 13: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/confedit.h at line 78 column 11: QGroupBox -> Q3GroupBox
+No changes made to file /home/sandsmark/projects/droidbattles/src/confedit.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/confstruct.h
+In file /home/sandsmark/projects/droidbattles/src/cpu.cpp at line 57 column 26: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/cpu.cpp at line 72 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+No changes made to file /home/sandsmark/projects/droidbattles/src/cpu.h
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 19 column 21: qscrollview.h -> q3scrollview.h
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 24 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 45 column 22: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 52 column 22: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 57 column 26: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 60 column 23: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 71 column 24: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 372 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 457 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 461 column 26: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 467 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 514 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 519 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 543 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 547 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 552 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 2485 column 25: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 2529 column 41: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 2531 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 2590 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp at line 2596 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/createbot.cpp: Added the following include directives:
+	#include <QResizeEvent> 	#include <Q3PopupMenu> 	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 21 column 20: qpopupmenu.h -> q3popupmenu.h
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 24 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 26 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 36 column 17: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 83 column 13: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 86 column 12: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 87 column 12: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 88 column 12: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 89 column 12: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 90 column 12: QPopupMenu -> Q3PopupMenu
+In file /home/sandsmark/projects/droidbattles/src/createbot.h at line 93 column 13: QScrollView -> Q3ScrollView
+In file /home/sandsmark/projects/droidbattles/src/createbot.h: Added the following include directives:
+	#include <QResizeEvent> 	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/createbot.moc.cpp: Added the following include directives:
+	#include <QResizeEvent> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/debugcontents.h
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.cpp at line 19 column 40: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.cpp at line 43 column 31: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.cpp: Added the following include directives:
+	#include <QLabel> 
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.h at line 21 column 24: qmultilineedit.h -> q3multilineedit.h
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.h at line 31 column 29: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.h at line 43 column 16: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/debugwindow.h at line 48 column 16: QMultiLineEdit -> Q3MultiLineEdit
+No changes made to file /home/sandsmark/projects/droidbattles/src/debugwindow.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/devchoice.cpp at line 54 column 25: QButtonGroup -> Q3ButtonGroup
+In file /home/sandsmark/projects/droidbattles/src/devchoice.cpp at line 55 column 30: QFrame -> Q3Frame
+In file /home/sandsmark/projects/droidbattles/src/devchoice.cpp at line 134 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/devchoice.cpp at line 140 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/devchoice.cpp: Added the following include directives:
+	#include <Q3TextStream> 	#include <QLabel> 	#include <Q3Frame> 
+In file /home/sandsmark/projects/droidbattles/src/devchoice.h at line 19 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/sandsmark/projects/droidbattles/src/devchoice.h at line 27 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/devchoice.h at line 56 column 14: QButtonGroup -> Q3ButtonGroup
+No changes made to file /home/sandsmark/projects/droidbattles/src/devchoice.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/device.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/device.h
+In file /home/sandsmark/projects/droidbattles/src/docbrowser.cpp: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/docbrowser.h at line 18 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/sandsmark/projects/droidbattles/src/docbrowser.h at line 24 column 38: QTextBrowser -> Q3TextBrowser
+In file /home/sandsmark/projects/droidbattles/src/docbrowser.h: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 57 column 22: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 58 column 22: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 455 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 489 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 661 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 669 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 685 column 28: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 693 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 892 column 28: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp at line 900 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.cpp: Added the following include directives:
+	#include <Q3TextStream> 
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 19 column 20: qpopupmenu.h -> q3popupmenu.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 20 column 16: qaccel.h -> q3accel.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 22 column 18: qtoolbar.h -> q3toolbar.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 25 column 14: qapp.h -> qapplication.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 28 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 30 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 36 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/droidbattles.h at line 37 column 18: qiconset.h -> qicon.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/droidbattles.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/engine.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/engine.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/explosion.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/explosion.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/fuel.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/fuel.h
+In file /home/sandsmark/projects/droidbattles/src/infobox.cpp: Added the following include directives:
+	#include <QCloseEvent> 	#include <QLabel> 
+In file /home/sandsmark/projects/droidbattles/src/infobox.h: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/installdir.cpp at line 31 column 21: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/installdir.cpp at line 32 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/installdir.cpp: Added the following include directives:
+	#include <Q3TextStream> 
+In file /home/sandsmark/projects/droidbattles/src/installdir.h at line 18 column 21: qtextstream.h -> q3textstream.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/instruktion.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/instruktion.h
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.cpp at line 25 column 24: QListBox -> Q3ListBox
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.cpp at line 103 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.cpp at line 172 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.cpp at line 181 column 21: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.cpp at line 182 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.cpp: Added the following include directives:
+	#include <Q3TextStream> 	#include <QLabel> 	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.h at line 19 column 18: qlistbox.h -> q3listbox.h
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.h at line 25 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.h at line 27 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.h at line 66 column 10: QListBox -> Q3ListBox
+In file /home/sandsmark/projects/droidbattles/src/kothtournament.h: Added the following include directives:
+	#include <QCloseEvent> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/kothtournament.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/main.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/matchresult.h
+In file /home/sandsmark/projects/droidbattles/src/mine.cpp at line 32 column 23: black -> Qt::black
+In file /home/sandsmark/projects/droidbattles/src/mine.cpp: Added the following include directives:
+	#include <QPixmap> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/mine.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/minelayer.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/minelayer.h
+In file /home/sandsmark/projects/droidbattles/src/missile.cpp at line 37 column 23: black -> Qt::black
+In file /home/sandsmark/projects/droidbattles/src/missile.cpp: Added the following include directives:
+	#include <QPixmap> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/missile.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/myqmultilineedit.cpp
+In file /home/sandsmark/projects/droidbattles/src/myqmultilineedit.h at line 16 column 24: qmultilineedit.h -> q3multilineedit.h
+In file /home/sandsmark/projects/droidbattles/src/myqmultilineedit.h at line 21 column 46: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/myqmultilineedit.h at line 24 column 57: QMultiLineEdit -> Q3MultiLineEdit
+No changes made to file /home/sandsmark/projects/droidbattles/src/pixbutton.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/pixbutton.h
+In file /home/sandsmark/projects/droidbattles/src/pixmapholder.cpp: Added the following include directives:
+	#include <QPixmap> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/pixmapholder.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/plasma.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/plasma.h
+In file /home/sandsmark/projects/droidbattles/src/quickconf.cpp at line 85 column 39: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/quickconf.cpp at line 87 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/quickconf.cpp at line 126 column 25: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/quickconf.cpp at line 128 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/quickconf.cpp: Added the following include directives:
+	#include <Q3TextStream> 	#include <QLabel> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/quickconf.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/quickconf.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/radarmissile.cpp at line 38 column 23: black -> Qt::black
+In file /home/sandsmark/projects/droidbattles/src/radarmissile.cpp at line 164 column 57: QMultiLineEdit -> Q3MultiLineEdit
+In file /home/sandsmark/projects/droidbattles/src/radarmissile.cpp: Added the following include directives:
+	#include <QPixmap> 
+In file /home/sandsmark/projects/droidbattles/src/radarmissile.h at line 23 column 24: qmultilineedit.h -> q3multilineedit.h
+In file /home/sandsmark/projects/droidbattles/src/radarmissile.h at line 47 column 44: QMultiLineEdit -> Q3MultiLineEdit
+No changes made to file /home/sandsmark/projects/droidbattles/src/radarmissilelauncher.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/radarmissilelauncher.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/ram.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/ram.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/repair.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/repair.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/resource.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/robcpu.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/robcpu.h
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 46 column 24: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 225 column 23: black -> Qt::black
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 242 column 24: white -> Qt::white
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 478 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 478 column 37: IO_ReadWrite -> QIODevice::ReadWrite
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 484 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 484 column 37: IO_ReadWrite -> QIODevice::ReadWrite
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp at line 601 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/robots.cpp: Added the following include directives:
+	#include <Q3TextStream> 	#include <QPixmap> 
+In file /home/sandsmark/projects/droidbattles/src/robots.h at line 18 column 21: qtextstream.h -> q3textstream.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/robots.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/rocket.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/rocket.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/rocketlauncher.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/rocketlauncher.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/scandetect.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/scandetect.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/scanner.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/scanner.h
+In file /home/sandsmark/projects/droidbattles/src/screenobject.cpp: Added the following include directives:
+	#include <QPixmap> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/screenobject.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/screenobject.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/shield.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/shield.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/startcup.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/startcup.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/startcup.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/startdeathbatt.cpp at line 32 column 39: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/startdeathbatt.cpp at line 34 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/startdeathbatt.cpp at line 63 column 25: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/startdeathbatt.cpp at line 65 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/startdeathbatt.cpp: Added the following include directives:
+	#include <Q3TextStream> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/startdeathbatt.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/startdeathbatt.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.cpp at line 102 column 39: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.cpp at line 104 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.cpp at line 145 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.cpp at line 178 column 25: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.cpp at line 180 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.cpp: Added the following include directives:
+	#include <QResizeEvent> 	#include <Q3TextStream> 	#include <QLabel> 	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.h at line 24 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.h at line 29 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/startsbatt.h: Added the following include directives:
+	#include <QResizeEvent> 	#include <QCloseEvent> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/startsbatt.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/startsurvbatt.cpp at line 37 column 39: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/startsurvbatt.cpp at line 39 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/startsurvbatt.cpp at line 68 column 25: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/startsurvbatt.cpp at line 70 column 13: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/startsurvbatt.cpp: Added the following include directives:
+	#include <Q3TextStream> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/startsurvbatt.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/startsurvbatt.moc.cpp
+In file /home/sandsmark/projects/droidbattles/src/starttournament.cpp at line 23 column 24: QListBox -> Q3ListBox
+In file /home/sandsmark/projects/droidbattles/src/starttournament.cpp at line 97 column 31: QFileDialog -> Q3FileDialog
+In file /home/sandsmark/projects/droidbattles/src/starttournament.cpp: Added the following include directives:
+	#include <QLabel> 	#include <QCloseEvent> 
+In file /home/sandsmark/projects/droidbattles/src/starttournament.h at line 19 column 18: qlistbox.h -> q3listbox.h
+In file /home/sandsmark/projects/droidbattles/src/starttournament.h at line 25 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/sandsmark/projects/droidbattles/src/starttournament.h at line 63 column 10: QListBox -> Q3ListBox
+In file /home/sandsmark/projects/droidbattles/src/starttournament.h: Added the following include directives:
+	#include <QCloseEvent> 
+No changes made to file /home/sandsmark/projects/droidbattles/src/starttournament.moc.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/steering.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/steering.h
+In file /home/sandsmark/projects/droidbattles/src/textmodebattlearea.cpp at line 40 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodebattlearea.cpp at line 47 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/textmodebattlearea.cpp: Added the following include directives:
+	#include <Q3TextStream> 
+In file /home/sandsmark/projects/droidbattles/src/textmodebattlearea.h at line 22 column 21: qtextstream.h -> q3textstream.h
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 30 column 27: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 35 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 1938 column 25: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 1961 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 1967 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 2006 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 2065 column 26: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 2072 column 26: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 2081 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp at line 2082 column 12: QTextStream -> Q3TextStream
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.cpp: Added the following include directives:
+	#include <Q3TextStream> 
+In file /home/sandsmark/projects/droidbattles/src/textmodefilemanip.h at line 20 column 21: qtextstream.h -> q3textstream.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/timedev.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/timedev.h
+No changes made to file /home/sandsmark/projects/droidbattles/src/turret.cpp
+No changes made to file /home/sandsmark/projects/droidbattles/src/turret.h
+

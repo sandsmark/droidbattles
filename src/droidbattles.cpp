@@ -33,6 +33,8 @@
 #include "pixbutton.h"
 #include "pixmapholder.h"
 #include <time.h>
+//Added by qt3to4:
+#include <Q3TextStream>
 
 #define VERSION "1.0.7"
 	/**
@@ -63,8 +65,8 @@ DroidBattles::DroidBattles( )
 		temp = returninstalldir( );
 		temp += "/current.cfg";
 		QFile f2( temp );
-		f2.open( IO_ReadOnly );
-		f.open( IO_WriteOnly );
+		f2.open( QIODevice::ReadOnly );
+		f.open( QIODevice::WriteOnly );
 		char *buf = new char[2000];
 		int num = f2.readBlock( buf,2000 );
 		f.writeBlock( buf,num );
@@ -494,7 +496,7 @@ void DroidBattles::managetourney( int wins1, int wins2 )
 	if( curmainbot >= numofbots - 1 )
 	{
 		QFile f( "tournament.html" );
-		if( !f.open( IO_WriteOnly ) )
+		if( !f.open( QIODevice::WriteOnly ) )
 		{
 			//TODO: Add error mesage
 			delete stment;
@@ -528,7 +530,7 @@ void DroidBattles::managetourney( int wins1, int wins2 )
 			taken[curmaxbot] = true;
 		}
 
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		QString temp;
 
 		s << "<HTML>\n";
@@ -710,7 +712,7 @@ void DroidBattles::mankothtourney( int wins1,int wins2 )
 	if( curmainbot == -1 )
 	{
 		QFile f( "currentKOTH.table" );
-		if( !f.open( IO_WriteOnly ) )
+		if( !f.open( QIODevice::WriteOnly ) )
 		{
 			//TODO: Add error mesage
 			delete kotht;
@@ -718,7 +720,7 @@ void DroidBattles::mankothtourney( int wins1,int wins2 )
 			return;
 		}
 
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		QString temp;
 
 		s << "Numberofbot:" << " " << numofbots << "\n";
@@ -734,7 +736,7 @@ void DroidBattles::mankothtourney( int wins1,int wins2 )
 		f.close( );
 
 		QFile f2( "Kothresults.html" );
-		if( !f2.open( IO_WriteOnly ) )
+		if( !f2.open( QIODevice::WriteOnly ) )
 		{
 			//TODO: Add error mesage
 			delete kotht;
@@ -742,7 +744,7 @@ void DroidBattles::mankothtourney( int wins1,int wins2 )
 			return;
 		}
 
-		QTextStream s2( &f2 );
+		Q3TextStream s2( &f2 );
 
 		s2 << "<HTML>\n";
 		s2 << "<HEAD>\n";
@@ -941,7 +943,7 @@ void DroidBattles::mancuptourney( int wins1,int wins2 )
 	{
 		//write results
 		QFile f2( "Cupresults.html" );
-		if( !f2.open( IO_WriteOnly ) )
+		if( !f2.open( QIODevice::WriteOnly ) )
 		{
 			//TODO: Add error mesage
 			delete cuptournament;
@@ -949,7 +951,7 @@ void DroidBattles::mancuptourney( int wins1,int wins2 )
 			return;
 		}
 
-		QTextStream s2( &f2 );
+		Q3TextStream s2( &f2 );
 		s2 << "<HTML>\n";
 		s2 << "<HEAD>\n";
 		s2 << "<TITLE>Cup results</TITLE>\n";

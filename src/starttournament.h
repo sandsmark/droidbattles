@@ -19,14 +19,16 @@
 #define STARTTOURNAMENT_H
 
 #include <qwidget.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qpushbutton.h>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 /**
 	* Dialog to start a league tournament
   *@author Andreas Agorander
@@ -66,7 +68,7 @@ Q_OBJECT
 	private:
 
 		int numofbots;
-		QListBox *botfiles;
+		Q3ListBox *botfiles;
 		QLabel *tnumfights;
 		QLineEdit *wnumfights;
 		QLabel *lengthfight;

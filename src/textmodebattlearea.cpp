@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 #include "textmodebattlearea.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+
+using namespace std;
 
 textmodeBattleArea::textmodeBattleArea( )
 {
@@ -42,14 +46,14 @@ textmodeBattleArea::textmodeBattleArea( const char *nam1,const char *nam2,const 
 	QString tempname = QDir::homeDirPath( );
 	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 	{
 		//TODO: add error message
 		delete this;
 		return;
 	}
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	int x,y;
 	for(x=0;x<maxbots;x++)
 	{

@@ -25,7 +25,7 @@
 #include "steering.h"
 #include "scanner.h"
 #include "device.h"
-#include <qmultilineedit.h>
+#include <q3multilineedit.h>
 #include "debugwindow.h"
 /**
 	* A programmable missile
@@ -52,7 +52,7 @@ class radarmissile : public screenobject
 		void putdevport( unsigned char port,unsigned short value );
 		int iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 );
 		int returnradar( );
-    void createDbgWindow(int, QMultiLineEdit*, int*, int*);
+    void createDbgWindow(int, Q3MultiLineEdit*, int*, int*);
 
 	private:
 

@@ -21,7 +21,7 @@
 #include <qwidget.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qradiobutton.h>
 #include <qvalidator.h>
 #include <qstring.h>
@@ -29,7 +29,7 @@
 #include <qpushbutton.h>
 #include <qmessagebox.h>
 #include "confstruct.h"
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <qfile.h>
 #include "commonsymbols.h"
 #include <qdir.h>
@@ -65,7 +65,7 @@ class devchoice : public QWidget
 
 		QComboBox *comb;
 		QLineEdit *arg1;
-		QButtonGroup *level;
+		Q3ButtonGroup *level;
 		QRadioButton *levels[5];
 		QIntValidator *valid;
 		int dev;

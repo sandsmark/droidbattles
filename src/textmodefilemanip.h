@@ -22,9 +22,9 @@
 #include "commonsymbols.h"
 #include "confstruct.h"
 #include <qdir.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <qdatastream.h>
-#include <iostream.h>
+#include <iostream>
 #include <qfile.h>
 #include <qregexp.h>
 #include <string.h>

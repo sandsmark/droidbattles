@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "startdeathbatt.h"
+//Added by qt3to4:
+#include <Q3TextStream>
 
 startdeathbatt::startdeathbatt( )
 {
@@ -32,9 +34,9 @@ void startdeathbatt::loadfilesettings( )
 	QString temp = QDir::homeDirPath( );
 	temp += "/droidbattles/deathbattle.save";
 	QFile f( temp );
-	if( f.exists( ) && f.open( IO_ReadOnly ) )
+	if( f.exists( ) && f.open( QIODevice::ReadOnly ) )
 	{
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		for( int x=0; x<8;x++ )
 		{
 			s >> botfiles[x];
@@ -63,9 +65,9 @@ void startdeathbatt::ocl( )
 	QString temp = QDir::homeDirPath( );
 	temp += "/droidbattles/deathbattle.save";
 	QFile f( temp );
-	if( f.open( IO_WriteOnly ) )
+	if( f.open( QIODevice::WriteOnly ) )
 	{
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		for( int x=0; x<8;x++ )
 		{
 			if( botfiles[x] == QString( "" ) )

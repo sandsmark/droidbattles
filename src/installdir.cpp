@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "installdir.h"
+//Added by qt3to4:
+#include <Q3TextStream>
 
 QString returninstalldir( )
 {
@@ -33,8 +35,8 @@ QString returninstalldir( )
 		temp = "/usr/local/droidbattles";
 		return temp;
 	}	
-	f3.open( IO_ReadOnly );
-  QTextStream s( &f3 );
+	f3.open( QIODevice::ReadOnly );
+  Q3TextStream s( &f3 );
 	s >> temp;   //Read from file
 	s >> insdir;
 	f3.close( );

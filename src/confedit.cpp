@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include "confedit.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QLabel>
 
 	/**
 		* Constructor: Init GUI
@@ -55,7 +58,7 @@ confedit::confedit( )
 
 	valid = new QIntValidator( this );
 
-	scroll = new QScrollView( this );
+	scroll = new Q3ScrollView( this );
 	scroll->setGeometry( 0,60,500,330 );
   setarea = new QWidget( );
 	setarea->setGeometry( 0,0,480,1400 );
@@ -84,7 +87,7 @@ confedit::confedit( )
 	maxramv->insertItem( "48k" );
 	maxramv->insertItem( "64k" );
 
-	enum QComboBox::Policy pol = QComboBox::AtCurrent;
+	QComboBox::Policy pol = QComboBox::InsertAtCurrent;
 
 	ramcostl = new QLabel( "Cost of RAM: ",setarea );
 	ramcostl->setGeometry( 250,60,80,15 );
@@ -109,26 +112,26 @@ confedit::confedit( )
 	maxramv->adjustSize( );
 	maxramv->move( 170,57 );	
 
-	devicegroup[0] = new QGroupBox( "CPU", setarea );
-	devicegroup[1] = new QGroupBox( "engine", setarea );
-	devicegroup[2] = new QGroupBox( "steering",setarea );
-	devicegroup[3] = new QGroupBox( "plasmagun",setarea );
-	devicegroup[4] = new QGroupBox( "armor",setarea );
-	devicegroup[5] = new QGroupBox( "scanner",setarea );
-	devicegroup[6] = new QGroupBox( "fuel",setarea );
-	devicegroup[7] = new QGroupBox( "chaff",setarea );
- 	devicegroup[8] = new QGroupBox( "turret",setarea );
-	devicegroup[9] = new QGroupBox( "scanwarner",setarea );
-	devicegroup[10] = new QGroupBox( "timedev",setarea );
-	devicegroup[11] = new QGroupBox( "shield",setarea );
-	devicegroup[12] = new QGroupBox( "repair",setarea );
-	devicegroup[13] = new QGroupBox( "radio",setarea );
-	devicegroup[14] = new QGroupBox( "chiller",setarea );
-	devicegroup[15] = new QGroupBox( "cloaker",setarea );
-	devicegroup[16] = new QGroupBox( "minelayer",setarea );
-	devicegroup[17] = new QGroupBox( "missile",setarea );
-	devicegroup[18] = new QGroupBox( "beam",setarea );
-	devicegroup[19] = new QGroupBox( "AS-rocket",setarea );
+	devicegroup[0] = new Q3GroupBox( "CPU", setarea );
+	devicegroup[1] = new Q3GroupBox( "engine", setarea );
+	devicegroup[2] = new Q3GroupBox( "steering",setarea );
+	devicegroup[3] = new Q3GroupBox( "plasmagun",setarea );
+	devicegroup[4] = new Q3GroupBox( "armor",setarea );
+	devicegroup[5] = new Q3GroupBox( "scanner",setarea );
+	devicegroup[6] = new Q3GroupBox( "fuel",setarea );
+	devicegroup[7] = new Q3GroupBox( "chaff",setarea );
+ 	devicegroup[8] = new Q3GroupBox( "turret",setarea );
+	devicegroup[9] = new Q3GroupBox( "scanwarner",setarea );
+	devicegroup[10] = new Q3GroupBox( "timedev",setarea );
+	devicegroup[11] = new Q3GroupBox( "shield",setarea );
+	devicegroup[12] = new Q3GroupBox( "repair",setarea );
+	devicegroup[13] = new Q3GroupBox( "radio",setarea );
+	devicegroup[14] = new Q3GroupBox( "chiller",setarea );
+	devicegroup[15] = new Q3GroupBox( "cloaker",setarea );
+	devicegroup[16] = new Q3GroupBox( "minelayer",setarea );
+	devicegroup[17] = new Q3GroupBox( "missile",setarea );
+	devicegroup[18] = new Q3GroupBox( "beam",setarea );
+	devicegroup[19] = new Q3GroupBox( "AS-rocket",setarea );
 
 	int x;
 	for( x=0;x<numdev;x++ )
@@ -197,7 +200,7 @@ void confedit::defaultc( )
 		*/
 void confedit::openc( )
 {
-	QString tempname = QFileDialog::getOpenFileName( 0,"*.cfg",this );
+	QString tempname = Q3FileDialog::getOpenFileName( 0,"*.cfg",this );
 	openfile( tempname );	
 }
 	/**
@@ -205,14 +208,14 @@ void confedit::openc( )
 		*/
 void confedit::savec( )
 {
-	QString tempname = QFileDialog::getSaveFileName( 0,"*.cfg",this );
+	QString tempname = Q3FileDialog::getSaveFileName( 0,"*.cfg",this );
 	if( tempname.isEmpty( ) )
 	{
 		return;
 	}
 
 	QFile f( tempname );
-	if( !f.open( IO_WriteOnly ) )
+	if( !f.open( QIODevice::WriteOnly ) )
 	{
 		//TODO: Add error mesage
 		return;
@@ -220,7 +223,7 @@ void confedit::savec( )
 
 	int x,y;
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	s << "MAXDEVICES: " << maxdevv->text( ) << endl;
 	s << "MAXCOSTS: " << maxcostv->text( ) << endl;
 	s << "MAXRAM: " << maxramv->currentItem( ) << endl;
@@ -257,7 +260,7 @@ void confedit::makecurrc( )
 	QString filename = QDir::homeDirPath( );
 	filename += "/droidbattles/current.cfg";
 	QFile f( filename );
-	if( !f.open( IO_WriteOnly ) )
+	if( !f.open( QIODevice::WriteOnly ) )
 	{
 		//TODO: add error message
 		return;
@@ -265,7 +268,7 @@ void confedit::makecurrc( )
 
 	int x,y;
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	s << "MAXDEVICES: " << maxdevv->text( ) << endl;
 	s << "MAXCOSTS: " << maxcostv->text( ) << endl;
 	s << "MAXRAM: " << maxramv->currentItem( ) << endl;
@@ -300,7 +303,7 @@ void confedit::openfile( QString &tempname )
 		return;
 	}
 	QFile f( tempname );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 	{
 		//TODO: Add error message
 		return;
@@ -310,7 +313,7 @@ void confedit::openfile( QString &tempname )
 	QString dummy;
 	int i;
 //	bool ch;
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 
 
 	s >> dummy;

@@ -17,12 +17,16 @@
 
 #include "createbot.h"
 #include "myqmultilineedit.h"
-#include <qscrollview.h>
+#include <q3scrollview.h>
 #include <qcombobox.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <Q3PopupMenu>
+#include <QCloseEvent>
 #include "commonsymbols.h"
 #include "instruktion.h"
 #include <qregexp.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <unistd.h>
 #include "battlearea.h"
 #include "quickconf.h"
@@ -45,22 +49,22 @@ createbot::createbot( )
 	showlatency->setGeometry( 5,30,65,400 );
 	showlatency->setReadOnly( true );
 
-	File = new QPopupMenu( );
+	File = new Q3PopupMenu( );
 	File->insertItem( "&New", this, SLOT( newb( ) ) );
 	File->insertItem( "&Open", this, SLOT( open( ) ) );
 	File->insertItem( "&Save", this, SLOT( save( ) ) );
 	File->insertItem( "S&ave As", this, SLOT( saveas( ) ) );
 	File->insertItem( "&Close", this, SLOT( closec( ) ) );
 
-	Edit = new QPopupMenu( );
+	Edit = new Q3PopupMenu( );
 	Edit->insertItem( "&Copy", this, SLOT( copy( ) ) );
 	Edit->insertItem( "C&ut", this, SLOT( cut( ) ) );
 	Edit->insertItem( "&Paste", this, SLOT( paste( ) ) );
 
-	Assemble = new QPopupMenu( );
+	Assemble = new Q3PopupMenu( );
 	Assemble->insertItem( "&Assemble", this, SLOT( assemble( ) ) );
 
-	tests = new QPopupMenu( );
+	tests = new Q3PopupMenu( );
 	tests->insertItem( "&Quick battle", this, SLOT( startquick( ) ) );
 	tests->insertItem( "&Config quick battle", this, SLOT( confquick( ) ) );
 	tests->insertItem( "C&heck against config", this, SLOT( checkconf( ) ) );
@@ -71,7 +75,7 @@ createbot::createbot( )
 	menb->insertItem( "&Assemble",Assemble );
 	menb->insertItem( "&Tests", tests );
 
-	scrvw = new QScrollView( this );
+	scrvw = new Q3ScrollView( this );
 	scrvw->setGeometry( 380,40,210,400 );
 	boxarea = new QWidget( );
 	boxarea->setGeometry( 0,0,184,1720 );
@@ -374,7 +378,7 @@ void createbot::resizeEvent( QResizeEvent *e )
 		*/
 void createbot::choosepic( )
 {
-	QString filename = QFileDialog::getOpenFileName( 0,"*.bmp",this );
+	QString filename = Q3FileDialog::getOpenFileName( 0,"*.bmp",this );
 	if( !filename.isEmpty( ) )
 		gfx.load( filename );
 	gfxbutton->setPixmap( gfx );
@@ -471,17 +475,17 @@ void createbot::open( )
 			break;
 		}	
 	}
-	QString tempname = QFileDialog::getOpenFileName( 0,"*.basm",this );
+	QString tempname = Q3FileDialog::getOpenFileName( 0,"*.basm",this );
 	if( !tempname.isEmpty( ) )
 	{
 		QFile f( tempname );
-		if( !f.open( IO_ReadOnly ) )
+		if( !f.open( QIODevice::ReadOnly ) )
 		{
 			error( "Couldn't open file!",0 );
 			return;
 		}
 		QString tline;
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		unsigned short i;
 //		char v;
 		s >> tline;
@@ -530,12 +534,12 @@ void createbot::save( )
 	if( !tempname.isEmpty( ) )
 	{
 		QFile f( tempname );
-		if( !f.open( IO_WriteOnly ) )
+		if( !f.open( QIODevice::WriteOnly ) )
 		{
 			saveas( );
 			return;
 		}
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		s << "RAM: " << amountRAM->currentItem( ) << endl <<  endl;
 		int x;
 		for( x=0;x<32;x++ )
@@ -564,16 +568,16 @@ void createbot::save( )
 		*/
 void createbot::saveas( )
 {
-	QString tempname = QFileDialog::getSaveFileName( 0,"*.basm",this );
+	QString tempname = Q3FileDialog::getSaveFileName( 0,"*.basm",this );
 	if( !tempname.isEmpty( ) )
 	{
 		QFile f( tempname );
-		if( !f.open( IO_WriteOnly ) )
+		if( !f.open( QIODevice::WriteOnly ) )
 		{
 			error( "Couldn't open file!",0 );
 			return;
 		}
-		QTextStream s( &f );
+		Q3TextStream s( &f );
 		s << "RAM: " << amountRAM->currentItem( ) << endl <<  endl;
 		int x;
 		for( x=0;x<32;x++ )
@@ -1551,7 +1555,7 @@ void createbot::assemble( )
 
 	QString tempname = botname;
 	tempname += ".bot";
-	QFile f( tempname.data( ) );
+	QFile f(tempname);
 	while( end != true )             //If we still have lines left to compile
 	{
 		if( edittxt->numLines( ) > linenum )
@@ -1791,7 +1795,7 @@ void createbot::assemble( )
 					type[0] = 7;
 					if( exist[1] == true )
 					{
-						bool isplus = !(strcmp( (token[1].left( 1 )).data( ),"+" ));
+						bool isplus = !(token[1].left(1) == "+" );
 						tpos = token[1].toInt(&ok);
 						if(ok == false)
 						{
@@ -2027,37 +2031,37 @@ void createbot::assemble( )
 								value[i][0] = ax;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"bx" )==0 )
+							if(token[i] == "bx")
 							{
 								type[i] = 5;
 								value[i][0] = bx;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"cx" )==0 )
+							if(token[i] == "cx")
 							{
 								type[i] = 5;
 								value[i][0] = cx;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"dx" )==0 )
+							if(token[i] == "dx")
 							{
 								type[i] = 5;
 								value[i][0] = dx;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"sp" )==0 )
+							if(token[i] == "sp")
 							{
 								type[i] = 5;
 								value[i][0] = sp;
 								bits = 16;
 							}
-							if( strcmp( token[i].data( ),"bp" )==0 )
+							if(token[i] == "bp")
 							{
 								type[i] = 5;
 								value[i][0] = bp;
 								bits = 16;
 							}
-							if( token[i] == QString( "si" ) )
+							if( token[i] == "si" )
 							{
 								type[i] = 5;
 								value[i][0] = si;
@@ -2304,7 +2308,7 @@ void createbot::assemble( )
 					{
 						if( exist[i] == true && type[i] == 0 )
 						{
-							bool isplus = !(strcmp( (token[i].left( 1 )).data( ),"+" ));
+							bool isplus = !(token[i].left(1) == "+" );
 							QString comp;
 							if( isplus )
 								comp = token[i].right( token[i].length( )-1 );
@@ -2318,7 +2322,7 @@ void createbot::assemble( )
 								{
 									if( existn[x] == true )
 									{
-										if( strcmp( comp.data( ) , names[x].data( ) ) == 0 )
+										if(comp == names[x])
 					  				{
 											value[i][0] = nvalues[x]%256;
 											value[i][1] = nvalues[x]/256;
@@ -2351,7 +2355,7 @@ void createbot::assemble( )
 						}
 					}
 
-          if( (strcmp( curmnem.data( ),"mov" )==0) && (type[1] == 5) &&
+          if( (curmnem == "mov") && (type[1] == 5) &&
 							(type[2] == 13) && (type[3] == 3) )
 					{
 						value[1][1] = value[2][0];
@@ -2365,7 +2369,7 @@ void createbot::assemble( )
 						}
 						goto found;
 					}
-          if( (strcmp( curmnem.data( ),"mov" )==0) && (type[1] == 13) &&
+          if((curmnem == "mov") && (type[1] == 13) &&
 							(type[2] == 3) && (type[3] == 5) )
 					{
 						value[1][1] = value[2][0];
@@ -2512,7 +2516,7 @@ newline:
 		}
 	}
 	//Open the binary file and write data
-	if( f.open( IO_WriteOnly ) )
+	if( f.open( QIODevice::WriteOnly ) )
 	{
 		QDataStream s( &f );
 		s.writeBytes( (char *)mem,RAMAMOUNT+256 );
@@ -2562,9 +2566,9 @@ void createbot::startquick( )
 	int xsize,ysize,numfights,lengthfights;
 	bool ifteams;
 	int teams[8];
-	if( f2.exists( ) && f2.open( IO_ReadOnly ) )
+	if( f2.exists( ) && f2.open( QIODevice::ReadOnly ) )
 	{
-		QTextStream s( &f2 );
+		Q3TextStream s( &f2 );
 		for( int x=0; x<8;x++ )
 		{
 			s >> names[x];
@@ -2630,13 +2634,13 @@ void createbot::checkconf( )
 	QString tempname = QDir::homeDirPath( );
 	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
-	if( !f.open( IO_ReadOnly ) )
+	if( !f.open( QIODevice::ReadOnly ) )
 	{
 		//TODO: add error message
 		return;
 	}
 
-	QTextStream s( &f );
+	Q3TextStream s( &f );
 	int x,y;
 
 	QString dummy;

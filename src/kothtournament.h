@@ -19,15 +19,17 @@
 #define KOTHTOURNAMENT_H
 
 #include <qwidget.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qpushbutton.h>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qcheckbox.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 #include "pixbutton.h"
 #include "pixmapholder.h"
 /**
@@ -72,7 +74,7 @@ class kothtournament : public QWidget
 	private:
 
 		int numofbots;
-		QListBox *botfiles;
+		Q3ListBox *botfiles;
 		QLabel *tnumfights;
 		QLineEdit *wnumfights;
 		QLabel *lengthfight;

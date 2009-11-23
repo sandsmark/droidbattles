@@ -26,11 +26,11 @@
 #include "commonsymbols.h"
 #include <qdir.h>
 #include <qstring.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <qfile.h>
 #include "confstruct.h"
 #include "screenobject.h"
-#include <iostream.h>
+#include <iostream>
 
 class textmodeBattleArea
 {

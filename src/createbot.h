@@ -20,14 +20,17 @@
 
 #include <qwidget.h>
 #include <qmessagebox.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qmenubar.h>
 #include <qstring.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qfile.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QCloseEvent>
 #include "confstruct.h"
 #include "pixmapholder.h"
 #include "assert.h"
@@ -37,7 +40,7 @@
 
 class devchoice;
 class myQMultiLineEdit;
-class QScrollView;
+class Q3ScrollView;
 class QComboBox;
 class instruktion;
 class battlearea;
@@ -84,17 +87,17 @@ class createbot : public QWidget
 		QMessageBox *ermsg;
 		unsigned char *mem;
 		myQMultiLineEdit *edittxt;
-		QScrollView *scroller;
+		Q3ScrollView *scroller;
 		myQMultiLineEdit *showlatency;
 		devchoice* devices[32];
-		QPopupMenu *File;
-		QPopupMenu *Edit;
-		QPopupMenu *Assemble;
-		QPopupMenu *Config;
-		QPopupMenu *tests;
+		Q3PopupMenu *File;
+		Q3PopupMenu *Edit;
+		Q3PopupMenu *Assemble;
+		Q3PopupMenu *Config;
+		Q3PopupMenu *tests;
 		QMenuBar *menb;
 		QComboBox *amountRAM;
-		QScrollView *scrvw;
+		Q3ScrollView *scrvw;
 		QWidget *boxarea;
 		QString botname;
 		char *dirname;

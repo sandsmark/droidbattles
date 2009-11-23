@@ -22,11 +22,11 @@
 #include <qfont.h>
 
 //If you want another look, change this include
-#include <qplatinumstyle.h>
 #include "droidbattles.h"
 #include "textmodefilemanip.h"
 #include "textmodebattlearea.h"
 #include <string.h>
+#include <QDebug>
 
 void startbattle( int argc, char *argv[] )
 {
@@ -54,19 +54,19 @@ void startbattle( int argc, char *argv[] )
 		{
 			if( argc < curarg+2 )
 			{
-				cout << " ERROR: -bot without following bot specification" << endl;
+				qWarning() << " ERROR: -bot without following bot specification";
 				return;
 			}
 			if( numbots >= 8 )
 			{
-				cout << " ERROR: To many -bot specifications" << endl;
+				qWarning() << " ERROR: To many -bot specifications";
 				return;
 			}
 			bots[numbots] = argv[curarg+1];
 			QFile f( bots[numbots] );
 			if( !f.exists( ) )
 			{
-				cout << " ERROR: Botfile " << bots[numbots] << " not found" << endl;
+				qWarning() << " ERROR: Botfile " << bots[numbots] << " not found";
 				return;
 			}
 			curarg += 2;
@@ -93,13 +93,13 @@ void startbattle( int argc, char *argv[] )
 			teamfight = true;
 			if( argc < curarg+2 )
 			{
-				cout << " ERROR: -team without following team specification" << endl;
+				qWarning() << " ERROR: -team without following team specification";
 				return;
 			}
 			int temp = atoi( argv[curarg+1] );
 			if( temp < 1 || temp > 4 )
 			{
-				cout << " ERROR: -team followed by invalid specification" << endl;
+				qWarning() << " ERROR: -team followed by invalid specification";
 				return;
 			}
 			tteam = temp;
@@ -109,13 +109,13 @@ void startbattle( int argc, char *argv[] )
 		{
 			if( argc < curarg+2 )
 			{
-				cout << " ERROR: -xsize without following size specification" << endl;
+				qWarning() << " ERROR: -xsize without following size specification";
 				return;
 			}
 			int temp = atoi( argv[curarg+1] );
 			if( temp < 8192 || temp > 65535 )
 			{
-				cout << " ERROR: -xsize followed by invalid specification" << endl;
+				qWarning() << " ERROR: -xsize followed by invalid specification";
 				return;
 			}
 			xsize = temp;
@@ -125,13 +125,13 @@ void startbattle( int argc, char *argv[] )
 		{
 			if( argc < curarg+2 )
 			{
-				cout << " ERROR: -ysize without following team specification" << endl;
+				qWarning() << " ERROR: -ysize without following team specification";
 				return;
 			}
 			int temp = atoi( argv[curarg+1] );
 			if( temp < 8192 || temp > 65535 )
 			{
-				cout << " ERROR: -ysize followed by invalid specification" << endl;
+				qWarning() << " ERROR: -ysize followed by invalid specification";
 				return;
 			}
 			ysize = temp;
@@ -141,13 +141,13 @@ void startbattle( int argc, char *argv[] )
 		{
 			if( argc < curarg+2 )
 			{
-				cout << " ERROR: -numfights without following specification" << endl;
+				qWarning() << " ERROR: -numfights without following specification";
 				return;
 			}
 			int temp = atoi( argv[curarg+1] );
 			if( temp < 1 )
 			{
-				cout << " ERROR: -numfights followed by invalid specification" << endl;
+				qWarning() << " ERROR: -numfights followed by invalid specification";
 				return;
 			}
 			numfights = temp;
@@ -157,13 +157,13 @@ void startbattle( int argc, char *argv[] )
 		{
 			if( argc < curarg+2 )
 			{
-				cout << " ERROR: -maxrounds without following specification" << endl;
+				qWarning() << " ERROR: -maxrounds without following specification";
 				return;
 			}
 			int temp = atoi( argv[curarg+1] );
 			if( temp < 100 )
 			{
-				cout << " ERROR: -maxrounds followed by invalid specification" << endl;
+				qWarning() << " ERROR: -maxrounds followed by invalid specification";
 				return;
 			}
 			maxrounds = temp;
@@ -172,8 +172,8 @@ void startbattle( int argc, char *argv[] )
 	}
 	if( numbots > 1 )
 	{
-		textmodeBattleArea *area = new textmodeBattleArea( bots[0].data( ),bots[1].data( ),
-		bots[2].data( ),bots[3].data( ),bots[4].data( ),bots[5].data( ),bots[6].data( ),bots[7].data( ),numfights,maxrounds,
+		textmodeBattleArea *area = new textmodeBattleArea(bots[0] ,bots[1],
+		bots[2], bots[3], bots[4], bots[5], bots[6], bots[7], numfights, maxrounds,
 		xsize,ysize,teamfight,teams,false,battletype );
 		while( true )
 		{
@@ -182,7 +182,7 @@ void startbattle( int argc, char *argv[] )
 		}
 	}
 	else
-		cout << " ERROR: Not enough bots specified" << endl;
+		qWarning() << " ERROR: Not enough bots specified";
 }
 
 int main( int argc, char *argv[] )
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
 	{
 		//If you want another look change QPlatinumStyle to
 		//one of: QCDEStyle, QWindowsStyle, QMotifStyle
-		a.setStyle( new QPlatinumStyle );
+//		a.setStyle( new QPlatinumStyle );
 		a.setFont( QFont( "helvetica", 8 ) );
 		DroidBattles *droidbattles=new DroidBattles( );
 		a.setMainWidget( droidbattles );

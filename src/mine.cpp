@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "mine.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 	/**
 		* Init position and load gfx
@@ -34,7 +36,7 @@ mine::mine( int x,int y, textmodeBattleArea &area,int owner, bool ui )
 	{
 		erasegfx = new QPixmap;
 		erasegfx->resize( 8,8 );
-		erasegfx->fill( black );
+		erasegfx->fill( Qt::black );
 		graphics = Pixmapholder::getpmp( 6 );
 	}
 

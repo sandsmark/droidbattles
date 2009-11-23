@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "pixmapholder.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 static QPixmap *pm[20];
 

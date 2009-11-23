@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include "robots.h"
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QPixmap>
 
 	/**
 		* Init bot position, load program file and graphics
@@ -47,7 +50,7 @@ robots::robots( char *name,textmodeBattleArea &object,int mnum, confstruct confi
 	armorval = 0;
 	speed = 0;
 	QFile f( name );        //Open the .bot file
-	if( f.open( IO_ReadOnly ) )
+	if( f.open( QIODevice::ReadOnly ) )
 	{
 		QDataStream s( &f );
 		unsigned int lng;
@@ -226,7 +229,7 @@ robots::robots( char *name,textmodeBattleArea &object,int mnum, confstruct confi
 	{
 		erasegfx = new QPixmap;
 		erasegfx->resize( 32,32 );
-		erasegfx->fill( black );
+		erasegfx->fill( Qt::black );
 		graphics = new QPixmap;
 		graphics->resize( 32,32 );
 		QString temp;
@@ -243,7 +246,7 @@ robots::robots( char *name,textmodeBattleArea &object,int mnum, confstruct confi
 		}
 		if(graphics->load( temp ) == false )
 		{
-			graphics->fill( white );
+			graphics->fill( Qt::white );
 		}
 		else
 			graphics->setMask( graphics->createHeuristicMask( ) );
@@ -499,13 +502,13 @@ const char* robots::getdebug2( )
 
 void robots::setdebug1( int msg )
 {
-	QTextStream ts( debug1, IO_ReadWrite );
+	Q3TextStream ts( debug1, QIODevice::ReadWrite );
 	ts << "Angle is: " << msg << "  ";
 }
 
 void robots::setdebug2( int msg )
 {
-	QTextStream ts( debug2, IO_ReadWrite );
+	Q3TextStream ts( debug2, QIODevice::ReadWrite );
 	ts << "distance is: " << msg << "  ";
 }
 
@@ -640,7 +643,7 @@ void robots::dumpRAM( )
 		QFile f( fname );
 		if( !f.exists( ) )
 		{
-			if( f.open( IO_WriteOnly ) )
+			if( f.open( QIODevice::WriteOnly ) )
 			{
 				for( int y=0;y<ramdevice->returnsize( );y++ )
 				{

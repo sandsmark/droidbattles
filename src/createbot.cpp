@@ -2684,7 +2684,7 @@ void createbot::checkconf()
     int totalcost;
     int numdev=0;
     int devicesenabled[32];
-    for (int l=0; l<32; devicesenabled[l++]=0);
+    for (int l=0; l<32; devicesenabled[l++]=0) {};
 
     amountram = amountRAM->currentItem();
     totalcost = curconfig.ramcost[amountram];

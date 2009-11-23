@@ -1,0 +1,20 @@
+ <!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>images/backbutton.xpm</file>
+        <file>images/chaff.bmp</file>
+        <file>images/mine.xpm</file>
+        <file>images/missile.xpm</file>
+        <file>images/radarmissile.bmp</file>
+
+        <file>images/ship0.bmp</file>
+        <file>images/ship1.bmp</file>
+        <file>images/ship2.bmp</file>
+        <file>images/ship3.bmp</file>
+        <file>images/ship4.bmp</file>
+        <file>images/ship5.bmp</file>
+        <file>images/ship6.bmp</file>
+        <file>images/ship7.bmp</file>
+
+        <file>images/mainmenu.png</file>
+    </qresource>
+</RCC>

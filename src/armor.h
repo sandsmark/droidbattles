@@ -28,22 +28,22 @@
 class armor : public device
 {
 
-	public:
+public:
 
-		armor( screenobject &object,int );
-		~armor( );
-		void execute( );
-		int absorbhit( int str,int ifint );
-    int returntype( );
-		int returnspecial( );
-		int getfromport( unsigned char port );
-		void dospecial( int,int=0 );
-	private:
+    armor (screenobject &object,int);
+    ~armor();
+    void execute();
+    int absorbhit (int str,int ifint);
+    int returntype();
+    int returnspecial();
+    int getfromport (unsigned char port);
+    void dospecial (int,int=0);
+private:
 
-		int strength;
-		int orstrength;
-		int armorintlevel;
-		int heatintlevel;
+    int strength;
+    int orstrength;
+    int armorintlevel;
+    int heatintlevel;
 };
 
 #endif

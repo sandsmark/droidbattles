@@ -31,34 +31,34 @@
   */
 class scanner : public device
 {
-	public:
-		scanner( screenobject &object,int arg1,int offset );
-		~scanner( );
-		void execute( );
-		int getfromport( unsigned char port );
-		void erasegfx( QWidget *buffer );
-		void showgfx( QWidget *buffer );
+public:
+    scanner (screenobject &object,int arg1,int offset);
+    ~scanner();
+    void execute();
+    int getfromport (unsigned char port);
+    void erasegfx (QWidget *buffer);
+    void showgfx (QWidget *buffer);
 
-	private:
-		int threshold;
-		int scanshow;
-		int lastpaintX;
-		int lastpaintY;
-		int lastpaintsize;
-		int lastpaintang;
-		int width;
-		int maxscandist;
-		int lastscandist;
-		int lastscanang;
-		int scantimes;
-		int scantimes2;
-		bool ispainted;
+private:
+    int threshold;
+    int scanshow;
+    int lastpaintX;
+    int lastpaintY;
+    int lastpaintsize;
+    int lastpaintang;
+    int width;
+    int maxscandist;
+    int lastscandist;
+    int lastscanang;
+    int scantimes;
+    int scantimes2;
+    bool ispainted;
 
-		int wret;
-		int lastscanfreq;
-		int lastscanid;
-		int lastscandir;
-		int lastscanspeed;
+    int wret;
+    int lastscanfreq;
+    int lastscanid;
+    int lastscandir;
+    int lastscanspeed;
 
 };
 

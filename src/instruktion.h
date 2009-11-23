@@ -29,26 +29,26 @@
 class instruktion
 {
 
-	public:
+public:
 
-		instruktion( char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
-								 int op );
-		~instruktion( );
-		bool checkmatch( QString &mnem, int arg1t, int arg2t, int bits );
-		unsigned char getopcode( );
-		int getarg1bits( );
-		int getarg2bits( );
+    instruktion (char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
+                 int op);
+    ~instruktion();
+    bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits);
+    unsigned char getopcode();
+    int getarg1bits();
+    int getarg2bits();
 
-	private:
+private:
 
-		char *mnemonic;
-		int arg1type;
-		int arg2type;
-		int arg1bits;
-		int arg2bits;
-		int bits;
-		unsigned char opcode;
-		
+    char *mnemonic;
+    int arg1type;
+    int arg2type;
+    int arg1bits;
+    int arg2bits;
+    int bits;
+    unsigned char opcode;
+
 };
 
 #endif

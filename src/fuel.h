@@ -28,16 +28,16 @@
 class fuel : public device
 {
 
-	public:
-	
-		fuel( screenobject &, int );
-		~fuel( );
-		int getfromport( unsigned char port );
-    void execute( );
-	private:
+public:
 
-		int fuelleft;
-		int fuelintlevel;
+    fuel (screenobject &, int);
+    ~fuel();
+    int getfromport (unsigned char port);
+    void execute();
+private:
+
+    int fuelleft;
+    int fuelintlevel;
 //		bool intenabled;
 };
 

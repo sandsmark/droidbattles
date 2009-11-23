@@ -72,63 +72,63 @@
 class robots : public screenobject
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		robots( char *name,textmodeBattleArea &area,int mnum, confstruct,int tm,
-						bool er=true, bool ui = true );
-		~robots( );
-		int execute( );
-		void eraseobject( QWidget *buffer );
-		void showobject( QWidget *buffer, int opt = 0 );
-		void ifhit( );
-		int getdevport( unsigned char port );
-		void putdevport( unsigned char port,unsigned short value );
-		int objhit( int type,int strength );
-		void objscanned( int intensity, int dir );
-		void addscrobject( int X,int Y,int dir,int type, int arg1=0,int arg2=0,
-											 void *arg3=0 );
-		int iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 );
-		int iodevtodev( int dev, int action, int value );
-		int returntype( );
-		int getcollisiontype( );
-		int getcollisionstrength( );
-		int getsize( );
-		void receiveradio( int );
-		const char* getdebug1( );
-		const char* getdebug2( );
-		void setdebug1( int );
-		void setdebug2( int );
-		void error( char *,char * );
-		int getmem( );
-		void addinterrupt( int );
-		struct debugcontents returndbgcont( );
+    robots (char *name,textmodeBattleArea &area,int mnum, confstruct,int tm,
+            bool er=true, bool ui = true);
+    ~robots();
+    int execute();
+    void eraseobject (QWidget *buffer);
+    void showobject (QWidget *buffer, int opt = 0);
+    void ifhit();
+    int getdevport (unsigned char port);
+    void putdevport (unsigned char port,unsigned short value);
+    int objhit (int type,int strength);
+    void objscanned (int intensity, int dir);
+    void addscrobject (int X,int Y,int dir,int type, int arg1=0,int arg2=0,
+                       void *arg3=0);
+    int iodevtobatt (int bot,int dev,int choice,int arg1,int arg2);
+    int iodevtodev (int dev, int action, int value);
+    int returntype();
+    int getcollisiontype();
+    int getcollisionstrength();
+    int getsize();
+    void receiveradio (int);
+    const char* getdebug1();
+    const char* getdebug2();
+    void setdebug1 (int);
+    void setdebug2 (int);
+    void error (char *,char *);
+    int getmem();
+    void addinterrupt (int);
+    struct debugcontents returndbgcont();
     int numCPUs();
     // the caller has to delete the returned pointer
-		std::list<struct debugcontents> *returndbgcont2( );
-		int returnradar( );
-		void setradar( int x );
-		void dumpRAM( );
+    std::list<struct debugcontents> *returndbgcont2();
+    int returnradar();
+    void setradar (int x);
+    void dumpRAM();
 
-	private:
+private:
 
-		int RAMamount;
-		RAM *ramdevice;
-		int radarsignature;
-		device *devicelist[32];
-		char hitabsorborder[32];
-		textmodeBattleArea *ourarea;
-		bool gfxin;
-		QMessageBox *rulebreak;
-		int ourradiodev;
-		bool showerror;
-		int currentradar;
-		int piccols;
-		int picrows;
-		int currentrow;
-		int rowchangeval;
-		int degreesperpic;
+    int RAMamount;
+    RAM *ramdevice;
+    int radarsignature;
+    device *devicelist[32];
+    char hitabsorborder[32];
+    textmodeBattleArea *ourarea;
+    bool gfxin;
+    QMessageBox *rulebreak;
+    int ourradiodev;
+    bool showerror;
+    int currentradar;
+    int piccols;
+    int picrows;
+    int currentrow;
+    int rowchangeval;
+    int degreesperpic;
 };
 
 #endif

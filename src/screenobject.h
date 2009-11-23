@@ -30,98 +30,98 @@
 class screenobject : public QObject
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		screenobject( );
-		virtual ~screenobject( );
-		virtual int changepos( double X,double Y );
-		void changedir( int Z );
-		void changespeed( int Z );
-		const int getXpos( );
-		const int getYpos( );
-		const int getdir( );
-		const int getspeed( );
-		const int getnum( );
-		virtual void addscrobject( int X,int Y,int dir,int type,int arg1=0,
-															 int arg2=0, void *arg3=0 );
-		virtual int getdevport( unsigned char port );
-		virtual void putdevport( unsigned char port,unsigned short value );
-		virtual int execute( );
-		virtual void eraseobject( QWidget *buffer );
-		virtual void showobject( QWidget *buffer,int opt = 0 );
-		virtual int objhit( int type,int strength );
-		virtual void objscanned( int intensity,int dir );
-		virtual int getcollisiontype( );
-		virtual int getcollisionstrength( );
-		virtual int returntype( );
-		virtual int iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 );
-		virtual int iodevtodev( int dev, int action, int value );
-		virtual int getsize( );
-		virtual const char* getdebug1( );
-		virtual const char* getdebug2( );
-		virtual void setdebug1( int );
-		virtual void setdebug2( int );
-		virtual void setfuel( int );
-		virtual void setspeed( int );
-		virtual int getfuel( );
-		virtual int getarmor( );
-		virtual int getmem( );
-		virtual void receiveradio( int );
-		virtual bool areaexplosionaffects( );
-		int armorval;
-		int getteam( );
-		virtual void addinterrupt( int );
-		virtual struct debugcontents returndbgcont( );
-		virtual int returnradar( );
-		virtual int getcollid( );
-		void changeheat( int x );
-		virtual void setradar( int x );
-		int getheat( );
-		void setheat( int x );
-		int getowner( );
-		void sendmsg( char *msg );
-		virtual void dumpRAM( );
-		QString myfile;
-		QPixmap & getgfx( );
-		
-	protected:
+    screenobject();
+    virtual ~screenobject();
+    virtual int changepos (double X,double Y);
+    void changedir (int Z);
+    void changespeed (int Z);
+    const int getXpos();
+    const int getYpos();
+    const int getdir();
+    const int getspeed();
+    const int getnum();
+    virtual void addscrobject (int X,int Y,int dir,int type,int arg1=0,
+                               int arg2=0, void *arg3=0);
+    virtual int getdevport (unsigned char port);
+    virtual void putdevport (unsigned char port,unsigned short value);
+    virtual int execute();
+    virtual void eraseobject (QWidget *buffer);
+    virtual void showobject (QWidget *buffer,int opt = 0);
+    virtual int objhit (int type,int strength);
+    virtual void objscanned (int intensity,int dir);
+    virtual int getcollisiontype();
+    virtual int getcollisionstrength();
+    virtual int returntype();
+    virtual int iodevtobatt (int bot,int dev,int choice,int arg1,int arg2);
+    virtual int iodevtodev (int dev, int action, int value);
+    virtual int getsize();
+    virtual const char* getdebug1();
+    virtual const char* getdebug2();
+    virtual void setdebug1 (int);
+    virtual void setdebug2 (int);
+    virtual void setfuel (int);
+    virtual void setspeed (int);
+    virtual int getfuel();
+    virtual int getarmor();
+    virtual int getmem();
+    virtual void receiveradio (int);
+    virtual bool areaexplosionaffects();
+    int armorval;
+    int getteam();
+    virtual void addinterrupt (int);
+    virtual struct debugcontents returndbgcont();
+    virtual int returnradar();
+    virtual int getcollid();
+    void changeheat (int x);
+    virtual void setradar (int x);
+    int getheat();
+    void setheat (int x);
+    int getowner();
+    void sendmsg (char *msg);
+    virtual void dumpRAM();
+    QString myfile;
+    QPixmap & getgfx();
 
-		int upcount;
-		int fuelval;
-		int heatval;
-		double Xpos;
-		double Ypos;
-		int oldX;
-		int oldY;
-		int direction;
-		int speed;
-		QPixmap *graphics;
-		QPixmap *erasegfx;
-		bool canbehit;
-		int mynum;
-		int size;
-		QString debug1;
-		QString debug2;
-		bool showextragfx;
-		int maxx;
-		int maxy;
-		int team;
-		int noncollid;
-		int myowner;
+protected:
 
-		bool useUI;
+    int upcount;
+    int fuelval;
+    int heatval;
+    double Xpos;
+    double Ypos;
+    int oldX;
+    int oldY;
+    int direction;
+    int speed;
+    QPixmap *graphics;
+    QPixmap *erasegfx;
+    bool canbehit;
+    int mynum;
+    int size;
+    QString debug1;
+    QString debug2;
+    bool showextragfx;
+    int maxx;
+    int maxy;
+    int team;
+    int noncollid;
+    int myowner;
 
-	private	slots:
+    bool useUI;
 
-		void setextragfx( bool x );
+private	slots:
 
- 	signals:
+    void setextragfx (bool x);
 
-		void armorchanged( int x );
-		void fuelchanged( int x,int y );
-		void messagechanged( char *msg );
+signals:
+
+    void armorchanged (int x);
+    void fuelchanged (int x,int y);
+    void messagechanged (char *msg);
 
 };
 

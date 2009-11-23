@@ -34,34 +34,34 @@
 
 class textmodeBattleArea
 {
-	public:
-		textmodeBattleArea( );
-		virtual ~textmodeBattleArea( );
-		textmodeBattleArea( const char *name1,const char *name2,const char *name3,const char *name4,const char *name5,
-								const char *name6,const char *name7,const char *name8,int numf,int ,int xs,
-								int ys,bool ifteams,int *bteams, bool tourney,
-								int mode = 0 );
-		virtual void addscrobject(  int owner,int X,int Y,int dir,int type,int arg1=0,
-												int arg2=0, void *arg3=0 );
-		int devio( int bot,int dev,int choice,int arg1,int arg2 );
-		virtual void startonebattle( int );
-		int	getareainfo( int );
-		virtual void explosions( int x,int y, int rad, int strength, int whichobject );
-		int getstartx( int );
-		int getstarty( int );
+public:
+    textmodeBattleArea();
+    virtual ~textmodeBattleArea();
+    textmodeBattleArea (const char *name1,const char *name2,const char *name3,const char *name4,const char *name5,
+                        const char *name6,const char *name7,const char *name8,int numf,int ,int xs,
+                        int ys,bool ifteams,int *bteams, bool tourney,
+                        int mode = 0);
+    virtual void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
+                               int arg2=0, void *arg3=0);
+    int devio (int bot,int dev,int choice,int arg1,int arg2);
+    virtual void startonebattle (int);
+    int	getareainfo (int);
+    virtual void explosions (int x,int y, int rad, int strength, int whichobject);
+    int getstartx (int);
+    int getstarty (int);
 
-		int execround( );
+    int execround();
 
-	protected:
+protected:
 
-/*		list<debugwindow*> dbgwindows;
-    QMultiLineEdit *_dbedit;
-    int *_dbl;
-    int *_dbm;
+    /*		list<debugwindow*> dbgwindows;
+        QMultiLineEdit *_dbedit;
+        int *_dbl;
+        int *_dbm;
 
-    int missilesLaunched;*/
+        int missilesLaunched;*/
 
-		screenobject *objects[256];
+    screenobject *objects[256];
 //		QWidget *mydrw;
 //		QScrollView *scrolling;
 //		QWidget *infowindow;
@@ -79,31 +79,31 @@ class textmodeBattleArea
 
 //		int updatescreen;
 //		botinfo *binfo[8];
-		QString names[8];
+    QString names[8];
 //		QPixmap *backpm;
-		int numfights;
-		int fightswon[8];
-		int fightsfought;
-		confstruct config;
-		int roundsrun;
-		int maxrounds;
-		int xsize;
-		int ysize;
-		bool isteams;
-		bool checkwin;
-		int botteams[8];
-		int alive[4];
-		bool ifdelete;
-		int radiosignals[4][8];
-		bool radsigexist[4][8];
-		bool hideresmsg;		
-		bool iffast;
-		int xstarts[8];
-		int ystarts[8];
-		bool debugenabled;
-		int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
-		int runmode; //0 - not running, 1 - running
-		int maxpoints;
+    int numfights;
+    int fightswon[8];
+    int fightsfought;
+    confstruct config;
+    int roundsrun;
+    int maxrounds;
+    int xsize;
+    int ysize;
+    bool isteams;
+    bool checkwin;
+    int botteams[8];
+    int alive[4];
+    bool ifdelete;
+    int radiosignals[4][8];
+    bool radsigexist[4][8];
+    bool hideresmsg;
+    bool iffast;
+    int xstarts[8];
+    int ystarts[8];
+    bool debugenabled;
+    int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
+    int runmode; //0 - not running, 1 - running
+    int maxpoints;
 };
 #include "robots.h"
 #include "mine.h"

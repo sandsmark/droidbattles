@@ -46,58 +46,58 @@
 class confedit : public QWidget
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		confedit( );
-		~confedit( );
+    confedit();
+    ~confedit();
 
-	private:
+private:
 
-		// The "menu" buttons
-		QPushButton *closebutton;
-		QPushButton *helpbutton;
-		QPushButton *openbutton;
-		QPushButton *makecurrentbutton;
-		QPushButton *savebutton;
-		QPushButton *defaultbutton;
-		
-		// Area covering all - menu buttons
-		QWidget *setarea;
-		Q3ScrollView *scroll;
+    // The "menu" buttons
+    QPushButton *closebutton;
+    QPushButton *helpbutton;
+    QPushButton *openbutton;
+    QPushButton *makecurrentbutton;
+    QPushButton *savebutton;
+    QPushButton *defaultbutton;
 
-		//Used for all numeric input
-		QIntValidator *valid;
+    // Area covering all - menu buttons
+    QWidget *setarea;
+    Q3ScrollView *scroll;
 
-		//Global settings
-		QLabel *maxdevl;
-		QSpinBox *maxdevv;
-		QLabel *maxcostl;
-		QSpinBox *maxcostv;
+    //Used for all numeric input
+    QIntValidator *valid;
 
-		QLabel *maxraml;
-		QComboBox *maxramv;
-		QLabel *ramcostl;
-		QComboBox *ramcostv;
+    //Global settings
+    QLabel *maxdevl;
+    QSpinBox *maxdevv;
+    QLabel *maxcostl;
+    QSpinBox *maxcostv;
 
-		//Device specific settings
-		Q3GroupBox *devicegroup[numdev];
-		QCheckBox *devicesenabled[numdev];
-		QLabel *costs[numdev];
-		QComboBox *levelcosts[numdev];
-		QLabel *values[numdev];
-		QComboBox *levelvalues[numdev];
+    QLabel *maxraml;
+    QComboBox *maxramv;
+    QLabel *ramcostl;
+    QComboBox *ramcostv;
 
-	private slots:
+    //Device specific settings
+    Q3GroupBox *devicegroup[numdev];
+    QCheckBox *devicesenabled[numdev];
+    QLabel *costs[numdev];
+    QComboBox *levelcosts[numdev];
+    QLabel *values[numdev];
+    QComboBox *levelvalues[numdev];
 
-		void closec( );
-		void helpc( );
-		void openc( );
-		void makecurrc( );
-		void savec( );
-		void defaultc( );
-		void openfile( QString &tempname );
+private slots:
+
+    void closec();
+    void helpc();
+    void openc();
+    void makecurrc();
+    void savec();
+    void defaultc();
+    void openfile (QString &tempname);
 
 };
 

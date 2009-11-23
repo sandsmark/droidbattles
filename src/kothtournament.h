@@ -43,54 +43,54 @@
 class kothtournament : public QWidget
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		kothtournament( );
-		~kothtournament( );
-		int getnumofbots( );
-		const char* getbotfile( int bot );
-		void closeEvent( QCloseEvent *e );
-		int getnumfights( );
-		int getlength( );
-		int getxsize( );
-		int getysize( );
-		bool getiffast( );
-		int getseed( );
+public:
+    kothtournament();
+    ~kothtournament();
+    int getnumofbots();
+    const char* getbotfile (int bot);
+    void closeEvent (QCloseEvent *e);
+    int getnumfights();
+    int getlength();
+    int getxsize();
+    int getysize();
+    bool getiffast();
+    int getseed();
 
-	private slots:
+private slots:
 
-		void choosefile( );
-		void dechoosefile( );
-		void ocl( );
-		void ccl( );
-		void chooselist( );
+    void choosefile();
+    void dechoosefile();
+    void ocl();
+    void ccl();
+    void chooselist();
 
-	signals:
+signals:
 
-		void okclicked( );
-		void cancelclicked( );
+    void okclicked();
+    void cancelclicked();
 
-	private:
+private:
 
-		int numofbots;
-		Q3ListBox *botfiles;
-		QLabel *tnumfights;
-		QLineEdit *wnumfights;
-		QLabel *lengthfight;
-		QLineEdit *length;
-		QIntValidator *numfix;
-		PixButton *press[2];
-		PixButton *readyb;
-		PixButton *cancelb;
-		PixButton *loadlist;
-		QLabel *maxxinfo;
-		QLabel *maxyinfo;
-		QSpinBox *maxx;
-		QSpinBox *maxy;
-		QLabel *seedinfo;
-		QLineEdit *seed;
-		QCheckBox *iffast;
+    int numofbots;
+    Q3ListBox *botfiles;
+    QLabel *tnumfights;
+    QLineEdit *wnumfights;
+    QLabel *lengthfight;
+    QLineEdit *length;
+    QIntValidator *numfix;
+    PixButton *press[2];
+    PixButton *readyb;
+    PixButton *cancelb;
+    PixButton *loadlist;
+    QLabel *maxxinfo;
+    QLabel *maxyinfo;
+    QSpinBox *maxx;
+    QSpinBox *maxy;
+    QLabel *seedinfo;
+    QLineEdit *seed;
+    QCheckBox *iffast;
 
 };
 

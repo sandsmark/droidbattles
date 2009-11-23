@@ -48,43 +48,43 @@
 class devchoice : public QWidget
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		devchoice( createbot *cre,QWidget *parent=0, const char *name=0,
-							 int num=0 );
-		~devchoice( );
-		unsigned short getitem( );
-		int getlevel( );
-		int getarg1( );
-		void setitem( int x );
-		void setarg1( char *);
+    devchoice (createbot *cre,QWidget *parent=0, const char *name=0,
+               int num=0);
+    ~devchoice();
+    unsigned short getitem();
+    int getlevel();
+    int getarg1();
+    void setitem (int x);
+    void setarg1 (char *);
 
-	private:
+private:
 
-		QComboBox *comb;
-		QLineEdit *arg1;
-		Q3ButtonGroup *level;
-		QRadioButton *levels[5];
-		QIntValidator *valid;
-		int dev;
-		int chosenlevel;
-		int mynum;
-		QLabel *showcost;
-		QPushButton *info;
-		createbot *callb;
-		infobox *showbox;
+    QComboBox *comb;
+    QLineEdit *arg1;
+    Q3ButtonGroup *level;
+    QRadioButton *levels[5];
+    QIntValidator *valid;
+    int dev;
+    int chosenlevel;
+    int mynum;
+    QLabel *showcost;
+    QPushButton *info;
+    createbot *callb;
+    infobox *showbox;
 
-	public slots:
+public slots:
 
-		void levelchosen( int );
-		void costchanged( );
-		void showinfo( );
+    void levelchosen (int);
+    void costchanged();
+    void showinfo();
 
-	signals:
+signals:
 
-		void change( );		
+    void change();
 
 };
 

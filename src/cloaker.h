@@ -28,12 +28,12 @@
 class cloaker : public device
 {
 
-	public:
-		cloaker( screenobject &object, int arg1 );
-		~cloaker( );
-		void execute( );
-	private:
-		bool cloakon;
+public:
+    cloaker (screenobject &object, int arg1);
+    ~cloaker();
+    void execute();
+private:
+    bool cloakon;
 };
 
 #endif

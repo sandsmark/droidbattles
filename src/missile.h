@@ -37,25 +37,25 @@
 class missile : public screenobject
 {
 
-	public:
+public:
 
-		missile( int X,int Y,int dir,int owner,int mynum,textmodeBattleArea &area, bool ui = true );
-		~missile( );
-		int execute( );
-		void eraseobject( QWidget *buffer );
-		void showobject( QWidget *buffer, int opt = 0 );
-		int returntype( );
-		int getcollisiontype( );
-		int getcollisionstrength( );
-		int changepos( double X,double Y );
-		int objhit( int type,int strength );
-		int getsize( );
-		int returnradar( );
+    missile (int X,int Y,int dir,int owner,int mynum,textmodeBattleArea &area, bool ui = true);
+    ~missile();
+    int execute();
+    void eraseobject (QWidget *buffer);
+    void showobject (QWidget *buffer, int opt = 0);
+    int returntype();
+    int getcollisiontype();
+    int getcollisionstrength();
+    int changepos (double X,double Y);
+    int objhit (int type,int strength);
+    int getsize();
+    int returnradar();
 
-	private:
+private:
 
-		int strength;
-		textmodeBattleArea *ourarea;
+    int strength;
+    textmodeBattleArea *ourarea;
 
 };
 

@@ -29,14 +29,14 @@
 class chafflauncher : public device
 {
 
-	public:
-		chafflauncher( screenobject &object,int level );
-		~chafflauncher( );
-		void execute( );
-		int getfromport( unsigned char port );
+public:
+    chafflauncher (screenobject &object,int level);
+    ~chafflauncher();
+    void execute();
+    int getfromport (unsigned char port);
 
-	private:
-		int chaffleft;
+private:
+    int chaffleft;
 };
 
 #endif

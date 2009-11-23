@@ -22,13 +22,13 @@
 //(Generally read from current.cfg)
 struct confstruct
 {
-	int maxdev;
-	int maxcost;
-	int maxram;
-	int ramcost[9];
-	bool enabled[25];
-	int cost[5][25];
-	int values[5][25];
+    int maxdev;
+    int maxcost;
+    int maxram;
+    int ramcost[9];
+    bool enabled[25];
+    int cost[5][25];
+    int values[5][25];
 };
 
 #endif

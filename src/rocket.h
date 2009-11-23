@@ -30,34 +30,34 @@
 class rocket : public screenobject
 {
 
-	public:
+public:
 
-		rocket( );
-		~rocket( );
-		rocket( int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
-						int owner, bool ui=true );
-		int objhit( int type,int strength );
-		int returntype( );
-		void eraseobject( QWidget *buffer );
-		void showobject( QWidget *buffer, int opt=0 );
-		int execute( );
-		int changepos( double X,double Y );
-		int getcollisiontype( );
-		int getcollisionstrength( );
-		int getsize( );
-		bool areaexplosionaffects( );
-		int returnradar( );
+    rocket();
+    ~rocket();
+    rocket (int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
+            int owner, bool ui=true);
+    int objhit (int type,int strength);
+    int returntype();
+    void eraseobject (QWidget *buffer);
+    void showobject (QWidget *buffer, int opt=0);
+    int execute();
+    int changepos (double X,double Y);
+    int getcollisiontype();
+    int getcollisionstrength();
+    int getsize();
+    bool areaexplosionaffects();
+    int returnradar();
 
-	private:
+private:
 
-		int length;
-		int uX;
-		int uY;
-		int pointX[50];
-		int pointY[50];
-		int pointD[50];
-		int countpoint;
-		textmodeBattleArea *ourarea;
+    int length;
+    int uX;
+    int uY;
+    int pointX[50];
+    int pointY[50];
+    int pointD[50];
+    int countpoint;
+    textmodeBattleArea *ourarea;
 };
 
 #endif

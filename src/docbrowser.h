@@ -31,10 +31,10 @@
 class Docbrowser : public Q3TextBrowser
 {
 
-	public:
-		Docbrowser( QString src );
-		~Docbrowser( );
-		void closeEvent( QCloseEvent *e );
+public:
+    Docbrowser (QString src);
+    ~Docbrowser();
+    void closeEvent (QCloseEvent *e);
 };
 
 #endif

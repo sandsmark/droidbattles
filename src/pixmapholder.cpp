@@ -21,25 +21,25 @@
 
 static QPixmap *pm[20];
 
-Pixmapholder::Pixmapholder( )
+Pixmapholder::Pixmapholder()
 {
 }
 
-Pixmapholder::~Pixmapholder( )
+Pixmapholder::~Pixmapholder()
 {
 }
 
-void Pixmapholder::addpm( QString &name,int num )
+void Pixmapholder::addpm (QString &name,int num)
 {
-	pm[num] = new QPixmap( name );
+    pm[num] = new QPixmap (name);
 }
 
-QPixmap & Pixmapholder::getpm( int num )
+QPixmap & Pixmapholder::getpm (int num)
 {
-	return *pm[num];
+    return *pm[num];
 }
 
-QPixmap * Pixmapholder::getpmp( int num )
+QPixmap * Pixmapholder::getpmp (int num)
 {
-	return pm[num];
+    return pm[num];
 }

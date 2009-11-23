@@ -29,16 +29,16 @@
 class steering : public device
 {
 
-	public:
+public:
 
-		steering( screenobject &object,int );
-		~steering( );
-		int getfromport( unsigned char port );
-		void execute( );
+    steering (screenobject &object,int);
+    ~steering();
+    int getfromport (unsigned char port);
+    void execute();
 
-	private:
+private:
 
-		int aimatdir;
+    int aimatdir;
 
 };
 

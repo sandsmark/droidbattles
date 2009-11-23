@@ -32,33 +32,33 @@
 	*/
 class botinfo : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		botinfo( const char *botname, screenobject *rb, int armor,QWidget *parent,
-			const char *name=0 );
-		~botinfo( );
+public:
+    botinfo (const char *botname, screenobject *rb, int armor,QWidget *parent,
+             const char *name=0);
+    ~botinfo();
 
-	private slots:
-		void armorupdated( int x );
-		void updatefuel( int x,int y );
-		void statch( bool x );
-		void newmessage( char *msg );
+private slots:
+    void armorupdated (int x);
+    void updatefuel (int x,int y);
+    void statch (bool x);
+    void newmessage (char *msg);
 
-	signals:
-		void changeinset( bool x );
+signals:
+    void changeinset (bool x);
 
-	private:
-		QLabel *botnam;
-		Q3ProgressBar *armorlevel;
-		Q3ProgressBar *heatlevel;
-		QLabel *armormsg;
-		QLabel *heatmsg;
-		QLabel *msgmsg;
-		QLabel *message;
-		QCheckBox *ifscanner;
-		QWidget *showgfx;
-		screenobject *bot;
+private:
+    QLabel *botnam;
+    Q3ProgressBar *armorlevel;
+    Q3ProgressBar *heatlevel;
+    QLabel *armormsg;
+    QLabel *heatmsg;
+    QLabel *msgmsg;
+    QLabel *message;
+    QCheckBox *ifscanner;
+    QWidget *showgfx;
+    screenobject *bot;
 };
 
 #endif

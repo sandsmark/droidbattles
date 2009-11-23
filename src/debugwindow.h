@@ -34,30 +34,30 @@
 class debugwindow : public QWidget
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		debugwindow( Q3MultiLineEdit *Medit, int *dbl, int *dbm );
-		~debugwindow( );
-		void updatedata( struct debugcontents );
-		void addint( QString &,unsigned short );
+public:
+    debugwindow (Q3MultiLineEdit *Medit, int *dbl, int *dbm);
+    ~debugwindow();
+    void updatedata (struct debugcontents);
+    void addint (QString &,unsigned short);
 
-	private slots:
-		void distsignal( );
+private slots:
+    void distsignal();
 
-	private:
-		QLabel *registercontents[9]; //AX,BX,CX,DX,SP,BP,SI,DI,IP
-		QLabel *flagcontents[4];     //equal,above,below,intenabled
-		QLabel *memcontents[4];
-		Q3MultiLineEdit *execlines;
-		QPushButton *dumpmemb;
+private:
+    QLabel *registercontents[9]; //AX,BX,CX,DX,SP,BP,SI,DI,IP
+    QLabel *flagcontents[4];     //equal,above,below,intenabled
+    QLabel *memcontents[4];
+    Q3MultiLineEdit *execlines;
+    QPushButton *dumpmemb;
 
-		int *debuglines;
-		int *debugmem;
-		Q3MultiLineEdit *maineditor;
+    int *debuglines;
+    int *debugmem;
+    Q3MultiLineEdit *maineditor;
 
-	signals:
-		void dumpmem( );
+signals:
+    void dumpmem();
 
 };
 

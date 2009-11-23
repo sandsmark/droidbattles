@@ -48,70 +48,70 @@ class quickconf;
 
 class createbot : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		createbot( );
-		~createbot( );
-		void closeEvent( QCloseEvent *e );
-		void error( char *string, int line );
-		void addint( QString & str,int integ );
-		int devnum( int sort,int num );
+    createbot();
+    ~createbot();
+    void closeEvent (QCloseEvent *e);
+    void error (char *string, int line);
+    void addint (QString & str,int integ);
+    int devnum (int sort,int num);
 
-	private slots:
+private slots:
 
-		void assemble( );
-		void newb( );
-		void open( );
-		void save( );
-		void saveas( );
-		void closec( );
-		void cut( );
-		void copy( );
-		void paste( );
-		void choosepic( );
-		void startquick( );
-		void confquick( );
-		void stopconf( );
-		void checkconf( );
-		void devchanged( );
-		void scrollview( int );
-		void resizeEvent( QResizeEvent *e );
-		void setEdittxtScrollValue( int i );
-		void setShowlatencyScrollValue( int i );
+    void assemble();
+    void newb();
+    void open();
+    void save();
+    void saveas();
+    void closec();
+    void cut();
+    void copy();
+    void paste();
+    void choosepic();
+    void startquick();
+    void confquick();
+    void stopconf();
+    void checkconf();
+    void devchanged();
+    void scrollview (int);
+    void resizeEvent (QResizeEvent *e);
+    void setEdittxtScrollValue (int i);
+    void setShowlatencyScrollValue (int i);
 
-	private:
+private:
 
-		unsigned int RAMAMOUNT;
-		QMessageBox *ermsg;
-		unsigned char *mem;
-		myQMultiLineEdit *edittxt;
-		Q3ScrollView *scroller;
-		myQMultiLineEdit *showlatency;
-		devchoice* devices[32];
-		Q3PopupMenu *File;
-		Q3PopupMenu *Edit;
-		Q3PopupMenu *Assemble;
-		Q3PopupMenu *Config;
-		Q3PopupMenu *tests;
-		QMenuBar *menb;
-		QComboBox *amountRAM;
-		Q3ScrollView *scrvw;
-		QWidget *boxarea;
-		QString botname;
-		char *dirname;
-		QPushButton *gfxbutton;
-		QPixmap gfx;
+    unsigned int RAMAMOUNT;
+    QMessageBox *ermsg;
+    unsigned char *mem;
+    myQMultiLineEdit *edittxt;
+    Q3ScrollView *scroller;
+    myQMultiLineEdit *showlatency;
+    devchoice* devices[32];
+    Q3PopupMenu *File;
+    Q3PopupMenu *Edit;
+    Q3PopupMenu *Assemble;
+    Q3PopupMenu *Config;
+    Q3PopupMenu *tests;
+    QMenuBar *menb;
+    QComboBox *amountRAM;
+    Q3ScrollView *scrvw;
+    QWidget *boxarea;
+    QString botname;
+    char *dirname;
+    QPushButton *gfxbutton;
+    QPixmap gfx;
 //		QPixmap *backpm;
-		battlearea *batt;
-		quickconf *qc;
-		confstruct curconfig;
-		bool changed;
-		int instrlatency[256];
-		int debuglines[4096];
-		int debugmem[4096];
-		int debugentry;
+    battlearea *batt;
+    quickconf *qc;
+    confstruct curconfig;
+    bool changed;
+    int instrlatency[256];
+    int debuglines[4096];
+    int debugmem[4096];
+    int debugentry;
 };
 #include "devchoice.h"
 

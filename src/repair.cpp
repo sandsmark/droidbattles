@@ -17,40 +17,40 @@
 
 #include "repair.h"
 
-repair::repair( screenobject &object , int arg1 )
+repair::repair (screenobject &object , int arg1)
 {
-	ourlevel = arg1;
-	ourbot = &object;
-	repaircycles = ourlevel;
+    ourlevel = arg1;
+    ourbot = &object;
+    repaircycles = ourlevel;
 }
 
-repair::~repair( )
+repair::~repair()
 {
 }
 
-	/**
-		* Check if one repair should be done
-		*/
-void repair::execute( )
+/**
+	* Check if one repair should be done
+	*/
+void repair::execute()
 {
-	if( --repaircycles <= 0 )
-	{
-		repaircycles = ourlevel;
-		int count;
-		for( count=0;count < 32;count++ )
-		{
-			if( (ourbot->iodevtodev( count,2,0 ) == 99) &&
-				  (ourbot->iodevtodev( count,3,0 ) > 0) )
-			{
-				ourbot->iodevtodev( count,4,-1 );  //Repair one damage
-				break;
-			}
-		}
-		return;
-	}		
+    if (--repaircycles <= 0)
+    {
+        repaircycles = ourlevel;
+        int count;
+        for (count=0; count < 32; count++)
+        {
+            if ( (ourbot->iodevtodev (count,2,0) == 99) &&
+                    (ourbot->iodevtodev (count,3,0) > 0))
+            {
+                ourbot->iodevtodev (count,4,-1);   //Repair one damage
+                break;
+            }
+        }
+        return;
+    }
 }
 
-int repair::getfromport( unsigned char port )
+int repair::getfromport (unsigned char port)
 {
-	return 0;
+    return 0;
 }

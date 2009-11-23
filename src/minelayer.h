@@ -28,16 +28,16 @@
 class minelayer : public device
 {
 
-	public:
+public:
 
-		minelayer( screenobject &, int );
-		~minelayer( );
-		int getfromport( );
-		void execute( );
+    minelayer (screenobject &, int);
+    ~minelayer();
+    int getfromport();
+    void execute();
 
-	private:
+private:
 
-		int minesleft;
+    int minesleft;
 };
 
 #endif

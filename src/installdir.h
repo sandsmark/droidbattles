@@ -22,6 +22,6 @@
 #include <qfile.h>
 #include <q3textstream.h>
 
-	QString returninstalldir( );
+QString returninstalldir();
 
 #endif

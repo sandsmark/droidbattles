@@ -26,16 +26,16 @@
 
 class startdeathbatt : public startsurvbatt
 {
-	Q_OBJECT
-	public:
-		startdeathbatt( );
-		~startdeathbatt( );
+    Q_OBJECT
+public:
+    startdeathbatt();
+    ~startdeathbatt();
 
-	protected:
-		void loadfilesettings( );
+protected:
+    void loadfilesettings();
 
-	private slots:
-		void ocl( );
+private slots:
+    void ocl();
 };
 
 #endif

@@ -28,16 +28,16 @@
 class engine : public device
 {
 
-	public:
+public:
 
-		~engine( );
-		engine( screenobject &object,int );
-		int getfromport( unsigned char port );
-		void execute( );
+    ~engine();
+    engine (screenobject &object,int);
+    int getfromport (unsigned char port);
+    void execute();
 
-	private:
+private:
 
-		int thrust;
+    int thrust;
 
 };
 

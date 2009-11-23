@@ -19,251 +19,251 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-screenobject::screenobject( )
+screenobject::screenobject()
 {
-	Xpos = -100000;
-	Xpos = -100000;
-	noncollid = 256;
-	heatval = 0;
+    Xpos = -100000;
+    Xpos = -100000;
+    noncollid = 256;
+    heatval = 0;
 }
 
-screenobject::~screenobject( )
-{
-}
-
-void screenobject::showobject( QWidget *buffer, int opt )
+screenobject::~screenobject()
 {
 }
 
-void screenobject::eraseobject( QWidget *buffer )
+void screenobject::showobject (QWidget *buffer, int opt)
 {
 }
 
-int screenobject::changepos( double X,double Y )
-{
-	oldX = int( Xpos );
-	oldY = int( Ypos );
-	Xpos += X;                   //Update position
-	Ypos += Y;
-	if( Xpos < 0 )Xpos = 0;        //Check if we went over the borders of
-	if( Xpos > maxx )Xpos = maxx;  //The battlefield
-	if( Ypos < 0 )Ypos = 0;
-	if( Ypos > maxy )Ypos = maxy;
-	return 0;
-}
-
-void screenobject::changedir( int Z )
-{
-	direction += Z;
-	if( direction >= 1024 ) direction -= 1024;
-	if( direction < 0 ) direction += 1024;
-}
-
-void screenobject::changespeed( int Z )
-{
-	speed += Z;
-	if( speed < -75 )speed = -75;
-	if( speed > 100 )speed = 100;
-}
-
-const int screenobject::getXpos( )
-{
-	return int( Xpos );
-}
-
-const int screenobject::getYpos( )
-{
-	return int( Ypos );
-}
-
-const int screenobject::getdir( )
-{
-	return direction;
-}
-
-const int screenobject::getspeed( )
-{
-	return speed;
-}
-
-void screenobject::setspeed( int x )
-{
-	speed = x;
-}
-
-int screenobject::execute( )
-{
-	return 0;
-}
-
-int screenobject::getdevport( unsigned char port )
-{
-	return 0;
-}
-
-const int screenobject::getnum( )
-{
-	return mynum;
-}
-
-void screenobject::putdevport( unsigned char port,unsigned short value )
+void screenobject::eraseobject (QWidget *buffer)
 {
 }
 
-int screenobject::objhit( int type,int strength )
+int screenobject::changepos (double X,double Y)
 {
-	return 0;
+    oldX = int (Xpos);
+    oldY = int (Ypos);
+    Xpos += X;                   //Update position
+    Ypos += Y;
+    if (Xpos < 0) Xpos = 0;        //Check if we went over the borders of
+    if (Xpos > maxx) Xpos = maxx;   //The battlefield
+    if (Ypos < 0) Ypos = 0;
+    if (Ypos > maxy) Ypos = maxy;
+    return 0;
 }
 
-void screenobject::addscrobject( int X,int Y,int dir,int type, int arg1,
-																 int arg2,void *arg3 )
+void screenobject::changedir (int Z)
 {
+    direction += Z;
+    if (direction >= 1024) direction -= 1024;
+    if (direction < 0) direction += 1024;
 }
 
-int screenobject::returntype( )
+void screenobject::changespeed (int Z)
 {
-	return 0;
+    speed += Z;
+    if (speed < -75) speed = -75;
+    if (speed > 100) speed = 100;
 }
 
-int screenobject::iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 )
+const int screenobject::getXpos()
 {
-	return 0;
+    return int (Xpos);
 }
 
-int screenobject::iodevtodev( int dev,int action,int value )
+const int screenobject::getYpos()
 {
- return 0;
+    return int (Ypos);
 }
 
-int screenobject::getsize( )
+const int screenobject::getdir()
 {
-	return 1;
+    return direction;
 }
 
-int screenobject::getcollisiontype( )
+const int screenobject::getspeed()
 {
-	return 0;
+    return speed;
 }
 
-int screenobject::getcollisionstrength( )
+void screenobject::setspeed (int x)
 {
-	return 0;
+    speed = x;
 }
 
-const char* screenobject::getdebug1( )
+int screenobject::execute()
 {
-	return 0;
+    return 0;
 }
 
-const char* screenobject::getdebug2( )
+int screenobject::getdevport (unsigned char port)
 {
-	return 0;
+    return 0;
 }
 
-void screenobject::setdebug1( int msg )
+const int screenobject::getnum()
 {
+    return mynum;
 }
 
-void screenobject::setdebug2( int msg )
-{
-}
-
-void screenobject::setextragfx( bool x )
-{
-	showextragfx = x;
-}
-
-void screenobject::setfuel( int x )
-{
-	fuelval += x;
-}
-
-int screenobject::getfuel( )
-{
-	return fuelval;
-}
-
-int screenobject::getarmor( )
-{
-	return armorval;
-}
-
-void screenobject::changeheat( int x )
-{
-	heatval += x;
-	if( heatval < 0 )heatval = 0;
-}
-
-int screenobject::getheat( )
-{
-	return heatval;
-}
-
-void screenobject::setheat( int x )
-{
-	heatval = x;
-}
-
-int screenobject::getteam( )
-{
-	return team;
-}
-
-void screenobject::receiveradio( int sig )
+void screenobject::putdevport (unsigned char port,unsigned short value)
 {
 }
 
-int screenobject::getmem( )
+int screenobject::objhit (int type,int strength)
 {
-	return 0;
+    return 0;
 }
 
-void screenobject::addinterrupt( int inter )
-{
-}
-
-struct debugcontents screenobject::returndbgcont( )
+void screenobject::addscrobject (int X,int Y,int dir,int type, int arg1,
+                                 int arg2,void *arg3)
 {
 }
 
-bool screenobject::areaexplosionaffects( )
+int screenobject::returntype()
 {
-	return true;
+    return 0;
 }
 
-int screenobject::returnradar( )
+int screenobject::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 {
-	return 0;
+    return 0;
 }
 
-int screenobject::getcollid( )
+int screenobject::iodevtodev (int dev,int action,int value)
 {
-	return noncollid;
+    return 0;
 }
 
-void screenobject::sendmsg( char *msg )
+int screenobject::getsize()
 {
-	if( useUI )emit messagechanged( msg );
+    return 1;
 }
 
-void screenobject::objscanned( int intensity,int dir )
+int screenobject::getcollisiontype()
+{
+    return 0;
+}
+
+int screenobject::getcollisionstrength()
+{
+    return 0;
+}
+
+const char* screenobject::getdebug1()
+{
+    return 0;
+}
+
+const char* screenobject::getdebug2()
+{
+    return 0;
+}
+
+void screenobject::setdebug1 (int msg)
 {
 }
 
-int screenobject::getowner( )
-{
-	return myowner;
-}
-
-QPixmap & screenobject::getgfx( )
-{
-	return *graphics;
-}
-
-void screenobject::setradar( int x )
+void screenobject::setdebug2 (int msg)
 {
 }
 
-void screenobject::dumpRAM( )
+void screenobject::setextragfx (bool x)
+{
+    showextragfx = x;
+}
+
+void screenobject::setfuel (int x)
+{
+    fuelval += x;
+}
+
+int screenobject::getfuel()
+{
+    return fuelval;
+}
+
+int screenobject::getarmor()
+{
+    return armorval;
+}
+
+void screenobject::changeheat (int x)
+{
+    heatval += x;
+    if (heatval < 0) heatval = 0;
+}
+
+int screenobject::getheat()
+{
+    return heatval;
+}
+
+void screenobject::setheat (int x)
+{
+    heatval = x;
+}
+
+int screenobject::getteam()
+{
+    return team;
+}
+
+void screenobject::receiveradio (int sig)
+{
+}
+
+int screenobject::getmem()
+{
+    return 0;
+}
+
+void screenobject::addinterrupt (int inter)
+{
+}
+
+struct debugcontents screenobject::returndbgcont()
+{
+}
+
+bool screenobject::areaexplosionaffects()
+{
+    return true;
+}
+
+int screenobject::returnradar()
+{
+    return 0;
+}
+
+int screenobject::getcollid()
+{
+    return noncollid;
+}
+
+void screenobject::sendmsg (char *msg)
+{
+    if (useUI) emit messagechanged (msg);
+}
+
+void screenobject::objscanned (int intensity,int dir)
+{
+}
+
+int screenobject::getowner()
+{
+    return myowner;
+}
+
+QPixmap & screenobject::getgfx()
+{
+    return *graphics;
+}
+
+void screenobject::setradar (int x)
+{
+}
+
+void screenobject::dumpRAM()
 {
 }

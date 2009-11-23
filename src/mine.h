@@ -31,23 +31,23 @@
 class mine : public screenobject
 {
 
-	public:
+public:
 
-		mine( int ,int,textmodeBattleArea &,int owner, bool ui = true );
-		~mine( );
-		int returntype( );
-		int execute( );
-		int getcollisiontype( );
-		int getcollisionstrength( );
-		int objhit( int,int );
-		void showobject( QWidget *buffer, int );
-		void eraseobject( QWidget *buffer );
-		int returnradar( );
+    mine (int ,int,textmodeBattleArea &,int owner, bool ui = true);
+    ~mine();
+    int returntype();
+    int execute();
+    int getcollisiontype();
+    int getcollisionstrength();
+    int objhit (int,int);
+    void showobject (QWidget *buffer, int);
+    void eraseobject (QWidget *buffer);
+    int returnradar();
 
-	private:
+private:
 
-		int time1;
-		textmodeBattleArea *ourarea;
+    int time1;
+    textmodeBattleArea *ourarea;
 
 };
 

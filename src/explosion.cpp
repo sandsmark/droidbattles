@@ -17,59 +17,59 @@
 
 #include "explosion.h"
 
-	/**
-		* Init position
-		*/
-explosion::explosion( int X, int Y, battlearea &area )
+/**
+	* Init position
+	*/
+explosion::explosion (int X, int Y, battlearea &area)
 {
-	ourarea = &area;
-	maxx = ourarea->getareainfo( 0 );
-	maxy = ourarea->getareainfo( 1 );
-	Xpos = X>>6;
-	Ypos = Y>>6;
-	cycle = 1;
+    ourarea = &area;
+    maxx = ourarea->getareainfo (0);
+    maxy = ourarea->getareainfo (1);
+    Xpos = X>>6;
+    Ypos = Y>>6;
+    cycle = 1;
 }
 
-explosion::~explosion( )
+explosion::~explosion()
 {
 }
 
-	/**
-		* Explosion timecounter, life 32 cycles
-		*/
-int explosion::execute( )
+/**
+	* Explosion timecounter, life 32 cycles
+	*/
+int explosion::execute()
 {
-	if( ++cycle > 32 ) return destroyself;
-	return 0;
+    if (++cycle > 32) return destroyself;
+    return 0;
 }
 
-	/**
-		* Paints the circle on the screen, with size affected by
-		* the counter
-		*/
-void explosion::showobject( QWidget *buffer,int opt=0 )
+/**
+	* Paints the circle on the screen, with size affected by
+	* the counter
+	*/
+void explosion::showobject (QWidget *buffer,int opt=0)
 {
-	QPainter p( buffer );
-	p.setPen( QColor( 255,255,0 ) );
-	p.drawEllipse( Xpos-(cycle/2),Ypos-(cycle/2),cycle,cycle );
-	oldX = int( Xpos-(cycle/2) );
-	oldY = int( Ypos-(cycle/2) );
+    QPainter p (buffer);
+    p.setPen (QColor (255,255,0));
+    p.drawEllipse (Xpos- (cycle/2),Ypos- (cycle/2),cycle,cycle);
+    oldX = int (Xpos- (cycle/2));
+    oldY = int (Ypos- (cycle/2));
 }
 
-	/**
-		* Paints a black circle where the yellow was painted before
-		*/
-void explosion::eraseobject( QWidget *buffer )
+/**
+	* Paints a black circle where the yellow was painted before
+	*/
+void explosion::eraseobject (QWidget *buffer)
 {
-	QPainter p( buffer );
-	p.setPen( QColor( 0,0,0 ) );
-	p.drawEllipse( oldX,oldY,(cycle),(cycle) );
+    QPainter p (buffer);
+    p.setPen (QColor (0,0,0));
+    p.drawEllipse (oldX,oldY, (cycle), (cycle));
 }
 
-	/**
-		* Returns : object that's not collidable
-		*/
-int explosion::returntype( )
+/**
+	* Returns : object that's not collidable
+	*/
+int explosion::returntype()
 {
-	return noncollobject;
+    return noncollobject;
 }

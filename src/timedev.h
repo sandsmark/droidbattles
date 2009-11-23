@@ -28,16 +28,16 @@
 class timedev : public device
 {
 
-	public:
-		timedev( screenobject & );
-		~timedev( );
-		void execute( );
-		int getfromport( int port );
+public:
+    timedev (screenobject &);
+    ~timedev();
+    void execute();
+    int getfromport (int port);
 
-	private:
-		int timecount;
-		bool interruptenabled;
-		int interrupttime;
+private:
+    int timecount;
+    bool interruptenabled;
+    int interrupttime;
 };
 
 #endif

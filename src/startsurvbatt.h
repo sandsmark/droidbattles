@@ -27,16 +27,16 @@
 
 class startsurvbatt : public startsbatt
 {
-	Q_OBJECT
-	public:
-		startsurvbatt( );
-		~startsurvbatt( );
-	private slots:
-		virtual void ocl( );
-		//numfights is numlives
-		//ifteams is iffast
-	protected:
-		virtual void loadfilesettings( );
+    Q_OBJECT
+public:
+    startsurvbatt();
+    ~startsurvbatt();
+private slots:
+    virtual void ocl();
+    //numfights is numlives
+    //ifteams is iffast
+protected:
+    virtual void loadfilesettings();
 };
 
 #endif

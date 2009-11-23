@@ -28,25 +28,25 @@
 class beam : public screenobject
 {
 
-	public:
-		beam( int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true );
-		~beam( );
-		int execute( );
-		void eraseobject( QWidget *buffer );
-		void showobject( QWidget *buffer,int opt=0 );
-		int objhit( int type, int strength );
-		int returntype( );
-		int getcollisionstrength( );
-		int getcollisiontype( );
-	private:
-		int length;
-		int lastpaintX;
-		int lastpaintY;
-		int effect;
-		bool ispainted;
-		textmodeBattleArea *ourarea;
-		int uX;
-		int uY;
+public:
+    beam (int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true);
+    ~beam();
+    int execute();
+    void eraseobject (QWidget *buffer);
+    void showobject (QWidget *buffer,int opt=0);
+    int objhit (int type, int strength);
+    int returntype();
+    int getcollisionstrength();
+    int getcollisiontype();
+private:
+    int length;
+    int lastpaintX;
+    int lastpaintY;
+    int effect;
+    bool ispainted;
+    textmodeBattleArea *ourarea;
+    int uX;
+    int uY;
 };
 
 #endif

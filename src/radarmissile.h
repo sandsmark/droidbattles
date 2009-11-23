@@ -35,31 +35,31 @@
 class radarmissile : public screenobject
 {
 
-	public:
+public:
 
-		radarmissile( int,int,int,int,int,int,textmodeBattleArea &,RAM *,int owner, bool ui=true );
-		~radarmissile( );
-		int execute( );
-		void eraseobject( QWidget *buffer );
-		void showobject( QWidget *buffer, int opt = 0 );
-		int returntype( );
-		int getcollisiontype( );
-		int getcollisionstrength( );
-		int changepos( double X,double Y );
-		int objhit( int type,int strength );
-		int getsize( );
-		int getdevport( unsigned char port );
-		void putdevport( unsigned char port,unsigned short value );
-		int iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 );
-		int returnradar( );
-    void createDbgWindow(int, Q3MultiLineEdit*, int*, int*);
+    radarmissile (int,int,int,int,int,int,textmodeBattleArea &,RAM *,int owner, bool ui=true);
+    ~radarmissile();
+    int execute();
+    void eraseobject (QWidget *buffer);
+    void showobject (QWidget *buffer, int opt = 0);
+    int returntype();
+    int getcollisiontype();
+    int getcollisionstrength();
+    int changepos (double X,double Y);
+    int objhit (int type,int strength);
+    int getsize();
+    int getdevport (unsigned char port);
+    void putdevport (unsigned char port,unsigned short value);
+    int iodevtobatt (int bot,int dev,int choice,int arg1,int arg2);
+    int returnradar();
+    void createDbgWindow (int, Q3MultiLineEdit*, int*, int*);
 
-	private:
+private:
 
-		textmodeBattleArea *ourarea;
-		int strength;
-		RAM *ramdevice;
-		device *devices[3];
+    textmodeBattleArea *ourarea;
+    int strength;
+    RAM *ramdevice;
+    device *devices[3];
     debugwindow* dbgWindow;
 };
 

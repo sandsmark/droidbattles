@@ -31,20 +31,20 @@
 class shield : public device
 {
 
-	public:
-		shield( screenobject &object,int arg1 );
-		~shield( );
-		int absorbhit( int strength,int ifint );
-		void execute( );
-		int getfromport( unsigned char port );
-		void showgfx( QWidget *buffer );
-		void erasegfx( QWidget *buffer );
-	private:
-		int ourlevel;
-		bool Isup;
-		int lastpaintX;
-		int lastpaintY;
-		bool ispainted;
+public:
+    shield (screenobject &object,int arg1);
+    ~shield();
+    int absorbhit (int strength,int ifint);
+    void execute();
+    int getfromport (unsigned char port);
+    void showgfx (QWidget *buffer);
+    void erasegfx (QWidget *buffer);
+private:
+    int ourlevel;
+    bool Isup;
+    int lastpaintX;
+    int lastpaintY;
+    bool ispainted;
 };
 
 #endif

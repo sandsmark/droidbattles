@@ -37,53 +37,53 @@
 class starttournament : public QWidget
 {
 
-Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		starttournament( );
-		~starttournament( );
-		int getnumofbots( );
-		const char* getbotfile( int bot );
-		void closeEvent( QCloseEvent *e );
-		int getnumfights( );
-		int getlength( );
-		int getxsize( );
-		int getysize( );
-		bool getiffast( );
-		int getseed( );
+    starttournament();
+    ~starttournament();
+    int getnumofbots();
+    const char* getbotfile (int bot);
+    void closeEvent (QCloseEvent *e);
+    int getnumfights();
+    int getlength();
+    int getxsize();
+    int getysize();
+    bool getiffast();
+    int getseed();
 
-	private slots:
+private slots:
 
-		void choosefile( );
-		void dechoosefile( );
-		virtual void ocl( );
-		void ccl( );
+    void choosefile();
+    void dechoosefile();
+    virtual void ocl();
+    void ccl();
 
-	signals:
+signals:
 
-		void okclicked( );
-		void cancelclicked( );
+    void okclicked();
+    void cancelclicked();
 
-	private:
+private:
 
-		int numofbots;
-		Q3ListBox *botfiles;
-		QLabel *tnumfights;
-		QLineEdit *wnumfights;
-		QLabel *lengthfight;
-		QLineEdit *length;
-		QIntValidator *numfix;
-		QPushButton *press[2];
-		QPushButton *readyb;
-		QPushButton *cancelb;
-		QLabel *maxxinfo;
-		QLabel *maxyinfo;
-		QSpinBox *maxx;
-		QSpinBox *maxy;
-		QLabel *seedinfo;
-		QLineEdit *seed;
-		QCheckBox *iffast;
+    int numofbots;
+    Q3ListBox *botfiles;
+    QLabel *tnumfights;
+    QLineEdit *wnumfights;
+    QLabel *lengthfight;
+    QLineEdit *length;
+    QIntValidator *numfix;
+    QPushButton *press[2];
+    QPushButton *readyb;
+    QPushButton *cancelb;
+    QLabel *maxxinfo;
+    QLabel *maxyinfo;
+    QSpinBox *maxx;
+    QSpinBox *maxy;
+    QLabel *seedinfo;
+    QLineEdit *seed;
+    QCheckBox *iffast;
 };
 
 #endif

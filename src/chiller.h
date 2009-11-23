@@ -26,13 +26,13 @@
 
 class chiller : public device
 {
-	public:
-		chiller( screenobject &object, int arg1 );
-		~chiller( );
-		void execute( );
-	private:
-		bool ison;
-		int heatdiss;
+public:
+    chiller (screenobject &object, int arg1);
+    ~chiller();
+    void execute();
+private:
+    bool ison;
+    int heatdiss;
 };
 
 #endif

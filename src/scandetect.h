@@ -29,17 +29,17 @@
 
 class scandetect : public device
 {
-	public:
-		scandetect( screenobject &object );
-		~scandetect( );
-		int getfromport( unsigned char port );
-		void execute( );
-		int returntype( );
-		void dospecial( int,int );
-	private:
-		int numscans;
-		int lastscanintensity;
-		int lastscandir;
+public:
+    scandetect (screenobject &object);
+    ~scandetect();
+    int getfromport (unsigned char port);
+    void execute();
+    int returntype();
+    void dospecial (int,int);
+private:
+    int numscans;
+    int lastscanintensity;
+    int lastscandir;
 };
 
 #endif

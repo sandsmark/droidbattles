@@ -27,12 +27,12 @@
 
 class startcup : public starttournament
 {
-	Q_OBJECT
-	public:
-		startcup( );
-		~startcup( );
-	private slots:
-		void ocl( );
+    Q_OBJECT
+public:
+    startcup();
+    ~startcup();
+private slots:
+    void ocl();
 
 };
 

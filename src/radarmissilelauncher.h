@@ -29,20 +29,20 @@
 class radarmissilelauncher : public device
 {
 
-	public:
+public:
 
-		radarmissilelauncher( screenobject &object, int level, RAM *memdevice,
-													int offset );
-		~radarmissilelauncher( );
-	 	int getfromport( unsigned char port );
-		void execute( );
+    radarmissilelauncher (screenobject &object, int level, RAM *memdevice,
+                          int offset);
+    ~radarmissilelauncher();
+    int getfromport (unsigned char port);
+    void execute();
 
-	private:
+private:
 
-		int reloadtime;
-		unsigned short bootmem;
-		unsigned short stackmem;
-		RAM *memd;
+    int reloadtime;
+    unsigned short bootmem;
+    unsigned short stackmem;
+    RAM *memd;
 
 };
 

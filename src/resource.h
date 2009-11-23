@@ -55,7 +55,7 @@
 
 
 ///////////////////////////////////////////////////////////////////
-// View-menu entries                    
+// View-menu entries
 #define ID_VIEW_TOOLBAR             12010
 #define ID_VIEW_STATUSBAR           12020
 

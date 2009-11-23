@@ -29,15 +29,15 @@
 class rocketlauncher : public device
 {
 
-	public:
+public:
 
-		rocketlauncher( screenobject &object,int level,int offset );
-		~rocketlauncher( );
-		void execute( );
-		int getfromport( unsigned char port );
-	private:
-		int readiness;
-		int distance;
+    rocketlauncher (screenobject &object,int level,int offset);
+    ~rocketlauncher();
+    void execute();
+    int getfromport (unsigned char port);
+private:
+    int readiness;
+    int distance;
 };
 
 #endif

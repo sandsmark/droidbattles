@@ -42,55 +42,55 @@
 class startsbatt : public QWidget
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		startsbatt();
-		~startsbatt();
-		int getnumofbots( );
-		char* getbotfile( int bot );
-		void closeEvent( QCloseEvent *e );
-		int getnumfights( );
-		int getlength( );
-		int getxsize( );
-		int getysize( );
-		bool getifteams( );
-		int getbotteam( int bot );
+    startsbatt();
+    ~startsbatt();
+    int getnumofbots();
+    char* getbotfile (int bot);
+    void closeEvent (QCloseEvent *e);
+    int getnumfights();
+    int getlength();
+    int getxsize();
+    int getysize();
+    bool getifteams();
+    int getbotteam (int bot);
 
-	private slots:
+private slots:
 
-		void choosefile( );
-		void dechoosefile( );
-		virtual void ocl( );
-		virtual void ccl( );
+    void choosefile();
+    void dechoosefile();
+    virtual void ocl();
+    virtual void ccl();
 
-	signals:
+signals:
 
-		virtual void okclicked( );
-		void cancelclicked( );
+    virtual void okclicked();
+    void cancelclicked();
 
-	protected:
+protected:
 
-		virtual void loadfilesettings( );
-		virtual void resizeEvent( QResizeEvent *e );
-		int numofbots;
-		QString botfiles[8];
-		QLabel *shownames[8];
-		QComboBox *team[8];
-		QLabel *tnumfights;
-		QLineEdit *wnumfights;
-		QLabel *lengthfight;
-		QLineEdit *length;
-		QIntValidator *numfix;
-		PixButton *press[2];
-		PixButton *readyb;
-		PixButton *cancelb;
-		QLabel *maxxinfo;
-		QLabel *maxyinfo;
-		QSpinBox *maxx;
-		QSpinBox *maxy;
-		QCheckBox *ifteams;
+    virtual void loadfilesettings();
+    virtual void resizeEvent (QResizeEvent *e);
+    int numofbots;
+    QString botfiles[8];
+    QLabel *shownames[8];
+    QComboBox *team[8];
+    QLabel *tnumfights;
+    QLineEdit *wnumfights;
+    QLabel *lengthfight;
+    QLineEdit *length;
+    QIntValidator *numfix;
+    PixButton *press[2];
+    PixButton *readyb;
+    PixButton *cancelb;
+    QLabel *maxxinfo;
+    QLabel *maxyinfo;
+    QSpinBox *maxx;
+    QSpinBox *maxy;
+    QCheckBox *ifteams;
 };
 
 #endif

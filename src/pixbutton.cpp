@@ -17,20 +17,20 @@
 
 #include "pixbutton.h"
 
-PixButton::PixButton( char *text,int pix,QWidget *parent,char *name )
- : QPushButton( parent,name )
+PixButton::PixButton (char *text,int pix,QWidget *parent,char *name)
+        : QPushButton (parent,name)
 {
-	whichpix = pix;
-	tex = text;
+    whichpix = pix;
+    tex = text;
 }
 
-PixButton::~PixButton( )
+PixButton::~PixButton()
 {
 }
 
-void PixButton::drawButtonLabel( QPainter *paint )
+void PixButton::drawButtonLabel (QPainter *paint)
 {
-	paint->drawPixmap(  2,2,Pixmapholder::getpm( whichpix ),
-											0,0,width( )-5,height( )-5 );
-	paint->drawText ( 2, 2, width( )-5, height( )-5, Qt::AlignCenter, tex, -1 );
+    paint->drawPixmap (2,2,Pixmapholder::getpm (whichpix),
+                       0,0,width()-5,height()-5);
+    paint->drawText (2, 2, width()-5, height()-5, Qt::AlignCenter, tex, -1);
 }

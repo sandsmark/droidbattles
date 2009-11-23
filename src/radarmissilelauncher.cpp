@@ -17,70 +17,70 @@
 
 #include "radarmissilelauncher.h"
 
-radarmissilelauncher::radarmissilelauncher( screenobject &object, int level,
-																					  RAM *memdevice, int offset )
+radarmissilelauncher::radarmissilelauncher (screenobject &object, int level,
+        RAM *memdevice, int offset)
 {
-	ourlevel = level;
-	memd = memdevice;
-	relang = offset*4;
-	int count,count2;
-	ourbot = &object;
-	reloadtime=1;
-	for( count=0;count<3;count++ )
-	{
-		for( count2=0;count2<4;count2++ )
-		{
-			stacktaken[count][count2]=false;
-			portstack[count][count2]=0;
-		}
-	}
+    ourlevel = level;
+    memd = memdevice;
+    relang = offset*4;
+    int count,count2;
+    ourbot = &object;
+    reloadtime=1;
+    for (count=0; count<3; count++)
+    {
+        for (count2=0; count2<4; count2++)
+        {
+            stacktaken[count][count2]=false;
+            portstack[count][count2]=0;
+        }
+    }
 }
 
-radarmissilelauncher::~radarmissilelauncher( )
+radarmissilelauncher::~radarmissilelauncher()
 {
 }
 
-	/**
-		* Commit port orders
-		*/
-void radarmissilelauncher::execute( )
+/**
+	* Commit port orders
+	*/
+void radarmissilelauncher::execute()
 {
-	if( reloadtime>0 )reloadtime--;
-	//Set boot mem
-	if( stacktaken[0][0] == true )
-	{
-		bootmem = portstack[0][0];
-		moveportstack( 0 );
-	}
-	//Set stack mem
-	if( stacktaken[1][0] == true )
-	{
-		stackmem = portstack[1][0];
-		moveportstack( 1 );
-	}
-	//Fire a missile
-	if( stacktaken[2][0] == true )
-	{
-		if( reloadtime <= 0 )
-		{
-			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
-				ourbot->getdir( )+relang,4,bootmem,stackmem,memd );
-			moveportstack( 2 );
-			reloadtime = ourlevel;
-		}
-	}
+    if (reloadtime>0) reloadtime--;
+    //Set boot mem
+    if (stacktaken[0][0] == true)
+    {
+        bootmem = portstack[0][0];
+        moveportstack (0);
+    }
+    //Set stack mem
+    if (stacktaken[1][0] == true)
+    {
+        stackmem = portstack[1][0];
+        moveportstack (1);
+    }
+    //Fire a missile
+    if (stacktaken[2][0] == true)
+    {
+        if (reloadtime <= 0)
+        {
+            ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
+                                  ourbot->getdir() +relang,4,bootmem,stackmem,memd);
+            moveportstack (2);
+            reloadtime = ourlevel;
+        }
+    }
 }
 
-	/**
-		* return reloadtime
-		*/
-int radarmissilelauncher::getfromport( unsigned char port )
+/**
+	* return reloadtime
+	*/
+int radarmissilelauncher::getfromport (unsigned char port)
 {
-	switch( port )
-	{
-		case 0 :
-			return reloadtime;
-		break;
-	}
-	return 0;	
+    switch (port)
+    {
+    case 0 :
+        return reloadtime;
+        break;
+    }
+    return 0;
 }

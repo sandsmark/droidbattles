@@ -27,9 +27,11 @@
 //TODO : add syntax highlighting
 class myQMultiLineEdit : public Q3MultiLineEdit
 {
-	public:
-		myQMultiLineEdit( QWidget * parent=0 ) : Q3MultiLineEdit( parent ) {}
-		QScrollBar *myVerticalScrollBar () const { return verticalScrollBar( ); }
+public:
+    myQMultiLineEdit (QWidget * parent=0) : Q3MultiLineEdit (parent) {}
+    QScrollBar *myVerticalScrollBar () const {
+        return verticalScrollBar();
+    }
 };
 
 #endif

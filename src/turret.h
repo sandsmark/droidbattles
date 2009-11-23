@@ -27,18 +27,18 @@
 class turret : public device
 {
 
-	public:
+public:
 
-		turret( screenobject &,int,int );
-		~turret( );
-		int getfromport( unsigned char );
-		void execute( );
+    turret (screenobject &,int,int);
+    ~turret();
+    int getfromport (unsigned char);
+    void execute();
 
-	private:
+private:
 
-		int ourdev;
-		int wantedoffset;
-		int offset;
+    int ourdev;
+    int wantedoffset;
+    int offset;
 
 };
 

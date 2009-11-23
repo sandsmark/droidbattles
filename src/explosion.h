@@ -30,16 +30,16 @@
 class explosion : public screenobject
 {
 
-	public:
-		explosion( int X, int Y, battlearea &area );
-		~explosion( );
-		int execute( );
-		void eraseobject( QWidget *buffer );
-		void showobject( QWidget *buffer, int opt );
-		int returntype( );
-	private:
-		int cycle;
-		battlearea *ourarea;
+public:
+    explosion (int X, int Y, battlearea &area);
+    ~explosion();
+    int execute();
+    void eraseobject (QWidget *buffer);
+    void showobject (QWidget *buffer, int opt);
+    int returntype();
+private:
+    int cycle;
+    battlearea *ourarea;
 };
 
 #endif

@@ -28,14 +28,14 @@
 class beamer : public device
 {
 
-	public:
-		beamer( screenobject &,int arg1 );
-		~beamer( );
-		void execute( );
-		int getfromport( unsigned char port );
+public:
+    beamer (screenobject &,int arg1);
+    ~beamer();
+    void execute();
+    int getfromport (unsigned char port);
 
-	private:
-		int length;
+private:
+    int length;
 };
 
 #endif

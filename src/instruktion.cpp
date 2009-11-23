@@ -19,55 +19,55 @@
 
 //Contains info about one mnemonic/operand combination for the assembler
 
-instruktion::instruktion( char mnem[],int arg1t,int arg2t,int bit,int arg1b,
-													int arg2b,int op )
+instruktion::instruktion (char mnem[],int arg1t,int arg2t,int bit,int arg1b,
+                          int arg2b,int op)
 {
-	mnemonic = new char[strlen( mnem )+1];
-	for( int x=0;x<strlen( mnem )+1;x++ )
-		mnemonic[x] = mnem[x];
-	arg1type = arg1t;
-	arg2type = arg2t;
-	bits = bit;
-	arg1bits = arg1b;
-	arg2bits = arg2b;
-	opcode = op;
+    mnemonic = new char[strlen (mnem) +1];
+    for (int x=0; x<strlen (mnem) +1; x++)
+        mnemonic[x] = mnem[x];
+    arg1type = arg1t;
+    arg2type = arg2t;
+    bits = bit;
+    arg1bits = arg1b;
+    arg2bits = arg2b;
+    opcode = op;
 }
 
-instruktion::~instruktion( )
+instruktion::~instruktion()
 {
-	delete mnemonic;
+    delete mnemonic;
 }
 
-	/**
-		* Compares the mnemonic it has stored
-		* with the parameters
-		*/
-bool instruktion::checkmatch( QString &mnem, int arg1t, int arg2t, int bit )
+/**
+	* Compares the mnemonic it has stored
+	* with the parameters
+	*/
+bool instruktion::checkmatch (QString &mnem, int arg1t, int arg2t, int bit)
 {
-	if(mnem == mnemonic && arg1type == arg1t && arg2type ==
-			arg2t && ((bit == bits || bits == 0 ) || ( bit == 0 && bits == 16 ) ) )
-		return true;
-	else
-		return false;
+    if (mnem == mnemonic && arg1type == arg1t && arg2type ==
+            arg2t && ( (bit == bits || bits == 0) || (bit == 0 && bits == 16)))
+        return true;
+    else
+        return false;
 }
 
-	/**
-		* returns the objects opcode
-		*/
-unsigned char instruktion::getopcode( )
+/**
+	* returns the objects opcode
+	*/
+unsigned char instruktion::getopcode()
 {
-	return opcode;
+    return opcode;
 }
 
-	/**
-		* Returns the sizes of the operands
-		*/
+/**
+	* Returns the sizes of the operands
+	*/
 
-int instruktion::getarg1bits( )
+int instruktion::getarg1bits()
 {
-	return arg1bits;
+    return arg1bits;
 }
-int instruktion::getarg2bits( )
+int instruktion::getarg2bits()
 {
-	return arg2bits;
+    return arg2bits;
 }

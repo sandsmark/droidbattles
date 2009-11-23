@@ -55,44 +55,44 @@
 class battlearea : public QWidget, public textmodeBattleArea
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+public:
 
-		battlearea( char *name1,char *name2,char *name3,char *name4,char *name5,
-								char *name6,char *name7,char *name8,int numf,int ,int xs,
-								int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
-								int mode = 0, int maxp=10,bool ifdebug=false,
-								Q3MultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0 );
-		~battlearea( );
-		void closeEvent( QCloseEvent *e );
-		void addscrobject(  int owner,int X,int Y,int dir,int type,int arg1=0,
-												int arg2=0, void *arg3=0 );
-		//int devio( int bot,int dev,int choice,int arg1,int arg2 );
-		void startonebattle( int );
-		//int	getareainfo( int );
-		void explosions( int x,int y, int rad, int strength, int whichobject );
-		//int getstartx( int );
-		//int getstarty( int );
+    battlearea (char *name1,char *name2,char *name3,char *name4,char *name5,
+                char *name6,char *name7,char *name8,int numf,int ,int xs,
+                int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
+                int mode = 0, int maxp=10,bool ifdebug=false,
+                Q3MultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
+    ~battlearea();
+    void closeEvent (QCloseEvent *e);
+    void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
+                       int arg2=0, void *arg3=0);
+    //int devio( int bot,int dev,int choice,int arg1,int arg2 );
+    void startonebattle (int);
+    //int	getareainfo( int );
+    void explosions (int x,int y, int rad, int strength, int whichobject);
+    //int getstartx( int );
+    //int getstarty( int );
 
-	private slots:
+private slots:
 
-		void execute( );
-		void play( );
-		void pause( );
-		void singlestep( );
-		void dmem( );
+    void execute();
+    void play();
+    void pause();
+    void singlestep();
+    void dmem();
 
-	signals:
+signals:
 
-		void battledone( int,int );
+    void battledone (int,int);
 
-	protected:
-		void resizeEvent ( QResizeEvent * );
+protected:
+    void resizeEvent (QResizeEvent *);
 
-	private:
+private:
 
-		std::list<debugwindow*> dbgwindows;
+    std::list<debugwindow*> dbgwindows;
     Q3MultiLineEdit *_dbedit;
     int *_dbl;
     int *_dbm;
@@ -100,52 +100,52 @@ class battlearea : public QWidget, public textmodeBattleArea
     int missilesLaunched;
 
 //		screenobject *objects[256];
-		QWidget *mydrw;
-		Q3ScrollView *scrolling;
-		QWidget *infowindow;
-		QTimer *eventH;
-		QLabel *debug1;
-		QLabel *debug2;
-		QMessageBox *ermsg;
+    QWidget *mydrw;
+    Q3ScrollView *scrolling;
+    QWidget *infowindow;
+    QTimer *eventH;
+    QLabel *debug1;
+    QLabel *debug2;
+    QMessageBox *ermsg;
 
-		PixButton *playb;
-		PixButton *pauseb;
-		PixButton *singles;
+    PixButton *playb;
+    PixButton *pauseb;
+    PixButton *singles;
 
-		debugwindow *dbgwindow;
-		QPixmap *dumm;
+    debugwindow *dbgwindow;
+    QPixmap *dumm;
 
-		int updatescreen;
-		botinfo *binfo[8];
-/*		QString names[8];
-		//QPixmap *backpm;
-		int numfights;
-		int fightswon[8];
-		int fightsfought;
-		confstruct config;
-		int roundsrun;
-		int maxrounds;
-		int xsize;
-		int ysize;
-		bool isteams;
-		bool checkwin;
-		int botteams[8];
-		int alive[4];
-		bool ifdelete;
-		int radiosignals[4][8];
-		bool radsigexist[4][8];
-		bool hideresmsg;		
-		bool iffast;
-		int xstarts[8];
-		int ystarts[8];
-		bool debugenabled;
-		int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
-		int runmode; //0 - not running, 1 - running
-		int maxpoints;*/
-		// the following flag is true in single step mode
-		// and will be used by robCPU::execinstr()
+    int updatescreen;
+    botinfo *binfo[8];
+    /*		QString names[8];
+    		//QPixmap *backpm;
+    		int numfights;
+    		int fightswon[8];
+    		int fightsfought;
+    		confstruct config;
+    		int roundsrun;
+    		int maxrounds;
+    		int xsize;
+    		int ysize;
+    		bool isteams;
+    		bool checkwin;
+    		int botteams[8];
+    		int alive[4];
+    		bool ifdelete;
+    		int radiosignals[4][8];
+    		bool radsigexist[4][8];
+    		bool hideresmsg;
+    		bool iffast;
+    		int xstarts[8];
+    		int ystarts[8];
+    		bool debugenabled;
+    		int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
+    		int runmode; //0 - not running, 1 - running
+    		int maxpoints;*/
+    // the following flag is true in single step mode
+    // and will be used by robCPU::execinstr()
 };
-		extern bool SingleStepMode;
+extern bool SingleStepMode;
 
 //#include "robots.h"
 //#include "mine.h"

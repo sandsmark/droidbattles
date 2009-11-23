@@ -28,34 +28,34 @@
 class device
 {
 
-	public:
+public:
 
-		device( );
-		virtual ~device( );
-		device( screenobject &object );
-		void addinport( unsigned char port,unsigned short value );
-		void setrelang( int );
-		virtual void execute( );
-		virtual int getfromport( unsigned char port );
-		virtual int absorbhit( int str,int ifint );
-    virtual void erasegfx( QWidget *buffer );
-		virtual void showgfx( QWidget *buffer );
-		virtual int returntype( );
-		virtual int returnspecial( );
-		virtual struct debugcontents returndbg( );
-		virtual void dospecial( int, int=0 );
-	protected:
+    device();
+    virtual ~device();
+    device (screenobject &object);
+    void addinport (unsigned char port,unsigned short value);
+    void setrelang (int);
+    virtual void execute();
+    virtual int getfromport (unsigned char port);
+    virtual int absorbhit (int str,int ifint);
+    virtual void erasegfx (QWidget *buffer);
+    virtual void showgfx (QWidget *buffer);
+    virtual int returntype();
+    virtual int returnspecial();
+    virtual struct debugcontents returndbg();
+    virtual void dospecial (int, int=0);
+protected:
 
-		void moveportstack( int port );
+    void moveportstack (int port);
 
-		int portstack[4][4];
-		bool stacktaken[4][4];
-		screenobject *ourbot;
-		int relang;
-		int ourlevel;
-		bool intenabled;
-		bool intenabled2;
-		
+    int portstack[4][4];
+    bool stacktaken[4][4];
+    screenobject *ourbot;
+    int relang;
+    int ourlevel;
+    bool intenabled;
+    bool intenabled2;
+
 };
 
 

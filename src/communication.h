@@ -29,17 +29,17 @@
 class communication : public device
 {
 
-	public:
-		communication( screenobject &object );
-		~communication( );
-		int getfromport( unsigned char port );
-		void execute( );
-		void dospecial( int x,int y );
+public:
+    communication (screenobject &object);
+    ~communication();
+    int getfromport (unsigned char port);
+    void execute();
+    void dospecial (int x,int y);
 
-	private:
-		int msglist[32];
-		int nummsg;
-		int receiver;
+private:
+    int msglist[32];
+    int nummsg;
+    int receiver;
 };
 
 #endif

@@ -32,14 +32,14 @@
 
 class PixButton : public QPushButton
 {
-	public:
-		PixButton( char *text,int pix,QWidget *parent,char *name=0 );
-		~PixButton( );
-	protected:
-		void drawButtonLabel( QPainter *paint );
-	private:
-		QString tex;
-		int whichpix;
+public:
+    PixButton (char *text,int pix,QWidget *parent,char *name=0);
+    ~PixButton();
+protected:
+    void drawButtonLabel (QPainter *paint);
+private:
+    QString tex;
+    int whichpix;
 };
 
 #endif

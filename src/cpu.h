@@ -33,34 +33,34 @@
   */
 class CPU : public device
 {
-	public:
+public:
 
-		CPU( );
-		CPU( RAM &ramdev,screenobject &object );
-		virtual ~CPU( );
-		virtual void callobout( unsigned char one, unsigned short two );
-		virtual int callobin( unsigned char one );
-		virtual void sendmsg( char *msg );
-		virtual int writefile( int start,int length,int adress );
-		virtual int readfile( int start,int length,int adress );
-		virtual void execinstr( );
-		virtual int getfromport( unsigned char port );
+    CPU();
+    CPU (RAM &ramdev,screenobject &object);
+    virtual ~CPU();
+    virtual void callobout (unsigned char one, unsigned short two);
+    virtual int callobin (unsigned char one);
+    virtual void sendmsg (char *msg);
+    virtual int writefile (int start,int length,int adress);
+    virtual int readfile (int start,int length,int adress);
+    virtual void execinstr();
+    virtual int getfromport (unsigned char port);
 
-	protected:
+protected:
 
-		RAM *mem;
-		unsigned short *registers;
-		unsigned char *bit8reg;
-		signed short *iregisters;
-		signed char *ibit8reg;
-		int speed;
-		char cyclesleft;
-		int bootmem;
-		unsigned short stackmem;
-		//Table over latencies for different opcodes
-	  char instrlatency[256];
-		//List of adresses executed last cycle
-		int lastexecmem[30];
+    RAM *mem;
+    unsigned short *registers;
+    unsigned char *bit8reg;
+    signed short *iregisters;
+    signed char *ibit8reg;
+    int speed;
+    char cyclesleft;
+    int bootmem;
+    unsigned short stackmem;
+    //Table over latencies for different opcodes
+    char instrlatency[256];
+    //List of adresses executed last cycle
+    int lastexecmem[30];
 };
 
 #endif

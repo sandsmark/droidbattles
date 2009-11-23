@@ -24,24 +24,24 @@
 struct debugcontents
 {
 
-	unsigned short flags;
+    unsigned short flags;
 
-	unsigned short ax;
-	unsigned short bx;
-	unsigned short cx;
-	unsigned short dx;
-	unsigned short sp;
-	unsigned short si;
-	unsigned short di;
-	unsigned short bp;
-	unsigned short ip;
+    unsigned short ax;
+    unsigned short bx;
+    unsigned short cx;
+    unsigned short dx;
+    unsigned short sp;
+    unsigned short si;
+    unsigned short di;
+    unsigned short bp;
+    unsigned short ip;
 
-	unsigned char ipcontents[9];
-	unsigned char spcontents[9];
-	unsigned char sicontents[9];
-	unsigned char dicontents[9];
+    unsigned char ipcontents[9];
+    unsigned char spcontents[9];
+    unsigned char sicontents[9];
+    unsigned char dicontents[9];
 
-	int execmem[30];
+    int execmem[30];
 
 };
 

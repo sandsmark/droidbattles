@@ -17,43 +17,43 @@
 
 #include "plasma.h"
 
-plasma::plasma( screenobject &object, int arg1, int offset )
+plasma::plasma (screenobject &object, int arg1, int offset)
 {
-	ourlevel = arg1;
-	ourbot = &object;
-	int count;
-	int count2;
-	readiness = 200;
-	relang = offset*4;
-	for( count=0;count<3;count++ )
-	{
-		for( count2=0;count2<4;count2++ )
-		{
-			stacktaken[count][count2]=false;
-			portstack[count][count2]=0;
-		}
-	}
+    ourlevel = arg1;
+    ourbot = &object;
+    int count;
+    int count2;
+    readiness = 200;
+    relang = offset*4;
+    for (count=0; count<3; count++)
+    {
+        for (count2=0; count2<4; count2++)
+        {
+            stacktaken[count][count2]=false;
+            portstack[count][count2]=0;
+        }
+    }
 }
 
-plasma::~plasma( )
+plasma::~plasma()
 {
 }
 
-	/**
-		* Increases readiness and checks if port orders it
-		* to shoot
-		*/
-void plasma::execute( )
+/**
+	* Increases readiness and checks if port orders it
+	* to shoot
+	*/
+void plasma::execute()
 {
-	if( readiness < 200 )
-		readiness += ourlevel;
-	if( stacktaken[0][0] == true && readiness > 0 )
-	{
-		moveportstack( 0 );
-		//Fire plasma missile code
-		ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
-													ourbot->getdir( )+relang,2,ourbot->getnum( ) );
-		ourbot->changeheat( 45 );
-		readiness -= 80;
-	}
+    if (readiness < 200)
+        readiness += ourlevel;
+    if (stacktaken[0][0] == true && readiness > 0)
+    {
+        moveportstack (0);
+        //Fire plasma missile code
+        ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
+                              ourbot->getdir() +relang,2,ourbot->getnum());
+        ourbot->changeheat (45);
+        readiness -= 80;
+    }
 }

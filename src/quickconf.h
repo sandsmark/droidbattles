@@ -28,19 +28,19 @@
 class quickconf : public startsbatt
 {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		quickconf( );
-		~quickconf( );
+public:
+    quickconf();
+    ~quickconf();
 
-	private slots:
+private slots:
 
-		void ocl( );
-    void ccl( );
+    void ocl();
+    void ccl();
 
-	signals:
-		void cancelclicked( );
+signals:
+    void cancelclicked();
 };
 
 #endif

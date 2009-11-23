@@ -34,12 +34,12 @@
 
 class textmodeFileManip
 {
-	public:
-		textmodeFileManip( );
-		~textmodeFileManip( );
-		static void assemble( char *filename );
-		static void checkConfig( char *filename );
-		static void loadConfig( char *filename );
+public:
+    textmodeFileManip();
+    ~textmodeFileManip();
+    static void assemble (char *filename);
+    static void checkConfig (char *filename);
+    static void loadConfig (char *filename);
 };
 
 #endif

@@ -28,33 +28,33 @@
 class RAM
 {
 
-	public:
+public:
 
-		RAM( );
-		RAM( int amount,unsigned char *buf );
-		~RAM( );
-		unsigned char getbyte( int adress );
-		char getibyte( int adress );
-		unsigned short getword( int adress );
-		short getiword( int adress );
-		void setbyte( int adress, unsigned char value );
-		void setibyte( int adress, char value );
-		void setword( int adress, unsigned short value );
-		void setiword( int adress, short value );
-		int returnsize( );
-		int getowners( );
-		void addowner( );
-		void removeowner( );
+    RAM();
+    RAM (int amount,unsigned char *buf);
+    ~RAM();
+    unsigned char getbyte (int adress);
+    char getibyte (int adress);
+    unsigned short getword (int adress);
+    short getiword (int adress);
+    void setbyte (int adress, unsigned char value);
+    void setibyte (int adress, char value);
+    void setword (int adress, unsigned short value);
+    void setiword (int adress, short value);
+    int returnsize();
+    int getowners();
+    void addowner();
+    void removeowner();
 
-	private:
+private:
 
-		unsigned char *mem;
-		unsigned char *ucret;
-		char *cret;
-		unsigned short *usret;
-		short *sret;
-		unsigned short RAMamount;
-		int numowners;
+    unsigned char *mem;
+    unsigned char *ucret;
+    char *cret;
+    unsigned short *usret;
+    short *sret;
+    unsigned short RAMamount;
+    int numowners;
 
 };
 

@@ -20,21 +20,21 @@
 #include <QCloseEvent>
 #include <QLabel>
 
-infobox::infobox( QString msg, QWidget *parent, const char *name )
- : QWidget( parent,name )
+infobox::infobox (QString msg, QWidget *parent, const char *name)
+        : QWidget (parent,name)
 {
-	text = new QLabel( msg,this );
-	text->setGeometry( 0,0,0,0 );
-	text->resize( text->sizeHint( ) );
-	resize( text->sizeHint( ) );
-	show( );
+    text = new QLabel (msg,this);
+    text->setGeometry (0,0,0,0);
+    text->resize (text->sizeHint());
+    resize (text->sizeHint());
+    show();
 }
 
-infobox::~infobox( )
+infobox::~infobox()
 {
 }
 
-void infobox::closeEvent( QCloseEvent *e )
+void infobox::closeEvent (QCloseEvent *e)
 {
-	delete this;
+    delete this;
 }

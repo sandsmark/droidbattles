@@ -22,10 +22,10 @@
 
 struct matchresult
 {
-	int secbot;
-	int mainbotwins;
-	int secbotwins;
-	int mainbot;
+    int secbot;
+    int mainbotwins;
+    int secbotwins;
+    int mainbot;
 };
 
 #endif

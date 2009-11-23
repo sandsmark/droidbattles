@@ -29,13 +29,13 @@
 class repair : public device
 {
 
-	public:
-		repair( screenobject &object,int arg1 );
-		~repair( );
-		void execute( );
-		int getfromport( unsigned char port );
-	private:
-		int repaircycles;
+public:
+    repair (screenobject &object,int arg1);
+    ~repair();
+    void execute();
+    int getfromport (unsigned char port);
+private:
+    int repaircycles;
 };
 
 #endif

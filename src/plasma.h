@@ -29,17 +29,17 @@
 class plasma : public device
 {
 
-	public:
+public:
 
-		plasma( screenobject &object,int arg1,int offset );
-		~plasma( );
-		void execute( );
+    plasma (screenobject &object,int arg1,int offset);
+    ~plasma();
+    void execute();
 
-	private:
+private:
 
-		int strength;
-		int speed;
-		int readiness;
+    int strength;
+    int speed;
+    int readiness;
 
 };
 

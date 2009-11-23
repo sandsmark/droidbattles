@@ -17,43 +17,43 @@
 
 #include "minelayer.h"
 
-minelayer::minelayer( screenobject &object, int ourlevel )
+minelayer::minelayer (screenobject &object, int ourlevel)
 {
-	minesleft = ourlevel;
-	ourbot = &object;
-	int count,count2;
-	for( count=0;count<4;count++ )
-	{
-		for( count2=0;count2<4;count2++ )
-		{
-			stacktaken[count][count2]=false;
-			portstack[count][count2]=0;
-		}
-	}
+    minesleft = ourlevel;
+    ourbot = &object;
+    int count,count2;
+    for (count=0; count<4; count++)
+    {
+        for (count2=0; count2<4; count2++)
+        {
+            stacktaken[count][count2]=false;
+            portstack[count][count2]=0;
+        }
+    }
 }
 
-minelayer::~minelayer( )
+minelayer::~minelayer()
 {
 }
 
-void minelayer::execute( )
+void minelayer::execute()
 {
-	if( stacktaken[0][0] == true )
-	{
-		moveportstack( 0 );
-		if( minesleft > 0 )
-		{
-			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
-														ourbot->getdir( ),3 );
-			minesleft--;
-		}
-	}
+    if (stacktaken[0][0] == true)
+    {
+        moveportstack (0);
+        if (minesleft > 0)
+        {
+            ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
+                                  ourbot->getdir(),3);
+            minesleft--;
+        }
+    }
 }
 
-	/**
-		* Returns mines left to in instruction
-		*/
-int minelayer::getfromport( )
+/**
+	* Returns mines left to in instruction
+	*/
+int minelayer::getfromport()
 {
-	return minesleft;
+    return minesleft;
 }

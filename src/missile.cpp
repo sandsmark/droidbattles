@@ -19,112 +19,112 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-	/**
-		* Init position, graphics and such
-		*/
-missile::missile( int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &area, bool ui )
+/**
+	* Init position, graphics and such
+	*/
+missile::missile (int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &area, bool ui)
 {
-	useUI = ui;
-	myowner = owner;
-	ourarea = &area;
-	mynum = mnum;
-	strength = 20;
-	direction = dir;
-	speed = 256;
-	noncollid = owner;
-	Xpos = X;
-	Ypos = Y;
-	double dira = getdir( ) * pi / 512;
-	changepos( cos( dira ) * 1500,sin( dira ) * 1500 );
-	size = 1<<6;
-	if( useUI )
-	{
-		erasegfx = new QPixmap;
-		erasegfx->resize( 8,8 );
-		erasegfx->fill( Qt::black );
-		graphics = Pixmapholder::getpmp( 7 );
-	}
+    useUI = ui;
+    myowner = owner;
+    ourarea = &area;
+    mynum = mnum;
+    strength = 20;
+    direction = dir;
+    speed = 256;
+    noncollid = owner;
+    Xpos = X;
+    Ypos = Y;
+    double dira = getdir() * pi / 512;
+    changepos (cos (dira) * 1500,sin (dira) * 1500);
+    size = 1<<6;
+    if (useUI)
+    {
+        erasegfx = new QPixmap;
+        erasegfx->resize (8,8);
+        erasegfx->fill (Qt::black);
+        graphics = Pixmapholder::getpmp (7);
+    }
 }
 
-missile::~missile( )
+missile::~missile()
 {
 //	delete graphics;
-	if( useUI )delete erasegfx;
+    if (useUI) delete erasegfx;
 }
 
-	/**
-		* Move the shot one step
-		*/
-int missile::execute( )
+/**
+	* Move the shot one step
+	*/
+int missile::execute()
 {
-	double dir = getdir( ) * pi / 512;
-	return changepos( cos( dir ) * getspeed( ),sin( dir ) * getspeed( ) );
+    double dir = getdir() * pi / 512;
+    return changepos (cos (dir) * getspeed(),sin (dir) * getspeed());
 }
 
-	/**
-		* Paint the shot black
-		*/
-void missile::eraseobject( QWidget *buffer )
+/**
+	* Paint the shot black
+	*/
+void missile::eraseobject (QWidget *buffer)
 {
-	bitBlt( buffer,( oldX>>6 )-4,( oldY>>6 )-4,erasegfx );
+    bitBlt (buffer, (oldX>>6)-4, (oldY>>6)-4,erasegfx);
 }
 
-	/**
-		* Paint the shot on the screen
-		*/
-void missile::showobject( QWidget *buffer,int opt )
+/**
+	* Paint the shot on the screen
+	*/
+void missile::showobject (QWidget *buffer,int opt)
 {
-	if( opt == 0 )
-		bitBlt( buffer,( getXpos( )>>6 )-4,( getYpos( )>>6 )-4,graphics );
-	else
-		bitBlt( buffer,( getXpos( )>>6 )-4,( getYpos( )>>6 )-4,erasegfx );
-	oldX = int( Xpos );
-	oldY = int( Ypos );
+    if (opt == 0)
+        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,graphics);
+    else
+        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,erasegfx);
+    oldX = int (Xpos);
+    oldY = int (Ypos);
 }
 
-int missile::returntype( )
+int missile::returntype()
 {
-	return 2;
+    return 2;
 }
 
-int missile::getcollisiontype( )
+int missile::getcollisiontype()
 {
-	return 2;
+    return 2;
 }
 
-int missile::getcollisionstrength( )
+int missile::getcollisionstrength()
 {
-	return 15;
+    return 15;
 }
 
-int missile::objhit( int type,int strength )
+int missile::objhit (int type,int strength)
 {
-	return objhitdestroyed;
+    return objhitdestroyed;
 }
 
-	/**
-		* If the shot gets outside the battlefield
-		* it deletes itself
-		*/
-int missile::changepos( double X,double Y )
+/**
+	* If the shot gets outside the battlefield
+	* it deletes itself
+	*/
+int missile::changepos (double X,double Y)
 {
-	oldX = int( Xpos );
-	oldY = int( Ypos );
-	Xpos += X;
-	Ypos += Y;
-	if( Xpos < 0 ) return destroyself;
-	if( Xpos > ourarea->getareainfo( 0 ) ) return destroyself;
-	if( Ypos < 0 ) return destroyself;
-	if( Ypos > ourarea->getareainfo( 1 ) ) return destroyself;
-	return 0;
+    oldX = int (Xpos);
+    oldY = int (Ypos);
+    Xpos += X;
+    Ypos += Y;
+    if (Xpos < 0) return destroyself;
+    if (Xpos > ourarea->getareainfo (0)) return destroyself;
+    if (Ypos < 0) return destroyself;
+    if (Ypos > ourarea->getareainfo (1)) return destroyself;
+    return 0;
 }
 
-int missile::getsize( )
+int missile::getsize()
 {
-	return 2;
+    return 2;
 }
 
-int missile::returnradar( )
+int missile::returnradar()
 {
-	return 1;
+    return 1;
 }

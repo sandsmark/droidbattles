@@ -68,99 +68,99 @@ class PixButton;
   */
 class DroidBattles : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  public:
-    DroidBattles( );
-    ~DroidBattles( );
+public:
+    DroidBattles();
+    ~DroidBattles();
 
-  private:
+private:
 
-		void enabletourneys( );
-		void disabletourneys( );
-		void enablebattles( );
-		void disablebattles( );
+    void enabletourneys();
+    void disabletourneys();
+    void enablebattles();
+    void disablebattles();
 
-		/** The buttons that are in the main widget */
-		PixButton *menubuttons[12];
+    /** The buttons that are in the main widget */
+    PixButton *menubuttons[12];
 //		QPixmap *menupm;
-		QPixmap *bnpm;
-		/** Pointers to the various types of objects the menu object can start */
-		// Editor for creating the bots
-		createbot *cre;
-		// Base widget for battles
-		battlearea *batt;
-		// Widget for showing info about bots
+    QPixmap *bnpm;
+    /** Pointers to the various types of objects the menu object can start */
+    // Editor for creating the bots
+    createbot *cre;
+    // Base widget for battles
+    battlearea *batt;
+    // Widget for showing info about bots
     QWidget *infobox;
-		// Widget for startup of battle (ie determine which bots should fight)
-		startsbatt *ssb;
-		// Message box showing some 'about' info about the application
-		QMessageBox *aboutb;
+    // Widget for startup of battle (ie determine which bots should fight)
+    startsbatt *ssb;
+    // Message box showing some 'about' info about the application
+    QMessageBox *aboutb;
 
-		kothtournament *kotht;
-		startcup *cuptournament;
-		starttournament *stment;
+    kothtournament *kotht;
+    startcup *cuptournament;
+    starttournament *stment;
 
-		Docbrowser *browser;
+    Docbrowser *browser;
 
-		confedit *ccf;
+    confedit *ccf;
     char *currentdir;
-		/** Status variables */
-		bool editrunning;
-		bool battlerunning;
+    /** Status variables */
+    bool editrunning;
+    bool battlerunning;
 
-		// State variables for battle and tournament management
-		int teams[8];
-		int wingames[64];
-		int winmatches[64];
-		QString newlist[64];
-		struct matchresult results[128];
-		int nextround[64];
-		int resultcounter;
-		int nextroundcount;
-		int gamecounter;
-		int botsleft;
-		int curmainbot;
-		int cursecbot;
-		int seed;
+    // State variables for battle and tournament management
+    int teams[8];
+    int wingames[64];
+    int winmatches[64];
+    QString newlist[64];
+    struct matchresult results[128];
+    int nextround[64];
+    int resultcounter;
+    int nextroundcount;
+    int gamecounter;
+    int botsleft;
+    int curmainbot;
+    int cursecbot;
+    int seed;
 
-	private slots:
+private slots:
 
-		//Menu Item functions
-		void createb( );
-		void about( );
-		void showb( );
-    void quit( );
-		void editconf( );
+    //Menu Item functions
+    void createb();
+    void about();
+    void showb();
+    void quit();
+    void editconf();
 
- 		void skirmish( );
-		void startskirmish( );
-		void stopskirmish( );
+    void skirmish();
+    void startskirmish();
+    void stopskirmish();
 
-		void survival( );
-		void startsurvival( );
-		void stopsurvival( );
+    void survival();
+    void startsurvival();
+    void stopsurvival();
 
-		void death( );
-		void startdeath( );
-		void stopdeath( );
+    void death();
+    void startdeath();
+    void stopdeath();
 
-		void tournament( );
-		void starttourney( );
-		void stoptourney( );
-		void managetourney( int wins1, int wins2 );
+    void tournament();
+    void starttourney();
+    void stoptourney();
+    void managetourney (int wins1, int wins2);
 
-		void koth( );
-		void startkoth( );
-		void stopkoth( );
-		void mankothtourney( int wins1, int wins2 );
+    void koth();
+    void startkoth();
+    void stopkoth();
+    void mankothtourney (int wins1, int wins2);
 
-		void cup( );
-		void startcupt( );
-		void stopcup( );
-		void mancuptourney( int wins1,int wins2 );
+    void cup();
+    void startcupt();
+    void stopcup();
+    void mancuptourney (int wins1,int wins2);
 
-		void showdoc( );
+    void showdoc();
 };
 
 #endif

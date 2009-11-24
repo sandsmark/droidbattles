@@ -29,7 +29,7 @@ Pixmapholder::~Pixmapholder()
 {
 }
 
-void Pixmapholder::addpm (QString &name,int num)
+void Pixmapholder::addpm (QString name,int num)
 {
     pm[num] = new QPixmap (name);
 }

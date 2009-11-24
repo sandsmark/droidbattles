@@ -79,37 +79,21 @@ DroidBattles::DroidBattles()
     setFixedSize (500,350);
 
     //Load all pixmaps used by the application
-    QString fname = returninstalldir();
-    fname += "/pixmaps/mainmenu.png";
-    Pixmapholder::addpm (fname,0);
+    Pixmapholder::addpm (":/images/mainmenu.png", 0);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/backbutton.xpm";
-    Pixmapholder::addpm (fname,1);
+    Pixmapholder::addpm (":/images/backbutton.xpm", 1);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/metal.png";
-    Pixmapholder::addpm (fname,2);
+    Pixmapholder::addpm (":/images/metal.png", 2);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/metalback2.png";
-    Pixmapholder::addpm (fname,3);
+    Pixmapholder::addpm (":/images/metalback2.png", 3);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/radarmissile.bmp";
-    Pixmapholder::addpm (fname,4);
+    Pixmapholder::addpm (":/images/radarmissile.bmp", 4);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/chaff.bmp";
-    Pixmapholder::addpm (fname,5);
+    Pixmapholder::addpm (":/images/chaff.bmp", 5);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/mine.xpm";
-    Pixmapholder::addpm (fname,6);
+    Pixmapholder::addpm (":/images/mine.xpm", 6);
 
-    fname = returninstalldir();
-    fname += "/pixmaps/missile.xpm";
-    Pixmapholder::addpm (fname,7);
+    Pixmapholder::addpm (":/images/missile.xpm", 7);
 
     setBackgroundPixmap (Pixmapholder::getpm (0));
 

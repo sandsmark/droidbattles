@@ -28,9 +28,10 @@ PixButton::~PixButton()
 {
 }
 
-void PixButton::drawButtonLabel (QPainter *paint)
+void PixButton::paintEvent (QPaintEvent *)
 {
-    paint->drawPixmap (2,2,Pixmapholder::getpm (whichpix),
+    QPainter paint;
+    paint.drawPixmap (2,2,Pixmapholder::getpm (whichpix),
                        0,0,width()-5,height()-5);
-    paint->drawText (2, 2, width()-5, height()-5, Qt::AlignCenter, tex, -1);
+    paint.drawText (2, 2, width()-5, height()-5, Qt::AlignCenter, tex, -1);
 }

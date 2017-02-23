@@ -20,12 +20,12 @@
 
 #include <qwidget.h>
 #include <qmessagebox.h>
-#include <q3popupmenu.h>
+#include <QMenu>
 #include <qmenubar.h>
+#include <QScrollArea>
 #include <qstring.h>
-#include <q3filedialog.h>
+#include <QFileDialog>
 #include <qfile.h>
-#include <q3filedialog.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
 //Added by qt3to4:
@@ -40,7 +40,6 @@
 
 class devchoice;
 class myQMultiLineEdit;
-class Q3ScrollView;
 class QComboBox;
 class instruktion;
 class battlearea;
@@ -87,17 +86,17 @@ private:
     QMessageBox *ermsg;
     unsigned char *mem;
     myQMultiLineEdit *edittxt;
-    Q3ScrollView *scroller;
+    QScrollArea *scroller;
     myQMultiLineEdit *showlatency;
     devchoice* devices[32];
-    Q3PopupMenu *File;
-    Q3PopupMenu *Edit;
-    Q3PopupMenu *Assemble;
-    Q3PopupMenu *Config;
-    Q3PopupMenu *tests;
+    QMenu *File;
+    QMenu *Edit;
+    QMenu *Assemble;
+    QMenu *Config;
+    QMenu *tests;
     QMenuBar *menb;
     QComboBox *amountRAM;
-    Q3ScrollView *scrvw;
+    QScrollArea *scrvw;
     QWidget *boxarea;
     QString botname;
     char *dirname;

@@ -47,7 +47,7 @@ int explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void explosion::showobject (QWidget *buffer, int /*opt*/)
+void explosion::showobject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,255,0));
@@ -59,7 +59,7 @@ void explosion::showobject (QWidget *buffer, int /*opt*/)
 /**
 	* Paints a black circle where the yellow was painted before
 	*/
-void explosion::eraseobject (QWidget *buffer)
+void explosion::eraseobject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));

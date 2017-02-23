@@ -40,8 +40,8 @@ public:
     int getcollisiontype();
     int getcollisionstrength();
     int objhit (int,int);
-    void showobject (QWidget *buffer, int);
-    void eraseobject (QWidget *buffer);
+    void showobject (QPixmap *buffer, int);
+    void eraseobject (QPixmap *buffer);
     int returnradar();
 
 private:

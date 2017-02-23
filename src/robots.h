@@ -19,15 +19,15 @@
 #define ROBOTS_H
 
 #include "screenobject.h"
-#include <qdatastream.h>
-#include <q3textstream.h>
-#include <qstring.h>
-#include <qwidget.h>
+#include <QDataStream>
+#include <QTextStream>
+#include <QString>
+#include <QWidget>
 #include "textmodebattlearea.h"
 #include "ram.h"
 #include "device.h"
 #include <math.h>
-#include <qfile.h>
+#include <QFile>
 #include "commonsymbols.h"
 #include "robcpu.h"
 #include "engine.h"
@@ -37,14 +37,14 @@
 #include "scanner.h"
 #include "fuel.h"
 #include "turret.h"
-#include <qbitmap.h>
+#include <QBitmap>
 #include <math.h>
 #include <stdlib.h>
-#include <qmessagebox.h>
+#include <QMessageBox>
 #include "timedev.h"
 #include "shield.h"
 #include "repair.h"
-#include <qstring.h>
+#include <QString>
 #include "communication.h"
 #include "minelayer.h"
 #include "beamer.h"
@@ -80,8 +80,8 @@ public:
             bool er=true, bool ui = true);
     ~robots();
     int execute();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer, int opt = 0);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt = 0);
     void ifhit();
     int getdevport (unsigned char port);
     void putdevport (unsigned char port,unsigned short value);
@@ -96,8 +96,8 @@ public:
     int getcollisionstrength();
     int getsize();
     void receiveradio (int);
-    const char* getdebug1();
-    const char* getdebug2();
+    QString getdebug1();
+    QString getdebug2();
     void setdebug1 (int);
     void setdebug2 (int);
     void error (const char *, const char *);

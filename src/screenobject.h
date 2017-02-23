@@ -49,8 +49,8 @@ public:
     virtual int getdevport (unsigned char port);
     virtual void putdevport (unsigned char port,unsigned short value);
     virtual int execute();
-    virtual void eraseobject (QWidget *buffer);
-    virtual void showobject (QWidget *buffer,int opt = 0);
+    virtual void eraseobject (QPixmap *buffer);
+    virtual void showobject (QPixmap *buffer, int opt = 0);
     virtual int objhit (int type,int strength);
     virtual void objscanned (int intensity,int dir);
     virtual int getcollisiontype();
@@ -59,8 +59,8 @@ public:
     virtual int iodevtobatt (int bot,int dev,int choice,int arg1,int arg2);
     virtual int iodevtodev (int dev, int action, int value);
     virtual int getsize();
-    virtual const char* getdebug1();
-    virtual const char* getdebug2();
+    virtual QString getdebug1();
+    virtual QString getdebug2();
     virtual void setdebug1 (int);
     virtual void setdebug2 (int);
     virtual void setfuel (int);

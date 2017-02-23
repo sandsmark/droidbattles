@@ -73,7 +73,7 @@ int rocket::returntype()
 /**
 	* Paint gfx black
 	*/
-void rocket::eraseobject (QWidget *buffer)
+void rocket::eraseobject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
@@ -87,7 +87,7 @@ void rocket::eraseobject (QWidget *buffer)
 /**
 	* Paint the flame from the rocket
 	*/
-void rocket::showobject (QWidget *buffer, int /*opt*/)
+void rocket::showobject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,0,0));

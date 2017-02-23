@@ -17,7 +17,7 @@
 
 #include "textmodebattlearea.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 
 using namespace std;
 
@@ -27,10 +27,10 @@ textmodeBattleArea::textmodeBattleArea()
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-textmodeBattleArea::textmodeBattleArea (const char *nam1,const char *nam2,const char *nam3,const char *nam4,
-                                        const char *nam5,const char *nam6,const char *nam7,const char *nam8,int numf,
+textmodeBattleArea::textmodeBattleArea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
+                                        const QString &nam5, const QString &nam6, const QString &nam7, const QString &nam8, int numf,
                                         int mx, int xs, int ys, bool ifteams, int *bteams,
-                                        bool tourney,int mode)
+                                        bool tourney, int mode)
 {
     Q_UNUSED(tourney);
 
@@ -45,7 +45,7 @@ textmodeBattleArea::textmodeBattleArea (const char *nam1,const char *nam2,const 
 
     // OPen the current config file
     maxrounds = mx;
-    QString tempname = QDir::homeDirPath();
+    QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
@@ -55,7 +55,7 @@ textmodeBattleArea::textmodeBattleArea (const char *nam1,const char *nam2,const 
         return;
     }
 
-    Q3TextStream s (&f);
+    QTextStream s (&f);
     int x,y;
     for (x=0; x<maxbots; x++)
     {

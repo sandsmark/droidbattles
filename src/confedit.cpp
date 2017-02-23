@@ -17,7 +17,7 @@
 
 #include "confedit.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QLabel>
 
 /**
@@ -58,51 +58,58 @@ confedit::confedit()
 
     valid = new QIntValidator (this);
 
-    scroll = new Q3ScrollView (this);
+    scroll = new QScrollArea (this);
     scroll->setGeometry (0,60,500,330);
     setarea = new QWidget();
     setarea->setGeometry (0,0,480,1400);
-    scroll->addChild (setarea);
+    scroll->setWidget(setarea);
 
     maxdevl = new QLabel ("Maximum number of devices: ", setarea);
     maxdevl->setGeometry (10,10,190,15);
-    maxdevv = new QSpinBox (1,32,1,setarea);
+    maxdevv = new QSpinBox (setarea);
+    maxdevv->setMinimum(1);
+    maxdevv->setMaximum(32);
+    maxdevv->setSingleStep(1);
     maxdevv->setGeometry (200,7,50,20);
 
     maxcostl = new QLabel ("Maximum cost of bot: ", setarea);
     maxcostl->setGeometry (10,30,190,15);
-    maxcostv = new QSpinBox (100, 65500, 100, setarea);
+    maxcostv = new QSpinBox (setarea);
+    maxcostv->setMinimum(100);
+    maxcostv->setMaximum(65500);
+    maxcostv->setSingleStep(100);
     maxcostv->setGeometry (190,27,60,20);
 
     maxraml = new QLabel ("Maximum amount of RAM: ", setarea);
     maxraml->setGeometry (10,60,190,15);
     maxramv = new QComboBox (setarea);
-    maxramv->insertItem ("1k");
-    maxramv->insertItem ("2k");
-    maxramv->insertItem ("4k");
-    maxramv->insertItem ("8k");
-    maxramv->insertItem ("16k");
-    maxramv->insertItem ("24k");
-    maxramv->insertItem ("32k");
-    maxramv->insertItem ("48k");
-    maxramv->insertItem ("64k");
+    maxramv->addItem ("1k");
+    maxramv->addItem ("2k");
+    maxramv->addItem ("4k");
+    maxramv->addItem ("8k");
+    maxramv->addItem ("16k");
+    maxramv->addItem ("24k");
+    maxramv->addItem ("32k");
+    maxramv->addItem ("48k");
+    maxramv->addItem ("64k");
 
-    QComboBox::Policy pol = QComboBox::InsertAtCurrent;
+    QComboBox::InsertPolicy pol = QComboBox::InsertAtCurrent;
 
     ramcostl = new QLabel ("Cost of RAM: ",setarea);
     ramcostl->setGeometry (250,60,80,15);
-    ramcostv = new QComboBox (true,setarea);
+    ramcostv = new QComboBox (setarea);
+    ramcostv->setEditable(true);
     ramcostv->setValidator (valid);
-    ramcostv->setInsertionPolicy (pol);
-    ramcostv->insertItem ("100");
-    ramcostv->insertItem ("250");
-    ramcostv->insertItem ("600");
-    ramcostv->insertItem ("1500");
-    ramcostv->insertItem ("4000");
-    ramcostv->insertItem ("9000");
-    ramcostv->insertItem ("18000");
-    ramcostv->insertItem ("20000");
-    ramcostv->insertItem ("25000");
+    ramcostv->setInsertPolicy (pol);
+    ramcostv->addItem ("100");
+    ramcostv->addItem ("250");
+    ramcostv->addItem ("600");
+    ramcostv->addItem ("1500");
+    ramcostv->addItem ("4000");
+    ramcostv->addItem ("9000");
+    ramcostv->addItem ("18000");
+    ramcostv->addItem ("20000");
+    ramcostv->addItem ("25000");
     ramcostv->setMaxCount (10);
     ramcostv->move (0,0);
     ramcostv->adjustSize();
@@ -112,26 +119,26 @@ confedit::confedit()
     maxramv->adjustSize();
     maxramv->move (170,57);
 
-    devicegroup[0] = new Q3GroupBox ("CPU", setarea);
-    devicegroup[1] = new Q3GroupBox ("engine", setarea);
-    devicegroup[2] = new Q3GroupBox ("steering",setarea);
-    devicegroup[3] = new Q3GroupBox ("plasmagun",setarea);
-    devicegroup[4] = new Q3GroupBox ("armor",setarea);
-    devicegroup[5] = new Q3GroupBox ("scanner",setarea);
-    devicegroup[6] = new Q3GroupBox ("fuel",setarea);
-    devicegroup[7] = new Q3GroupBox ("chaff",setarea);
-    devicegroup[8] = new Q3GroupBox ("turret",setarea);
-    devicegroup[9] = new Q3GroupBox ("scanwarner",setarea);
-    devicegroup[10] = new Q3GroupBox ("timedev",setarea);
-    devicegroup[11] = new Q3GroupBox ("shield",setarea);
-    devicegroup[12] = new Q3GroupBox ("repair",setarea);
-    devicegroup[13] = new Q3GroupBox ("radio",setarea);
-    devicegroup[14] = new Q3GroupBox ("chiller",setarea);
-    devicegroup[15] = new Q3GroupBox ("cloaker",setarea);
-    devicegroup[16] = new Q3GroupBox ("minelayer",setarea);
-    devicegroup[17] = new Q3GroupBox ("missile",setarea);
-    devicegroup[18] = new Q3GroupBox ("beam",setarea);
-    devicegroup[19] = new Q3GroupBox ("AS-rocket",setarea);
+    devicegroup[0] = new QGroupBox ("CPU", setarea);
+    devicegroup[1] = new QGroupBox ("engine", setarea);
+    devicegroup[2] = new QGroupBox ("steering",setarea);
+    devicegroup[3] = new QGroupBox ("plasmagun",setarea);
+    devicegroup[4] = new QGroupBox ("armor",setarea);
+    devicegroup[5] = new QGroupBox ("scanner",setarea);
+    devicegroup[6] = new QGroupBox ("fuel",setarea);
+    devicegroup[7] = new QGroupBox ("chaff",setarea);
+    devicegroup[8] = new QGroupBox ("turret",setarea);
+    devicegroup[9] = new QGroupBox ("scanwarner",setarea);
+    devicegroup[10] = new QGroupBox ("timedev",setarea);
+    devicegroup[11] = new QGroupBox ("shield",setarea);
+    devicegroup[12] = new QGroupBox ("repair",setarea);
+    devicegroup[13] = new QGroupBox ("radio",setarea);
+    devicegroup[14] = new QGroupBox ("chiller",setarea);
+    devicegroup[15] = new QGroupBox ("cloaker",setarea);
+    devicegroup[16] = new QGroupBox ("minelayer",setarea);
+    devicegroup[17] = new QGroupBox ("missile",setarea);
+    devicegroup[18] = new QGroupBox ("beam",setarea);
+    devicegroup[19] = new QGroupBox ("AS-rocket",setarea);
 
     int x;
     for (x=0; x<numdev; x++)
@@ -141,13 +148,14 @@ confedit::confedit()
         costs[x] = new QLabel ("Cost of device: ", devicegroup[x]);
         costs[x]->setGeometry (10,40, 100,15);
 
-        levelcosts[x] = new QComboBox (true,devicegroup[x]);
-        levelcosts[x]->setInsertionPolicy (pol);
-        levelcosts[x]->insertItem ("100");
-        levelcosts[x]->insertItem ("200");
-        levelcosts[x]->insertItem ("300");
-        levelcosts[x]->insertItem ("400");
-        levelcosts[x]->insertItem ("500");
+        levelcosts[x] = new QComboBox (devicegroup[x]);
+        levelcosts[x]->setEditable(true);
+        levelcosts[x]->setInsertPolicy (pol);
+        levelcosts[x]->addItem ("100");
+        levelcosts[x]->addItem ("200");
+        levelcosts[x]->addItem ("300");
+        levelcosts[x]->addItem ("400");
+        levelcosts[x]->addItem ("500");
         levelcosts[x]->setValidator (valid);
         levelcosts[x]->setGeometry (110,37,60,25);
         levelcosts[x]->setMaxCount (6);
@@ -155,13 +163,14 @@ confedit::confedit()
         values[x] = new QLabel ("Values for dev: ", devicegroup[x]);
         values[x]->setGeometry (10,70,100,15);
 
-        levelvalues[x] = new QComboBox (true,devicegroup[x]);
-        levelvalues[x]->setInsertionPolicy (pol);
-        levelvalues[x]->insertItem ("0");
-        levelvalues[x]->insertItem ("0");
-        levelvalues[x]->insertItem ("0");
-        levelvalues[x]->insertItem ("0");
-        levelvalues[x]->insertItem ("0");
+        levelvalues[x] = new QComboBox (devicegroup[x]);
+        levelvalues[x]->setEditable(true);
+        levelvalues[x]->setInsertPolicy (pol);
+        levelvalues[x]->addItem ("0");
+        levelvalues[x]->addItem ("0");
+        levelvalues[x]->addItem ("0");
+        levelvalues[x]->addItem ("0");
+        levelvalues[x]->addItem ("0");
         levelvalues[x]->setValidator (valid);
         levelvalues[x]->setGeometry (110,67,60,25);
         levelvalues[x]->setMaxCount (6);
@@ -172,7 +181,7 @@ confedit::confedit()
             devicegroup[x]->setGeometry (210,95+ (x-10) *115,200,110);
 
     }
-    QString tempname = QDir::homeDirPath();
+    QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     openfile (tempname);
     show();
@@ -200,7 +209,7 @@ void confedit::defaultc()
 	*/
 void confedit::openc()
 {
-    QString tempname = Q3FileDialog::getOpenFileName (0,"*.cfg",this);
+    QString tempname = QFileDialog::getOpenFileName (this, tr("Select config file"), QDir::homePath(), "*.cfg");
     openfile (tempname);
 }
 /**
@@ -208,7 +217,7 @@ void confedit::openc()
 	*/
 void confedit::savec()
 {
-    QString tempname = Q3FileDialog::getSaveFileName (0,"*.cfg",this);
+    QString tempname = QFileDialog::getSaveFileName (this, tr("Save config file"), QDir::homePath(), "*.cfg");
     if (tempname.isEmpty())
     {
         return;
@@ -223,21 +232,21 @@ void confedit::savec()
 
     int x,y;
 
-    Q3TextStream s (&f);
-    s << "MAXDEVICES: " << maxdevv->text() << endl;
-    s << "MAXCOSTS: " << maxcostv->text() << endl;
-    s << "MAXRAM: " << maxramv->currentItem() << endl;
+    QTextStream s (&f);
+    s << "MAXDEVICES: " << maxdevv->cleanText() << endl;
+    s << "MAXCOSTS: " << maxcostv->cleanText() << endl;
+    s << "MAXRAM: " << maxramv->currentIndex() << endl;
     s << "RAMCOSTS:";
     for (x=0; x<9; x++)
-        s << " " << ramcostv->text (x);
+        s << " " << ramcostv->itemText(x);
     s << endl;
     for (x=0; x<numdev; x++)
     {
         s << "DEVICE: " << devicesenabled[x]->isChecked();
         for (y=0; y<5; y++)
         {
-            s << " " << levelcosts[x]->text (y);
-            s << " " << levelvalues[x]->text (y);
+            s << " " << levelcosts[x]->itemText(y);
+            s << " " << levelvalues[x]->itemText(y);
         }
         s << endl;
     }
@@ -257,7 +266,7 @@ void confedit::closec()
 	*/
 void confedit::makecurrc()
 {
-    QString filename = QDir::homeDirPath();
+    QString filename = QDir::homePath();
     filename += "/droidbattles/current.cfg";
     QFile f (filename);
     if (!f.open (QIODevice::WriteOnly))
@@ -268,21 +277,21 @@ void confedit::makecurrc()
 
     int x,y;
 
-    Q3TextStream s (&f);
-    s << "MAXDEVICES: " << maxdevv->text() << endl;
-    s << "MAXCOSTS: " << maxcostv->text() << endl;
-    s << "MAXRAM: " << maxramv->currentItem() << endl;
+    QTextStream s (&f);
+    s << "MAXDEVICES: " << maxdevv->cleanText() << endl;
+    s << "MAXCOSTS: " << maxcostv->cleanText() << endl;
+    s << "MAXRAM: " << maxramv->currentText() << endl;
     s << "RAMCOSTS:";
     for (x=0; x<9; x++)
-        s << " " << ramcostv->text (x);
+        s << " " << ramcostv->itemText(x);
     s << endl;
     for (x=0; x<numdev; x++)
     {
         s << "DEVICE: " << devicesenabled[x]->isChecked();
         for (y=0; y<5; y++)
         {
-            s << " " << levelcosts[x]->text (y);
-            s << " " << levelvalues[x]->text (y);
+            s << " " << levelcosts[x]->itemText(y);
+            s << " " << levelvalues[x]->itemText(y);
         }
         s << endl;
     }
@@ -313,7 +322,7 @@ void confedit::openfile (QString &tempname)
     QString dummy;
     int i;
 //	bool ch;
-    Q3TextStream s (&f);
+    QTextStream s (&f);
 
 
     s >> dummy;
@@ -324,12 +333,12 @@ void confedit::openfile (QString &tempname)
     maxcostv->setValue (i);
     s >> dummy;
     s >> i;
-    maxramv->setCurrentItem (i);
+    maxramv->setCurrentIndex(i);
     s >> dummy;
     for (x=0; x<9; x++)
     {
         s >> dummy;
-        ramcostv->changeItem (dummy,x);
+        ramcostv->setItemText(x, dummy);
     }
     for (x=0; x<numdev; x++)
     {
@@ -342,9 +351,9 @@ void confedit::openfile (QString &tempname)
         for (y=0; y<5; y++)
         {
             s >> dummy;
-            levelcosts[x]->changeItem (dummy,y);
+            levelcosts[x]->setItemText (y, dummy);
             s >> dummy;
-            levelvalues[x]->changeItem (dummy,y);
+            levelvalues[x]->setItemText (y, dummy);
         }
     }
 }

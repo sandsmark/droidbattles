@@ -25,7 +25,7 @@ starttournament::starttournament()
 
 //	int x;
 
-    botfiles = new Q3ListBox (this);
+    botfiles = new QListWidget (this);
     botfiles->setGeometry (10,75,270,170);
 
     press[0] = new QPushButton ("load",this);
@@ -65,13 +65,19 @@ starttournament::starttournament()
 
     maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
     maxxinfo->setGeometry (10,350,200,20);
-    maxx = new QSpinBox (8192,65535,512,this);
+    maxx = new QSpinBox (this);
+    maxx->setMinimum(8192);
+    maxx->setMaximum(65535);
+    maxx->setSingleStep(512);
     maxx->setGeometry (210,350,80,30);
     maxx->setValue (32768);
 
     maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
     maxyinfo->setGeometry (10,380,200,20);
-    maxy = new QSpinBox (8192,65535,512,this);
+    maxy = new QSpinBox (this);
+    maxy->setMinimum(8192);
+    maxy->setMaximum(65535);
+    maxy->setSingleStep(512);
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
@@ -91,9 +97,9 @@ int starttournament::getnumofbots()
     return botfiles->count();
 }
 
-const char* starttournament::getbotfile (int x)
+QString starttournament::getbotfile (int x)
 {
-    return botfiles->text (x);
+    return botfiles->item(x)->text();
 }
 
 /**
@@ -101,12 +107,12 @@ const char* starttournament::getbotfile (int x)
 	*/
 void starttournament::choosefile()
 {
-    QString tempname = Q3FileDialog::getOpenFileName (0,"*.bot",this);
+    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
 //	int x;
 
     if (!tempname.isEmpty())
     {
-        botfiles->insertItem (tempname);
+        botfiles->addItem (tempname);
     }
 }
 
@@ -116,8 +122,7 @@ void starttournament::choosefile()
 void starttournament::dechoosefile()
 {
 //	int x;
-    botfiles->removeItem (botfiles->currentItem());
-
+    delete botfiles->takeItem(botfiles->currentRow());
 }
 
 void starttournament::ocl()

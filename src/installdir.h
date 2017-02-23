@@ -20,7 +20,6 @@
 
 #include <qstring.h>
 #include <qfile.h>
-#include <q3textstream.h>
 
 QString returninstalldir();
 

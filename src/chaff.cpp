@@ -31,9 +31,8 @@ chaff::chaff (int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui)
     useUI = ui;
     if (useUI)
     {
-        erasegfx = new QPixmap;
-        erasegfx->resize (12,12);
-        erasegfx->fill (Qt::black);
+        erasegfx = new QPixmap(12, 12);
+        erasegfx->fill(Qt::black);
         graphics = Pixmapholder::getpmp (5);
     }
     timeleft = 159;
@@ -54,14 +53,20 @@ chaff::~chaff()
 /**
 	* Paint object
 	*/
-void chaff::showobject (QWidget *buffer,int opt)
+void chaff::showobject (QPixmap *buffer,int opt)
 {
-    int picpos = 84- (int (timeleft/20) * 12);
 
 //	int x;
-    if (opt == 0)
-        bitBlt (buffer, (getXpos() >>6)-6, (getYpos() >>6)-6,graphics,picpos,0,
-                12,12);
+    if (opt == 0) {
+        QPainter painter(buffer);
+        const int width = 12;
+        const int height = 12;
+        const int x = (getXpos() >>6)-6;
+        const int y = (getYpos() >>6)-6;
+        const int sourceX = 84- (int (timeleft/20) * 12);
+        painter.drawPixmap(x, y, width, height, *graphics, sourceX, 0, width, height);
+//        bitBlt (buffer, (getXpos() >>6)-6, (getYpos() >>6)-6, graphics,picpos, 0, 12,12);
+    }
     oldX = getXpos();
     oldY = getYpos();
 }
@@ -69,9 +74,11 @@ void chaff::showobject (QWidget *buffer,int opt)
 /**
 	* Paint object black
 	*/
-void chaff::eraseobject (QWidget *buffer)
+void chaff::eraseobject (QPixmap *buffer)
 {
-    bitBlt (buffer, (oldX>>6)-6, (oldY>>6)-6,erasegfx);
+    QPainter painter(buffer);
+    painter.drawPixmap((oldX>>6)-6, (oldY>>6)-6, *erasegfx);
+//    bitBlt (buffer, (oldX>>6)-6, (oldY>>6)-6,erasegfx);
 }
 
 /**

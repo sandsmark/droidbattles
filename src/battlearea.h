@@ -18,33 +18,23 @@
 #ifndef BATTLEAREA_H
 #define BATTLEAREA_H
 
-#include <qwidget.h>
-#include <qtimer.h>
-#include <qlabel.h>
-#include <qmessagebox.h>
-//Added by qt3to4:
+#include <QWidget>
+#include <QTimer>
+#include <QLabel>
+#include <QMessageBox>
 #include <QResizeEvent>
 #include <QCloseEvent>
-//#include "screenobject.h"
-//#include "commonsymbols.h"
 #include "botinfo.h"
-//#include "confstruct.h"
-//#include <qfile.h>
-//#include <qtextstream.h>
-//#include <qstring.h>
-//#include <qdir.h>
-#include <q3scrollview.h>
+#include <QScrollArea>
 #include "pixbutton.h"
-//#include <commonsymbols.h>
-//#include "ram.h"
 #include "debugwindow.h"
-#include <q3multilineedit.h>
-#include <qpixmap.h>
+#include <QPlainTextEdit>
+#include <QPixmap>
 #include "pixmapholder.h"
 
 #include "textmodebattlearea.h"
 
-#include <list>
+#include <QList>
 #include <assert.h>
 
 /**
@@ -59,11 +49,11 @@ class battlearea : public QWidget, public textmodeBattleArea
 
 public:
 
-    battlearea (const char *name1,const char *name2,const char *name3,const char *name4,const char *name5,
-                const char *name6,const char *name7,const char *name8,int numf,int ,int xs,
-                int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
-                int mode = 0, int maxp=10,bool ifdebug=false,
-                Q3MultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
+    battlearea (const char *name1, const char *name2, const char *name3, const char *name4, const char *name5,
+                const char *name6, const char *name7, const char *name8, int numf, int , int xs,
+                int ys, bool ifteams, int *bteams, bool tourney, bool iffast,
+                int mode = 0, int maxp=10, bool ifdebug=false,
+                QPlainTextEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
     ~battlearea();
     void closeEvent (QCloseEvent *e);
     void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
@@ -92,16 +82,17 @@ protected:
 
 private:
 
-    std::list<debugwindow*> dbgwindows;
-    Q3MultiLineEdit *_dbedit;
+    QList<debugwindow*> dbgwindows;
+    QPlainTextEdit *_dbedit;
     int *_dbl;
     int *_dbm;
 
     int missilesLaunched;
 
 //		screenobject *objects[256];
-    QWidget *mydrw;
-    Q3ScrollView *scrolling;
+    QPixmap m_pixmap;
+    QLabel *mydrw;
+    QScrollArea *scrolling;
     QWidget *infowindow;
     QTimer *eventH;
     QLabel *debug1;

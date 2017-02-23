@@ -17,7 +17,7 @@
 
 #include "textmodefilemanip.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QDebug>
 
 using namespace std;
@@ -40,7 +40,7 @@ void textmodeFileManip::assemble (char *filename)
         cout << "could not open file" << endl;
         return;
     }
-    Q3TextStream sin (&fin);
+    QTextStream sin (&fin);
     QString curline;
     sin >> curline;
     if (curline != QString ("RAM:"))
@@ -1028,10 +1028,10 @@ void textmodeFileManip::assemble (char *filename)
             if (curline.length() > 1)
             {
                 //Chop of line comments and such
-                tpos = curline.find (QRegExp ("[;\\n\\r]"),0);
+                tpos = curline.indexOf (QRegExp ("[;\\n\\r]"),0);
                 tempstring = curline.left (tpos);
-                curline = tempstring.copy();
-                tpos = curline.find (QRegExp ("[a-zA-Z0-9_#:%@$]"),0);
+                curline = tempstring;
+                tpos = curline.indexOf (QRegExp ("[a-zA-Z0-9_#:%@$]"),0);
                 curline = curline.right (curline.length()-tpos);
                 if (curline.length() <= 1)
                 {
@@ -1043,18 +1043,18 @@ void textmodeFileManip::assemble (char *filename)
                 // take the tokens
                 for (i=0; i<15; i++)
                 {
-                    tpos = curline.find (QRegExp ("[\\s,\\x0]"),0);
+                    tpos = curline.indexOf (QRegExp ("[\\s,\\x0]"),0);
 
                     if (tpos < curline.length())
                         token[i] = curline.left (tpos);
                     else
                     {
-                        token[i] = curline.copy();
+                        token[i] = curline;
                         exist[i] = true;
                         break;
                     }
                     curline = curline.right (curline.length()-tpos);
-                    tpos = curline.find (QRegExp ("[a-zA-Z0-9_#:%@$+-]"),0);
+                    tpos = curline.indexOf (QRegExp ("[a-zA-Z0-9_#:%@$+-]"),0);
                     curline = curline.right (curline.length()-tpos);
                     exist[i] = true;
 
@@ -1963,7 +1963,7 @@ ende:
 
 void textmodeFileManip::checkConfig (char *filename)
 {
-    QString tempname = QDir::homeDirPath();
+    QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
@@ -1972,7 +1972,7 @@ void textmodeFileManip::checkConfig (char *filename)
         return;
     }
 
-    Q3TextStream s (&f);
+    QTextStream s (&f);
     QString dummy;
     int i,x,y;
     confstruct config;
@@ -2068,7 +2068,7 @@ void textmodeFileManip::checkConfig (char *filename)
 
 void textmodeFileManip::loadConfig (char *filename)
 {
-    QString fname = QDir::homeDirPath();
+    QString fname = QDir::homePath();
     fname += "/droidbattles/current.cfg";
     QFile f (fname);
     if (!f.open (QIODevice::WriteOnly))
@@ -2087,8 +2087,8 @@ void textmodeFileManip::loadConfig (char *filename)
 
     int x,y;
 
-    Q3TextStream s (&f);
-    Q3TextStream s2 (&f2);
+    QTextStream s (&f);
+    QTextStream s2 (&f2);
 
     QString temp;
     s2 >> temp;

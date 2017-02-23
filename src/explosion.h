@@ -34,8 +34,8 @@ public:
     explosion (int X, int Y, battlearea &area);
     ~explosion();
     int execute();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer, int opt);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt);
     int returntype();
 private:
     int cycle;

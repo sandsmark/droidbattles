@@ -18,13 +18,13 @@
 #ifndef DEBUGWINDOW_H
 #define DEBUGWINDOW_H
 
-#include <qwidget.h>
+#include <QWidget>
 #include "debugcontents.h"
-#include <qlabel.h>
-#include <qstring.h>
+#include <QLabel>
+#include <QString>
 #include <stdlib.h>
-#include <q3multilineedit.h>
-#include <qpushbutton.h>
+#include <QPlainTextEdit>
+#include <QPushButton>
 /**
 	* Shows some debug info (register contents, some mem contents) for the
 	* first CPU in the bot
@@ -37,7 +37,7 @@ class debugwindow : public QWidget
     Q_OBJECT
 
 public:
-    debugwindow (Q3MultiLineEdit *Medit, int *dbl, int *dbm);
+    debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm);
     ~debugwindow();
     void updatedata (struct debugcontents);
     void addint (QString &,unsigned short);
@@ -49,12 +49,12 @@ private:
     QLabel *registercontents[9]; //AX,BX,CX,DX,SP,BP,SI,DI,IP
     QLabel *flagcontents[4];     //equal,above,below,intenabled
     QLabel *memcontents[4];
-    Q3MultiLineEdit *execlines;
+    QPlainTextEdit *execlines;
     QPushButton *dumpmemb;
 
     int *debuglines;
     int *debugmem;
-    Q3MultiLineEdit *maineditor;
+    QPlainTextEdit *maineditor;
 
 signals:
     void dumpmem();

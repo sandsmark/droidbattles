@@ -42,8 +42,8 @@ public:
     missile (int X,int Y,int dir,int owner,int mynum,textmodeBattleArea &area, bool ui = true);
     ~missile();
     int execute();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer, int opt = 0);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt = 0);
     int returntype();
     int getcollisiontype();
     int getcollisionstrength();

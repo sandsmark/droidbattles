@@ -34,7 +34,7 @@
 #include "pixmapholder.h"
 #include <time.h>
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 
 #define VERSION "1.0.7"
 /**
@@ -43,7 +43,7 @@
 	*/
 DroidBattles::DroidBattles()
 {
-    setCaption ("DroidBattles " VERSION);
+    setWindowTitle("DroidBattles " VERSION);
     setpriority (PRIO_PROCESS, 0, 5);  //Lower process execution priority
     srandom (time (0));     //Initialize random seed
 
@@ -57,7 +57,7 @@ DroidBattles::DroidBattles()
         d.mkdir ("droidbattles");
         d.cd ("droidbattles");
     }
-    QString temp = QDir::homeDirPath();
+    QString temp = QDir::homePath();
     temp += "/droidbattles/current.cfg";
     QFile f (temp);
     if (!f.exists())
@@ -68,8 +68,8 @@ DroidBattles::DroidBattles()
         f2.open (QIODevice::ReadOnly);
         f.open (QIODevice::WriteOnly);
         char *buf = new char[2000];
-        int num = f2.readBlock (buf,2000);
-        f.writeBlock (buf,num);
+        int num = f2.read(buf,2000);
+        f.write(buf,num);
         f.close();
         f2.close();
         delete buf;
@@ -95,7 +95,9 @@ DroidBattles::DroidBattles()
 
     Pixmapholder::addpm (":/images/missile.xpm", 7);
 
-    setBackgroundPixmap (Pixmapholder::getpm (0));
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QBrush(Pixmapholder::getpm (0)));
+    setPalette(palette);
 
     menubuttons[0] = new PixButton ("Bot-creator",1, this);
     menubuttons[1] = new PixButton ("Config editor",1, this);
@@ -514,7 +516,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
             taken[curmaxbot] = true;
         }
 
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         QString temp;
 
         s << "<HTML>\n";
@@ -535,7 +537,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
             s << "<TD>" << x+1 << "</TD>\n";
             s << "<TD>\n";
             temp = names[resorder[x]];
-            int pos = temp.findRev ("/",temp.length());
+            int pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
             s << temp.data();
             s << "</TD>\n";
@@ -550,7 +552,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
         delete stment;
         f.close();
         enabletourneys();
-        QString tempdc = QDir::currentDirPath();
+        QString tempdc = QDir::currentPath();
         tempdc += "/tournament.html";
         browser = new Docbrowser (tempdc);
     }
@@ -704,7 +706,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             return;
         }
 
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         QString temp;
 
         s << "Numberofbot:" << " " << numofbots << "\n";
@@ -728,7 +730,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             return;
         }
 
-        Q3TextStream s2 (&f2);
+        QTextStream s2 (&f2);
 
         s2 << "<HTML>\n";
         s2 << "<HEAD>\n";
@@ -746,7 +748,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             s2 << "<TD>" << x+1 << "</TD>\n";
             s2 << "<TD>\n";
             temp = newlist[x];
-            int pos = temp.findRev ("/",temp.length());
+            int pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
             s2 << temp.data();
             s2 << "</TD>\n";
@@ -768,14 +770,14 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             s2 << "<TD>\n";
 
             temp = names[x];
-            int pos = temp.findRev ("/",temp.length());
+            int pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
             s2 << temp.data();
             s2 << "</TD>\n";
 
             s2 << "<TD>\n";
             temp = names[results[x].secbot];
-            pos = temp.findRev ("/",temp.length());
+            pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
             s2 << temp.data();
             s2 << "</TD>\n";
@@ -793,7 +795,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         f2.close();
         delete kotht;
         enabletourneys();
-        QString tempdc = QDir::currentDirPath();
+        QString tempdc = QDir::currentPath();
         tempdc += "/Kothresults.html";
         browser = new Docbrowser (tempdc);
     }
@@ -935,7 +937,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
             return;
         }
 
-        Q3TextStream s2 (&f2);
+        QTextStream s2 (&f2);
         s2 << "<HTML>\n";
         s2 << "<HEAD>\n";
         s2 << "<TITLE>Cup results</TITLE>\n";
@@ -965,7 +967,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
         s2 << "Random seed used: " << seed;
         s2 << "\n</BODY>\n</HTML>";
         f2.close();
-        QString tempdc = QDir::currentDirPath();
+        QString tempdc = QDir::currentPath();
         tempdc += "/Cupresults.html";
         browser = new Docbrowser (tempdc);
         delete cuptournament;

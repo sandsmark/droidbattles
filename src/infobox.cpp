@@ -20,8 +20,8 @@
 #include <QCloseEvent>
 #include <QLabel>
 
-infobox::infobox (QString msg, QWidget *parent, const char *name)
-        : QWidget (parent,name)
+infobox::infobox (QString msg, QWidget *parent)
+        : QWidget (parent)
 {
     text = new QLabel (msg,this);
     text->setGeometry (0,0,0,0);

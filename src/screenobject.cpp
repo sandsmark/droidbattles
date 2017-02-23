@@ -31,11 +31,11 @@ screenobject::~screenobject()
 {
 }
 
-void screenobject::showobject (QWidget* /*buffer*/, int /*opt*/)
+void screenobject::showobject (QPixmap * /*buffer*/, int /*opt*/)
 {
 }
 
-void screenobject::eraseobject (QWidget* /*buffer*/)
+void screenobject::eraseobject (QPixmap * /*buffer*/)
 {
 }
 
@@ -150,12 +150,12 @@ int screenobject::getcollisionstrength()
     return 0;
 }
 
-const char* screenobject::getdebug1()
+QString screenobject::getdebug1()
 {
     return 0;
 }
 
-const char* screenobject::getdebug2()
+QString screenobject::getdebug2()
 {
     return 0;
 }

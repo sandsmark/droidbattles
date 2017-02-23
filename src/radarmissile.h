@@ -25,7 +25,6 @@
 #include "steering.h"
 #include "scanner.h"
 #include "device.h"
-#include <q3multilineedit.h>
 #include "debugwindow.h"
 /**
 	* A programmable missile
@@ -40,8 +39,8 @@ public:
     radarmissile (int,int,int,int,int,int,textmodeBattleArea &,RAM *,int owner, bool ui=true);
     ~radarmissile();
     int execute();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer, int opt = 0);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt = 0);
     int returntype();
     int getcollisiontype();
     int getcollisionstrength();
@@ -52,7 +51,7 @@ public:
     void putdevport (unsigned char port,unsigned short value);
     int iodevtobatt (int bot,int dev,int choice,int arg1,int arg2);
     int returnradar();
-    void createDbgWindow (int, Q3MultiLineEdit*, int*, int*);
+    void createDbgWindow (int, QPlainTextEdit *, int*, int*);
 
 private:
 

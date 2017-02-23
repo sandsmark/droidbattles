@@ -39,8 +39,7 @@ missile::missile (int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &ar
     size = 1<<6;
     if (useUI)
     {
-        erasegfx = new QPixmap;
-        erasegfx->resize (8,8);
+        erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
         graphics = Pixmapholder::getpmp (7);
     }
@@ -64,20 +63,23 @@ int missile::execute()
 /**
 	* Paint the shot black
 	*/
-void missile::eraseobject (QWidget *buffer)
+void missile::eraseobject (QPixmap *buffer)
 {
-    bitBlt (buffer, (oldX>>6)-4, (oldY>>6)-4,erasegfx);
+    QPainter painter(buffer);
+    painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
 }
 
 /**
 	* Paint the shot on the screen
 	*/
-void missile::showobject (QWidget *buffer,int opt)
+void missile::showobject (QPixmap *buffer,int opt)
 {
-    if (opt == 0)
-        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,graphics);
-    else
-        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,erasegfx);
+    QPainter painter(buffer);
+    if (opt == 0) {
+        painter.drawPixmap ((getXpos() >>6)-4, (getYpos() >>6)-4, *graphics);
+    } else {
+        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *erasegfx);
+    }
     oldX = int (Xpos);
     oldY = int (Ypos);
 }

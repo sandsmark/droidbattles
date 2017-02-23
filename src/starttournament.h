@@ -19,13 +19,13 @@
 #define STARTTOURNAMENT_H
 
 #include <qwidget.h>
-#include <q3listbox.h>
+#include <QListWidget>
 #include <qpushbutton.h>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <q3filedialog.h>
+#include <QFileDialog>
 #include <qcheckbox.h>
 //Added by qt3to4:
 #include <QCloseEvent>
@@ -44,7 +44,7 @@ public:
     starttournament();
     ~starttournament();
     int getnumofbots();
-    const char* getbotfile (int bot);
+    QString getbotfile(int bot);
     void closeEvent (QCloseEvent *e);
     int getnumfights();
     int getlength();
@@ -68,7 +68,7 @@ signals:
 private:
 
     int numofbots;
-    Q3ListBox *botfiles;
+    QListWidget *botfiles;
     QLabel *tnumfights;
     QLineEdit *wnumfights;
     QLabel *lengthfight;

@@ -38,8 +38,8 @@ public:
             int owner, bool ui=true);
     int objhit (int type,int strength);
     int returntype();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer, int opt=0);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt=0);
     int execute();
     int changepos (double X,double Y);
     int getcollisiontype();

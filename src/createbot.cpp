@@ -17,16 +17,17 @@
 
 #include "createbot.h"
 #include "myqmultilineedit.h"
-#include <q3scrollview.h>
 #include <qcombobox.h>
 //Added by qt3to4:
 #include <QResizeEvent>
-#include <Q3PopupMenu>
+#include <QMenu>
 #include <QCloseEvent>
+#include <QScrollBar>
 #include "commonsymbols.h"
 #include "instruktion.h"
 #include <qregexp.h>
-#include <q3textstream.h>
+#include <QTextStream>
+#include <QTextBlock>
 #include <unistd.h>
 #include "battlearea.h"
 #include "quickconf.h"
@@ -49,70 +50,72 @@ createbot::createbot()
     showlatency->setGeometry (5,30,65,400);
     showlatency->setReadOnly (true);
 
-    File = new Q3PopupMenu();
-    File->insertItem ("&New", this, SLOT (newb()));
-    File->insertItem ("&Open", this, SLOT (open()));
-    File->insertItem ("&Save", this, SLOT (save()));
-    File->insertItem ("S&ave As", this, SLOT (saveas()));
-    File->insertItem ("&Close", this, SLOT (closec()));
-
-    Edit = new Q3PopupMenu();
-    Edit->insertItem ("&Copy", this, SLOT (copy()));
-    Edit->insertItem ("C&ut", this, SLOT (cut()));
-    Edit->insertItem ("&Paste", this, SLOT (paste()));
-
-    Assemble = new Q3PopupMenu();
-    Assemble->insertItem ("&Assemble", this, SLOT (assemble()));
-
-    tests = new Q3PopupMenu();
-    tests->insertItem ("&Quick battle", this, SLOT (startquick()));
-    tests->insertItem ("&Config quick battle", this, SLOT (confquick()));
-    tests->insertItem ("C&heck against config", this, SLOT (checkconf()));
-
     menb = new QMenuBar (this);
-    menb->insertItem ("&File",File);
-    menb->insertItem ("&Edit",Edit);
-    menb->insertItem ("&Assemble",Assemble);
-    menb->insertItem ("&Tests", tests);
 
-    scrvw = new Q3ScrollView (this);
+    File = menb->addMenu("&File");
+    File->addAction("&New", this, SLOT (newb()));
+    File->addAction("&Open", this, SLOT (open()));
+    File->addAction("&Save", this, SLOT (save()));
+    File->addAction("S&ave As", this, SLOT (saveas()));
+    File->addAction("&Close", this, SLOT (closec()));
+
+    Edit = new QMenu();
+    Edit = menb->addMenu("&Edit");
+    Edit->addAction("&Copy", this, SLOT (copy()));
+    Edit->addAction("C&ut", this, SLOT (cut()));
+    Edit->addAction("&Paste", this, SLOT (paste()));
+
+    Assemble = menb->addMenu("&Assemble");
+    Assemble->addAction ("&Assemble", this, SLOT (assemble()));
+
+    tests = menb->addMenu("&Tests");
+    tests->addAction("&Quick battle", this, SLOT (startquick()));
+    tests->addAction("&Config quick battle", this, SLOT (confquick()));
+    tests->addAction("C&heck against config", this, SLOT (checkconf()));
+
+
+    scrvw = new QScrollArea (this);
     scrvw->setGeometry (380,40,210,400);
     boxarea = new QWidget();
     boxarea->setGeometry (0,0,184,1720);
-    scrvw->addChild (boxarea);
+    scrvw->setWidget(boxarea);
 
     int x;
     for (x=0; x<32; x++)
     {
-        devices[x] = new devchoice (this,boxarea,"",x);
+        devices[x] = new devchoice (this,boxarea,x);
         devices[x]->setGeometry (10,60+x*50,170,50);
         devices[x]->show();
         QObject::connect (devices[x],SIGNAL (change()),this,
                           SLOT (devchanged()));
     }
 
-    amountRAM = new QComboBox (FALSE,boxarea);
-    amountRAM->insertItem ("1k RAM");
-    amountRAM->insertItem ("2k RAM");
-    amountRAM->insertItem ("4k RAM");
-    amountRAM->insertItem ("8k RAM");
-    amountRAM->insertItem ("16k RAM");
-    amountRAM->insertItem ("24k RAM");
-    amountRAM->insertItem ("32k RAM");
-    amountRAM->insertItem ("48k RAM");
-    amountRAM->insertItem ("64k RAM");
+    amountRAM = new QComboBox (boxarea);
+    amountRAM->setEditable(false);
+    amountRAM->addItem ("1k RAM");
+    amountRAM->addItem ("2k RAM");
+    amountRAM->addItem ("4k RAM");
+    amountRAM->addItem ("8k RAM");
+    amountRAM->addItem ("16k RAM");
+    amountRAM->addItem ("24k RAM");
+    amountRAM->addItem ("32k RAM");
+    amountRAM->addItem ("48k RAM");
+    amountRAM->addItem ("64k RAM");
     amountRAM->move (0,0);
     amountRAM->adjustSize();
     amountRAM->move (10,10);
     amountRAM->show();
 
     dirname = new char[100];
-    botname = QDir::homeDirPath();
+    botname = QDir::homePath();
     botname += "/droidbattles/unnamed";
 
     gfxbutton = new QPushButton (this);
     gfxbutton->setGeometry (10,450,520,36);
-    gfxbutton->setPixmap (gfx);
+
+    QPalette palette;
+    palette.setBrush(gfxbutton->backgroundRole(), QBrush(gfx));
+    gfxbutton->setPalette(palette);
     QObject::connect (gfxbutton, SIGNAL (clicked()), this,
                       SLOT (choosepic()));
     changed = false;
@@ -378,10 +381,14 @@ void createbot::resizeEvent (QResizeEvent *)
 	*/
 void createbot::choosepic()
 {
-    QString filename = Q3FileDialog::getOpenFileName (0,"*.bmp",this);
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select picture file"), QDir::homePath(), "*.bmp");
     if (!filename.isEmpty())
         gfx.load (filename);
-    gfxbutton->setPixmap (gfx);
+
+    QPalette palette;
+    palette.setBrush(gfxbutton->backgroundRole(), QBrush(gfx));
+    gfxbutton->setPalette(palette);
+
     changed = true;
 }
 
@@ -390,7 +397,7 @@ void createbot::choosepic()
 	*/
 createbot::~createbot()
 {
-    if (changed || edittxt->edited())
+    if (changed || edittxt->document()->isModified())
     {
         switch (QMessageBox::information (this, "BattleBots",
                                           "The document contains unsaved work\n"
@@ -421,7 +428,7 @@ void createbot::closeEvent (QCloseEvent*)
 	*/
 void createbot::newb()
 {
-    if (changed || edittxt->edited())
+    if (changed || edittxt->document()->isModified())
     {
         switch (QMessageBox::information (this, "BattleBots",
                                           "The document contains unsaved work\n"
@@ -443,12 +450,12 @@ void createbot::newb()
         devices[x]->levelchosen (0);
         devices[x]->setarg1 (0);
     }
-    amountRAM->setCurrentItem (0);
-    botname = QDir::homeDirPath();
+    amountRAM->setCurrentIndex(0);
+    botname = QDir::homePath();
     botname += "/droidbattles/unnamed";
-    gfx.resize (0,0);
+    gfx = QPixmap(0,0);
     changed = false;
-    edittxt->setEdited (false);
+    edittxt->document()->setModified(false);
 }
 
 /**
@@ -461,7 +468,7 @@ void createbot::newb()
 void createbot::open()
 {
 
-    if (changed || edittxt->edited())
+    if (changed || edittxt->document()->isModified())
     {
         switch (QMessageBox::information (this, "BattleBots",
                                           "The document contains unsaved work\n"
@@ -475,7 +482,7 @@ void createbot::open()
             break;
         }
     }
-    QString tempname = Q3FileDialog::getOpenFileName (0,"*.basm",this);
+    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot source file"), QDir::homePath(), "*.basm");
     if (!tempname.isEmpty())
     {
         QFile f (tempname);
@@ -485,12 +492,12 @@ void createbot::open()
             return;
         }
         QString tline;
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         unsigned short i;
 //		char v;
         s >> tline;
         s >> i;
-        amountRAM->setCurrentItem (i);
+        amountRAM->setCurrentIndex (i);
         int x;
         for (x=0; x<32; x++)
         {
@@ -508,7 +515,7 @@ void createbot::open()
         while (!s.atEnd())
         {
             tline = s.readLine();
-            edittxt->append (tline);
+            edittxt->appendPlainText (tline);
         }
         f.close();
         botname = tempname.left (tempname.length()-5);
@@ -518,10 +525,10 @@ void createbot::open()
         if (f2.exists())
             gfx.load (tempname);
         else
-            gfx.resize (0,0);
+            gfx = QPixmap();
     }
     changed = false;
-    edittxt->setEdited (false);
+    edittxt->document()->setModified(false);
 }
 
 /**
@@ -539,14 +546,14 @@ void createbot::save()
             saveas();
             return;
         }
-        Q3TextStream s (&f);
-        s << "RAM: " << amountRAM->currentItem() << endl <<  endl;
+        QTextStream s (&f);
+        s << "RAM: " << amountRAM->currentIndex() << endl <<  endl;
         int x;
         for (x=0; x<32; x++)
             s << "DEVICE: " << devices[x]->getitem() << " " <<
             devices[x]->getlevel() << " " << devices[x]->getarg1() << endl;
         s << endl;
-        QString tempdata = edittxt->text();
+        QString tempdata = edittxt->document()->toPlainText();
         s << tempdata;
         f.close();
     }
@@ -557,7 +564,7 @@ void createbot::save()
         gfx.save (tempname, "BMP");
     }
     changed = false;
-    edittxt->setEdited (false);
+    edittxt->document()->setModified(false);
 }
 
 /**
@@ -568,7 +575,7 @@ void createbot::save()
 	*/
 void createbot::saveas()
 {
-    QString tempname = Q3FileDialog::getSaveFileName (0,"*.basm",this);
+    QString tempname = QFileDialog::getSaveFileName (this, tr("Save bot source file"), QDir::homePath(), "*.basm");
     if (!tempname.isEmpty())
     {
         QFile f (tempname);
@@ -577,14 +584,14 @@ void createbot::saveas()
             error ("Couldn't open file!",0);
             return;
         }
-        Q3TextStream s (&f);
-        s << "RAM: " << amountRAM->currentItem() << endl <<  endl;
+        QTextStream s (&f);
+        s << "RAM: " << amountRAM->currentIndex() << endl <<  endl;
         int x;
         for (x=0; x<32; x++)
             s << "DEVICE: " << devices[x]->getitem() << " " <<
             devices[x]->getlevel() << " " << devices[x]->getarg1() << endl;
         s << endl;
-        QString tempdata = edittxt->text();
+        QString tempdata = edittxt->document()->toPlainText();
         s << tempdata;
         f.close();
     }
@@ -596,7 +603,7 @@ void createbot::saveas()
         gfx.save (tempname, "BMP");
     }
     changed = false;
-    edittxt->setEdited (false);
+    edittxt->document()->setModified(false);
 }
 
 /**
@@ -662,7 +669,7 @@ void createbot::assemble()
     mem[0] = 'B';
 
     //Put in the amount of RAM
-    mem[1] = amountRAM->currentItem();
+    mem[1] = amountRAM->currentIndex();
     if (mem[1] == 0)
         RAMAMOUNT = 1024;
     if (mem[1] == 1)
@@ -1558,9 +1565,9 @@ void createbot::assemble()
     QFile f (tempname);
     while (end != true)              //If we still have lines left to compile
     {
-        if (edittxt->numLines() > linenum)
+        if (edittxt->document()->lineCount() > linenum)
         {
-            curline = edittxt->textLine (linenum);   //Load one line
+            curline = edittxt->document()->findBlockByLineNumber(linenum).text();   //Load one line
             QString insertstr = "";
             for (i=0; i<15; i++)
             {
@@ -1576,14 +1583,14 @@ void createbot::assemble()
             if (curline.length() > 1)
             {
                 //Chop of line comments and such
-                tpos = curline.find (QRegExp ("[;\\n\\r]"),0);
+                tpos = curline.indexOf(QRegExp ("[;\\n\\r]"),0);
                 tempstring = curline.left (tpos);
-                curline = tempstring.copy();
-                tpos = curline.find (QRegExp ("[a-zA-Z0-9_#:%@$]"),0);
+                curline = tempstring;
+                tpos = curline.indexOf (QRegExp ("[a-zA-Z0-9_#:%@$]"),0);
                 curline = curline.right (curline.length()-tpos);
                 if (curline.length() <= 1)
                 {
-                    showlatency->insertLine ("",-1);
+                    showlatency->appendPlainText("\n");
                     goto newline;
                 }
 
@@ -1592,18 +1599,18 @@ void createbot::assemble()
                 // take the tokens
                 for (i=0; i<15; i++)
                 {
-                    tpos = curline.find (QRegExp ("[\\s,\\x0]"),0);
+                    tpos = curline.indexOf (QRegExp ("[\\s,\\x0]"),0);
 
                     if (tpos < curline.length())
                         token[i] = curline.left (tpos);
                     else
                     {
-                        token[i] = curline.copy();
+                        token[i] = curline;
                         exist[i] = true;
                         break;
                     }
                     curline = curline.right (curline.length()-tpos);
-                    tpos = curline.find (QRegExp ("[a-zA-Z0-9_#:%@$+-]"),0);
+                    tpos = curline.indexOf(QRegExp ("[a-zA-Z0-9_#:%@$+-]"),0);
                     curline = curline.right (curline.length()-tpos);
                     exist[i] = true;
 
@@ -2470,7 +2477,7 @@ found:
                 }
             }
 
-            showlatency->insertLine (insertstr,-1);
+            showlatency->appendPlainText(insertstr);
         }
         else
         {
@@ -2479,7 +2486,7 @@ found:
         }
 newline:
         linenum++;
-        if (linenum > edittxt->numLines()-1)
+        if (linenum > edittxt->document()->lineCount() - 1)
         {
             end=true;
         }
@@ -2542,7 +2549,7 @@ ende:
 void createbot::error (const char *msg,int line)
 {
     QMessageBox::information (0,"Message from the almighty assembler", msg);
-    if (line >= 0)	edittxt->setCursorPosition (line,0);
+    if (line >= 0)	edittxt->setTextCursor(QTextCursor(edittxt->document()->findBlockByLineNumber(line)));
 }
 
 /**
@@ -2559,7 +2566,7 @@ void createbot::startquick()
         error ("You need to assemble the bot...",0);
         return;
     }
-    temp = QDir::homeDirPath();
+    temp = QDir::homePath();
     temp += "/droidbattles/quick.conf";
     QFile f2 (temp);
     QString names[8];
@@ -2568,7 +2575,7 @@ void createbot::startquick()
     int teams[8];
     if (f2.exists() && f2.open (QIODevice::ReadOnly))
     {
-        Q3TextStream s (&f2);
+        QTextStream s (&f2);
         for (int x=0; x<8; x++)
         {
             s >> names[x];
@@ -2631,7 +2638,7 @@ void createbot::stopconf()
 	*/
 void createbot::checkconf()
 {
-    QString tempname = QDir::homeDirPath();
+    QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
@@ -2640,7 +2647,7 @@ void createbot::checkconf()
         return;
     }
 
-    Q3TextStream s (&f);
+    QTextStream s (&f);
     int x,y;
 
     QString dummy;
@@ -2686,7 +2693,7 @@ void createbot::checkconf()
     int devicesenabled[32];
     for (int l=0; l<32; devicesenabled[l++]=0) {};
 
-    amountram = amountRAM->currentItem();
+    amountram = amountRAM->currentIndex();
     totalcost = curconfig.ramcost[amountram];
 
     for (x=0; x<32; x++)

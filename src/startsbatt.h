@@ -26,12 +26,12 @@
 #include <QCloseEvent>
 #include "commonsymbols.h"
 #include <qlineedit.h>
-#include <q3filedialog.h>
+#include <QFileDialog>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
-#include <q3textstream.h>
+#include <QTextStream>
 #include "pixmapholder.h"
 #include "pixbutton.h"
 

@@ -21,16 +21,16 @@
 #include <qwidget.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <q3groupbox.h>
+#include <QGroupBox>
 #include <qlabel.h>
-#include <q3scrollview.h>
+#include <QScrollArea>
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qfile.h>
-#include <q3filedialog.h>
-#include <q3textstream.h>
+#include <QFileDialog>
+#include <QTextStream>
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
@@ -65,7 +65,7 @@ private:
 
     // Area covering all - menu buttons
     QWidget *setarea;
-    Q3ScrollView *scroll;
+    QScrollArea *scroll;
 
     //Used for all numeric input
     QIntValidator *valid;
@@ -82,7 +82,7 @@ private:
     QComboBox *ramcostv;
 
     //Device specific settings
-    Q3GroupBox *devicegroup[numdev];
+    QGroupBox *devicegroup[numdev];
     QCheckBox *devicesenabled[numdev];
     QLabel *costs[numdev];
     QComboBox *levelcosts[numdev];

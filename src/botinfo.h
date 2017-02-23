@@ -18,12 +18,10 @@
 #ifndef BOTINFO_H
 #define BOTINFO_H
 
-#include <q3groupbox.h>
-#include <q3progressbar.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qstring.h>
+#include <QLabel>
+#include <QCheckBox>
+#include <QString>
+#include <QProgressBar>
 #include "screenobject.h"
 
 /** Holds the info about one bot
@@ -35,8 +33,7 @@ class botinfo : public QWidget
     Q_OBJECT
 
 public:
-    botinfo (const char *botname, screenobject *rb, int armor,QWidget *parent,
-             const char *name=0);
+    botinfo (const QString &botname, screenobject *rb, int armor, QWidget *parent);
     ~botinfo();
 
 private slots:
@@ -50,8 +47,8 @@ signals:
 
 private:
     QLabel *botnam;
-    Q3ProgressBar *armorlevel;
-    Q3ProgressBar *heatlevel;
+    QProgressBar *armorlevel;
+    QProgressBar *heatlevel;
     QLabel *armormsg;
     QLabel *heatmsg;
     QLabel *msgmsg;

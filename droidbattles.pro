@@ -1,9 +1,10 @@
-CONFIG += qt debug
-QT += qt3support
+#CONFIG += qt debug
 TEMPLATE = app
-TARGET = 
+TARGET = droidbattles
+QT += widgets printsupport
 DEPENDPATH += . src
 INCLUDEPATH += . src
+CONFIG += c++11
 
 # Input
 HEADERS += src/armor.h \

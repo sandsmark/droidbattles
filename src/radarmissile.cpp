@@ -40,8 +40,7 @@ radarmissile::radarmissile (int X,int Y,int dir,int bootm,int stm,int mnum,
     size = 1<<6;
     if (useUI)
     {
-        erasegfx = new QPixmap;
-        erasegfx->resize (8,8);
+        erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
         graphics = Pixmapholder::getpmp (4);
     }
@@ -81,24 +80,26 @@ int radarmissile::returntype()
 /**
 	* Paint object black
 	*/
-void radarmissile::eraseobject (QWidget *buffer)
+void radarmissile::eraseobject (QPixmap *buffer)
 {
-    bitBlt (buffer, (oldX>>6)-4, (oldY>>6)-4,erasegfx);
-    devices[2]->erasegfx (buffer);
+    QPainter painter(buffer);
+    painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
+    devices[2]->erasegfx (&painter);
 }
 
 /**
 	* Paint object gfx
 	*/
-void radarmissile::showobject (QWidget *buffer, int opt)
+void radarmissile::showobject (QPixmap *buffer, int opt)
 {
+    QPainter painter(buffer);
     if (opt == 0)
-        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,graphics);
+        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *graphics);
     else
-        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,erasegfx);
+        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *erasegfx);
     oldX = int (Xpos);
     oldY = int (Ypos);
-    devices[2]->showgfx (buffer);
+    devices[2]->showgfx (&painter);
 }
 
 /**
@@ -181,7 +182,7 @@ int radarmissile::returnradar()
     return 4;
 }
 
-void radarmissile::createDbgWindow (int id, Q3MultiLineEdit* e,int* l,int* m)
+void radarmissile::createDbgWindow (int id, QPlainTextEdit *e, int* l, int* m)
 {
     if (dbgWindow) delete dbgWindow;
     dbgWindow = new debugwindow (e,&l[0],&m[0]);
@@ -189,6 +190,6 @@ void radarmissile::createDbgWindow (int id, Q3MultiLineEdit* e,int* l,int* m)
     dbgWindow->show();
     QString title;
     title.sprintf ("Missile #%d",id);
-    dbgWindow->setCaption (title); // set title
+    dbgWindow->setWindowTitle (title); // set title
 }
 

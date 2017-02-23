@@ -61,11 +61,11 @@ int device::absorbhit (int str, int /*ifint*/)
     return str;
 }
 
-void device::erasegfx (QWidget* /*buffer*/)
+void device::erasegfx (QPainter* /*buffer*/)
 {
 }
 
-void device::showgfx (QWidget* /*buffer*/)
+void device::showgfx (QPainter* /*buffer*/)
 {
 }
 

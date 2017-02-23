@@ -17,8 +17,8 @@
 
 #include "pixbutton.h"
 
-PixButton::PixButton (QString text,int pix,QWidget *parent,char *name)
-        : QPushButton (parent,name)
+PixButton::PixButton (QString text,int pix,QWidget *parent)
+        : QPushButton (parent)
 {
     whichpix = pix;
     tex = text;
@@ -33,5 +33,5 @@ void PixButton::paintEvent (QPaintEvent *)
     QPainter paint;
     paint.drawPixmap (2,2,Pixmapholder::getpm (whichpix),
                        0,0,width()-5,height()-5);
-    paint.drawText (2, 2, width()-5, height()-5, Qt::AlignCenter, tex, -1);
+    paint.drawText (2, 2, width()-5, height()-5, Qt::AlignCenter, tex);
 }

@@ -17,7 +17,7 @@
 
 #include "kothtournament.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QLabel>
 #include <QCloseEvent>
 
@@ -29,7 +29,7 @@ kothtournament::kothtournament()
 
 //	int x;
 
-    botfiles = new Q3ListBox (this);
+    botfiles = new QListWidget (this);
     botfiles->setGeometry (10,75,270,170);
 
     press[0] = new PixButton ("load",1,this);
@@ -71,13 +71,19 @@ kothtournament::kothtournament()
 
     maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
     maxxinfo->setGeometry (10,350,200,20);
-    maxx = new QSpinBox (8192,65535,512,this);
+    maxx = new QSpinBox (this);
+    maxx->setMinimum(8192);
+    maxx->setMaximum(65535);
+    maxx->setSingleStep(512);
     maxx->setGeometry (210,350,80,30);
     maxx->setValue (32768);
 
     maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
     maxyinfo->setGeometry (10,380,200,20);
-    maxy = new QSpinBox (8192,65535,512,this);
+    maxy = new QSpinBox (this);
+    maxy->setMinimum(8192);
+    maxy->setMaximum(65535);
+    maxy->setSingleStep(512);
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
@@ -101,9 +107,9 @@ int kothtournament::getnumofbots()
 /**
 	* Return the dir for bot x
 	*/
-const char* kothtournament::getbotfile (int x)
+QString kothtournament::getbotfile (int x)
 {
-    return botfiles->text (x);
+    return botfiles->item(x)->text();
 }
 
 /**
@@ -111,12 +117,12 @@ const char* kothtournament::getbotfile (int x)
 	*/
 void kothtournament::choosefile()
 {
-    QString tempname = Q3FileDialog::getOpenFileName (0,"*.bot",this);
+    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
 //	int x;
 
     if (!tempname.isEmpty())
     {
-        botfiles->insertItem (tempname);
+        botfiles->addItem(tempname);
     }
 }
 
@@ -126,7 +132,7 @@ void kothtournament::choosefile()
 void kothtournament::dechoosefile()
 {
 //	int x;
-    botfiles->removeItem (botfiles->currentItem());
+    delete botfiles->takeItem(botfiles->currentRow());
 }
 
 void kothtournament::ocl()
@@ -189,7 +195,7 @@ bool kothtournament::getiffast()
 	*/
 void kothtournament::chooselist()
 {
-    QString tempname = Q3FileDialog::getOpenFileName (0,"*.table",this);
+    QString tempname = QFileDialog::getOpenFileName (this, tr("Select tournament table file"), QDir::homePath(), "*.table");
     int x;
 
     if (!tempname.isEmpty())
@@ -199,7 +205,7 @@ void kothtournament::chooselist()
         //Load new bots
         QFile f (tempname);
         f.open (QIODevice::ReadOnly);
-        Q3TextStream s (&f);
+        QTextStream s (&f);
 
         QString temp;
         s >> temp;
@@ -209,7 +215,7 @@ void kothtournament::chooselist()
         {
             s >> temp;
             s >> temp;
-            botfiles->insertItem (temp);
+            botfiles->addItem (temp);
         }
         //numfights
         s >> temp;

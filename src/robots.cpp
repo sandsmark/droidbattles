@@ -17,7 +17,7 @@
 
 #include "robots.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QPixmap>
 
 /**
@@ -227,11 +227,9 @@ robots::robots (char *name,textmodeBattleArea &object,int mnum, confstruct confi
 
     if (useUI)
     {
-        erasegfx = new QPixmap;
-        erasegfx->resize (32,32);
+        erasegfx = new QPixmap(32, 32);
         erasegfx->fill (Qt::black);
-        graphics = new QPixmap;
-        graphics->resize (32,32);
+        graphics = new QPixmap(32, 32);
         QString temp;
         temp = name;
         temp = temp.left (temp.length()-3);
@@ -336,14 +334,15 @@ int robots::execute()
 /**
 	* Paint bot black
 	*/
-void robots::eraseobject (QWidget *buffer)
+void robots::eraseobject (QPixmap *buffer)
 {
-    bitBlt (buffer, (oldX>>6)-16, (oldY>>6)-16,erasegfx);
+    QPainter painter(buffer);
+    painter.drawPixmap((oldX>>6)-16, (oldY>>6)-16, *erasegfx);
     int x;
     if (gfxin == true)
     {
         for (x=0; x<32; x++)
-            devicelist[x]->erasegfx (buffer);
+            devicelist[x]->erasegfx (&painter);
         gfxin = false;
     }
 }
@@ -351,8 +350,10 @@ void robots::eraseobject (QWidget *buffer)
 /**
 	* Show bot gfx on screen
 	*/
-void robots::showobject (QWidget *buffer, int opt)
+void robots::showobject (QPixmap *buffer, int opt)
 {
+    QPainter painter(buffer);
+
     int degrees = getdir() + (degreesperpic/2);
     if (degrees > 1023)
         degrees -= 1024;
@@ -362,12 +363,12 @@ void robots::showobject (QWidget *buffer, int opt)
 
     int x;
     if (opt == 0)
-        bitBlt (buffer, (getXpos() >>6)-16, (getYpos() >>6)-16,graphics,picpos,
+        painter.drawPixmap ((getXpos() >>6)-16, (getYpos() >>6)-16, 32, 32, *graphics, picpos,
                 ypicpos,32,32);
     if (showextragfx == true)
     {
         for (x=0; x<32; x++)
-            devicelist[x]->showgfx (buffer);
+            devicelist[x]->showgfx (&painter);
         gfxin = true;
     }
 }
@@ -490,25 +491,25 @@ int robots::getsize()
     return size;
 }
 
-const char* robots::getdebug1()
+QString robots::getdebug1()
 {
     return debug1;
 }
 
-const char* robots::getdebug2()
+QString robots::getdebug2()
 {
     return debug2;
 }
 
 void robots::setdebug1 (int msg)
 {
-    Q3TextStream ts (debug1, QIODevice::ReadWrite);
+    QTextStream ts (&debug1);
     ts << "Angle is: " << msg << "  ";
 }
 
 void robots::setdebug2 (int msg)
 {
-    Q3TextStream ts (debug2, QIODevice::ReadWrite);
+    QTextStream ts (&debug2);
     ts << "distance is: " << msg << "  ";
 }
 
@@ -649,7 +650,7 @@ void robots::dumpRAM()
             {
                 for (int y=0; y<ramdevice->returnsize(); y++)
                 {
-                    f.putch (ramdevice->getbyte (y));
+                    f.putChar(ramdevice->getbyte (y));
                 }
                 f.close();
             }

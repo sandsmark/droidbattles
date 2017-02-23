@@ -32,8 +32,8 @@ public:
     beam (int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true);
     ~beam();
     int execute();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer,int opt=0);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt=0);
     int objhit (int type, int strength);
     int returntype();
     int getcollisionstrength();

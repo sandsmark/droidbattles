@@ -24,10 +24,10 @@
   */
 #include "ram.h"
 #include "commonsymbols.h"
-#include <qdir.h>
-#include <qstring.h>
-#include <q3textstream.h>
-#include <qfile.h>
+#include <QDir>
+#include <QString>
+#include <QTextStream>
+#include <QFile>
 #include "confstruct.h"
 #include "screenobject.h"
 #include <iostream>
@@ -37,8 +37,8 @@ class textmodeBattleArea
 public:
     textmodeBattleArea();
     virtual ~textmodeBattleArea();
-    textmodeBattleArea (const char *name1,const char *name2,const char *name3,const char *name4,const char *name5,
-                        const char *name6,const char *name7,const char *name8,int numf,int ,int xs,
+    textmodeBattleArea (const QString &name1,const QString &name2,const QString &name3,const QString &name4,const QString &name5,
+                        const QString &name6,const QString &name7,const QString &name8,int numf,int ,int xs,
                         int ys,bool ifteams,int *bteams, bool tourney,
                         int mode = 0);
     virtual void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,

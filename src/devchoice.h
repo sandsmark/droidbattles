@@ -21,7 +21,7 @@
 #include <qwidget.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <q3buttongroup.h>
+#include <QButtonGroup>
 #include <qradiobutton.h>
 #include <qvalidator.h>
 #include <qstring.h>
@@ -29,7 +29,7 @@
 #include <qpushbutton.h>
 #include <qmessagebox.h>
 #include "confstruct.h"
-#include <q3textstream.h>
+#include <QTextStream>
 #include <qfile.h>
 #include "commonsymbols.h"
 #include <qdir.h>
@@ -52,7 +52,7 @@ class devchoice : public QWidget
 
 public:
 
-    devchoice (createbot *cre,QWidget *parent=0, const char *name=0,
+    devchoice (createbot *cre, QWidget *parent=0,
                int num=0);
     ~devchoice();
     unsigned short getitem();
@@ -65,7 +65,7 @@ private:
 
     QComboBox *comb;
     QLineEdit *arg1;
-    Q3ButtonGroup *level;
+    QButtonGroup *level;
     QRadioButton *levels[5];
     QIntValidator *valid;
     int dev;

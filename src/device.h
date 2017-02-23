@@ -38,8 +38,8 @@ public:
     virtual void execute();
     virtual int getfromport (unsigned char port);
     virtual int absorbhit (int str,int ifint);
-    virtual void erasegfx (QWidget *buffer);
-    virtual void showgfx (QWidget *buffer);
+    virtual void erasegfx (QPainter *painter);
+    virtual void showgfx (QPainter *painter);
     virtual int returntype();
     virtual int returnspecial();
     virtual struct debugcontents returndbg();

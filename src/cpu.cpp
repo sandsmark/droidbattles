@@ -63,8 +63,8 @@ int CPU::writefile (int start,int length,int adress)
     QFile f (ourbot->myfile);
     if (!f.open (QIODevice::WriteOnly))
         return -1;
-    f.at (start);
-    int ret = f.writeBlock (&buffer[0],length);
+    f.seek (start);
+    int ret = f.write(&buffer[0], length);
     f.close();
     return ret;
 }
@@ -78,8 +78,8 @@ int CPU::readfile (int start,int length,int adress)
     QFile f (ourbot->myfile);
     if (!f.open (QIODevice::ReadOnly))
         return -1;
-    f.at (start);
-    int ret = f.readBlock (buffer,length);
+    f.seek (start);
+    int ret = f.read(buffer,length);
     for (int x=0; x<length; x++)
         mem->setibyte (adress+x,buffer[x]);
     f.close();

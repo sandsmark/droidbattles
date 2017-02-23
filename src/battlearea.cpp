@@ -17,7 +17,6 @@
 
 #include "battlearea.h"
 //Added by qt3to4:
-#include <Q3TextStream>
 #include <QLabel>
 #include <QResizeEvent>
 #include <QCloseEvent>
@@ -26,11 +25,11 @@ bool SingleStepMode = false;
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const char *nam4,
-                        const char *nam5,const char *nam6,const char *nam7,const char *nam8,int numf,
+battlearea::battlearea (const char *nam1, const char *nam2, const char *nam3, const char *nam4,
+                        const char *nam5, const char *nam6, const char *nam7, const char *nam8, int numf,
                         int mx, int xs, int ys, bool ifteams, int *bteams,
-                        bool tourney,bool fast,int mode,int maxp,
-                        bool ifdebug,Q3MultiLineEdit *dbedit,
+                        bool tourney, bool fast, int mode, int maxp,
+                        bool ifdebug, QPlainTextEdit *dbedit,
                         int *dbl, int *dbm)
 {
 
@@ -48,7 +47,7 @@ battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const
 
     // OPen the current config file
     maxrounds = mx;
-    QString tempname = QDir::homeDirPath();
+    QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
@@ -58,7 +57,7 @@ battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const
         return;
     }
 
-    Q3TextStream s (&f);
+    QDataStream s (&f);
     int x,y;
     for (x=0; x<maxbots; x++)
     {
@@ -113,9 +112,9 @@ battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const
     for (x=0; x<8; x++)
         fightswon[x] = 0;
 
-    scrolling = new Q3ScrollView (this,0,Qt::WPaintClever);
+    scrolling = new QScrollArea (this);
     scrolling->setGeometry (16,16,524,524);
-    mydrw = new QWidget();
+    mydrw = new QLabel();
     infowindow = new QWidget();
     infowindow->resize (550,420);
 
@@ -126,10 +125,12 @@ battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const
 
     debug1->hide();
     debug2->hide();
-    scrolling->addChild (mydrw);
+    scrolling->setWidget(mydrw);
+//    scrolling->addChild (mydrw);
     mydrw->setGeometry (0,0,xsize>>6,ysize>>6);
+    m_pixmap = QPixmap(mydrw->size());
     mydrw->show();
-    mydrw->setBackgroundMode (Qt::PaletteBase);
+//    mydrw->setBackgroundMode (Qt::PaletteBase);
     mydrw->setPalette (QPalette (QColor (0,0,0)));
     playb = new PixButton ("Play",1,this);
     pauseb = new PixButton ("Pause",1,this);
@@ -162,8 +163,9 @@ battlearea::battlearea (const char *nam1,const char *nam2,const char *nam3,const
     resize (640,570);
     startonebattle (firstrun);
 
-    setBackgroundPixmap (Pixmapholder::getpm (3));
-
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QBrush(Pixmapholder::getpm (3)));
+    setPalette(palette);
 }
 
 void battlearea::resizeEvent (QResizeEvent*)
@@ -213,9 +215,7 @@ battlearea::~battlearea()
     eventH->stop();
     delete eventH;
     delete infowindow;
-    std::list<debugwindow*>::iterator i;
-    for (i=dbgwindows.begin(); i!=dbgwindows.end(); i++)
-        delete *i;
+    qDeleteAll(dbgwindows);
     dbgwindows.clear();
 //	if( debugenabled )delete dbgwindow;
 //	for( x=0;x<maxobjects;x++ )
@@ -279,9 +279,7 @@ void battlearea::startonebattle (int y)
     }
 
     if (debugenabled) {
-        std::list<debugwindow*>::iterator i;
-        for (i=dbgwindows.begin(); i!=dbgwindows.end(); i++)
-            delete *i;
+        qDeleteAll(dbgwindows);
         dbgwindows.clear();
         // the bot to be debugged is objects[debugbot]
         assert (objects[debugbot] != NULL);
@@ -293,7 +291,7 @@ void battlearea::startonebattle (int y)
             dw->show();
             QString title;
             title.sprintf ("CPU #%d",x);
-            dw->setCaption (title); // set title
+            dw->setWindowTitle(title); // set title
             dbgwindows.push_back (dw);
         }
     }
@@ -349,7 +347,7 @@ void battlearea::execute()
         {
             for (x=0; x<maxbots; x++)
             {
-                objects[x]->eraseobject (mydrw);  //Erase all bots (to call a draw)
+                objects[x]->eraseobject (&m_pixmap);  //Erase all bots (to call a draw)
                 delete objects[x];
                 objects[x] = new screenobject();
             }
@@ -361,13 +359,13 @@ void battlearea::execute()
         }
     }
     for (x=0; x<maxobjects; x++)              //Remove the gfx from last round
-        objects[x]->eraseobject (mydrw);
+        objects[x]->eraseobject (&m_pixmap);
 
     for (x=0; x<maxobjects; x++)
     {
         int ifdel = objects[x]->execute();  //Let each object execute,
         //move around and things like that
-        objects[x]->showobject (mydrw);     //Let each object paint itself
+        objects[x]->showobject (&m_pixmap);     //Let each object paint itself
         int x2;
         if (objects[x]->returntype() > 0)    //Check If the object exists and
         {                                  //is a "collidable" object
@@ -449,12 +447,12 @@ void battlearea::execute()
                             switch (battlemode)
                             {
                             case 0 :
-                                objects[x2]->eraseobject (mydrw);
+                                objects[x2]->eraseobject (&m_pixmap);
                                 delete objects[x2];
                                 objects[x2] = new screenobject();
                                 break;
                             case 1 :
-                                objects[x2]->eraseobject (mydrw);
+                                objects[x2]->eraseobject (&m_pixmap);
                                 if (x < 8 && objects[x2]->returntype() == 1)
                                 {
                                     fightswon[x2]++;
@@ -493,7 +491,7 @@ void battlearea::execute()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                objects[x2]->eraseobject (mydrw);
+                                objects[x2]->eraseobject (&m_pixmap);
                                 if (objects[x2]->returntype() == 1)
                                 {
                                     if (objects[x]->getowner() < 8 &&
@@ -532,14 +530,14 @@ void battlearea::execute()
                             switch (battlemode)
                             {
                             case 0 :  //If it's a normal battle
-                                objects[x]->eraseobject (mydrw);       //Erase him
+                                objects[x]->eraseobject (&m_pixmap);       //Erase him
                                 delete objects[x];
                                 objects[x] = new screenobject();
                                 x2 = maxobjects;
                                 continue;
                                 break;
                             case 1 :  //If it's a survival battle
-                                objects[x]->eraseobject (mydrw);
+                                objects[x]->eraseobject (&m_pixmap);
                                 if (x < 8 && objects[x]->returntype() == 1)
                                 {
                                     fightswon[x]++;
@@ -581,7 +579,7 @@ void battlearea::execute()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                objects[x]->eraseobject (mydrw);
+                                objects[x]->eraseobject (&m_pixmap);
                                 if (objects[x]->returntype() == 1)
                                 {
                                     if (x2owner < 8 && x != x2owner)
@@ -624,7 +622,7 @@ void battlearea::execute()
         }
         if (ifdel == -1)             //If the object ordered it's own destruction
         {                            //Example: shot that gets outside of screen
-            objects[x]->eraseobject (mydrw);
+            objects[x]->eraseobject (&m_pixmap);
             delete objects[x];
             objects[x] = new screenobject();
         }
@@ -829,7 +827,7 @@ void battlearea::execute()
         {
             std::list<struct debugcontents> *dc = ( (robots*) objects[debugbot])->returndbgcont2();
             assert (dc->size() == dbgwindows.size());
-            std::list<debugwindow*>::iterator i = dbgwindows.begin();
+            QList<debugwindow*>::iterator i = dbgwindows.begin();
             std::list<debugcontents>::iterator j = dc->begin();
             for (; i!=dbgwindows.end(); i++,j++)
                 (*i)->updatedata (*j);
@@ -847,6 +845,8 @@ void battlearea::execute()
 
     if (ifdelete == true)
         delete this;
+
+    mydrw->setPixmap(m_pixmap);
 }
 
 /**
@@ -1005,7 +1005,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
         S1 = strength- (D1*strength/rad);
         if (objects[z]->objhit (9,S1) == 1)     //If the damage killed him
         {
-            objects[z]->eraseobject (mydrw);       //Erase him
+            objects[z]->eraseobject (&m_pixmap);       //Erase him
             switch (battlemode)
             {
             case 0 :
@@ -1048,7 +1048,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
             case 2 :
                 int x = whichobject;
                 int x2 = z;
-                objects[x2]->eraseobject (mydrw);
+                objects[x2]->eraseobject (&m_pixmap);
                 if (objects[x2]->returntype() == 1)
                 {
                     if (objects[x]->getowner() < 8 && x2 != objects[x]->getowner())

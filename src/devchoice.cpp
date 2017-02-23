@@ -17,58 +17,64 @@
 
 #include "devchoice.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
+#include <QGroupBox>
+#include <QVBoxLayout>
 
 /** Holds one group of the device choosing group of combobox etc. in
 	* the createbot dialog
 	*/
 
-devchoice::devchoice (createbot *cre,QWidget *parent,const char *name,
-                      int num) : QWidget (parent,name)
+devchoice::devchoice (createbot *cre,QWidget *parent, int num) : QWidget (parent)
 {
     chosenlevel = 0;
     dev = 0;
     int x;
     mynum = num;
-    comb = new QComboBox (FALSE,this);
-    comb->insertItem ("none");
-    comb->insertItem ("CPU");
-    comb->insertItem ("engine");
-    comb->insertItem ("steering");
-    comb->insertItem ("plasmagun");
-    comb->insertItem ("armor");
-    comb->insertItem ("scanner");
-    comb->insertItem ("fuel");
-    comb->insertItem ("chaff");
-    comb->insertItem ("turret");
-    comb->insertItem ("scanwarn");
-    comb->insertItem ("timedev");
-    comb->insertItem ("shield");
-    comb->insertItem ("repair");
-    comb->insertItem ("radio");
-    comb->insertItem ("chiller");
-    comb->insertItem ("cloaker");
-    comb->insertItem ("minelayer");
-    comb->insertItem ("missile");
-    comb->insertItem ("beam");
-    comb->insertItem ("AS-rocket");
+    comb = new QComboBox (this);
+    comb->setEditable(false);
+    comb->addItem ("none");
+    comb->addItem ("CPU");
+    comb->addItem ("engine");
+    comb->addItem ("steering");
+    comb->addItem ("plasmagun");
+    comb->addItem ("armor");
+    comb->addItem ("scanner");
+    comb->addItem ("fuel");
+    comb->addItem ("chaff");
+    comb->addItem ("turret");
+    comb->addItem ("scanwarn");
+    comb->addItem ("timedev");
+    comb->addItem ("shield");
+    comb->addItem ("repair");
+    comb->addItem ("radio");
+    comb->addItem ("chiller");
+    comb->addItem ("cloaker");
+    comb->addItem ("minelayer");
+    comb->addItem ("missile");
+    comb->addItem ("beam");
+    comb->addItem ("AS-rocket");
 //	comb->move( 0,0 );
 //	comb->adjustSize( );
     comb->setGeometry (0,0,80,20);
 
-    level = new Q3ButtonGroup (this);
-    level->setFrameStyle (Q3Frame::NoFrame);
+    level = new QButtonGroup (this);
+    QGroupBox *radioButtons = new QGroupBox;
+    QVBoxLayout *levelsLayout = new QVBoxLayout(radioButtons);
+    radioButtons->setFlat(true);
     for (x=0; x<5; x++)
     {
-        levels[x] = new QRadioButton (level);
+        levels[x] = new QRadioButton (radioButtons);
         levels[x]->setGeometry (x*20,6,x*20+19,15);
+        levelsLayout->addWidget(levels[x]);
+        level->addButton(levels[x]);
     }
-    level->setGeometry (0,25,120,20);
+    radioButtons->setGeometry (0,25,120,20);
     arg1 = new QLineEdit (this);
     arg1->setGeometry (100,0,20,20);
-    QObject::connect (level, SIGNAL (clicked (int)), this,
+    QObject::connect (level, SIGNAL (buttonClicked (int)), this,
                       SLOT (levelchosen (int)));
     valid = new QIntValidator (0,31,this);
     arg1->setValidator (valid);
@@ -96,7 +102,7 @@ devchoice::~devchoice()
 	*/
 unsigned short devchoice::getitem()
 {
-    return comb->currentItem();
+    return comb->currentIndex();
 }
 
 /**
@@ -104,7 +110,7 @@ unsigned short devchoice::getitem()
 	*/
 void devchoice::setitem (int x)
 {
-    comb->setCurrentItem (x);
+    comb->setCurrentIndex (x);
     emit change();
 }
 
@@ -114,7 +120,7 @@ void devchoice::setitem (int x)
 void devchoice::levelchosen (int x)
 {
     chosenlevel = x;
-    level->setButton (x);
+    levels[x]->setChecked(true);
     emit change();
 }
 
@@ -132,7 +138,7 @@ int devchoice::getlevel()
 int devchoice::getarg1()
 {
     QString temp = arg1->text();
-    return (temp.stripWhiteSpace()).toInt();
+    return (temp.trimmed()).toInt();
 }
 
 /**
@@ -141,13 +147,13 @@ int devchoice::getarg1()
 void devchoice::setarg1 (char *x)
 {
     QString temp = x;
-    arg1->setText (temp.stripWhiteSpace());
+    arg1->setText (temp.trimmed());
 }
 
 void devchoice::costchanged()
 {
     struct confstruct curconfig;
-    QString tempname = QDir::homeDirPath();
+    QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
@@ -156,7 +162,7 @@ void devchoice::costchanged()
         return;
     }
 
-    Q3TextStream s (&f);
+    QTextStream s (&f);
     int x,y;
 
     QString dummy;

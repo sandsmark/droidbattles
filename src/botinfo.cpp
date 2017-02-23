@@ -18,32 +18,33 @@
 #include "botinfo.h"
 //Added by qt3to4:
 #include <QLabel>
+#include <QProgressBar>
 
 /**
 	* Constructor, create all GUI elements
 	*/
-botinfo::botinfo (const char *botname, screenobject *rb,int armor,
-                  QWidget *parent, const char *name) : QWidget (parent,name)
+botinfo::botinfo (const QString &botname, screenobject *rb, int armor, QWidget *parent) : QWidget (parent)
 {
-    QString tn = botname;
     bot = rb;
-    if (!tn.isEmpty())
+    if (!botname.isEmpty())
     {
-        int pos = tn.findRev ("/",tn.length());
-        QString temp = tn.right (tn.length()-pos-1);
+        int pos = botname.lastIndexOf("/");
+        QString temp = botname.right (botname.length()-pos-1);
         botnam = new QLabel (temp,this);
         botnam->setGeometry (5,5,70,15);
 
-        armorlevel = new Q3ProgressBar (armor,this);
+        armorlevel = new QProgressBar(this);
+        armorlevel->setMaximum(armor);
         armorlevel->setGeometry (95,5,100,25);
-        armorlevel->setProgress (armor);
+        armorlevel->setValue(armor);
 
         armormsg = new QLabel ("A:",this);
         armormsg->setGeometry (75,5,15,15);
 
-        heatlevel = new Q3ProgressBar (850,this);
+        heatlevel = new QProgressBar(this);
+        heatlevel->setMaximum(850);
         heatlevel->setGeometry (220,5,100,25);
-        heatlevel->setProgress (0);
+        heatlevel->setValue(0);
 
         heatmsg = new QLabel ("H:",this);
         heatmsg->setGeometry (200,5,15,15);
@@ -63,7 +64,10 @@ botinfo::botinfo (const char *botname, screenobject *rb,int armor,
 
         showgfx = new QWidget (this);
         showgfx->setGeometry (500,0,32,32);
-        showgfx->setBackgroundPixmap (rb->getgfx());
+
+        QPalette palette;
+        palette.setBrush(showgfx->backgroundRole(), QBrush(rb->getgfx()));
+        showgfx->setPalette(palette);
     }
     show();
 }
@@ -82,7 +86,7 @@ botinfo::~botinfo()
 void botinfo::armorupdated (int x)
 {
     armorlevel->reset();
-    armorlevel->setProgress (x);
+    armorlevel->setValue(x);
 }
 
 /**
@@ -104,7 +108,7 @@ void botinfo::updatefuel (int x,int y)
     t2 += temp;
     msgmsg->setText (t2);
     heatlevel->reset();
-    heatlevel->setProgress (y);
+    heatlevel->setValue(y);
 }
 
 /**

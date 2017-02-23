@@ -34,8 +34,7 @@ mine::mine (int x,int y, textmodeBattleArea &area,int owner, bool ui)
     noncollid = 256;
     if (useUI)
     {
-        erasegfx = new QPixmap;
-        erasegfx->resize (8,8);
+        erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
         graphics = Pixmapholder::getpmp (6);
     }
@@ -84,12 +83,15 @@ int mine::objhit (int /*type*/,int /*strength*/)
 /**
 	* Show the graphics on the battlefield
 	*/
-void mine::showobject (QWidget *buffer,int opt=0)
+void mine::showobject (QPixmap *buffer,int opt=0)
 {
-    if (opt == 0)
-        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,graphics);
-    else
-        bitBlt (buffer, (getXpos() >>6)-4, (getYpos() >>6)-4,erasegfx);
+    QPainter painter(buffer);
+
+    if (opt == 0) {
+        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *graphics);
+    } else {
+        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *erasegfx);
+    }
     oldX = int (Xpos);
     oldY = int (Ypos);
 }
@@ -97,9 +99,10 @@ void mine::showobject (QWidget *buffer,int opt=0)
 /**
 	* Paint it black
 	*/
-void mine::eraseobject (QWidget *buffer)
+void mine::eraseobject (QPixmap *buffer)
 {
-    bitBlt (buffer, (oldX>>6)-4, (oldY>>6)-4,erasegfx);
+    QPainter painter(buffer);
+    painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
 }
 
 /**

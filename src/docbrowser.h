@@ -18,7 +18,7 @@
 #ifndef DOCBROWSER_H
 #define DOCBROWSER_H
 
-#include <q3textbrowser.h>
+#include <QTextBrowser>
 #include <qstring.h>
 //Added by qt3to4:
 #include <QCloseEvent>
@@ -28,7 +28,7 @@
   *@author Andreas Agorander
   */
 
-class Docbrowser : public Q3TextBrowser
+class Docbrowser : public QTextBrowser
 {
 
 public:

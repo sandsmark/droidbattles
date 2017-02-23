@@ -18,17 +18,17 @@
 #ifndef MYQMULTILINEEDIT_H
 #define MYQMULTILINEEDIT_H
 
-#include <q3multilineedit.h>
+#include <QPlainTextEdit>
 
 /**
   *@author Peter Schmidt
   */
 
 //TODO : add syntax highlighting
-class myQMultiLineEdit : public Q3MultiLineEdit
+class myQMultiLineEdit : public QPlainTextEdit
 {
 public:
-    myQMultiLineEdit (QWidget * parent=0) : Q3MultiLineEdit (parent) {}
+    myQMultiLineEdit (QWidget * parent=0) : QPlainTextEdit (parent) {}
     QScrollBar *myVerticalScrollBar () const {
         return verticalScrollBar();
     }

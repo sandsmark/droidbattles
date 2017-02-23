@@ -22,7 +22,7 @@
 #include "commonsymbols.h"
 #include "confstruct.h"
 #include <qdir.h>
-#include <q3textstream.h>
+#include <QTextStream>
 #include <qdatastream.h>
 #include <iostream>
 #include <qfile.h>

@@ -34,8 +34,8 @@ public:
 
     chaff (int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui = true);
     ~chaff();
-    void eraseobject (QWidget *buffer);
-    void showobject (QWidget *buffer,int opt=0);
+    void eraseobject (QPixmap *buffer);
+    void showobject (QPixmap *buffer, int opt=0);
     int returntype();
     int execute();
     int returnradar();

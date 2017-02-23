@@ -17,7 +17,7 @@
 
 #include "startsurvbatt.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 
 startsurvbatt::startsurvbatt()
 {
@@ -36,19 +36,19 @@ startsurvbatt::~startsurvbatt()
 
 void startsurvbatt::loadfilesettings()
 {
-    QString temp = QDir::homeDirPath();
+    QString temp = QDir::homePath();
     temp += "/droidbattles/survbattle.save";
     QFile f (temp);
     if (f.exists() && f.open (QIODevice::ReadOnly))
     {
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         for (int x=0; x<8; x++)
         {
             s >> botfiles[x];
             s >> temp;
             if (botfiles[x] == QString ("fff"))
                 botfiles[x] = "";
-            team[x]->setCurrentItem (temp.toInt());
+            team[x]->setCurrentIndex (temp.toInt());
             shownames[x]->setText (botfiles[x]);
         }
         s >> temp;
@@ -67,18 +67,18 @@ void startsurvbatt::loadfilesettings()
 
 void startsurvbatt::ocl()
 {
-    QString temp = QDir::homeDirPath();
+    QString temp = QDir::homePath();
     temp += "/droidbattles/survbattle.save";
     QFile f (temp);
     if (f.open (QIODevice::WriteOnly))
     {
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         for (int x=0; x<8; x++)
         {
             if (botfiles[x] == QString (""))
-                s << "fff" << " " << team[x]->currentItem() << "\n";
+                s << "fff" << " " << team[x]->currentIndex() << "\n";
             else
-                s << botfiles[x] << " " << team[x]->currentItem() << "\n";
+                s << botfiles[x] << " " << team[x]->currentIndex() << "\n";
         }
         s << ifteams->isChecked() << "\n";
         s << getnumfights() << "\n";

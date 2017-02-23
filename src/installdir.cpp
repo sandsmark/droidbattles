@@ -17,7 +17,7 @@
 
 #include "installdir.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 
 QString returninstalldir()
 {
@@ -36,7 +36,7 @@ QString returninstalldir()
         return temp;
     }
     f3.open (QIODevice::ReadOnly);
-    Q3TextStream s (&f3);
+    QTextStream s (&f3);
     s >> temp;   //Read from file
     s >> insdir;
     f3.close();

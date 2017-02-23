@@ -18,12 +18,13 @@
 #include "debugwindow.h"
 
 #include <qmessagebox.h>
+#include <QTextBlock>
 //Added by qt3to4:
 #include <QLabel>
 /**
 	* Constructor, create GUI elements
 	*/
-debugwindow::debugwindow (Q3MultiLineEdit *Medit, int *dbl, int *dbm)
+debugwindow::debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm)
 {
 //	int x;
 
@@ -47,7 +48,7 @@ debugwindow::debugwindow (Q3MultiLineEdit *Medit, int *dbl, int *dbm)
     memcontents[2] = new QLabel ("Mem contents @si :",this);
     memcontents[3] = new QLabel ("Mem contents @di :",this);
 
-    execlines = new Q3MultiLineEdit (this);
+    execlines = new QPlainTextEdit (this);
 
     dumpmemb = new QPushButton ("Dump mem-map", this);
 
@@ -220,7 +221,7 @@ void debugwindow::updatedata (struct debugcontents contents)
             {
                 if (debugmem[x2] == z)
                 {
-                    execlines->insertLine (maineditor->textLine (debuglines[x2]),-1);
+                    execlines->appendPlainText(maineditor->document()->findBlockByLineNumber(debuglines[x2]).text());
                     break;
                 }
             }

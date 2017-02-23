@@ -17,7 +17,7 @@
 
 #include "quickconf.h"
 //Added by qt3to4:
-#include <Q3TextStream>
+#include <QTextStream>
 #include <QLabel>
 
 /**
@@ -35,10 +35,10 @@ quickconf::quickconf()
         shownames[x]->show();
         team[x] = new QComboBox (this);
         team[x]->setGeometry (215,50+x*25,40,20);
-        team[x]->insertItem ("1");
-        team[x]->insertItem ("2");
-        team[x]->insertItem ("3");
-        team[x]->insertItem ("4");
+        team[x]->addItem ("1");
+        team[x]->addItem ("2");
+        team[x]->addItem ("3");
+        team[x]->addItem ("4");
     }
 //	press[0] = new PixButton( "load",1,this );
 //	press[0]->setGeometry( 0,0,80,40 );
@@ -75,30 +75,36 @@ quickconf::quickconf()
 
     maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
     maxxinfo->setGeometry (10,350,200,20);
-    maxx = new QSpinBox (8192,65535,512,this);
+    maxx = new QSpinBox (this);
+    maxx->setMinimum(8192);
+    maxx->setMaximum(65535);
+    maxx->setSingleStep(512);
     maxx->setGeometry (210,350,80,30);
     maxx->setValue (32768);
 
     maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
     maxyinfo->setGeometry (10,380,200,20);
-    maxy = new QSpinBox (8192,65535,512,this);
+    maxy = new QSpinBox (this);
+    maxy->setMinimum(8192);
+    maxy->setMaximum(65535);
+    maxy->setSingleStep(512);
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
 
-    QString temp = QDir::homeDirPath();
+    QString temp = QDir::homePath();
     temp += "/droidbattles/quick.conf";
     QFile f (temp);
     if (f.exists() && f.open (QIODevice::ReadOnly))
     {
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         for (int x=0; x<8; x++)
         {
             s >> botfiles[x];
             s >> temp;
             if (botfiles[x] == QString ("fff"))
                 botfiles[x] = "";
-            team[x]->setCurrentItem (temp.toInt());
+            team[x]->setCurrentIndex (temp.toInt());
             shownames[x]->setText (botfiles[x]);
         }
         s >> temp;
@@ -129,18 +135,18 @@ quickconf::~quickconf()
 	*/
 void quickconf::ocl()
 {
-    QString temp = QDir::homeDirPath();
+    QString temp = QDir::homePath();
     temp += "/droidbattles/quick.conf";
     QFile f (temp);
     if (f.open (QIODevice::WriteOnly))
     {
-        Q3TextStream s (&f);
+        QTextStream s (&f);
         for (int x=0; x<8; x++)
         {
             if (botfiles[x] == QString (""))
-                s << "fff" << " " << team[x]->currentItem() << "\n";
+                s << "fff" << " " << team[x]->currentIndex() << "\n";
             else
-                s << botfiles[x] << " " << team[x]->currentItem() << "\n";
+                s << botfiles[x] << " " << team[x]->currentIndex() << "\n";
         }
         s << ifteams->isChecked() << "\n";
         s << getnumfights() << "\n";

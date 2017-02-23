@@ -201,7 +201,6 @@ int main (int argc, char *argv[])
 //		a.setStyle( new QPlatinumStyle );
         a.setFont (QFont ("helvetica", 8));
         DroidBattles *droidbattles=new DroidBattles();
-        a.setMainWidget (droidbattles);
 
         droidbattles->show();
         return a.exec();  //Enter event-loop

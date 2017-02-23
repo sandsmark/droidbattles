@@ -37,6 +37,7 @@
 	*/
 createbot::createbot()
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     setMinimumSize (600,500);
     edittxt = new myQMultiLineEdit (this);
     edittxt->setFont (QFont ("helvetica",9));
@@ -59,7 +60,6 @@ createbot::createbot()
     File->addAction("S&ave As", this, SLOT (saveas()));
     File->addAction("&Close", this, SLOT (closec()));
 
-    Edit = new QMenu();
     Edit = menb->addMenu("&Edit");
     Edit->addAction("&Copy", this, SLOT (copy()));
     Edit->addAction("C&ut", this, SLOT (cut()));
@@ -397,6 +397,15 @@ void createbot::choosepic()
 	*/
 createbot::~createbot()
 {
+    delete []dirname;
+//	delete backpm;
+}
+
+/**
+	* Deletes window (if user clicksthe X )
+	*/
+void createbot::closeEvent (QCloseEvent*)
+{
     if (changed || edittxt->document()->isModified())
     {
         switch (QMessageBox::information (this, "BattleBots",
@@ -411,16 +420,6 @@ createbot::~createbot()
             break;
         }
     }
-    delete dirname;
-//	delete backpm;
-}
-
-/**
-	* Deletes window (if user clicksthe X )
-	*/
-void createbot::closeEvent (QCloseEvent*)
-{
-    delete this;
 }
 
 /**
@@ -611,7 +610,7 @@ void createbot::saveas()
 	*/
 void createbot::closec()
 {
-    delete this;
+    close();
 }
 
 

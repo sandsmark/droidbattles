@@ -37,8 +37,8 @@ public:
     int absorbhit (int strength,int ifint);
     void execute();
     int getfromport (unsigned char port);
-    void showgfx (QWidget *buffer);
-    void erasegfx (QWidget *buffer);
+    void showgfx (QPainter *painter);
+    void erasegfx (QPainter *painter);
 private:
     int ourlevel;
     bool Isup;

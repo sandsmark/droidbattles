@@ -167,13 +167,12 @@ void scanner::execute()
 /**
 	* Paint scanarc black
 	*/
-void scanner::erasegfx (QWidget *buffer)
+void scanner::erasegfx (QPainter *painter)
 {
     if (ispainted == true)
     {
-        QPainter p (buffer);
-        p.setPen (QColor (0,0,0));
-        p.drawPie ( (lastpaintX-maxscandist) >>6, (lastpaintY-maxscandist) >>6,
+        painter->setPen (QColor (0,0,0));
+        painter->drawPie ( (lastpaintX-maxscandist) >>6, (lastpaintY-maxscandist) >>6,
                     (maxscandist*2) >>6, (maxscandist*2) >>6,
                     - (lastpaintang-lastpaintsize) *5.625,-lastpaintsize*11.25);
         ispainted = false;
@@ -183,13 +182,12 @@ void scanner::erasegfx (QWidget *buffer)
 /**
 	* Paint the white scanarc
 	*/
-void scanner::showgfx (QWidget *buffer)
+void scanner::showgfx (QPainter *painter)
 {
     if (scanshow-- > 0)
     {
-        QPainter p (buffer);
-        p.setPen (QColor (255,255,255));
-        p.drawPie ( (ourbot->getXpos()-maxscandist) >>6, (ourbot->getYpos()
+        painter->setPen (QColor (255,255,255));
+        painter->drawPie ( (ourbot->getXpos()-maxscandist) >>6, (ourbot->getYpos()
                     -maxscandist) >>6, (maxscandist*2) >>6, (maxscandist*2) >>6,
                     - ( (ourbot->getdir() +relang)-width) *5.625,-width*11.25);
         lastpaintX = ourbot->getXpos();

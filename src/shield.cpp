@@ -83,13 +83,12 @@ int shield::getfromport (unsigned char port)
 /**
 	* If shield is up, paint blue circle
 	*/
-void shield::showgfx (QWidget *buffer)
+void shield::showgfx (QPainter *painter)
 {
     if (Isup == true)
     {
-        QPainter p (buffer);
-        p.setPen (QColor (0,0,255));
-        p.drawEllipse ( (ourbot->getXpos() >>6)-16, (ourbot->getYpos() >>6)-16, 32, 32);
+        painter->setPen (QColor (0,0,255));
+        painter->drawEllipse ( (ourbot->getXpos() >>6)-16, (ourbot->getYpos() >>6)-16, 32, 32);
         lastpaintX = (ourbot->getXpos() >>6)-16;
         lastpaintY = (ourbot->getYpos() >>6)-16;
         ispainted = true;
@@ -99,13 +98,12 @@ void shield::showgfx (QWidget *buffer)
 /**
 	* paint shield black
 	*/
-void shield::erasegfx (QWidget *buffer)
+void shield::erasegfx (QPainter *painter)
 {
     if (ispainted == true)
     {
-        QPainter p (buffer);
-        p.setPen (QColor (0,0,0));
-        p.drawEllipse (lastpaintX,lastpaintY,32,32);
+        painter->setPen (QColor (0,0,0));
+        painter->drawEllipse (lastpaintX,lastpaintY,32,32);
         ispainted = false;
     }
 }

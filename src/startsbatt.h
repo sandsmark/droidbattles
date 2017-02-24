@@ -66,8 +66,7 @@ private slots:
     virtual void ccl();
 
 signals:
-
-    virtual void okclicked();
+    void okclicked();
     void cancelclicked();
 
 protected:

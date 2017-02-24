@@ -1596,29 +1596,10 @@ void createbot::assemble()
                 // divide into tokens
                 /////////////////////
                 // take the tokens
-                for (i=0; i<15; i++)
-                {
-                    tpos = curline.indexOf (QRegExp ("[\\s,\\x0]"),0);
-
-                    if (tpos < curline.length())
-                        token[i] = curline.left (tpos);
-                    else
-                    {
-                        token[i] = curline;
-                        exist[i] = true;
-                        break;
-                    }
-                    curline = curline.right (curline.length()-tpos);
-                    tpos = curline.indexOf(QRegExp ("[a-zA-Z0-9_#:%@$+-]"),0);
-                    curline = curline.right (curline.length()-tpos);
+                const QStringList tokens = curline.split(QRegExp ("[\\s,\\x0]"), QString::SkipEmptyParts);
+                for (i=0; i<tokens.length(); i++) {
+                    token[i] = tokens[i];
                     exist[i] = true;
-
-                }
-                for (i=0; i<15; i++)     //Check which tokens actually exists
-                {
-                    if (token[i].length() <= 0)
-                        exist[i] = false;
-                    type[i] = 0;
                 }
 
                 //Assign types and values to all tokens
@@ -1801,7 +1782,11 @@ void createbot::assemble()
                     type[0] = 7;
                     if (exist[1] == true)
                     {
-                        bool isplus = ! (token[1].left (1) == "+");
+                        bool isplus = token[1].startsWith('+');
+                        QString comp = token[1];
+                        if (isplus) {
+                            comp.remove(0, 1);
+                        }
                         tpos = token[1].toInt (&ok);
                         if (ok == false)
                         {
@@ -2314,14 +2299,12 @@ void createbot::assemble()
                     {
                         if (exist[i] == true && type[i] == 0)
                         {
-                            bool isplus = ! (token[i].left (1) == "+");
-                            QString comp;
-                            if (isplus)
-                                comp = token[i].right (token[i].length()-1);
-                            else
-                                comp = token[i];
+                            QString comp = token[i];
+                            if (comp.startsWith('+')) {
+                                comp.remove(0, 1);
+                            }
                             tpos = comp.toInt (&ok);
-                            if (ok == false)
+                            if (!ok)
                             {
                                 int x;
                                 for (x=0; x<2047; x++)
@@ -2545,7 +2528,7 @@ ende:
 	* Shows a message from the assembler and an OK button.
 	* It also sets the current editing line to line
 	*/
-void createbot::error (const char *msg,int line)
+void createbot::error (const QString &msg, int line)
 {
     QMessageBox::information (0,"Message from the almighty assembler", msg);
     if (line >= 0)	edittxt->setTextCursor(QTextCursor(edittxt->document()->findBlockByLineNumber(line)));

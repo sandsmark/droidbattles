@@ -1041,29 +1041,10 @@ void textmodeFileManip::assemble (char *filename)
                 // divide into tokens
                 /////////////////////
                 // take the tokens
-                for (i=0; i<15; i++)
-                {
-                    tpos = curline.indexOf (QRegExp ("[\\s,\\x0]"),0);
-
-                    if (tpos < curline.length())
-                        token[i] = curline.left (tpos);
-                    else
-                    {
-                        token[i] = curline;
-                        exist[i] = true;
-                        break;
-                    }
-                    curline = curline.right (curline.length()-tpos);
-                    tpos = curline.indexOf (QRegExp ("[a-zA-Z0-9_#:%@$+-]"),0);
-                    curline = curline.right (curline.length()-tpos);
+                const QStringList tokens = curline.split(QRegExp ("[\\s,\\x0]"), QString::SkipEmptyParts);
+                for (i=0; i<tokens.length(); i++) {
+                    token[i] = tokens[i];
                     exist[i] = true;
-
-                }
-                for (i=0; i<15; i++)     //Check which tokens actually exists
-                {
-                    if (token[i].length() <= 0)
-                        exist[i] = false;
-                    type[i] = 0;
                 }
 
                 //Assign types and values to all tokens
@@ -1245,7 +1226,7 @@ void textmodeFileManip::assemble (char *filename)
                     type[0] = 7;
                     if (exist[1] == true)
                     {
-                        bool isplus = ! (token[1].left (1) == "+");
+                        bool isplus = token[1].startsWith('+');
                         tpos = token[1].toInt (&ok);
                         if (ok == false)
                         {
@@ -1756,7 +1737,7 @@ void textmodeFileManip::assemble (char *filename)
                     {
                         if (exist[i] == true && type[i] == 0)
                         {
-                            bool isplus = ! (token[i].left (1) == "+");
+                            bool isplus = token[i].startsWith('+');
                             QString comp;
                             if (isplus)
                                 comp = token[i].right (token[i].length()-1);

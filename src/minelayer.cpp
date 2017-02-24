@@ -53,7 +53,7 @@ void minelayer::execute()
 /**
 	* Returns mines left to in instruction
 	*/
-int minelayer::getfromport()
+int minelayer::getfromport(unsigned char /*port*/)
 {
     return minesleft;
 }

@@ -64,7 +64,7 @@ void timedev::execute()
         ourbot->addinterrupt (1);
 }
 
-int timedev::getfromport (int port)
+int timedev::getfromport (unsigned char port)
 {
     switch (port)
     {

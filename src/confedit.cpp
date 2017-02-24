@@ -19,6 +19,7 @@
 //Added by qt3to4:
 #include <QTextStream>
 #include <QLabel>
+#include <QDebug>
 
 /**
 	* Constructor: Init GUI
@@ -202,6 +203,7 @@ void confedit::defaultc()
 {
     QString tempname = returninstalldir();
     tempname += "/current.cfg";
+    qDebug() << tempname;
     openfile (tempname);
 }
 
@@ -307,6 +309,7 @@ void confedit::openfile (QString &tempname)
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
     {
+        qWarning() << "Failed to open" << tempname;
         //TODO: Add error message
         return;
     }

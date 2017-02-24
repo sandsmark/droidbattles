@@ -21,6 +21,7 @@
 
 QString returninstalldir()
 {
+    return ":/misc";
     /**
     	* Get the installation dir
     	*/

@@ -41,15 +41,15 @@
   * @author Andreas Agorander
   */
 
-class battlearea : public QWidget, public textmodeBattleArea
+class battlearea : public QLabel, public textmodeBattleArea
 {
 
     Q_OBJECT
 
 public:
 
-    battlearea (const char *name1, const char *name2, const char *name3, const char *name4, const char *name5,
-                const char *name6, const char *name7, const char *name8, int numf, int , int xs,
+    battlearea (const QString &name1, const QString &name2, const QString &name3, const QString &name4, const QString &name5,
+                const QString &name6, const QString &name7, const QString &name8, int numf, int , int xs,
                 int ys, bool ifteams, int *bteams, bool tourney, bool iffast,
                 int mode = 0, int maxp=10, bool ifdebug=false,
                 QPlainTextEdit *dbedit=NULL, int *dbl=0, int *dbm=0);

@@ -16,9 +16,12 @@
  ***************************************************************************/
 
 #include "pixbutton.h"
+#include <QDebug>
+#include <QStylePainter>
+#include <QStyleOptionButton>
 
 PixButton::PixButton (QString text,int pix,QWidget *parent)
-        : QPushButton (parent)
+        : QPushButton (text, parent)
 {
     whichpix = pix;
     tex = text;
@@ -28,10 +31,17 @@ PixButton::~PixButton()
 {
 }
 
-void PixButton::paintEvent (QPaintEvent *)
+void PixButton::paintEvent (QPaintEvent *event)
 {
-    QPainter paint;
-    paint.drawPixmap (2,2,Pixmapholder::getpm (whichpix),
-                       0,0,width()-5,height()-5);
-    paint.drawText (2, 2, width()-5, height()-5, Qt::AlignCenter, tex);
+//    {
+//        QPushButton::paintEvent(event);
+//        QStylePainter p(this);
+//        QStyleOptionButton option;
+//        initStyleOption(&option);
+//        p.drawControl(QStyle::CE_PushButton, option);
+//    }
+//    QPushButton::paintEvent(event);
+    QPainter paint(this);
+    paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(Pixmapholder::getpm(whichpix)));
+    paint.drawText (isDown() ? 1 : 0, isDown() ? 1 : 0, width(), height(), Qt::AlignCenter, tex);
 }

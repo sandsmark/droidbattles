@@ -19,11 +19,12 @@
 //Added by qt3to4:
 #include <QTextStream>
 #include <QPixmap>
+#include <QDebug>
 
 /**
 	* Init bot position, load program file and graphics
 	*/
-robots::robots (char *name,textmodeBattleArea &object,int mnum, confstruct config,
+robots::robots (const QString &name,textmodeBattleArea &object,int mnum, confstruct config,
                 int tm,bool er, bool ui)
 {
     useUI = ui;
@@ -114,7 +115,7 @@ robots::robots (char *name,textmodeBattleArea &object,int mnum, confstruct confi
             if (my[x*6+2] <= NUMDEV)
             {
                 if (config.enabled[my[x*6+2]-1] == false && my[x*6+2] != 0)
-                    error ("Using disabled device", name);
+                    error (QString("Using disabled device %1").arg(my[x*6+2]), name);
                 if (my[x*6+3] <= 4 && my[x*6+2] > 0)
                 {
                     numdev++;
@@ -211,7 +212,7 @@ robots::robots (char *name,textmodeBattleArea &object,int mnum, confstruct confi
             }
         }
         if (numdev > config.maxdev)
-            error ("Max number of devices", name);
+            error (QString("Max number of devices (%1/%2").arg(numdev).arg(config.maxdev), name);
         if (cost > config.maxcost)
             error ("Max cost of bot",name);
 
@@ -219,7 +220,7 @@ robots::robots (char *name,textmodeBattleArea &object,int mnum, confstruct confi
     }
     else
     {
-        error ("Couldn't open bot file!",name);
+        error (QString("Couldn't open bot file %1!").arg(f.fileName()), name);
         ramdevice = new RAM;
         for (int x=0; x<32; x++)
             devicelist[x] = new device (*this);
@@ -237,17 +238,14 @@ robots::robots (char *name,textmodeBattleArea &object,int mnum, confstruct confi
         QFile f2 (temp);
         if (f2.exists() == false)
         {
-            temp = returninstalldir();
-            temp += "/pixmaps/skepp";
-            temp += QString::number (mynum);
-            temp += ".bmp";
+            temp = ":/images/ship" + QString::number (mynum) + ".bmp";
         }
-        if (graphics->load (temp) == false)
-        {
+        if (graphics->load (temp) == false) {
+            *graphics = QPixmap(32, 32);
             graphics->fill (Qt::white);
-        }
-        else
+        } else {
             graphics->setMask (graphics->createHeuristicMask());
+        }
         //Set a mask that makes the bot background transparent
         piccols = graphics->width() /32;
         picrows = graphics->height() /32;
@@ -516,7 +514,7 @@ void robots::setdebug2 (int msg)
 /**
 	* Show error message (mainly for showing that bot doesn't conform to .cfg file)
 	*/
-void robots::error (const char *string, const char *name)
+void robots::error (const QString &string, const QString &name)
 {
     if (showerror && useUI)
     {
@@ -524,8 +522,8 @@ void robots::error (const char *string, const char *name)
         msg += name;
         msg += "\nbreaks the following rule in the config file: \n";
         msg += string;
-        msg += team;
-        QMessageBox::information (0,"Message from the bot",msg);
+//        msg += QString::number(team);
+        QMessageBox::information (0, "Message from the bot", msg);
         return;
     }
 }

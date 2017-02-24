@@ -20,19 +20,21 @@
 #include <QLabel>
 #include <QResizeEvent>
 #include <QCloseEvent>
+#include <QDebug>
 bool SingleStepMode = false;
 
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-battlearea::battlearea (const char *nam1, const char *nam2, const char *nam3, const char *nam4,
-                        const char *nam5, const char *nam6, const char *nam7, const char *nam8, int numf,
+battlearea::battlearea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
+                        const QString &nam5, const QString &nam6, const QString &nam7, const QString &nam8, int numf,
                         int mx, int xs, int ys, bool ifteams, int *bteams,
                         bool tourney, bool fast, int mode, int maxp,
                         bool ifdebug, QPlainTextEdit *dbedit,
-                        int *dbl, int *dbm)
+                        int *dbl, int *dbm) : QLabel()
 {
     setAttribute(Qt::WA_DeleteOnClose);
+    setWindowFlags(Qt::Dialog);
 
     debugenabled = ifdebug;
     iffast = fast;
@@ -54,11 +56,12 @@ battlearea::battlearea (const char *nam1, const char *nam2, const char *nam3, co
     if (!f.open (QIODevice::ReadOnly))
     {
         //TODO: add error message
-        delete this;
+        QMessageBox::warning(this, "Fail", "Failed to load current.cfg");
+        deleteLater();
         return;
     }
 
-    QDataStream s (&f);
+    QTextStream s (&f);
     int x,y;
     for (x=0; x<maxbots; x++)
     {
@@ -98,6 +101,7 @@ battlearea::battlearea (const char *nam1, const char *nam2, const char *nam3, co
             config.values[y][x] = i;
         }
     }
+    qDebug() << "max devices" << config.maxdev;
 
     //Initialize vars
     numfights = numf;
@@ -164,9 +168,7 @@ battlearea::battlearea (const char *nam1, const char *nam2, const char *nam3, co
     resize (640,570);
     startonebattle (firstrun);
 
-    QPalette palette;
-    palette.setBrush(backgroundRole(), QBrush(Pixmapholder::getpm (3)));
-    setPalette(palette);
+    setPixmap(Pixmapholder::getpm (3));
 }
 
 void battlearea::resizeEvent (QResizeEvent*)
@@ -271,7 +273,7 @@ void battlearea::startonebattle (int y)
     {
         tn = names[x];
         if (!tn.isEmpty())
-            objects[x] = new robots ( (char*) tn.data(),*this,x,config,botteams[x]);
+            objects[x] = new robots (tn,*this,x,config,botteams[x]);
         else
             objects[x] = new screenobject();
 
@@ -316,7 +318,9 @@ void battlearea::startonebattle (int y)
     }
     roundsrun = 0;
     infowindow->show();
-    mydrw->repaint();
+    m_pixmap.fill(Qt::black);
+    mydrw->setPixmap(m_pixmap);
+
     if (iffast == true)
     {
         eventH->start (0);
@@ -463,7 +467,7 @@ void battlearea::execute()
                                         //Calc X and Y position
                                         xstarts[x2] = random() %xsize;
                                         ystarts[x2] = random() %ysize;
-                                        objects[x2] = new robots ( (char *) names[x2].data(),
+                                        objects[x2] = new robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false);
                                         QObject::connect (objects[x2],
                                                           SIGNAL (armorchanged (int)),binfo[x2],
@@ -502,7 +506,7 @@ void battlearea::execute()
                                     //Calc X and Y position
                                     xstarts[x2] = random() %xsize;
                                     ystarts[x2] = random() %ysize;
-                                    objects[x2] = new robots ( (char *) names[x2].data(),*this,
+                                    objects[x2] = new robots ( names[x2],*this,
                                                                x2,config,botteams[x2],false);
                                     QObject::connect (objects[x2],
                                                       SIGNAL (armorchanged (int)),binfo[x2],
@@ -549,7 +553,7 @@ void battlearea::execute()
                                         //Calc X and Y position
                                         xstarts[x] = random() %xsize;
                                         ystarts[x] = random() %ysize;
-                                        objects[x] = new robots ( (char *) names[x].data(),*this,
+                                        objects[x] = new robots ( names[x],*this,
                                                                   x,config,botteams[x],false);
                                         QObject::connect (objects[x],
                                                           SIGNAL (armorchanged (int)),binfo[x],
@@ -591,7 +595,7 @@ void battlearea::execute()
                                     //Calc X and Y position
                                     xstarts[x] = random() %xsize;
                                     ystarts[x] = random() %ysize;
-                                    objects[x] = new robots ( (char *) names[x].data(),*this,x,
+                                    objects[x] = new robots ( names[x],*this,x,
                                                               config,botteams[x],false);
                                     QObject::connect (objects[x],
                                                       SIGNAL (armorchanged (int)),binfo[x],
@@ -1015,7 +1019,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
                         //Calc X and Y position
                         xstarts[z] = random() %xsize;
                         ystarts[z] = random() %ysize;
-                        objects[z] = new robots ( (char *) names[z].data(),*this,z,
+                        objects[z] = new robots ( names[z],*this,z,
                                                   config,botteams[z],false);
                         QObject::connect (objects[z],SIGNAL (armorchanged (int)),
                                           binfo[z],SLOT (armorupdated (int)));
@@ -1050,7 +1054,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
                     //Calc X and Y position
                     xstarts[x2] = random() %xsize;
                     ystarts[x2] = random() %ysize;
-                    objects[x2] = new robots ( (char *) names[x2].data(),*this,x2,
+                    objects[x2] = new robots ( names[x2],*this,x2,
                                                config,botteams[x2],false);
                     QObject::connect (objects[x2],SIGNAL (armorchanged (int)),
                                       binfo[x2],SLOT (armorupdated (int)));

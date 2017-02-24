@@ -81,7 +81,7 @@ private:
     void disablebattles();
 
     /** The buttons that are in the main widget */
-    PixButton *menubuttons[12];
+    QPushButton *menubuttons[12];
 //		QPixmap *menupm;
     QPixmap *bnpm;
     /** Pointers to the various types of objects the menu object can start */

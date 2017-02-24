@@ -21,8 +21,9 @@
 #include <QLabel>
 
 infobox::infobox (QString msg, QWidget *parent)
-        : QWidget (parent)
+        : QDialog (parent)
 {
+    setWindowFlags(Qt::Dialog);
     text = new QLabel (msg,this);
     text->setGeometry (0,0,0,0);
     text->resize (text->sizeHint());

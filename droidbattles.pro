@@ -123,4 +123,5 @@ SOURCES += src/armor.cpp \
            src/textmodefilemanip.cpp \
            src/timedev.cpp \
            src/turret.cpp
-RESOURCES += images.qrc
+RESOURCES += images.qrc \
+    configs.qrc

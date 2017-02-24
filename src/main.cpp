@@ -192,14 +192,21 @@ int main (int argc, char *argv[])
         if (strcmp (argv[1] , "-textmode") == 0)
             useGUI = false;
     }
+//    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling, false);
+//    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+//    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    qputenv("QT_SCALE_FACTOR", "2");
     QApplication a (argc, argv, useGUI);
 
     if (useGUI)
     {
         //If you want another look change QPlatinumStyle to
         //one of: QCDEStyle, QWindowsStyle, QMotifStyle
-//		a.setStyle( new QPlatinumStyle );
-        a.setFont (QFont ("helvetica", 8));
+//        a.setStyle( new QWindowsStyle );
+//        a.setFont (QFont ("helvetica", 8));
+        QFont font(a.font());
+        font.setPixelSize(5);
+        a.setFont(font);
         DroidBattles *droidbattles=new DroidBattles();
 
         droidbattles->show();

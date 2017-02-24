@@ -24,7 +24,7 @@
 /**
 	* Constructor, create GUI elements
 	*/
-debugwindow::debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm)
+debugwindow::debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
 {
 //	int x;
 

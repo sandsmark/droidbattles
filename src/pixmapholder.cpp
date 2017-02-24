@@ -18,6 +18,7 @@
 #include "pixmapholder.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include <QDebug>
 
 static QPixmap *pm[20];
 
@@ -32,14 +33,23 @@ Pixmapholder::~Pixmapholder()
 void Pixmapholder::addpm (QString name,int num)
 {
     pm[num] = new QPixmap (name);
+    if (pm[num]->isNull()) {
+        qWarning() << "Failed to load" << name;
+    }
 }
 
 QPixmap & Pixmapholder::getpm (int num)
 {
+    if (pm[num]->isNull()) {
+        qWarning() << "Queried for invalid pixmap" << num;
+    }
     return *pm[num];
 }
 
 QPixmap * Pixmapholder::getpmp (int num)
 {
+    if (pm[num]->isNull()) {
+        qWarning() << "Queried for invalid pixmap point" << num;
+    }
     return pm[num];
 }

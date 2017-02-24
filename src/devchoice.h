@@ -59,7 +59,7 @@ public:
     int getlevel();
     int getarg1();
     void setitem (int x);
-    void setarg1 (char *);
+    void setarg1 (const QString &value);
 
 private:
 

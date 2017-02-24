@@ -39,7 +39,7 @@
   *@author Andreas Agorander
   */
 
-class startsbatt : public QWidget
+class startsbatt : public QLabel
 {
 
     Q_OBJECT
@@ -49,7 +49,7 @@ public:
     startsbatt();
     ~startsbatt();
     int getnumofbots();
-    char* getbotfile (int bot);
+    QString getbotfile(int bot);
     void closeEvent (QCloseEvent *e);
     int getnumfights();
     int getlength();

@@ -18,7 +18,7 @@
 #ifndef DEBUGWINDOW_H
 #define DEBUGWINDOW_H
 
-#include <QWidget>
+#include <QDialog>
 #include "debugcontents.h"
 #include <QLabel>
 #include <QString>
@@ -31,7 +31,7 @@
   *@author Andreas Agorander
   */
 
-class debugwindow : public QWidget
+class debugwindow : public QDialog
 {
 
     Q_OBJECT

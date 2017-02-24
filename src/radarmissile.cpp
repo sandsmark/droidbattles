@@ -17,6 +17,7 @@
 
 #include "radarmissile.h"
 //Added by qt3to4:
+#include <QDebug>
 #include <QPixmap>
 
 /**
@@ -161,8 +162,12 @@ int radarmissile::getdevport (unsigned char port)
 {
     int tempport = port%4;
     int tempdevice = int (port/4);
-    int temp;
-    if (tempdevice < 3) temp = devices[tempdevice]->getfromport (tempport);
+    int temp = -1;
+    if (tempdevice < 3) {
+        temp = devices[tempdevice]->getfromport (tempport);
+    } else {
+        qWarning() << "Illegal port?" << port;
+    }
     //setdebug1( temp );
     return temp;
 }

@@ -54,7 +54,7 @@ private:
     QLabel *msgmsg;
     QLabel *message;
     QCheckBox *ifscanner;
-    QWidget *showgfx;
+    QLabel *showgfx;
     screenobject *bot;
 };
 

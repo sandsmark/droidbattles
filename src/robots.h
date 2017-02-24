@@ -76,7 +76,7 @@ class robots : public screenobject
 
 public:
 
-    robots (char *name,textmodeBattleArea &area,int mnum, confstruct,int tm,
+    robots (const QString &name, textmodeBattleArea &area, int mnum, confstruct, int tm,
             bool er=true, bool ui = true);
     ~robots();
     int execute();
@@ -100,7 +100,7 @@ public:
     QString getdebug2();
     void setdebug1 (int);
     void setdebug2 (int);
-    void error (const char *, const char *);
+    void error (const QString &, const QString &);
     int getmem();
     void addinterrupt (int);
     struct debugcontents returndbgcont();

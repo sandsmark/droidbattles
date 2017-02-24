@@ -36,7 +36,7 @@ public:
     PixButton (QString text,int pix,QWidget *parent);
     ~PixButton();
 protected:
-    void paintEvent (QPaintEvent *paint);
+    void paintEvent (QPaintEvent *event) override;
 private:
     QString tex;
     int whichpix;

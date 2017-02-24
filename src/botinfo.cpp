@@ -62,12 +62,11 @@ botinfo::botinfo (const QString &botname, screenobject *rb, int armor, QWidget *
         QObject::connect (ifscanner, SIGNAL (toggled (bool)), this,
                           SLOT (statch (bool)));
 
-        showgfx = new QWidget (this);
+        showgfx = new QLabel (this);
         showgfx->setGeometry (500,0,32,32);
 
-        QPalette palette;
-        palette.setBrush(showgfx->backgroundRole(), QBrush(rb->getgfx()));
-        showgfx->setPalette(palette);
+
+        showgfx->setPixmap(rb->getgfx());
     }
     show();
 }

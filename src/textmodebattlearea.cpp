@@ -171,7 +171,7 @@ void textmodeBattleArea::startonebattle (int y)
     {
         tn = names[x];
         if (!tn.isEmpty())
-            objects[x] = new robots ( (char*) tn.data(),*this,x,config,botteams[x],false,false);
+            objects[x] = new robots ( tn,*this,x,config,botteams[x],false,false);
         else
             objects[x] = new screenobject();
     }
@@ -301,7 +301,7 @@ int textmodeBattleArea::execround()
                                         //Calc X and Y position
                                         xstarts[x2] = random() %xsize;
                                         ystarts[x2] = random() %ysize;
-                                        objects[x2] = new robots ( (char *) names[x2].data(),
+                                        objects[x2] = new robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false,false);
                                         objects[x2]->objhit (0,0);
                                     }
@@ -327,7 +327,7 @@ int textmodeBattleArea::execround()
                                     //Calc X and Y position
                                     xstarts[x2] = random() %xsize;
                                     ystarts[x2] = random() %ysize;
-                                    objects[x2] = new robots ( (char *) names[x2].data(),*this,
+                                    objects[x2] = new robots (names[x2],*this,
                                                                x2,config,botteams[x2],false,false);
                                     objects[x2]->objhit (0,0);
                                 }
@@ -360,7 +360,7 @@ int textmodeBattleArea::execround()
                                         //Calc X and Y position
                                         xstarts[x] = random() %xsize;
                                         ystarts[x] = random() %ysize;
-                                        objects[x] = new robots ( (char *) names[x].data(),*this,
+                                        objects[x] = new robots ( names[x],*this,
                                                                   x,config,botteams[x],false,false);
                                         objects[x]->objhit (0,0);
                                     }
@@ -389,7 +389,7 @@ int textmodeBattleArea::execround()
                                     //Calc X and Y position
                                     xstarts[x] = random() %xsize;
                                     ystarts[x] = random() %ysize;
-                                    objects[x] = new robots ( (char *) names[x].data(),*this,x,
+                                    objects[x] = new robots ( names[x],*this,x,
                                                               config,botteams[x],false,false);
                                     objects[x]->objhit (0,0);
                                 }
@@ -763,7 +763,7 @@ void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                         //Calc X and Y position
                         xstarts[z] = random() %xsize;
                         ystarts[z] = random() %ysize;
-                        objects[z] = new robots ( (char *) names[z].data(),*this,z,
+                        objects[z] = new robots ( names[z],*this,z,
                                                   config,botteams[z],false,false);
                     }
                     else
@@ -789,7 +789,7 @@ void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                     //Calc X and Y position
                     xstarts[x2] = random() %xsize;
                     ystarts[x2] = random() %ysize;
-                    objects[x2] = new robots ( (char *) names[x2].data(),*this,x2,
+                    objects[x2] = new robots ( names[x2],*this,x2,
                                                config,botteams[x2],false,false);
                 }
                 else

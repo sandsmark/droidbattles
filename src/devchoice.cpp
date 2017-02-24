@@ -144,10 +144,9 @@ int devchoice::getarg1()
 /**
 	* Sets the value in the white box
 	*/
-void devchoice::setarg1 (char *x)
+void devchoice::setarg1 (const QString &value)
 {
-    QString temp = x;
-    arg1->setText (temp.trimmed());
+    arg1->setText (value.trimmed());
 }
 
 void devchoice::costchanged()

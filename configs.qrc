@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>misc/current.cfg</file>
+        <file>misc/heavy.cfg</file>
+        <file>misc/light.cfg</file>
+        <file>misc/medium.cfg</file>
+        <file>misc/ultralight.cfg</file>
+    </qresource>
+</RCC>

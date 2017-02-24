@@ -112,10 +112,8 @@ createbot::createbot()
 
     gfxbutton = new QPushButton (this);
     gfxbutton->setGeometry (10,450,520,36);
+    gfxbutton->setIcon(QIcon(gfx));
 
-    QPalette palette;
-    palette.setBrush(gfxbutton->backgroundRole(), QBrush(gfx));
-    gfxbutton->setPalette(palette);
     QObject::connect (gfxbutton, SIGNAL (clicked()), this,
                       SLOT (choosepic()));
     changed = false;
@@ -385,9 +383,7 @@ void createbot::choosepic()
     if (!filename.isEmpty())
         gfx.load (filename);
 
-    QPalette palette;
-    palette.setBrush(gfxbutton->backgroundRole(), QBrush(gfx));
-    gfxbutton->setPalette(palette);
+    gfxbutton->setIcon(QIcon(gfx));
 
     changed = true;
 }
@@ -507,7 +503,7 @@ void createbot::open()
             s >> i;
             devices[x]->levelchosen (i);
             s >> tline;
-            devices[x]->setarg1 ( (char *) tline.data());
+            devices[x]->setarg1 (tline);
         }
         tline = s.readLine();
         tline = s.readLine();
@@ -2590,10 +2586,10 @@ void createbot::startquick()
         error ("config file for quick battle not found",0);
         return;
     }
-    batt = new battlearea ( (char *) names[0].data(), (char *) names[1].data(),
-                            (char *) names[2].data(), (char *) names[3].data(),
-                            (char *) names[4].data(), (char *) names[5].data(),
-                            (char *) names[6].data(), (char *) names[7].data(),
+    batt = new battlearea ( names[0], names[1],
+                            names[2], names[3],
+                            names[4], names[5],
+                            names[6], names[7],
                             numfights,lengthfights,xsize,ysize,ifteams,teams,
                             false,false,0,0,true, edittxt,&debuglines[0],
                             &debugmem[0]);
@@ -2701,31 +2697,24 @@ void createbot::checkconf()
     QString resulttext;
     resulttext = "Checked bot against current.cfg :\n\n";
 
-    resulttext += "RAM used: ";
-    addint (resulttext,amountram);
-    resulttext += "  RAM allowed: ";
-    addint (resulttext,curconfig.maxram);
+    resulttext += "RAM used: " + QString::number(amountram);
+    resulttext += "  RAM allowed: " + QString::number(curconfig.maxram);
 
-    resulttext += "\nDevices used: ";
-    addint (resulttext,numdev);
-    resulttext += "  Devices allowed: ";
-    addint (resulttext,curconfig.maxdev);
+    resulttext += "\nDevices used: "  + QString::number(numdev);
+    resulttext += "  Devices allowed: " + QString::number(curconfig.maxdev);
 
-    resulttext += "\nTotal cost: ";
-    addint (resulttext,totalcost);
-    resulttext += "  cost allowed: ";
-    addint (resulttext,curconfig.maxcost);
+    resulttext += "\nTotal cost: " + QString::number(totalcost);
+    resulttext += "  cost allowed: " + QString::number(curconfig.maxcost);
 
     for (x=0; x<32; x++)
     {
         if (devicesenabled[x] == 1)
         {
-            resulttext += "\n\n device ";
-            addint (resulttext,x);
+            resulttext += "\n\n device " + QString::number(x);
             resulttext += " is a disabled device";
         }
     }
-    error ( (char *) resulttext.data(),0);
+    error ( resulttext, 0);
 }
 
 /**

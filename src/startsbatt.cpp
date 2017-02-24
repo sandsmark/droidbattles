@@ -27,6 +27,8 @@
 	*/
 startsbatt::startsbatt()
 {
+    setWindowFlags(Qt::Dialog);
+
     int x;
     for (x=0; x<8; x++)
     {
@@ -92,6 +94,7 @@ startsbatt::startsbatt()
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
+    setPixmap(Pixmapholder::getpm(3));
 //	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
     setMinimumSize (300,570);
     loadfilesettings();
@@ -147,9 +150,9 @@ int startsbatt::getnumofbots()
     return 0;
 }
 
-char* startsbatt::getbotfile (int x)
+QString startsbatt::getbotfile (int x)
 {
-    return (char *) botfiles[x].data();
+    return botfiles[x];
 }
 
 /**

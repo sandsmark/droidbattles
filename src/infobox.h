@@ -18,7 +18,7 @@
 #ifndef INFOBOX_H
 #define INFOBOX_H
 
-#include <qwidget.h>
+#include <QDialog>
 #include <qlabel.h>
 //Added by qt3to4:
 #include <QCloseEvent>
@@ -27,7 +27,7 @@
   *@author Andreas Agorander
   */
 
-class infobox : public QWidget
+class infobox : public QDialog
 {
 public:
     infobox (QString msg, QWidget *parent=0);

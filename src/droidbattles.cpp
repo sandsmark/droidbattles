@@ -362,7 +362,7 @@ void DroidBattles::showb()
 	*/
 void DroidBattles::quit()
 {
-    delete this;
+    qApp->quit();
 }
 
 /**

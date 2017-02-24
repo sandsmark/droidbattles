@@ -23,7 +23,6 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QResizeEvent>
-#include <QCloseEvent>
 #include "botinfo.h"
 #include <QScrollArea>
 #include "pixbutton.h"
@@ -55,7 +54,6 @@ public:
                 int mode = 0, int maxp=10, bool ifdebug=false,
                 QPlainTextEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
     ~battlearea();
-    void closeEvent (QCloseEvent *e);
     void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
                        int arg2=0, void *arg3=0);
     //int devio( int bot,int dev,int choice,int arg1,int arg2 );

@@ -25,6 +25,8 @@
 	*/
 confedit::confedit()
 {
+    setAttribute(Qt::WA_DeleteOnClose);
+
     this->setMinimumSize (500,400);
     this->setMaximumSize (500,400);
     defaultbutton = new QPushButton ("Load default values" , this);
@@ -49,8 +51,7 @@ confedit::confedit()
                       SLOT (openc()));
     QObject::connect (savebutton, SIGNAL (clicked()), this,
                       SLOT (savec()));
-    QObject::connect (closebutton, SIGNAL (clicked()), this,
-                      SLOT (closec()));
+    connect(closebutton, &QPushButton::clicked, this, &confedit::close);
     QObject::connect (makecurrentbutton, SIGNAL (clicked()), this,
                       SLOT (makecurrc()));
     QObject::connect (helpbutton, SIGNAL (clicked()), this,
@@ -251,14 +252,6 @@ void confedit::savec()
         s << endl;
     }
     f.close();
-}
-
-/**
-	* Closes this window
-	*/
-void confedit::closec()
-{
-    delete this;
 }
 
 /**

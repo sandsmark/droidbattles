@@ -90,8 +90,6 @@ private:
     QComboBox *levelvalues[numdev];
 
 private slots:
-
-    void closec();
     void helpc();
     void openc();
     void makecurrc();

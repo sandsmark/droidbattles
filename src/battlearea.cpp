@@ -32,6 +32,7 @@ battlearea::battlearea (const char *nam1, const char *nam2, const char *nam3, co
                         bool ifdebug, QPlainTextEdit *dbedit,
                         int *dbl, int *dbm)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
 
     debugenabled = ifdebug;
     iffast = fast;
@@ -844,17 +845,9 @@ void battlearea::execute()
     	}*/
 
     if (ifdelete == true)
-        delete this;
+        deleteLater();
 
     mydrw->setPixmap(m_pixmap);
-}
-
-/**
-	* If user presses the X in the bar...
-	*/
-void battlearea::closeEvent (QCloseEvent*)
-{
-    delete this;
 }
 
 /**

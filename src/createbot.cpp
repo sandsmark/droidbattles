@@ -48,7 +48,7 @@ createbot::createbot()
              this,SLOT (setShowlatencyScrollValue (int)));
     connect (showlatency->myVerticalScrollBar(),SIGNAL (valueChanged (int)),
              this,SLOT (setEdittxtScrollValue (int)));
-    showlatency->setGeometry (5,30,65,400);
+    showlatency->setGeometry (5,30,300,400);
     showlatency->setReadOnly (true);
 
     menb = new QMenuBar (this);
@@ -368,7 +368,7 @@ createbot::createbot()
 void createbot::resizeEvent (QResizeEvent *)
 {
     int wid1 = width() /9;
-    if (wid1 > 100) wid1 = 100;
+    if (wid1 > 150) wid1 = 150;
     showlatency->resize (wid1, height()-100);
     int wid2 = width()-wid1-235;
     edittxt->setGeometry (wid1+10,30,wid2,height()-100);
@@ -497,6 +497,7 @@ void createbot::open()
         s >> tline;
         s >> i;
         amountRAM->setCurrentIndex (i);
+        showlatency->clear();
         int x;
         for (x=0; x<32; x++)
         {
@@ -1589,7 +1590,7 @@ void createbot::assemble()
                 curline = curline.right (curline.length()-tpos);
                 if (curline.length() <= 1)
                 {
-                    showlatency->appendPlainText("\n");
+                    showlatency->appendPlainText(" ");
                     goto newline;
                 }
 
@@ -2459,7 +2460,11 @@ found:
                 }
             }
 
-            showlatency->appendPlainText(insertstr);
+            if (insertstr.isEmpty()) {
+                showlatency->appendPlainText(" ");
+            } else {
+                showlatency->appendPlainText(insertstr);
+            }
         }
         else
         {

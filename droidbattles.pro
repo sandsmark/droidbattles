@@ -124,4 +124,5 @@ SOURCES += src/armor.cpp \
            src/timedev.cpp \
            src/turret.cpp
 RESOURCES += images.qrc \
-    configs.qrc
+    configs.qrc \
+    doc.qrc

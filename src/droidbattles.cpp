@@ -65,7 +65,7 @@ DroidBattles::DroidBattles()
     if (!f.exists())
     {
         temp = returninstalldir();
-        temp += "/current.cfg";
+        temp += "misc/current.cfg";
         QFile f2 (temp);
         f2.open (QIODevice::ReadOnly);
         f.open (QIODevice::WriteOnly);
@@ -166,7 +166,7 @@ void DroidBattles::showdoc()
 {
     QString temp = returninstalldir();
     temp += "/doc/index.html";
-    browser = new Docbrowser (temp);
+    browser = new Docbrowser ("qrc:/doc/index.html");
 }
 /**
 	* Executed when the user presses start single battle

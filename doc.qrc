@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>doc/index-1.html</file>
+        <file>doc/index-10.html</file>
+        <file>doc/index-11.html</file>
+        <file>doc/index-12.html</file>
+        <file>doc/index-13.html</file>
+        <file>doc/index-14.html</file>
+        <file>doc/index-2.html</file>
+        <file>doc/index-3.html</file>
+        <file>doc/index-4.html</file>
+        <file>doc/index-5.html</file>
+        <file>doc/index-6.html</file>
+        <file>doc/index-7.html</file>
+        <file>doc/index-8.html</file>
+        <file>doc/index-9.html</file>
+        <file>doc/index.html</file>
+    </qresource>
+</RCC>

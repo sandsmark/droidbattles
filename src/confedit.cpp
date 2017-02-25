@@ -202,7 +202,7 @@ confedit::~confedit()
 void confedit::defaultc()
 {
     QString tempname = returninstalldir();
-    tempname += "/current.cfg";
+    tempname += "misc/current.cfg";
     qDebug() << tempname;
     openfile (tempname);
 }

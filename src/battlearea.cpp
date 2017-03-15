@@ -286,8 +286,8 @@ void BattleArea::startonebattle (int y)
         dbgwindows.clear();
         // the bot to be debugged is objects[debugbot]
         assert (objects[debugbot] != NULL);
-        assert (objects[debugbot]->returntype() == 1);
-        int nCpus = ( (Robots*) objects[debugbot])->numCPUs();
+        assert (objects[debugbot]->type() == 1);
+        int nCpus = ( (Robots*) objects[debugbot])->cpuCount();
         for (int x=0; x<nCpus; x++) {
             DebugWindow* dw = new DebugWindow (_dbedit,&_dbl[0],&_dbm[0]);
             dw->resize (300,405);
@@ -352,7 +352,7 @@ void BattleArea::execute()
         {
             for (x=0; x<maxbots; x++)
             {
-                objects[x]->eraseobject (&m_pixmap);  //Erase all bots (to call a draw)
+                objects[x]->eraseObject (&m_pixmap);  //Erase all bots (to call a draw)
                 delete objects[x];
                 objects[x] = new ScreenObject();
             }
@@ -364,43 +364,43 @@ void BattleArea::execute()
         }
     }
     for (x=0; x<maxobjects; x++)              //Remove the gfx from last round
-        objects[x]->eraseobject (&m_pixmap);
+        objects[x]->eraseObject (&m_pixmap);
 
     for (x=0; x<maxobjects; x++)
     {
         int ifdel = objects[x]->execute();  //Let each object execute,
         //move around and things like that
-        objects[x]->showobject (&m_pixmap);     //Let each object paint itself
+        objects[x]->drawObject (&m_pixmap);     //Let each object paint itself
         int x2;
-        if (objects[x]->returntype() > 0)    //Check If the object exists and
+        if (objects[x]->type() > 0)    //Check If the object exists and
         {                                  //is a "collidable" object
             for (x2= (x+1); x2<maxobjects; x2++)	//Loop through all possible objects
             {																	//(to check for collisions)
 
                 // Also, if the objects has the same collid (and it's != 256)
                 // (Eg, bullets fired by the same bot)  don't issue a collision
-                if (objects[x2]->returntype() > 0 &&
-                        ( (objects[x]->getcollid() == collenabled ||
-                           objects[x2]->getcollid() == collenabled) ||
-                          (objects[x]->getcollid() != objects[x2]->getcollid())))
+                if (objects[x2]->type() > 0 &&
+                        ( (objects[x]->collisionId() == collenabled ||
+                           objects[x2]->collisionId() == collenabled) ||
+                          (objects[x]->collisionId() != objects[x2]->collisionId())))
                 {                              //If object exists
                     int xx1,xx2,yy1,yy2,dist,dx,dy;
 
-                    xx1 = objects[x]->getXpos();           //
-                    xx2 = objects[x2]->getXpos();          // Get positions
+                    xx1 = objects[x]->xPos();           //
+                    xx2 = objects[x2]->xPos();          // Get positions
                     dx = (xx1 - xx2) /2;                       // and distances
-                    yy1 = objects[x]->getYpos();           // between each object
-                    yy2 = objects[x2]->getYpos();          //
+                    yy1 = objects[x]->yPos();           // between each object
+                    yy2 = objects[x2]->yPos();          //
                     dy = (yy1 - yy2) /2;                       //
                     dist = int (sqrt ( (dx*dx) + (dy*dy)));    //
                     dist *= 2;
 
-                    if (dist < ( (objects[x]->getsize() <<6) + (objects[x2]->getsize() <<6)))
+                    if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6)))
                     {   //If they're bigger than their distance they have collided
                         int xxx;
                         for (xxx=254; xxx > 128; xxx--)
                         {
-                            if (objects[xxx]->returntype() == 0)
+                            if (objects[xxx]->type() == 0)
                             {
                                 delete objects[xxx];
                                 objects[xxx] = new Explosion ( (xx1+xx2) /2, (yy1+yy2) /2,*this);
@@ -408,57 +408,57 @@ void BattleArea::execute()
                             }
                         }
                         int type1,type2,str1,str2;
-                        type1 = objects[x]->getcollisiontype();
-                        type2 = objects[x2]->getcollisiontype();
-                        str1 = objects[x]->getcollisionstrength(); // Get the damage they will
-                        str2 = objects[x2]->getcollisionstrength(); // inflict on each other
+                        type1 = objects[x]->collisionType();
+                        type2 = objects[x2]->collisionType();
+                        str1 = objects[x]->collisionStrength(); // Get the damage they will
+                        str2 = objects[x2]->collisionStrength(); // inflict on each other
                         if (type1 == 1)     // If he collided with a bot
                         {
-                            objects[x2]->setspeed (- (objects[x2]->getspeed() /2));
-                            double dir = objects[x2]->getdir() * toradians;  //Change dir
-                            objects[x2]->changepos (cos (dir) * objects[x2]->getspeed(),
-                                                    sin (dir) * objects[x2]->getspeed());
+                            objects[x2]->setSpeed (- (objects[x2]->speed() /2));
+                            double dir = objects[x2]->direction() * toradians;  //Change dir
+                            objects[x2]->setPosition (cos (dir) * objects[x2]->speed(),
+                                                    sin (dir) * objects[x2]->speed());
                         }
                         if (type2 == 1)
                         {
-                            objects[x]->setspeed (- (objects[x]->getspeed() /2));
-                            double dir = objects[x]->getdir() * toradians;
-                            objects[x]->changepos (cos (dir) * objects[x]->getspeed(),
-                                                   sin (dir) * objects[x]->getspeed());
+                            objects[x]->setSpeed (- (objects[x]->speed() /2));
+                            double dir = objects[x]->direction() * toradians;
+                            objects[x]->setPosition (cos (dir) * objects[x]->speed(),
+                                                   sin (dir) * objects[x]->speed());
                         }
-                        xx1 = objects[x]->getXpos();           //
-                        xx2 = objects[x2]->getXpos();          // Get positions
+                        xx1 = objects[x]->xPos();           //
+                        xx2 = objects[x2]->xPos();          // Get positions
                         dx = xx1 - xx2;                        // and distances between
-                        yy1 = objects[x]->getYpos();           // each object
-                        yy2 = objects[x2]->getYpos();          //
+                        yy1 = objects[x]->yPos();           // each object
+                        yy2 = objects[x2]->yPos();          //
                         dy = yy1 - yy2;                        //
                         dist = int (sqrt (dx*dx + dy*dy));     //
 
-                        if (dist < ( (objects[x]->getsize() <<6) + (objects[x2]->getsize() <<6))
-                                && objects[x]->returntype() ==1 && objects[x2]->returntype()
+                        if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))
+                                && objects[x]->type() ==1 && objects[x2]->type()
                                 ==1)   //If they're bigger than their distance, move them apart
                         {
                             double angl = atan2 (dy,dx);
-                            int dst = (objects[x]->getsize() <<6) +
-                                      (objects[x2]->getsize() <<6)-dist;
-                            objects[x]->changepos (cos (angl) * ( (dst+16) /2),sin (angl) *
+                            int dst = (objects[x]->size() <<6) +
+                                      (objects[x2]->size() <<6)-dist;
+                            objects[x]->setPosition (cos (angl) * ( (dst+16) /2),sin (angl) *
                                                    ( (dst+16) /2));
-                            objects[x2]->changepos (cos (angl+pi) * ( (dst+16) /2),
+                            objects[x2]->setPosition (cos (angl+pi) * ( (dst+16) /2),
                                                     sin (angl+pi) * ( (dst+16) /2));
                         }
-                        int x2owner = objects[x2]->getowner();
-                        if (objects[x2]->objhit (9,str1) == 1)
+                        int x2owner = objects[x2]->owner();
+                        if (objects[x2]->objectHit (9,str1) == 1)
                         {
                             switch (battlemode)
                             {
                             case 0 :
-                                objects[x2]->eraseobject (&m_pixmap);
+                                objects[x2]->eraseObject (&m_pixmap);
                                 delete objects[x2];
                                 objects[x2] = new ScreenObject();
                                 break;
                             case 1 :
-                                objects[x2]->eraseobject (&m_pixmap);
-                                if (x < 8 && objects[x2]->returntype() == 1)
+                                objects[x2]->eraseObject (&m_pixmap);
+                                if (x < 8 && objects[x2]->type() == 1)
                                 {
                                     fightswon[x2]++;
                                     delete objects[x2];
@@ -481,7 +481,7 @@ void BattleArea::execute()
                                         QObject::connect (objects[x2],
                                                           SIGNAL (messagechanged (char *)),binfo[x2],
                                                           SLOT (newmessage (char *)));
-                                        objects[x2]->objhit (0,0);
+                                        objects[x2]->objectHit (0,0);
                                     }
                                     else
                                     {
@@ -496,12 +496,12 @@ void BattleArea::execute()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                objects[x2]->eraseobject (&m_pixmap);
-                                if (objects[x2]->returntype() == 1)
+                                objects[x2]->eraseObject (&m_pixmap);
+                                if (objects[x2]->type() == 1)
                                 {
-                                    if (objects[x]->getowner() < 8 &&
-                                            x2 != objects[x]->getowner())
-                                        fightswon[objects[x]->getowner() ]++;
+                                    if (objects[x]->owner() < 8 &&
+                                            x2 != objects[x]->owner())
+                                        fightswon[objects[x]->owner() ]++;
                                     checkwin = true;
                                     //Calc X and Y position
                                     xstarts[x2] = random() %xsize;
@@ -520,7 +520,7 @@ void BattleArea::execute()
                                     QObject::connect (objects[x2],
                                                       SIGNAL (messagechanged (char *)),binfo[x2],
                                                       SLOT (newmessage (char *)));
-                                    objects[x2]->objhit (0,0);
+                                    objects[x2]->objectHit (0,0);
                                 }
                                 else
                                 {
@@ -530,20 +530,20 @@ void BattleArea::execute()
                                 break;
                             }
                         }
-                        if (objects[x]->objhit (9,str2) == 1)     //If the damage killed him
+                        if (objects[x]->objectHit (9,str2) == 1)     //If the damage killed him
                         {
                             switch (battlemode)
                             {
                             case 0 :  //If it's a normal battle
-                                objects[x]->eraseobject (&m_pixmap);       //Erase him
+                                objects[x]->eraseObject (&m_pixmap);       //Erase him
                                 delete objects[x];
                                 objects[x] = new ScreenObject();
                                 x2 = maxobjects;
                                 continue;
                                 break;
                             case 1 :  //If it's a survival battle
-                                objects[x]->eraseobject (&m_pixmap);
-                                if (x < 8 && objects[x]->returntype() == 1)
+                                objects[x]->eraseObject (&m_pixmap);
+                                if (x < 8 && objects[x]->type() == 1)
                                 {
                                     fightswon[x]++;
                                     delete objects[x];
@@ -567,7 +567,7 @@ void BattleArea::execute()
                                         QObject::connect (objects[x],
                                                           SIGNAL (messagechanged (char *)),binfo[x],
                                                           SLOT (newmessage (char *)));
-                                        objects[x]->objhit (0,0);
+                                        objects[x]->objectHit (0,0);
                                     }
                                     else
                                     {
@@ -584,8 +584,8 @@ void BattleArea::execute()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                objects[x]->eraseobject (&m_pixmap);
-                                if (objects[x]->returntype() == 1)
+                                objects[x]->eraseObject (&m_pixmap);
+                                if (objects[x]->type() == 1)
                                 {
                                     if (x2owner < 8 && x != x2owner)
                                         fightswon[x2owner]++;
@@ -609,7 +609,7 @@ void BattleArea::execute()
                                     QObject::connect (objects[x],
                                                       SIGNAL (messagechanged (char *)),binfo[x],
                                                       SLOT (newmessage (char *)));
-                                    objects[x]->objhit (0,0);
+                                    objects[x]->objectHit (0,0);
                                 }
                                 else
                                 {
@@ -627,7 +627,7 @@ void BattleArea::execute()
         }
         if (ifdel == -1)             //If the object ordered it's own destruction
         {                            //Example: shot that gets outside of screen
-            objects[x]->eraseobject (&m_pixmap);
+            objects[x]->eraseObject (&m_pixmap);
             delete objects[x];
             objects[x] = new ScreenObject();
         }
@@ -645,10 +645,10 @@ void BattleArea::execute()
         alive[3] = 0;
         for (x=0; x<maxbots; x++)     //Mark teams with bots left
         {
-            if (objects[x]->returntype() == doesexist)
+            if (objects[x]->type() == doesexist)
             {
                 int yy;
-                yy = objects[x]->getteam();
+                yy = objects[x]->team();
                 if (yy > 3 || yy < 0) yy=0;
                 alive[yy] = 1;
             }
@@ -710,7 +710,7 @@ void BattleArea::execute()
     {
         for (x=0; x<maxbots; x++)
         {
-            if (objects[x]->returntype() == doesexist)
+            if (objects[x]->type() == doesexist)
             {
                 numofbots++;                       //Count the number of bots alive
                 botnum = x;
@@ -828,9 +828,9 @@ void BattleArea::execute()
 
 
     if (debugenabled)   //If this is a "quick battle", update register content info and such
-        if (objects[debugbot]->returntype() == 1) // for robots only
+        if (objects[debugbot]->type() == 1) // for robots only
         {
-            std::list<struct DebugContents> *dc = ( (Robots*) objects[debugbot])->returndbgcont2();
+            std::list<struct DebugContents> *dc = ( (Robots*) objects[debugbot])->allDebugContents();
             assert (dc->size() == dbgwindows.size());
             QList<DebugWindow*>::iterator i = dbgwindows.begin();
             std::list<DebugContents>::iterator j = dc->begin();
@@ -864,7 +864,7 @@ void BattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
     int x;
     for (x=0; x<maxobjects; x++)
     {
-        if (objects[x]->returntype() == doesnotexist)
+        if (objects[x]->type() == doesnotexist)
         {
             delete objects[x];
             Ram *temp3 = (Ram *) arg3;
@@ -994,15 +994,15 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
     for (z=0; z<maxbots; z++)
     {
         if (z == whichobject) continue;
-        if (!objects[z]->areaexplosionaffects()) continue;
-        X1 = objects[z]->getXpos();
-        Y1 = objects[z]->getYpos();
+        if (!objects[z]->areaExplosionAffects()) continue;
+        X1 = objects[z]->xPos();
+        Y1 = objects[z]->yPos();
         D1 = int (sqrt ( ( (X1-x) * (X1-x)) + ( (Y1-y) * (Y1-y))));
         if (D1 >= rad) continue;
         S1 = strength- (D1*strength/rad);
-        if (objects[z]->objhit (9,S1) == 1)     //If the damage killed him
+        if (objects[z]->objectHit (9,S1) == 1)     //If the damage killed him
         {
-            objects[z]->eraseobject (&m_pixmap);       //Erase him
+            objects[z]->eraseObject (&m_pixmap);       //Erase him
             switch (battlemode)
             {
             case 0 :
@@ -1010,7 +1010,7 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
                 objects[z] = new ScreenObject();
                 break;
             case 1 :
-                if (z < 8 && objects[z]->returntype() == 1)
+                if (z < 8 && objects[z]->type() == 1)
                 {
                     fightswon[z]++;
                     delete objects[z];
@@ -1045,11 +1045,11 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
             case 2 :
                 int x = whichobject;
                 int x2 = z;
-                objects[x2]->eraseobject (&m_pixmap);
-                if (objects[x2]->returntype() == 1)
+                objects[x2]->eraseObject (&m_pixmap);
+                if (objects[x2]->type() == 1)
                 {
-                    if (objects[x]->getowner() < 8 && x2 != objects[x]->getowner())
-                        fightswon[objects[x]->getowner() ]++;
+                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
+                        fightswon[objects[x]->owner() ]++;
                     checkwin = true;
                     //Calc X and Y position
                     xstarts[x2] = random() %xsize;
@@ -1077,7 +1077,7 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
     int xxx;
     for (xxx=254; xxx > 128; xxx--)
     {
-        if (objects[xxx]->returntype() == doesnotexist)
+        if (objects[xxx]->type() == doesnotexist)
         {
             delete objects[xxx];
             objects[xxx] = new Explosion (x,y,*this);
@@ -1107,5 +1107,5 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
 	*/
 void BattleArea::dmem()
 {
-    objects[7]->dumpRAM();
+    objects[7]->dumpRam();
 }

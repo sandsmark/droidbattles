@@ -40,14 +40,14 @@ Chiller::~Chiller()
 
 void Chiller::execute()
 {
-    if (ison && ourbot->getfuel() > 5)
+    if (ison && ourbot->fuel() > 5)
     {
-        ourbot->changeheat (- (heatdiss*2));
-        ourbot->setfuel (- (5));
+        ourbot->changeHeat (- (heatdiss*2));
+        ourbot->setFuel (- (5));
     }
     else
     {
-        ourbot->changeheat (- (heatdiss));
+        ourbot->changeHeat (- (heatdiss));
     }
     if (stacktaken[0][0] == true)
     {

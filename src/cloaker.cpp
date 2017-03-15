@@ -40,11 +40,11 @@ Cloaker::~Cloaker()
 
 void Cloaker::execute()
 {
-    if (cloakon && ourbot->getfuel() > 5)
+    if (cloakon && ourbot->fuel() > 5)
     {
-        ourbot->setfuel (-6);
-        ourbot->changeheat (5+ourlevel);
-        ourbot->setradar (5-ourlevel);
+        ourbot->setFuel (-6);
+        ourbot->changeHeat (5+ourlevel);
+        ourbot->setRadar (5-ourlevel);
     }
     if (stacktaken[0][0] == true)
     {

@@ -24,10 +24,10 @@
 	*/
 Chaff::Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui)
 {
-    direction = d;
+    m_direction = d;
     Xpos = X;
     Ypos = Y;
-    speed = spd;
+    m_speed = spd;
     useUI = ui;
     if (useUI)
     {
@@ -53,7 +53,7 @@ Chaff::~Chaff()
 /**
 	* Paint object
 	*/
-void Chaff::showobject (QPixmap *buffer,int opt)
+void Chaff::drawObject (QPixmap *buffer,int opt)
 {
 
 //	int x;
@@ -61,20 +61,20 @@ void Chaff::showobject (QPixmap *buffer,int opt)
         QPainter painter(buffer);
         const int width = 12;
         const int height = 12;
-        const int x = (getXpos() >>6)-6;
-        const int y = (getYpos() >>6)-6;
+        const int x = (xPos() >>6)-6;
+        const int y = (yPos() >>6)-6;
         const int sourceX = 84- (int (timeleft/20) * 12);
         painter.drawPixmap(x, y, width, height, *graphics, sourceX, 0, width, height);
 //        bitBlt (buffer, (getXpos() >>6)-6, (getYpos() >>6)-6, graphics,picpos, 0, 12,12);
     }
-    oldX = getXpos();
-    oldY = getYpos();
+    oldX = xPos();
+    oldY = yPos();
 }
 
 /**
 	* Paint object black
 	*/
-void Chaff::eraseobject (QPixmap *buffer)
+void Chaff::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-6, (oldY>>6)-6, *erasegfx);
@@ -86,11 +86,11 @@ void Chaff::eraseobject (QPixmap *buffer)
 	*/
 int Chaff::execute()
 {
-    double dira = getdir() * pi / 512;
+    double dira = direction() * pi / 512;
     double tempX,tempY;
-    tempX = cos (dira) * getspeed();
-    tempY = sin (dira) * getspeed();
-    changepos (tempX,tempY);
+    tempX = cos (dira) * speed();
+    tempY = sin (dira) * speed();
+    setPosition (tempX,tempY);
     timeleft--;
     if (!timeleft)
         return destroyself;
@@ -101,7 +101,7 @@ int Chaff::execute()
 /**
 	* Return "exists" id that tells he's a non-colliding object
 	*/
-int Chaff::returntype()
+int Chaff::type()
 {
     return noncollobject;
 }
@@ -109,7 +109,7 @@ int Chaff::returntype()
 /**
 	* Return "is visible on radar" id
 	*/
-int Chaff::returnradar()
+int Chaff::returnRadar()
 {
     return 5;
 }

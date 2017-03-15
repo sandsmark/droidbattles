@@ -21,7 +21,7 @@ Fuel::Fuel (ScreenObject &object, int arg1)
 {
     int ourlevel = arg1;
     ourbot = &object;
-    ourbot->setfuel (ourlevel);
+    ourbot->setFuel (ourlevel);
     intenabled = false;
     int count;
     int count2;
@@ -42,12 +42,12 @@ Fuel::~Fuel()
 /**
 	* Returns amount of fuel to in instruction
 	*/
-int Fuel::getfromport (unsigned char port)
+int Fuel::readPort (unsigned char port)
 {
     switch (port)
     {
     case 0 :
-        return ourbot->getfuel();
+        return ourbot->fuel();
         break;
     }
     return 0;
@@ -63,8 +63,8 @@ void Fuel::execute()
 {
     if (intenabled)
     {
-        if (ourbot->getfuel() < fuelintlevel)
-            ourbot->addinterrupt (4);
+        if (ourbot->fuel() < fuelintlevel)
+            ourbot->addInterrupt (4);
     }
     if (stacktaken[0][0] == true)
     {

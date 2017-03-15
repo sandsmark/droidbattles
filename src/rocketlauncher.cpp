@@ -56,8 +56,8 @@ void RocketLauncher::execute()
     {
         if (readiness > 100)
         {
-            ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
-                                  ourbot->getdir() +relang,6,distance);
+            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
+                                  ourbot->direction() +relang,6,distance);
             moveportstack (1);
             readiness -= ourlevel;
         }
@@ -67,7 +67,7 @@ void RocketLauncher::execute()
 /**
 	* return inports
 	*/
-int RocketLauncher::getfromport (unsigned char port)
+int RocketLauncher::readPort (unsigned char port)
 {
     switch (port)
     {

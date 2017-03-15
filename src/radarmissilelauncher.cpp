@@ -63,8 +63,8 @@ void RadarMissileLauncher::execute()
     {
         if (reloadtime <= 0)
         {
-            ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
-                                  ourbot->getdir() +relang,4,bootmem,stackmem,memd);
+            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
+                                  ourbot->direction() +relang,4,bootmem,stackmem,memd);
             moveportstack (2);
             reloadtime = ourlevel;
         }
@@ -74,7 +74,7 @@ void RadarMissileLauncher::execute()
 /**
 	* return reloadtime
 	*/
-int RadarMissileLauncher::getfromport (unsigned char port)
+int RadarMissileLauncher::readPort (unsigned char port)
 {
     switch (port)
     {

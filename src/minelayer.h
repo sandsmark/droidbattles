@@ -32,7 +32,7 @@ public:
 
     MineLayer (ScreenObject &, int);
     ~MineLayer();
-    int getfromport(unsigned char port);
+    int readPort(unsigned char port);
     void execute();
 
 private:

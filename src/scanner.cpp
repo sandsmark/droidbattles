@@ -64,19 +64,19 @@ void Scanner::execute()
         int count;
         for (count=0; count<255; count++)
         {
-            if ( (count != ourbot->getnum()) &&
-                    (ourbot->iodevtobatt (0,0,6,count,0) >= threshold))
+            if ( (count != ourbot->number()) &&
+                    (ourbot->writetoBattleArea (0,0,6,count,0) >= threshold))
             {
                 int ourX, ourY, hisX, hisY;
                 int startang, endang, leftang, rightang, angle, mangle;
                 int distX, distY, dist;
 
-                ourX = ourbot->getXpos();
-                ourY = ourbot->getYpos();
-                hisX = ourbot->iodevtobatt (0,0,1,count,0);
-                hisY = ourbot->iodevtobatt (0,0,2,count,0);
+                ourX = ourbot->xPos();
+                ourY = ourbot->yPos();
+                hisX = ourbot->writetoBattleArea (0,0,1,count,0);
+                hisY = ourbot->writetoBattleArea (0,0,2,count,0);
 
-                mangle = ourbot->getdir() + relang;
+                mangle = ourbot->direction() + relang;
                 // when (relang != 0), mangle could contain an unnormalized angle
                 if (mangle >= 1024)
                     mangle -= 1024;
@@ -124,9 +124,9 @@ void Scanner::execute()
 
                     lastscanang = int (widthinarc/ ( (width*2) /5));
                     lastscanid = count;
-                    lastscanfreq = ourbot->iodevtobatt (0,0,8,count,0);
-                    lastscandir = ourbot->iodevtobatt (0,0,3,count,0);
-                    lastscanspeed = ourbot->iodevtobatt (0,0,4,count,0);
+                    lastscanfreq = ourbot->writetoBattleArea (0,0,8,count,0);
+                    lastscandir = ourbot->writetoBattleArea (0,0,3,count,0);
+                    lastscanspeed = ourbot->writetoBattleArea (0,0,4,count,0);
                     if (lastscanang == 5) lastscanang--;
 
                     int tdir,tbot,tint,tdist;  //The following lines so
@@ -138,7 +138,7 @@ void Scanner::execute()
                     tdir += 512;
                     if (tdir >= 1024) tdir -= 1024;
                     tbot = count;
-                    ourbot->iodevtobatt (tbot,0,9,tint,tdir);
+                    ourbot->writetoBattleArea (tbot,0,9,tint,tdir);
 
                 }
             }
@@ -187,18 +187,18 @@ void Scanner::showgfx (QPainter *painter)
     if (scanshow-- > 0)
     {
         painter->setPen (QColor (255,255,255));
-        painter->drawPie ( (ourbot->getXpos()-maxscandist) >>6, (ourbot->getYpos()
+        painter->drawPie ( (ourbot->xPos()-maxscandist) >>6, (ourbot->yPos()
                     -maxscandist) >>6, (maxscandist*2) >>6, (maxscandist*2) >>6,
-                    - ( (ourbot->getdir() +relang)-width) *5.625,-width*11.25);
-        lastpaintX = ourbot->getXpos();
-        lastpaintY = ourbot->getYpos();
-        lastpaintang = (ourbot->getdir() +relang);
+                    - ( (ourbot->direction() +relang)-width) *5.625,-width*11.25);
+        lastpaintX = ourbot->xPos();
+        lastpaintY = ourbot->yPos();
+        lastpaintang = (ourbot->direction() +relang);
         lastpaintsize = width;
         ispainted = true;
     }
 }
 
-int Scanner::getfromport (unsigned char port)
+int Scanner::readPort (unsigned char port)
 {
     switch (port)
     {

@@ -31,14 +31,14 @@ RadarMissile::RadarMissile (int X,int Y,int dir,int bootm,int stm,int mnum,
     ourarea = &area;
     mynum = mnum;
     strength = 175;
-    direction = dir;
-    speed = 150;
+    m_direction = dir;
+    m_speed = 150;
     Xpos = X;
     Ypos = Y;
     noncollid = 256;
-    double dira = getdir() * pi / 512;
-    changepos (cos (dira) * 1500,sin (dira) * 1500);
-    size = 1<<6;
+    double dira = direction() * pi / 512;
+    setPosition (cos (dira) * 1500,sin (dira) * 1500);
+    m_size = 1<<6;
     if (useUI)
     {
         erasegfx = new QPixmap(8, 8);
@@ -68,12 +68,12 @@ RadarMissile::~RadarMissile()
     if (ramdevice->getowners() == 0) delete ramdevice;
 }
 
-int RadarMissile::objhit (int /*type*/, int /*strength*/)
+int RadarMissile::objectHit (int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }
 
-int RadarMissile::returntype()
+int RadarMissile::type()
 {
     return 2;
 }
@@ -81,7 +81,7 @@ int RadarMissile::returntype()
 /**
 	* Paint object black
 	*/
-void RadarMissile::eraseobject (QPixmap *buffer)
+void RadarMissile::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
@@ -91,13 +91,13 @@ void RadarMissile::eraseobject (QPixmap *buffer)
 /**
 	* Paint object gfx
 	*/
-void RadarMissile::showobject (QPixmap *buffer, int opt)
+void RadarMissile::drawObject (QPixmap *buffer, int opt)
 {
     QPainter painter(buffer);
     if (opt == 0)
-        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *graphics);
+        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
     else
-        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *erasegfx);
+        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *erasegfx);
     oldX = int (Xpos);
     oldY = int (Ypos);
     devices[2]->showgfx (&painter);
@@ -113,12 +113,12 @@ int RadarMissile::execute()
         devices[x]->execute();
     if (dbgWindow)
         dbgWindow->updatedata (devices[0]->returndbg());
-    double dir = getdir() * pi / 512;
+    double dir = direction() * pi / 512;
     if (--fuelval <= 0) return -1;
-    return changepos (cos (dir) * speed,sin (dir) * speed);       //Update position
+    return setPosition (cos (dir) * m_speed,sin (dir) * m_speed);       //Update position
 }
 
-int RadarMissile::changepos (double X,double Y)
+int RadarMissile::setPosition (double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -131,17 +131,17 @@ int RadarMissile::changepos (double X,double Y)
     return 0;
 }
 
-int RadarMissile::getcollisiontype()
+int RadarMissile::collisionType()
 {
     return 2;
 }
 
-int RadarMissile::getcollisionstrength()
+int RadarMissile::collisionStrength()
 {
     return 175;
 }
 
-int RadarMissile::getsize()
+int RadarMissile::size()
 {
     return 1;
 }
@@ -150,7 +150,7 @@ int RadarMissile::getsize()
 	* Inbetween function if the device want to call the
 	* batlearea
 	*/
-int RadarMissile::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
+int RadarMissile::writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2)
 {
     return ourarea->devio (bot,dev,choice,arg1,arg2);
 }
@@ -158,13 +158,13 @@ int RadarMissile::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 /**
 	* Get value from device port
 	*/
-int RadarMissile::getdevport (unsigned char port)
+int RadarMissile::readDevicePort (unsigned char port)
 {
     int tempport = port%4;
     int tempdevice = int (port/4);
     int temp = -1;
     if (tempdevice < 3) {
-        temp = devices[tempdevice]->getfromport (tempport);
+        temp = devices[tempdevice]->readPort (tempport);
     } else {
         qWarning() << "Illegal port?" << port;
     }
@@ -175,14 +175,14 @@ int RadarMissile::getdevport (unsigned char port)
 /**
 	* Put value in device port
 	*/
-void RadarMissile::putdevport (unsigned char port, unsigned short value)
+void RadarMissile::writeDevicePort (unsigned char port, unsigned short value)
 {
     int tempport = port%4;
     int tempdevice = int (port/4);
     if (tempdevice < 3) devices[tempdevice]->addinport (tempport,value);
 }
 
-int RadarMissile::returnradar()
+int RadarMissile::returnRadar()
 {
     return 4;
 }

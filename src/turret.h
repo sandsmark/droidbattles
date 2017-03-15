@@ -31,7 +31,7 @@ public:
 
     Turret (ScreenObject &,int,int);
     ~Turret();
-    int getfromport (unsigned char);
+    int readPort (unsigned char);
     void execute();
 
 private:

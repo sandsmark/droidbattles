@@ -32,7 +32,7 @@ public:
 
     ~Engine();
     Engine (ScreenObject &object,int);
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
     void execute();
 
 private:

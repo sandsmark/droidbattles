@@ -52,11 +52,11 @@ void Beamer::execute()
     {
         moveportstack (0);
         //Fire beam
-        if (ourbot->getfuel() <= 20) return;
-        ourbot->setfuel (-20);
-        ourbot->changeheat (ourlevel);
-        ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
-                              ourbot->getdir() +relang,5,length);
+        if (ourbot->fuel() <= 20) return;
+        ourbot->setFuel (-20);
+        ourbot->changeHeat (ourlevel);
+        ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
+                              ourbot->direction() +relang,5,length);
     }
     if (stacktaken[1][0] == true)
     {
@@ -74,7 +74,7 @@ void Beamer::execute()
 /**
 	* Return values to the CPU instruktion IN
 	*/
-int Beamer::getfromport (unsigned char port)
+int Beamer::readPort (unsigned char port)
 {
     switch (port)
     {

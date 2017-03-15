@@ -39,10 +39,10 @@ void Repair::execute()
         int count;
         for (count=0; count < 32; count++)
         {
-            if ( (ourbot->iodevtodev (count,2,0) == 99) &&
-                    (ourbot->iodevtodev (count,3,0) > 0))
+            if ( (ourbot->writeToDevice (count,2,0) == 99) &&
+                    (ourbot->writeToDevice (count,3,0) > 0))
             {
-                ourbot->iodevtodev (count,4,-1);   //Repair one damage
+                ourbot->writeToDevice (count,4,-1);   //Repair one damage
                 break;
             }
         }
@@ -50,7 +50,7 @@ void Repair::execute()
     }
 }
 
-int Repair::getfromport (unsigned char /*port*/)
+int Repair::readPort (unsigned char /*port*/)
 {
     return 0;
 }

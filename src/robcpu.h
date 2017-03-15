@@ -34,10 +34,10 @@ public:
             int arg4,int arg5);
     ~RobCpu();
     void execute();
-    int returntype();
-    int returnspecial();
+    int type();
+    int specialValue();
     void sendmsg (char *msg);
-    struct DebugContents returndbg();
+    struct DebugContents debugContents();
     void execinstr();
 };
 

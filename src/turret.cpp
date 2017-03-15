@@ -40,7 +40,7 @@ Turret::~Turret()
 {
 }
 
-int Turret::getfromport (unsigned char port)
+int Turret::readPort (unsigned char port)
 {
     switch (port)
     {
@@ -113,6 +113,6 @@ void Turret::execute()
     if (offset < 0)
         offset += 1024;
 
-    ourbot->iodevtodev (ourdev,1,offset);
+    ourbot->writeToDevice (ourdev,1,offset);
 
 }

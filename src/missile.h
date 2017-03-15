@@ -42,15 +42,15 @@ public:
     Missile (int X,int Y,int dir,int owner,int mynum,TextmodeBattleArea &area, bool ui = true);
     ~Missile();
     int execute();
-    void eraseobject (QPixmap *buffer);
-    void showobject (QPixmap *buffer, int opt = 0);
-    int returntype();
-    int getcollisiontype();
-    int getcollisionstrength();
-    int changepos (double X,double Y);
-    int objhit (int type,int strength);
-    int getsize();
-    int returnradar();
+    void eraseObject (QPixmap *buffer);
+    void drawObject (QPixmap *buffer, int opt = 0);
+    int type();
+    int collisionType();
+    int collisionStrength();
+    int setPosition (double X,double Y);
+    int objectHit (int type,int strength);
+    int size();
+    int returnRadar();
 
 private:
 

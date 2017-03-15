@@ -49,27 +49,27 @@ void Shield::execute()
         Isup = portstack[0][0];
         moveportstack (0);
     }
-    if (ourbot->getfuel() <= 3) Isup = false;
+    if (ourbot->fuel() <= 3) Isup = false;
     if (Isup == true)
     {
-        ourbot->setfuel (-4);
-        ourbot->changeheat (1);
+        ourbot->setFuel (-4);
+        ourbot->changeHeat (1);
     }
 }
 
-int Shield::absorbhit (int strength, int /*ifint*/)
+int Shield::absorbHit (int strength, int /*ifint*/)
 {
     if (Isup == true)
     {
         int strabsorb = int (strength * ourlevel * 0.01);
         if (strabsorb > ourlevel) strabsorb = ourlevel;
-        ourbot->changeheat (strabsorb*4);
+        ourbot->changeHeat (strabsorb*4);
         return (strength-strabsorb);
     }
     return strength;
 }
 
-int Shield::getfromport (unsigned char port)
+int Shield::readPort (unsigned char port)
 {
     switch (port)
     {
@@ -83,14 +83,14 @@ int Shield::getfromport (unsigned char port)
 /**
 	* If shield is up, paint blue circle
 	*/
-void Shield::showgfx (QPainter *painter)
+void Shield::draw (QPainter *painter)
 {
     if (Isup == true)
     {
         painter->setPen (QColor (0,0,255));
-        painter->drawEllipse ( (ourbot->getXpos() >>6)-16, (ourbot->getYpos() >>6)-16, 32, 32);
-        lastpaintX = (ourbot->getXpos() >>6)-16;
-        lastpaintY = (ourbot->getYpos() >>6)-16;
+        painter->drawEllipse ( (ourbot->xPos() >>6)-16, (ourbot->yPos() >>6)-16, 32, 32);
+        lastpaintX = (ourbot->xPos() >>6)-16;
+        lastpaintY = (ourbot->yPos() >>6)-16;
         ispainted = true;
     }
 }
@@ -98,7 +98,7 @@ void Shield::showgfx (QPainter *painter)
 /**
 	* paint shield black
 	*/
-void Shield::erasegfx (QPainter *painter)
+void Shield::erase (QPainter *painter)
 {
     if (ispainted == true)
     {

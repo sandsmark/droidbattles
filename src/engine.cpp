@@ -62,34 +62,34 @@ void Engine::execute()
 
     if (thrust >= 0)
     {
-        ourbot->changeheat (int (thrust/35));
-        if (thrust > ourbot->getspeed() && ourbot->getfuel() >= thrust+1)
+        ourbot->changeHeat (int (thrust/35));
+        if (thrust > ourbot->speed() && ourbot->fuel() >= thrust+1)
         {
-            ourbot->changespeed (1);
-            if (thrust > 0) ourbot->setfuel (- (1+thrust/10));
+            ourbot->changeSpeed (1);
+            if (thrust > 0) ourbot->setFuel (- (1+thrust/10));
         }
         else
         {
-            if (ourbot->getspeed() > 0)
-                ourbot->changespeed (-1);
-            if (ourbot->getspeed() < 0)
-                ourbot->changespeed (1);
+            if (ourbot->speed() > 0)
+                ourbot->changeSpeed (-1);
+            if (ourbot->speed() < 0)
+                ourbot->changeSpeed (1);
         }
     }
     if (thrust < 0)
     {
-        ourbot->changeheat (int (- (thrust/25)));
-        if (thrust < ourbot->getspeed() && ourbot->getfuel() >= (-thrust) +1)
+        ourbot->changeHeat (int (- (thrust/25)));
+        if (thrust < ourbot->speed() && ourbot->fuel() >= (-thrust) +1)
         {
-            ourbot->changespeed (-1);
-            ourbot->setfuel (- (1+ (-thrust) /10));
+            ourbot->changeSpeed (-1);
+            ourbot->setFuel (- (1+ (-thrust) /10));
         }
         else
         {
-            if (ourbot->getspeed() < 0)
-                ourbot->changespeed (1);
-            if (ourbot->getspeed() > 0)
-                ourbot->changespeed (-1);
+            if (ourbot->speed() < 0)
+                ourbot->changeSpeed (1);
+            if (ourbot->speed() > 0)
+                ourbot->changeSpeed (-1);
         }
     }
 }
@@ -97,7 +97,7 @@ void Engine::execute()
 /**
 	* Returns to CPU instruction IN
 	*/
-int Engine::getfromport (unsigned char port)
+int Engine::readPort (unsigned char port)
 {
     switch (port)
     {
@@ -105,7 +105,7 @@ int Engine::getfromport (unsigned char port)
         return thrust;
         break;
     case 1 :
-        return ourbot->getspeed();
+        return ourbot->speed();
         break;
     }
     return 0;

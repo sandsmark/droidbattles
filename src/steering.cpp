@@ -21,7 +21,7 @@ Steering::Steering (ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
-    aimatdir = ourbot->getdir();
+    aimatdir = ourbot->direction();
     int count;
     int count2;
     for (count=0; count<4; count++)
@@ -62,7 +62,7 @@ void Steering::execute()
 
     if (stacktaken[2][0] == true)
     {
-        aimatdir = ourbot->getdir() + portstack[2][0];
+        aimatdir = ourbot->direction() + portstack[2][0];
         if (aimatdir > 1024) aimatdir %= 1024;
         if (aimatdir < 0) aimatdir += 1024;
         moveportstack (2);
@@ -71,51 +71,51 @@ void Steering::execute()
 
     int diff1, diff2;
 
-    if (aimatdir != ourbot->getdir())
+    if (aimatdir != ourbot->direction())
     {
-        if (aimatdir < ourbot->getdir())
+        if (aimatdir < ourbot->direction())
         {
-            diff1 = ourbot->getdir() - aimatdir;
-            diff2 = 1024 - ourbot->getdir() + aimatdir;
+            diff1 = ourbot->direction() - aimatdir;
+            diff2 = 1024 - ourbot->direction() + aimatdir;
         }
         else
         {
-            diff1 = ourbot->getdir() + 1024 - aimatdir;
-            diff2 = aimatdir - ourbot->getdir();
+            diff1 = ourbot->direction() + 1024 - aimatdir;
+            diff2 = aimatdir - ourbot->direction();
         }
 
         if (diff1 < diff2)
         {
             if (diff1 < ourlevel)
-                ourbot->changedir (-diff1);
+                ourbot->changeDirection (-diff1);
             else
-                ourbot->changedir (- (ourlevel));
+                ourbot->changeDirection (- (ourlevel));
         }
         else
         {
             if (diff2 < ourlevel)
-                ourbot->changedir (diff2);
+                ourbot->changeDirection (diff2);
             else
-                ourbot->changedir ( (ourlevel));
+                ourbot->changeDirection ( (ourlevel));
         }
     }
 }
 
-int Steering::getfromport (unsigned char port)
+int Steering::readPort (unsigned char port)
 {
     switch (port)
     {
     case 0 :
-        return ourbot->getdir();
+        return ourbot->direction();
         break;
     case 1 :
         return aimatdir;
         break;
     case 2 :
-        return ourbot->getXpos();
+        return ourbot->xPos();
         break;
     case 3 :
-        return ourbot->getYpos();
+        return ourbot->yPos();
         break;
     }
 

@@ -59,11 +59,11 @@ void Armor::execute()
     if (intenabled2)
     {
         if (ourbot->armorval < armorintlevel)
-            ourbot->addinterrupt (3);
+            ourbot->addInterrupt (3);
     }
-    if (ourbot->getheat() > heatintlevel)
+    if (ourbot->heat() > heatintlevel)
     {
-        ourbot->addinterrupt (5);
+        ourbot->addInterrupt (5);
     }
     if (stacktaken[0][0] == true)
     {
@@ -91,13 +91,13 @@ void Armor::execute()
 	* Takes in the strength of the hit and
 	*	returns the amount of hitpoints it couldn't absorb
 	*/
-int Armor::absorbhit (int str,int ifint)
+int Armor::absorbHit (int str,int ifint)
 {
     if (strength >= str)
     {
         strength -= str;
         ourbot->armorval -= str;
-        if (intenabled==true && ifint==1) ourbot->addinterrupt (hitinterrupt);
+        if (intenabled==true && ifint==1) ourbot->addInterrupt (hitinterrupt);
         return 0;
     }
     else
@@ -112,7 +112,7 @@ int Armor::absorbhit (int str,int ifint)
 /**
 	* Returns armor id-code
 	*/
-int Armor::returntype()
+int Armor::type()
 {
     return armortype;
 }
@@ -128,15 +128,15 @@ int Armor::returnspecial()
 /**
 	* Returns value to CPU instruktion IN
 	*/
-int Armor::getfromport (unsigned char port)
+int Armor::readPort (unsigned char port)
 {
     switch (port)
     {
     case 0 :
-        return ourbot->getarmor();
+        return ourbot->armor();
         break;
     case 1 :
-        return ourbot->getheat();
+        return ourbot->heat();
         break;
     }
     return 0;

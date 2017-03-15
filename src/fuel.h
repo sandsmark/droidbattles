@@ -32,7 +32,7 @@ public:
 
     Fuel (ScreenObject &, int);
     ~Fuel();
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
     void execute();
 private:
 

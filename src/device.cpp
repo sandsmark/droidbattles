@@ -51,21 +51,21 @@ void Device::execute()
 {
 }
 
-int Device::getfromport (unsigned char /*port*/)
+int Device::readPort (unsigned char /*port*/)
 {
     return 0;
 }
 
-int Device::absorbhit (int str, int /*ifint*/)
+int Device::absorbHit (int str, int /*ifint*/)
 {
     return str;
 }
 
-void Device::erasegfx (QPainter* /*buffer*/)
+void Device::erase (QPainter* /*buffer*/)
 {
 }
 
-void Device::showgfx (QPainter* /*buffer*/)
+void Device::draw (QPainter* /*buffer*/)
 {
 }
 
@@ -78,17 +78,17 @@ void Device::setrelang (int x)
     relang = x;
 }
 
-int Device::returntype()
+int Device::type()
 {
     return 0;
 }
 
-int Device::returnspecial()
+int Device::specialValue()
 {
     return 0;
 }
 
-struct DebugContents Device::returndbg()
+struct DebugContents Device::debugContents()
 {
     return DebugContents();
 }

@@ -29,14 +29,14 @@ Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &ar
     ourarea = &area;
     mynum = mnum;
     strength = 20;
-    direction = dir;
-    speed = 256;
+    m_direction = dir;
+    m_speed = 256;
     noncollid = owner;
     Xpos = X;
     Ypos = Y;
-    double dira = getdir() * pi / 512;
-    changepos (cos (dira) * 1500,sin (dira) * 1500);
-    size = 1<<6;
+    double dira = direction() * pi / 512;
+    setPosition (cos (dira) * 1500,sin (dira) * 1500);
+    m_size = 1<<6;
     if (useUI)
     {
         erasegfx = new QPixmap(8, 8);
@@ -56,14 +56,14 @@ Missile::~Missile()
 	*/
 int Missile::execute()
 {
-    double dir = getdir() * pi / 512;
-    return changepos (cos (dir) * getspeed(),sin (dir) * getspeed());
+    double dir = direction() * pi / 512;
+    return setPosition (cos (dir) * speed(),sin (dir) * speed());
 }
 
 /**
 	* Paint the shot black
 	*/
-void Missile::eraseobject (QPixmap *buffer)
+void Missile::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
@@ -72,34 +72,34 @@ void Missile::eraseobject (QPixmap *buffer)
 /**
 	* Paint the shot on the screen
 	*/
-void Missile::showobject (QPixmap *buffer,int opt)
+void Missile::drawObject (QPixmap *buffer,int opt)
 {
     QPainter painter(buffer);
     if (opt == 0) {
-        painter.drawPixmap ((getXpos() >>6)-4, (getYpos() >>6)-4, *graphics);
+        painter.drawPixmap ((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
     } else {
-        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *erasegfx);
+        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *erasegfx);
     }
     oldX = int (Xpos);
     oldY = int (Ypos);
 }
 
-int Missile::returntype()
+int Missile::type()
 {
     return 2;
 }
 
-int Missile::getcollisiontype()
+int Missile::collisionType()
 {
     return 2;
 }
 
-int Missile::getcollisionstrength()
+int Missile::collisionStrength()
 {
     return 15;
 }
 
-int Missile::objhit (int /*type*/, int /*strength*/)
+int Missile::objectHit (int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }
@@ -108,7 +108,7 @@ int Missile::objhit (int /*type*/, int /*strength*/)
 	* If the shot gets outside the battlefield
 	* it deletes itself
 	*/
-int Missile::changepos (double X,double Y)
+int Missile::setPosition (double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -121,12 +121,12 @@ int Missile::changepos (double X,double Y)
     return 0;
 }
 
-int Missile::getsize()
+int Missile::size()
 {
     return 2;
 }
 
-int Missile::returnradar()
+int Missile::returnRadar()
 {
     return 1;
 }

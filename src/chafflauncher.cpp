@@ -58,8 +58,8 @@ void ChaffLauncher::execute()
         stacktaken[0][3] = false;
         if (chaffleft > 0)
         {
-            ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
-                                  ourbot->getdir(),7,ourbot->getspeed() /2);
+            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
+                                  ourbot->direction(),7,ourbot->speed() /2);
             chaffleft--;
         }
     }
@@ -68,7 +68,7 @@ void ChaffLauncher::execute()
 /**
 	* Returns number of chaffs left to CPU instruktion IN
 	*/
-int ChaffLauncher::getfromport (unsigned char port)
+int ChaffLauncher::readPort (unsigned char port)
 {
     switch (port)
     {

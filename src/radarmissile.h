@@ -39,18 +39,18 @@ public:
     RadarMissile (int,int,int,int,int,int,TextmodeBattleArea &,Ram *,int owner, bool ui=true);
     ~RadarMissile();
     int execute();
-    void eraseobject (QPixmap *buffer);
-    void showobject (QPixmap *buffer, int opt = 0);
-    int returntype();
-    int getcollisiontype();
-    int getcollisionstrength();
-    int changepos (double X,double Y);
-    int objhit (int type,int strength);
-    int getsize();
-    int getdevport (unsigned char port);
-    void putdevport (unsigned char port,unsigned short value);
-    int iodevtobatt (int bot,int dev,int choice,int arg1,int arg2);
-    int returnradar();
+    void eraseObject (QPixmap *buffer);
+    void drawObject (QPixmap *buffer, int opt = 0);
+    int type();
+    int collisionType();
+    int collisionStrength();
+    int setPosition (double X,double Y);
+    int objectHit (int type,int strength);
+    int size();
+    int readDevicePort (unsigned char port);
+    void writeDevicePort (unsigned char port,unsigned short value);
+    int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2);
+    int returnRadar();
     void createDbgWindow (int, QPlainTextEdit *, int*, int*);
 
 private:

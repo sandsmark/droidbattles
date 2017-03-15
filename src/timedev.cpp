@@ -61,10 +61,10 @@ void TimeDev::execute()
         moveportstack (2);
     }
     if (timecount == interrupttime && intenabled == true)
-        ourbot->addinterrupt (1);
+        ourbot->addInterrupt (1);
 }
 
-int TimeDev::getfromport (unsigned char port)
+int TimeDev::readPort (unsigned char port)
 {
     switch (port)
     {

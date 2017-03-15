@@ -34,7 +34,7 @@ public:
     RadarMissileLauncher (ScreenObject &object, int level, Ram *memdevice,
                           int offset);
     ~RadarMissileLauncher();
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
     void execute();
 
 private:

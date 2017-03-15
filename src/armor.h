@@ -33,10 +33,10 @@ public:
     Armor (ScreenObject &object,int);
     ~Armor();
     void execute();
-    int absorbhit (int str,int ifint);
-    int returntype();
+    int absorbHit (int str,int ifint);
+    int type();
     int returnspecial();
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
     void dospecial (int,int=0);
 private:
 

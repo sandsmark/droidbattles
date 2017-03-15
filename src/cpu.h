@@ -44,7 +44,7 @@ public:
     virtual int writefile (int start,int length,int adress);
     virtual int readfile (int start,int length,int adress);
     virtual void execinstr();
-    virtual int getfromport (unsigned char port);
+    virtual int readPort (unsigned char port);
 
 protected:
 

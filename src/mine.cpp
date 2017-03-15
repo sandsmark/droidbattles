@@ -30,7 +30,7 @@ Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
     ourarea = &area;
     Xpos = x;
     Ypos = y;
-    size = 1<<6;
+    m_size = 1<<6;
     noncollid = 256;
     if (useUI)
     {
@@ -53,12 +53,12 @@ Mine::~Mine()
 /**
 	* Returns damage inflicted
 	*/
-int Mine::getcollisionstrength()
+int Mine::collisionStrength()
 {
     return 70;
 }
 
-int Mine::getcollisiontype()
+int Mine::collisionType()
 {
     return 2;
 }
@@ -67,7 +67,7 @@ int Mine::getcollisiontype()
 	* If time < 100 cycles mine is "noncolliding"
 	* ie doesn't explode
 	*/
-int Mine::returntype()
+int Mine::type()
 {
     if (time1 < 100)
         return noncollobject;
@@ -75,7 +75,7 @@ int Mine::returntype()
         return 2;
 }
 
-int Mine::objhit (int /*type*/,int /*strength*/)
+int Mine::objectHit (int /*type*/,int /*strength*/)
 {
     return objhitdestroyed;
 }
@@ -83,14 +83,14 @@ int Mine::objhit (int /*type*/,int /*strength*/)
 /**
 	* Show the graphics on the battlefield
 	*/
-void Mine::showobject (QPixmap *buffer,int opt=0)
+void Mine::drawObject (QPixmap *buffer,int opt=0)
 {
     QPainter painter(buffer);
 
     if (opt == 0) {
-        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *graphics);
+        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
     } else {
-        painter.drawPixmap((getXpos() >>6)-4, (getYpos() >>6)-4, *erasegfx);
+        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *erasegfx);
     }
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -99,7 +99,7 @@ void Mine::showobject (QPixmap *buffer,int opt=0)
 /**
 	* Paint it black
 	*/
-void Mine::eraseobject (QPixmap *buffer)
+void Mine::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
@@ -116,7 +116,7 @@ int Mine::execute()
         return 0;
 }
 
-int Mine::returnradar()
+int Mine::returnRadar()
 {
     return 3;
 }

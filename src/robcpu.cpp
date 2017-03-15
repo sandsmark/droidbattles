@@ -320,7 +320,7 @@ void RobCpu::execute()
     execinstr();   //Execute instruction
 }
 
-int RobCpu::returntype()
+int RobCpu::type()
 {
     return 9;
 }
@@ -373,7 +373,7 @@ struct DebugContents RobCpu::returndbg()
 	*/
 void RobCpu::sendmsg (char *msg)
 {
-    ourbot->sendmsg (msg);
+    ourbot->sendMessage (msg);
 }
 
 void RobCpu::execinstr()

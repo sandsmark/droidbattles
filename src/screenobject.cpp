@@ -31,15 +31,15 @@ ScreenObject::~ScreenObject()
 {
 }
 
-void ScreenObject::showobject (QPixmap * /*buffer*/, int /*opt*/)
+void ScreenObject::drawObject (QPixmap * /*buffer*/, int /*opt*/)
 {
 }
 
-void ScreenObject::eraseobject (QPixmap * /*buffer*/)
+void ScreenObject::eraseObject (QPixmap * /*buffer*/)
 {
 }
 
-int ScreenObject::changepos (double X,double Y)
+int ScreenObject::setPosition (double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -52,43 +52,43 @@ int ScreenObject::changepos (double X,double Y)
     return 0;
 }
 
-void ScreenObject::changedir (int Z)
+void ScreenObject::changeDirection (int Z)
 {
-    direction += Z;
-    if (direction >= 1024) direction -= 1024;
-    if (direction < 0) direction += 1024;
+    m_direction += Z;
+    if (m_direction >= 1024) m_direction -= 1024;
+    if (m_direction < 0) m_direction += 1024;
 }
 
-void ScreenObject::changespeed (int Z)
+void ScreenObject::changeSpeed (int Z)
 {
-    speed += Z;
-    if (speed < -75) speed = -75;
-    if (speed > 100) speed = 100;
+    m_speed += Z;
+    if (m_speed < -75) m_speed = -75;
+    if (m_speed > 100) m_speed = 100;
 }
 
-int ScreenObject::getXpos()
+int ScreenObject::xPos()
 {
     return int (Xpos);
 }
 
-int ScreenObject::getYpos()
+int ScreenObject::yPos()
 {
     return int (Ypos);
 }
 
-int ScreenObject::getdir()
+int ScreenObject::direction()
 {
-    return direction;
+    return m_direction;
 }
 
-int ScreenObject::getspeed()
+int ScreenObject::speed()
 {
-    return speed;
+    return m_speed;
 }
 
-void ScreenObject::setspeed (int x)
+void ScreenObject::setSpeed (int x)
 {
-    speed = x;
+    m_speed = x;
 }
 
 int ScreenObject::execute()
@@ -96,75 +96,75 @@ int ScreenObject::execute()
     return 0;
 }
 
-int ScreenObject::getdevport (unsigned char /*port*/)
+int ScreenObject::readDevicePort (unsigned char /*port*/)
 {
     return 0;
 }
 
-int ScreenObject::getnum()
+int ScreenObject::number()
 {
     return mynum;
 }
 
-void ScreenObject::putdevport (unsigned char /*port*/, unsigned short /*value*/)
+void ScreenObject::writeDevicePort (unsigned char /*port*/, unsigned short /*value*/)
 {
 }
 
-int ScreenObject::objhit (int /*type*/, int /*strength*/)
+int ScreenObject::objectHit (int /*type*/, int /*strength*/)
 {
     return 0;
 }
 
-void ScreenObject::addscrobject (int /*X*/, int /*Y*/, int /*dir*/, int /*type*/, int /*arg1*/,
+void ScreenObject::addScreenObject (int /*X*/, int /*Y*/, int /*dir*/, int /*type*/, int /*arg1*/,
                                  int /*arg2*/, void* /*arg3*/)
 {
 }
 
-int ScreenObject::returntype()
+int ScreenObject::type()
 {
     return 0;
 }
 
-int ScreenObject::iodevtobatt (int /*bot*/, int /*dev*/, int /*choice*/, int /*arg1*/, int /*arg2*/)
+int ScreenObject::writetoBattleArea (int /*bot*/, int /*dev*/, int /*choice*/, int /*arg1*/, int /*arg2*/)
 {
     return 0;
 }
 
-int ScreenObject::iodevtodev (int /*dev*/, int /*action*/, int /*value*/)
+int ScreenObject::writeToDevice (int /*dev*/, int /*action*/, int /*value*/)
 {
     return 0;
 }
 
-int ScreenObject::getsize()
+int ScreenObject::size()
 {
     return 1;
 }
 
-int ScreenObject::getcollisiontype()
+int ScreenObject::collisionType()
 {
     return 0;
 }
 
-int ScreenObject::getcollisionstrength()
+int ScreenObject::collisionStrength()
 {
     return 0;
 }
 
-QString ScreenObject::getdebug1()
+QString ScreenObject::getDebugMessage1()
 {
     return 0;
 }
 
-QString ScreenObject::getdebug2()
+QString ScreenObject::getDebugMessage2()
 {
     return 0;
 }
 
-void ScreenObject::setdebug1 (int /*msg*/)
+void ScreenObject::setDebugVariable1 (int /*msg*/)
 {
 }
 
-void ScreenObject::setdebug2 (int /*msg*/)
+void ScreenObject::setDebugVariable2 (int /*msg*/)
 {
 }
 
@@ -173,85 +173,85 @@ void ScreenObject::setextragfx (bool x)
     showextragfx = x;
 }
 
-void ScreenObject::setfuel (int x)
+void ScreenObject::setFuel (int x)
 {
     fuelval += x;
 }
 
-int ScreenObject::getfuel()
+int ScreenObject::fuel()
 {
     return fuelval;
 }
 
-int ScreenObject::getarmor()
+int ScreenObject::armor()
 {
     return armorval;
 }
 
-void ScreenObject::changeheat (int x)
+void ScreenObject::changeHeat (int x)
 {
     heatval += x;
     if (heatval < 0) heatval = 0;
 }
 
-int ScreenObject::getheat()
+int ScreenObject::heat()
 {
     return heatval;
 }
 
-void ScreenObject::setheat (int x)
+void ScreenObject::setHeat (int x)
 {
     heatval = x;
 }
 
-int ScreenObject::getteam()
+int ScreenObject::team()
 {
-    return team;
+    return m_team;
 }
 
-void ScreenObject::receiveradio (int /*sig*/)
+void ScreenObject::writeRadio (int /*sig*/)
 {
 }
 
-int ScreenObject::getmem()
+int ScreenObject::memorySize()
 {
     return 0;
 }
 
-void ScreenObject::addinterrupt (int /*inter*/)
+void ScreenObject::addInterrupt (int /*inter*/)
 {
 }
 
-struct DebugContents ScreenObject::returndbgcont()
+struct DebugContents ScreenObject::debugContents()
 {
     return DebugContents();
 }
 
-bool ScreenObject::areaexplosionaffects()
+bool ScreenObject::areaExplosionAffects()
 {
     return true;
 }
 
-int ScreenObject::returnradar()
+int ScreenObject::returnRadar()
 {
     return 0;
 }
 
-int ScreenObject::getcollid()
+int ScreenObject::collisionId()
 {
     return noncollid;
 }
 
-void ScreenObject::sendmsg (char *msg)
+void ScreenObject::sendMessage (char *msg)
 {
     if (useUI) emit messagechanged (msg);
 }
 
-void ScreenObject::objscanned (int /*intensity*/, int /*dir*/)
+void ScreenObject::objectScanned (int /*intensity*/, int /*dir*/)
 {
 }
 
-int ScreenObject::getowner()
+int ScreenObject::owner()
 {
     return myowner;
 }
@@ -261,10 +261,10 @@ QPixmap & ScreenObject::getgfx()
     return *graphics;
 }
 
-void ScreenObject::setradar (int /*x*/)
+void ScreenObject::setRadar (int /*x*/)
 {
 }
 
-void ScreenObject::dumpRAM()
+void ScreenObject::dumpRam()
 {
 }

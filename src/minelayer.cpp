@@ -43,8 +43,8 @@ void MineLayer::execute()
         moveportstack (0);
         if (minesleft > 0)
         {
-            ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
-                                  ourbot->getdir(),3);
+            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
+                                  ourbot->direction(),3);
             minesleft--;
         }
     }
@@ -53,7 +53,7 @@ void MineLayer::execute()
 /**
 	* Returns mines left to in instruction
 	*/
-int MineLayer::getfromport(unsigned char /*port*/)
+int MineLayer::readPort(unsigned char /*port*/)
 {
     return minesleft;
 }

@@ -34,16 +34,16 @@ Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
     myowner = owner;
     ourarea = &area;
     mynum = mnum;
-    direction = dir;
-    speed = 220;
+    m_direction = dir;
+    m_speed = 220;
     noncollid = 256;
     Xpos = X;
     Ypos = Y;
     uX = X;
     uY = Y;
-    double dira = getdir() * pi / 512;
-    changepos (cos (dira) * 1500,sin (dira) * 1500);
-    size = 1<<6;
+    double dira = direction() * pi / 512;
+    setPosition (cos (dira) * 1500,sin (dira) * 1500);
+    m_size = 1<<6;
     countpoint = 0;
     length = leng;
     if (useUI)
@@ -52,12 +52,12 @@ Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
         {
             pointX[x] = int (Xpos);
             pointY[x] = int (Ypos);
-            pointD[x] = getdir() +512 + (rand() %128)-64;
+            pointD[x] = direction() +512 + (rand() %128)-64;
         }
     }
 }
 
-int Rocket::objhit (int /*type*/, int /*strength*/)
+int Rocket::objectHit (int /*type*/, int /*strength*/)
 {
     return 1;
 }
@@ -65,7 +65,7 @@ int Rocket::objhit (int /*type*/, int /*strength*/)
 /**
 	* Non colliding object...
 	*/
-int Rocket::returntype()
+int Rocket::type()
 {
     return noncollobject;
 }
@@ -73,7 +73,7 @@ int Rocket::returntype()
 /**
 	* Paint gfx black
 	*/
-void Rocket::eraseobject (QPixmap *buffer)
+void Rocket::eraseObject(QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
@@ -87,11 +87,11 @@ void Rocket::eraseobject (QPixmap *buffer)
 /**
 	* Paint the flame from the rocket
 	*/
-void Rocket::showobject (QPixmap *buffer, int /*opt*/)
+void Rocket::drawObject(QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,0,0));
-    pointD[countpoint] = getdir() +512 + (rand() %128)-64;
+    pointD[countpoint] = direction() +512 + (rand() %128)-64;
     if (pointD[countpoint] > 1024) pointD[countpoint] -= 1024;
     pointX[countpoint] = int (Xpos);
     pointY[countpoint] = int (Ypos);
@@ -112,8 +112,8 @@ void Rocket::showobject (QPixmap *buffer, int /*opt*/)
 	*/
 int Rocket::execute()
 {
-    double dir = getdir() * pi / 512;
-    int ret = changepos (cos (dir) * speed,sin (dir) * speed);       //Update position
+    double dir = direction() * pi / 512;
+    int ret = setPosition(cos(dir) * m_speed, sin(dir) * m_speed);       //Update position
     int dist = int (sqrt ( (Xpos-uX) * (Xpos-uX) + (Ypos-uY) * (Ypos-uY)));
     if (dist > length)
     {
@@ -126,7 +126,7 @@ int Rocket::execute()
 /**
 	* Move, and if he moved outside, destroy self
 	*/
-int Rocket::changepos (double X,double Y)
+int Rocket::setPosition(double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -139,17 +139,17 @@ int Rocket::changepos (double X,double Y)
     return 0;
 }
 
-int Rocket::getcollisiontype()
+int Rocket::collisionType()
 {
     return 2;
 }
 
-int Rocket::getcollisionstrength()
+int Rocket::collisionStrength()
 {
     return 0;
 }
 
-int Rocket::getsize()
+int Rocket::size()
 {
     return 2;
 }
@@ -157,12 +157,12 @@ int Rocket::getsize()
 /**
 	* Is not himself affected by other rockets explosions
 	*/
-bool Rocket::areaexplosionaffects()
+bool Rocket::areaExplosionAffects()
 {
     return false;
 }
 
-int Rocket::returnradar()
+int Rocket::returnRadar()
 {
     return 2;
 }

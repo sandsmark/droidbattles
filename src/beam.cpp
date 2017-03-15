@@ -29,18 +29,18 @@ Beam::Beam (int X,int Y,int dir,int l,TextmodeBattleArea &area, int owner, bool 
     length = l;
     if (length > maxbeamlength) length = maxbeamlength;
     if (length < minbeamlength) length = minbeamlength;
-    direction = dir;
+    m_direction = dir;
     Xpos = X;
     Ypos = Y;
     uX = X;
     uY = Y;
-    double dira = getdir() * toradians;
+    double dira = direction() * toradians;
     double tempX,tempY;
     tempX = cos (dira) * length;
     tempY = sin (dira) * length;
     maxx = ourarea->getareainfo (0);
     maxy = ourarea->getareainfo (1);
-    changepos (tempX,tempY);
+    setPosition (tempX,tempY);
     effect = 5;
 }
 
@@ -66,7 +66,7 @@ int Beam::execute()
 /**
 	* When collision, destroy self
 	*/
-int Beam::objhit (int type,int strength)
+int Beam::objectHit(int type, int strength)
 {
     Q_UNUSED(type);
     Q_UNUSED(strength);
@@ -77,7 +77,7 @@ int Beam::objhit (int type,int strength)
 	* Returns 2 if it's time for collision
 	* -1 else
 	*/
-int Beam::returntype()
+int Beam::type()
 {
     if (effect <= 1)
         return 2;
@@ -88,29 +88,29 @@ int Beam::returntype()
 /**
 	* Paint object
 	*/
-void Beam::showobject (QPixmap *buffer, int /*opt*/)
+void Beam::drawObject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,255));
-    p.drawLine (uX>>6, uY>>6, getXpos() >>6, getYpos() >>6);
+    p.drawLine (uX>>6, uY>>6, xPos() >>6, yPos() >>6);
     ispainted = true;
 }
 
 /**
 	* Paint object black
 	*/
-void Beam::eraseobject (QPixmap *buffer)
+void Beam::eraseObject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
-    p.drawLine (uX>>6, uY>>6, getXpos() >>6, getYpos() >>6);
+    p.drawLine (uX>>6, uY>>6, xPos() >>6, yPos() >>6);
     ispainted = false;
 }
 
 /**
 	* Return the beams damage
 	*/
-int Beam::getcollisionstrength()
+int Beam::collisionStrength()
 {
     return beamdamage;
 }
@@ -118,7 +118,7 @@ int Beam::getcollisionstrength()
 /**
 	* Return type (for future use)
 	*/
-int Beam::getcollisiontype()
+int Beam::collisionType()
 {
     return 2;
 }

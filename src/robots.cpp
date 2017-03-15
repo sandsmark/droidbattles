@@ -31,7 +31,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
     int numdev = 0;
     int cost = 0;
     upcount = 0;
-    team = tm;
+    m_team = tm;
     showerror = er;
     myfile = name;
     myfile = myfile.left (myfile.length()-3);
@@ -41,7 +41,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
 
     Xpos = ourarea->getstartx (mnum);  //Get start position from battlearea
     Ypos = ourarea->getstarty (mnum);
-    direction = random() %1024;
+    m_direction = random() %1024;
 
     fuelval = 0;
     mynum = mnum;
@@ -49,7 +49,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
     maxx = ourarea->getareainfo (0);
     maxy = ourarea->getareainfo (1);
     armorval = 0;
-    speed = 0;
+    m_speed = 0;
     QFile f (name);         //Open the .bot file
     if (f.open (QIODevice::ReadOnly))
     {
@@ -62,7 +62,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
         f.close();
         if (my[1] > config.maxram)          //Read in all devices
         {
-            error ("Max amount of ram",name);
+            showError ("Max amount of ram",name);
         }
         if (my[1] <= 9)
         {
@@ -100,7 +100,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
         }
         else
         {
-            error ("File format error",name);
+            showError ("File format error",name);
             ramdevice = new Ram();
         }
         int x;
@@ -115,7 +115,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
             if (my[x*6+2] <= NUMDEV)
             {
                 if (config.enabled[my[x*6+2]-1] == false && my[x*6+2] != 0)
-                    error (QString("Using disabled device %1").arg(my[x*6+2]), name);
+                    showError (QString("Using disabled device %1").arg(my[x*6+2]), name);
                 if (my[x*6+3] <= 4 && my[x*6+2] > 0)
                 {
                     numdev++;
@@ -124,7 +124,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
                 }
                 if (my[x*6+3] > 4)
                 {
-                    error ("File format error",name);
+                    showError ("File format error",name);
                     levelvalue = 0;
                 }
 
@@ -207,20 +207,20 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
             }
             else
             {
-                error ("File format error",name);
+                showError ("File format error",name);
                 devicelist[x] = new Device (*this);
             }
         }
         if (numdev > config.maxdev)
-            error (QString("Max number of devices (%1/%2").arg(numdev).arg(config.maxdev), name);
+            showError (QString("Max number of devices (%1/%2").arg(numdev).arg(config.maxdev), name);
         if (cost > config.maxcost)
-            error ("Max cost of bot",name);
+            showError ("Max cost of bot",name);
 
         delete my;
     }
     else
     {
-        error (QString("Couldn't open bot file %1!").arg(f.fileName()), name);
+        showError (QString("Couldn't open bot file %1!").arg(f.fileName()), name);
         ramdevice = new Ram;
         for (int x=0; x<32; x++)
             devicelist[x] = new Device (*this);
@@ -253,8 +253,8 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
         rowchangeval = 0;
         degreesperpic = 1024/piccols;
     }
-    size = 16;
-    setheat (0);
+    m_size = 16;
+    setHeat (0);
 }
 
 
@@ -283,9 +283,9 @@ int Robots::execute()
     {
         devicelist[x]->execute();
     }
-    double dir = getdir() * pi / 512;
-    changepos (cos (dir) * getspeed(),sin (dir) * getspeed());        //Update position
-    rowchangeval += getspeed();
+    double dir = direction() * pi / 512;
+    setPosition (cos (dir) * speed(),sin (dir) * speed());        //Update position
+    rowchangeval += speed();
     if (rowchangeval > 512)
     {
         currentrow++;
@@ -305,25 +305,25 @@ int Robots::execute()
     if (upcount > 10)
     {
         upcount = 0;
-        if (useUI) emit fuelchanged (fuelval,getheat());
+        if (useUI) emit fuelchanged (fuelval,heat());
     }
-    changeheat (-7);
+    changeHeat (-7);
 
-    if (getheat() > 500 && getheat() <= 600)
+    if (heat() > 500 && heat() <= 600)
     {
-        objhit (9,1);
+        objectHit (9,1);
     }
-    if (getheat() > 600 && getheat() <= 700)
+    if (heat() > 600 && heat() <= 700)
     {
-        objhit (9,2);
+        objectHit (9,2);
     }
-    if (getheat() > 700 && getheat() <= 800)
+    if (heat() > 700 && heat() <= 800)
     {
-        objhit (9,5);
+        objectHit (9,5);
     }
-    if (getheat() > 800)
+    if (heat() > 800)
     {
-        objhit (9,999);
+        objectHit (9,999);
     }
 
     return 0;
@@ -332,7 +332,7 @@ int Robots::execute()
 /**
 	* Paint bot black
 	*/
-void Robots::eraseobject (QPixmap *buffer)
+void Robots::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-16, (oldY>>6)-16, *erasegfx);
@@ -348,11 +348,11 @@ void Robots::eraseobject (QPixmap *buffer)
 /**
 	* Show bot gfx on screen
 	*/
-void Robots::showobject (QPixmap *buffer, int opt)
+void Robots::drawObject (QPixmap *buffer, int opt)
 {
     QPainter painter(buffer);
 
-    int degrees = getdir() + (degreesperpic/2);
+    int degrees = direction() + (degreesperpic/2);
     if (degrees > 1023)
         degrees -= 1024;
 
@@ -361,7 +361,7 @@ void Robots::showobject (QPixmap *buffer, int opt)
 
     int x;
     if (opt == 0)
-        painter.drawPixmap ((getXpos() >>6)-16, (getYpos() >>6)-16, 32, 32, *graphics, picpos,
+        painter.drawPixmap ((xPos() >>6)-16, (yPos() >>6)-16, 32, 32, *graphics, picpos,
                 ypicpos,32,32);
     if (showextragfx == true)
     {
@@ -374,18 +374,18 @@ void Robots::showobject (QPixmap *buffer, int opt)
 /**
 	* Get values from device ports
 	*/
-int Robots::getdevport (unsigned char port)
+int Robots::readDevicePort (unsigned char port)
 {
     int tempport = port%portsperdev;
     int tempdevice = int (port/portsperdev);
-    int temp = devicelist[tempdevice]->getfromport (tempport);
+    int temp = devicelist[tempdevice]->readPort (tempport);
     return temp;
 }
 
 /**
 	* Put values in device ports
 	*/
-void Robots::putdevport (unsigned char port, unsigned short value)
+void Robots::writeDevicePort (unsigned char port, unsigned short value)
 {
     int tempport = port%portsperdev;
     int tempdevice = int (port/portsperdev);
@@ -395,13 +395,13 @@ void Robots::putdevport (unsigned char port, unsigned short value)
 /**
 	* Inbetween function for devices that wants to add screenobjects to battlearea
 	*/
-void Robots::addscrobject (int X,int Y,int dir,int type, int arg1,
+void Robots::addScreenObject (int X,int Y,int dir,int type, int arg1,
                            int arg2, void *arg3)
 {
     ourarea->addscrobject (mynum,X,Y,dir,type,arg1,arg2,arg3);
 }
 
-int Robots::returntype()
+int Robots::type()
 {
     return 1;
 }
@@ -409,7 +409,7 @@ int Robots::returntype()
 /**
 	* Inbetween function for devices that want to communicate to battlearea
 	*/
-int Robots::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
+int Robots::writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2)
 {
     return ourarea->devio (bot,dev,choice,arg1,arg2);
 }
@@ -418,7 +418,7 @@ int Robots::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 	* Inbetween function for when one device wants to do something with
 	* another device
 	*/
-int Robots::iodevtodev (int dev,int action, int value)
+int Robots::writeToDevice (int dev,int action, int value)
 {
     switch (action)
     {
@@ -440,21 +440,21 @@ int Robots::iodevtodev (int dev,int action, int value)
     return 0;
 }
 
-int Robots::getcollisiontype()
+int Robots::collisionType()
 {
     return 1;
 }
 
-int Robots::getcollisionstrength()
+int Robots::collisionStrength()
 {
-    return int (speed/5);
+    return int (m_speed/5);
 }
 
 /**
 	* If hit, let armor and shield absorb hit.
 	* If that doesn't help, die
 	*/
-int Robots::objhit (int type,int strength)
+int Robots::objectHit (int type,int strength)
 {
     int x;
     int xy;
@@ -484,28 +484,28 @@ int Robots::objhit (int type,int strength)
         return 0;
 }
 
-int Robots::getsize()
+int Robots::size()
 {
-    return size;
+    return m_size;
 }
 
-QString Robots::getdebug1()
+QString Robots::getDebugMessage1()
 {
     return debug1;
 }
 
-QString Robots::getdebug2()
+QString Robots::getDebugMessage2()
 {
     return debug2;
 }
 
-void Robots::setdebug1 (int msg)
+void Robots::setDebugVariable1 (int msg)
 {
     QTextStream ts (&debug1);
     ts << "Angle is: " << msg << "  ";
 }
 
-void Robots::setdebug2 (int msg)
+void Robots::setDebugVariable2 (int msg)
 {
     QTextStream ts (&debug2);
     ts << "distance is: " << msg << "  ";
@@ -514,7 +514,7 @@ void Robots::setdebug2 (int msg)
 /**
 	* Show error message (mainly for showing that bot doesn't conform to .cfg file)
 	*/
-void Robots::error (const QString &string, const QString &name)
+void Robots::showError (const QString &string, const QString &name)
 {
     if (showerror && useUI)
     {
@@ -528,12 +528,12 @@ void Robots::error (const QString &string, const QString &name)
     }
 }
 
-void Robots::receiveradio (int sig)
+void Robots::writeRadio (int sig)
 {
     devicelist[ourradiodev]->dospecial (sig,0);
 }
 
-int Robots::getmem()
+int Robots::memorySize()
 {
     return ramdevice->returnsize();
 }
@@ -541,7 +541,7 @@ int Robots::getmem()
 /**
 	* Add interrupt to one of bots CPU:s
 	*/
-void Robots::addinterrupt (int inter)
+void Robots::addInterrupt (int inter)
 {
     if (inter > 255)
         return;
@@ -562,7 +562,7 @@ void Robots::addinterrupt (int inter)
 /**
 	* Returns debugstructure from first CPU
 	*/
-struct DebugContents Robots::returndbgcont()
+struct DebugContents Robots::debugContents()
 {
     int x;
     for (x=0; x<32; x++)
@@ -580,7 +580,7 @@ struct DebugContents Robots::returndbgcont()
 /**
  * Returns number of CPUs
  */
-int Robots::numCPUs()
+int Robots::cpuCount()
 {
     int num = 0;
     for (int x = 0; x <32; x++)
@@ -592,7 +592,7 @@ int Robots::numCPUs()
  * Returns debugstructure from all CPUs
  */
 
-std::list<struct DebugContents>* Robots::returndbgcont2()
+std::list<struct DebugContents>* Robots::allDebugContents()
 {
     std::list<DebugContents> *dc = new std::list<DebugContents>;
     for (int x=0; x<32; x++)
@@ -603,7 +603,7 @@ std::list<struct DebugContents>* Robots::returndbgcont2()
 /**
 	* Object is seen by radar...
 	*/
-int Robots::returnradar()
+int Robots::returnRadar()
 {
     return currentradar;
 }
@@ -611,7 +611,7 @@ int Robots::returnradar()
 /**
 	* When object is scanned, check if we have a scandetector...
 	*/
-void Robots::objscanned (int intensity,int dir)
+void Robots::objectScanned (int intensity,int dir)
 {
     int x;
     for (x=0; x<32; x++)
@@ -624,7 +624,7 @@ void Robots::objscanned (int intensity,int dir)
     }
 }
 
-void Robots::setradar (int x)
+void Robots::setRadar (int x)
 {
     currentradar = x;
 }
@@ -634,7 +634,7 @@ void Robots::setradar (int x)
 	* this function opens a file and dumps RAM
 	* contents to it
 	*/
-void Robots::dumpRAM()
+void Robots::dumpRam()
 {
     for (int x=0; x<256; x++)
     {

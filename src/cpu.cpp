@@ -32,12 +32,12 @@ CPU::~CPU()
 
 void CPU::callobout (unsigned char one,unsigned short two)
 {
-    ourbot->putdevport (one,two);
+    ourbot->writeDevicePort (one,two);
 }
 
 int CPU::callobin (unsigned char one)
 {
-    return ourbot->getdevport (one);
+    return ourbot->readDevicePort (one);
 }
 
 void CPU::sendmsg (char* /*msg*/)
@@ -86,21 +86,21 @@ int CPU::readfile (int start,int length,int adress)
     return ret;
 }
 
-int CPU::getfromport (unsigned char port)
+int CPU::readPort (unsigned char port)
 {
     switch (port)
     {
     case 0 :
-        return ourbot->iodevtobatt (0,0,10,0,0);   //Xsize of battlearea
+        return ourbot->writetoBattleArea (0,0,10,0,0);   //Xsize of battlearea
         break;
     case 1 :
-        return ourbot->iodevtobatt (0,0,11,0,0);   //Ysize of battlearea
+        return ourbot->writetoBattleArea (0,0,11,0,0);   //Ysize of battlearea
         break;
     case 2 :
-        return ourbot->iodevtobatt (0,0,12,0,0);   //maxlength of battle
+        return ourbot->writetoBattleArea (0,0,12,0,0);   //maxlength of battle
         break;
     case 3 :
-        return ourbot->getteam();
+        return ourbot->team();
         break;
     }
     return 0;

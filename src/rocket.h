@@ -36,17 +36,17 @@ public:
     ~Rocket();
     Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
             int owner, bool ui=true);
-    int objhit (int type,int strength);
-    int returntype();
-    void eraseobject (QPixmap *buffer);
-    void showobject (QPixmap *buffer, int opt=0);
+    int objectHit (int type,int strength);
+    int type();
+    void eraseObject (QPixmap *buffer);
+    void drawObject (QPixmap *buffer, int opt=0);
     int execute();
-    int changepos (double X,double Y);
-    int getcollisiontype();
-    int getcollisionstrength();
-    int getsize();
-    bool areaexplosionaffects();
-    int returnradar();
+    int setPosition (double X,double Y);
+    int collisionType();
+    int collisionStrength();
+    int size();
+    bool areaExplosionAffects();
+    int returnRadar();
 
 private:
 

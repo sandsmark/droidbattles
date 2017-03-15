@@ -33,17 +33,17 @@ public:
     Device();
     virtual ~Device();
     Device (ScreenObject &object);
-    void addinport (unsigned char port,unsigned short value);
-    void setrelang (int);
+    void addInputPort (unsigned char port,unsigned short value);
+    void setRelativeAngle (int);
     virtual void execute();
-    virtual int getfromport (unsigned char port);
-    virtual int absorbhit (int str,int ifint);
-    virtual void erasegfx (QPainter *painter);
-    virtual void showgfx (QPainter *painter);
-    virtual int returntype();
-    virtual int returnspecial();
-    virtual struct DebugContents returndbg();
-    virtual void dospecial (int, int=0);
+    virtual int readPort (unsigned char port);
+    virtual int absorbHit (int str,int ifint);
+    virtual void erase (QPainter *painter);
+    virtual void draw (QPainter *painter);
+    virtual int type();
+    virtual int specialValue();
+    virtual struct DebugContents debugContents();
+    virtual void doSpecial (int, int=0);
 protected:
 
     void moveportstack (int port);

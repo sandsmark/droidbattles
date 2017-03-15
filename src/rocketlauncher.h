@@ -34,7 +34,7 @@ public:
     RocketLauncher (ScreenObject &object,int level,int offset);
     ~RocketLauncher();
     void execute();
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
 private:
     int readiness;
     int distance;

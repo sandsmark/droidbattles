@@ -33,7 +33,7 @@ public:
     Repair (ScreenObject &object,int arg1);
     ~Repair();
     void execute();
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
 private:
     int repaircycles;
 };

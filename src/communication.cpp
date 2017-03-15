@@ -64,7 +64,7 @@ void Communication::execute()
     {
         int numbertosend = portstack[1][0];
         moveportstack (1);
-        ourbot->iodevtobatt (ourbot->getteam(),0,7,numbertosend,receiver);
+        ourbot->writetoBattleArea (ourbot->team(),0,7,numbertosend,receiver);
     }
 
     //Third port, set interrupt enable/disable
@@ -79,7 +79,7 @@ void Communication::execute()
 /**
 	* Returns messages to CPU instruktion IN
 	*/
-int Communication::getfromport (unsigned char port)
+int Communication::readPort (unsigned char port)
 {
     int msg;
     switch (port)
@@ -98,7 +98,7 @@ int Communication::getfromport (unsigned char port)
         return intenabled;
         break;
     case 3 :
-        return ourbot->getnum();
+        return ourbot->number();
         break;
     }
     return 0;
@@ -109,5 +109,5 @@ void Communication::dospecial (int x, int /*y*/)
     if (nummsg < 32)
         msglist[nummsg++] = x;
     if (intenabled)
-        ourbot->addinterrupt (msginterrupt);
+        ourbot->addInterrupt (msginterrupt);
 }

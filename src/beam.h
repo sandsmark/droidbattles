@@ -32,12 +32,12 @@ public:
     Beam (int X,int Y,int dir,int l,TextmodeBattleArea &area, int owner, bool ui = true);
     ~Beam();
     int execute();
-    void eraseobject (QPixmap *buffer);
-    void showobject (QPixmap *buffer, int opt=0);
-    int objhit (int type, int strength);
-    int returntype();
-    int getcollisionstrength();
-    int getcollisiontype();
+    void eraseObject (QPixmap *buffer);
+    void drawObject (QPixmap *buffer, int opt=0);
+    int objectHit (int type, int strength);
+    int type();
+    int collisionStrength();
+    int collisionType();
 private:
     int length;
     int lastpaintX;

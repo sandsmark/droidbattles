@@ -48,7 +48,7 @@ void ScanDetect::execute()
     }
 }
 
-int ScanDetect::getfromport (unsigned char port)
+int ScanDetect::readPort (unsigned char port)
 {
     switch (port)
     {
@@ -65,7 +65,7 @@ int ScanDetect::getfromport (unsigned char port)
     return 0;
 }
 
-int ScanDetect::returntype()
+int ScanDetect::type()
 {
     return 11;
 }
@@ -74,7 +74,7 @@ int ScanDetect::returntype()
 	* Gets called by enemy scanner via bot
 	* Updates variables
 	*/
-void ScanDetect::dospecial (int intensity,int dir)
+void ScanDetect::doSpecial (int intensity,int dir)
 {
     numscans++;
     lastscandir = dir;

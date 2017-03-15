@@ -216,74 +216,74 @@ int TextmodeBattleArea::execround()
         int ifdel = objects[x]->execute();  //Let each object execute,
         //move around and things like that
         int x2;
-        if (objects[x]->returntype() > 0)    //Check If the object exists and
+        if (objects[x]->type() > 0)    //Check If the object exists and
         {                                  //is a "collidable" object
             for (x2= (x+1); x2<maxobjects; x2++)	//Loop through all possible objects
             {																	//(to check for collisions)
 
                 // Also, if the objects has the same collid (and it's != 256)
                 // (Eg, bullets fired by the same bot)  don't issue a collision
-                if (objects[x2]->returntype() > 0 &&
-                        ( (objects[x]->getcollid() == collenabled ||
-                           objects[x2]->getcollid() == collenabled) ||
-                          (objects[x]->getcollid() != objects[x2]->getcollid())))
+                if (objects[x2]->type() > 0 &&
+                        ( (objects[x]->collisionId() == collenabled ||
+                           objects[x2]->collisionId() == collenabled) ||
+                          (objects[x]->collisionId() != objects[x2]->collisionId())))
                 {                              //If object exists
                     int xx1,xx2,yy1,yy2,dist,dx,dy;
 
-                    xx1 = objects[x]->getXpos();           //
-                    xx2 = objects[x2]->getXpos();          // Get positions
+                    xx1 = objects[x]->xPos();           //
+                    xx2 = objects[x2]->xPos();          // Get positions
                     dx = (xx1 - xx2) /2;                       // and distances
-                    yy1 = objects[x]->getYpos();           // between each object
-                    yy2 = objects[x2]->getYpos();          //
+                    yy1 = objects[x]->yPos();           // between each object
+                    yy2 = objects[x2]->yPos();          //
                     dy = (yy1 - yy2) /2;                       //
                     dist = int (sqrt ( (dx*dx) + (dy*dy)));    //
                     dist *= 2;
 
-                    if (dist < ( (objects[x]->getsize() <<6) + (objects[x2]->getsize() <<6)))
+                    if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6)))
                     {   //If they're bigger than their distance they have collided
 //						int xxx;
 
                         int type1,type2,str1,str2;
-                        type1 = objects[x]->getcollisiontype();
-                        type2 = objects[x2]->getcollisiontype();
-                        str1 = objects[x]->getcollisionstrength(); // Get the damage they will
-                        str2 = objects[x2]->getcollisionstrength(); // inflict on each other
+                        type1 = objects[x]->collisionType();
+                        type2 = objects[x2]->collisionType();
+                        str1 = objects[x]->collisionStrength(); // Get the damage they will
+                        str2 = objects[x2]->collisionStrength(); // inflict on each other
                         if (type1 == 1)     // If he collided with a bot
                         {
-                            objects[x2]->setspeed (- (objects[x2]->getspeed() /2));
-                            double dir = objects[x2]->getdir() * toradians;  //Change dir
-                            objects[x2]->changepos (cos (dir) * objects[x2]->getspeed(),
-                                                    sin (dir) * objects[x2]->getspeed());
+                            objects[x2]->setSpeed (- (objects[x2]->speed() /2));
+                            double dir = objects[x2]->direction() * toradians;  //Change dir
+                            objects[x2]->setPosition (cos (dir) * objects[x2]->speed(),
+                                                    sin (dir) * objects[x2]->speed());
                         }
                         if (type2 == 1)
                         {
-                            objects[x]->setspeed (- (objects[x]->getspeed() /2));
-                            double dir = objects[x]->getdir() * toradians;
-                            objects[x]->changepos (cos (dir) * objects[x]->getspeed(),
-                                                   sin (dir) * objects[x]->getspeed());
+                            objects[x]->setSpeed (- (objects[x]->speed() /2));
+                            double dir = objects[x]->direction() * toradians;
+                            objects[x]->setPosition (cos (dir) * objects[x]->speed(),
+                                                   sin (dir) * objects[x]->speed());
                         }
-                        xx1 = objects[x]->getXpos();           //
-                        xx2 = objects[x2]->getXpos();          // Get positions
+                        xx1 = objects[x]->xPos();           //
+                        xx2 = objects[x2]->xPos();          // Get positions
                         dx = xx1 - xx2;                        // and distances between
-                        yy1 = objects[x]->getYpos();           // each object
-                        yy2 = objects[x2]->getYpos();          //
+                        yy1 = objects[x]->yPos();           // each object
+                        yy2 = objects[x2]->yPos();          //
                         dy = yy1 - yy2;                        //
                         dist = int (sqrt (dx*dx + dy*dy));     //
 
-                        if (dist < ( (objects[x]->getsize() <<6) + (objects[x2]->getsize() <<6))
-                                && objects[x]->returntype() ==1 && objects[x2]->returntype()
+                        if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))
+                                && objects[x]->type() ==1 && objects[x2]->type()
                                 ==1)   //If they're bigger than their distance, move them apart
                         {
                             double angl = atan2 (dy,dx);
-                            int dst = (objects[x]->getsize() <<6) +
-                                      (objects[x2]->getsize() <<6)-dist;
-                            objects[x]->changepos (cos (angl) * ( (dst+16) /2),sin (angl) *
+                            int dst = (objects[x]->size() <<6) +
+                                      (objects[x2]->size() <<6)-dist;
+                            objects[x]->setPosition (cos (angl) * ( (dst+16) /2),sin (angl) *
                                                    ( (dst+16) /2));
-                            objects[x2]->changepos (cos (angl+pi) * ( (dst+16) /2),
+                            objects[x2]->setPosition (cos (angl+pi) * ( (dst+16) /2),
                                                     sin (angl+pi) * ( (dst+16) /2));
                         }
-                        int x2owner = objects[x2]->getowner();
-                        if (objects[x2]->objhit (9,str1) == 1)
+                        int x2owner = objects[x2]->owner();
+                        if (objects[x2]->objectHit (9,str1) == 1)
                         {
                             switch (battlemode)
                             {
@@ -292,7 +292,7 @@ int TextmodeBattleArea::execround()
                                 objects[x2] = new ScreenObject();
                                 break;
                             case 1 :
-                                if (x < 8 && objects[x2]->returntype() == 1)
+                                if (x < 8 && objects[x2]->type() == 1)
                                 {
                                     fightswon[x2]++;
                                     delete objects[x2];
@@ -303,7 +303,7 @@ int TextmodeBattleArea::execround()
                                         ystarts[x2] = random() %ysize;
                                         objects[x2] = new Robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false,false);
-                                        objects[x2]->objhit (0,0);
+                                        objects[x2]->objectHit (0,0);
                                     }
                                     else
                                     {
@@ -318,18 +318,18 @@ int TextmodeBattleArea::execround()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                if (objects[x2]->returntype() == 1)
+                                if (objects[x2]->type() == 1)
                                 {
-                                    if (objects[x]->getowner() < 8 &&
-                                            x2 != objects[x]->getowner())
-                                        fightswon[objects[x]->getowner() ]++;
+                                    if (objects[x]->owner() < 8 &&
+                                            x2 != objects[x]->owner())
+                                        fightswon[objects[x]->owner() ]++;
                                     checkwin = true;
                                     //Calc X and Y position
                                     xstarts[x2] = random() %xsize;
                                     ystarts[x2] = random() %ysize;
                                     objects[x2] = new Robots (names[x2],*this,
                                                                x2,config,botteams[x2],false,false);
-                                    objects[x2]->objhit (0,0);
+                                    objects[x2]->objectHit (0,0);
                                 }
                                 else
                                 {
@@ -339,7 +339,7 @@ int TextmodeBattleArea::execround()
                                 break;
                             }
                         }
-                        if (objects[x]->objhit (9,str2) == 1)     //If the damage killed him
+                        if (objects[x]->objectHit (9,str2) == 1)     //If the damage killed him
                         {
                             switch (battlemode)
                             {
@@ -350,7 +350,7 @@ int TextmodeBattleArea::execround()
                                 continue;
                                 break;
                             case 1 :  //If it's a survival battle
-                                if (x < 8 && objects[x]->returntype() == 1)
+                                if (x < 8 && objects[x]->type() == 1)
                                 {
                                     fightswon[x]++;
                                     delete objects[x];
@@ -362,7 +362,7 @@ int TextmodeBattleArea::execround()
                                         ystarts[x] = random() %ysize;
                                         objects[x] = new Robots ( names[x],*this,
                                                                   x,config,botteams[x],false,false);
-                                        objects[x]->objhit (0,0);
+                                        objects[x]->objectHit (0,0);
                                     }
                                     else
                                     {
@@ -379,7 +379,7 @@ int TextmodeBattleArea::execround()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                if (objects[x]->returntype() == 1)
+                                if (objects[x]->type() == 1)
                                 {
                                     if (x2owner < 8 && x != x2owner)
                                         fightswon[x2owner]++;
@@ -391,7 +391,7 @@ int TextmodeBattleArea::execround()
                                     ystarts[x] = random() %ysize;
                                     objects[x] = new Robots ( names[x],*this,x,
                                                               config,botteams[x],false,false);
-                                    objects[x]->objhit (0,0);
+                                    objects[x]->objectHit (0,0);
                                 }
                                 else
                                 {
@@ -426,10 +426,10 @@ int TextmodeBattleArea::execround()
         alive[3] = 0;
         for (x=0; x<maxbots; x++)     //Mark teams with bots left
         {
-            if (objects[x]->returntype() == doesexist)
+            if (objects[x]->type() == doesexist)
             {
                 int yy;
-                yy = objects[x]->getteam();
+                yy = objects[x]->team();
                 if (yy > 3 || yy < 0) yy=0;
                 alive[yy] = 1;
             }
@@ -489,7 +489,7 @@ int TextmodeBattleArea::execround()
     {
         for (x=0; x<maxbots; x++)
         {
-            if (objects[x]->returntype() == doesexist)
+            if (objects[x]->type() == doesexist)
             {
                 numofbots++;                       //Count the number of bots alive
                 botnum = x;
@@ -607,7 +607,7 @@ void TextmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
     int x;
     for (x=0; x<maxobjects; x++)
     {
-        if (objects[x]->returntype() == doesnotexist)
+        if (objects[x]->type() == doesnotexist)
         {
             delete objects[x];
             Ram *temp3 = (Ram *) arg3;
@@ -661,38 +661,38 @@ int TextmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
     switch (choice)
     {
     case 1 :     //getXpos
-        return objects[arg1]->getXpos();
+        return objects[arg1]->xPos();
         break;
     case 2 :     //getYpos
-        return objects[arg1]->getYpos();
+        return objects[arg1]->yPos();
         break;
     case 3 :     //getdir
-        return objects[arg1]->getdir();
+        return objects[arg1]->direction();
         break;
     case 4 :     //getspeed
-        return objects[arg1]->getspeed();
+        return objects[arg1]->speed();
         break;
     case 5 :     //delete screenobject
         delete objects[bot];
         objects[bot] = new ScreenObject();
         break;
     case 6 :
-        return objects[arg1]->returnradar();
+        return objects[arg1]->returnRadar();
         break;
     case 7 :
         int x;
         for (x=0; x<maxbots; x++)
         {
-            if (objects[x]->returntype() == doesexist && objects[x]->getteam()
-                    == bot && (arg2 == 255 || objects[x]->getnum() == arg2))
-                objects[x]->receiveradio (arg1);
+            if (objects[x]->type() == doesexist && objects[x]->team()
+                    == bot && (arg2 == 255 || objects[x]->number() == arg2))
+                objects[x]->writeRadio (arg1);
         }
         break;
     case 8 :
-        return objects[arg1]->getteam();
+        return objects[arg1]->team();
         break;
     case 9 :
-        objects[bot]->objscanned (arg1,arg2);
+        objects[bot]->objectScanned (arg1,arg2);
         break;
     case 10 :
         return getareainfo (0);
@@ -739,13 +739,13 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
     for (z=0; z<maxbots; z++)
     {
         if (z == whichobject) continue;
-        if (!objects[z]->areaexplosionaffects()) continue;
-        X1 = objects[z]->getXpos();
-        Y1 = objects[z]->getYpos();
+        if (!objects[z]->areaExplosionAffects()) continue;
+        X1 = objects[z]->xPos();
+        Y1 = objects[z]->yPos();
         D1 = int (sqrt ( ( (X1-x) * (X1-x)) + ( (Y1-y) * (Y1-y))));
         if (D1 >= rad) continue;
         S1 = strength- (D1*strength/rad);
-        if (objects[z]->objhit (9,S1) == 1)     //If the damage killed him
+        if (objects[z]->objectHit (9,S1) == 1)     //If the damage killed him
         {
             switch (battlemode)
             {
@@ -754,7 +754,7 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                 objects[z] = new ScreenObject();
                 break;
             case 1 :
-                if (z < 8 && objects[z]->returntype() == 1)
+                if (z < 8 && objects[z]->type() == 1)
                 {
                     fightswon[z]++;
                     delete objects[z];
@@ -781,10 +781,10 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
             case 2 :
                 int x = whichobject;
                 int x2 = z;
-                if (objects[x2]->returntype() == 1)
+                if (objects[x2]->type() == 1)
                 {
-                    if (objects[x]->getowner() < 8 && x2 != objects[x]->getowner())
-                        fightswon[objects[x]->getowner() ]++;
+                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
+                        fightswon[objects[x]->owner() ]++;
                     checkwin = true;
                     //Calc X and Y position
                     xstarts[x2] = random() %xsize;

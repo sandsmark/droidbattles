@@ -51,9 +51,9 @@ void Plasma::execute()
     {
         moveportstack (0);
         //Fire plasma missile code
-        ourbot->addscrobject (ourbot->getXpos(),ourbot->getYpos(),
-                              ourbot->getdir() +relang,2,ourbot->getnum());
-        ourbot->changeheat (45);
+        ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
+                              ourbot->direction() +relang,2,ourbot->number());
+        ourbot->changeHeat (45);
         readiness -= 80;
     }
 }

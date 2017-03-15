@@ -47,7 +47,7 @@ int Explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void Explosion::showobject (QPixmap *buffer, int /*opt*/)
+void Explosion::drawObject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,255,0));
@@ -59,7 +59,7 @@ void Explosion::showobject (QPixmap *buffer, int /*opt*/)
 /**
 	* Paints a black circle where the yellow was painted before
 	*/
-void Explosion::eraseobject (QPixmap *buffer)
+void Explosion::eraseObject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
@@ -69,7 +69,7 @@ void Explosion::eraseobject (QPixmap *buffer)
 /**
 	* Returns : object that's not collidable
 	*/
-int Explosion::returntype()
+int Explosion::type()
 {
     return noncollobject;
 }

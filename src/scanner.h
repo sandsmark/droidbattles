@@ -35,7 +35,7 @@ public:
     Scanner (ScreenObject &object,int arg1,int offset);
     ~Scanner();
     void execute();
-    int getfromport (unsigned char port);
+    int readPort (unsigned char port);
     void erasegfx (QPainter *painter);
     void showgfx (QPainter *painter);
 

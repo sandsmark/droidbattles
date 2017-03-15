@@ -17,7 +17,7 @@
 
 #include "scanner.h"
 
-scanner::scanner (screenobject &object, int arg1, int offset)
+Scanner::Scanner (ScreenObject &object, int arg1, int offset)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -41,14 +41,14 @@ scanner::scanner (screenobject &object, int arg1, int offset)
     }
 }
 
-scanner::~scanner()
+Scanner::~Scanner()
 {
 }
 
 /**
 	* This function needs cleanup and documentation!
 	*/
-void scanner::execute()
+void Scanner::execute()
 {
 
     //Emit a scan pulse, search for closest visible object in
@@ -167,7 +167,7 @@ void scanner::execute()
 /**
 	* Paint scanarc black
 	*/
-void scanner::erasegfx (QPainter *painter)
+void Scanner::erasegfx (QPainter *painter)
 {
     if (ispainted == true)
     {
@@ -182,7 +182,7 @@ void scanner::erasegfx (QPainter *painter)
 /**
 	* Paint the white scanarc
 	*/
-void scanner::showgfx (QPainter *painter)
+void Scanner::showgfx (QPainter *painter)
 {
     if (scanshow-- > 0)
     {
@@ -198,7 +198,7 @@ void scanner::showgfx (QPainter *painter)
     }
 }
 
-int scanner::getfromport (unsigned char port)
+int Scanner::getfromport (unsigned char port)
 {
     switch (port)
     {

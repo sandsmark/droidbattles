@@ -38,21 +38,21 @@
   *@author Andreas Agorander
   */
 
-class devchoice;
-class myQMultiLineEdit;
+class DevChoice;
+class MyQMultiLineEdit;
 class QComboBox;
-class instruktion;
-class battlearea;
-class quickconf;
+class Instruction;
+class BattleArea;
+class QuickConf;
 
-class createbot : public QWidget
+class CreateBot : public QWidget
 {
     Q_OBJECT
 
 public:
 
-    createbot();
-    ~createbot();
+    CreateBot();
+    ~CreateBot();
     void closeEvent (QCloseEvent *e);
     void error (const QString &msg, int line);
     void addint (QString & str,int integ);
@@ -85,10 +85,10 @@ private:
     unsigned int RAMAMOUNT;
     QMessageBox *ermsg;
     unsigned char *mem;
-    myQMultiLineEdit *edittxt;
+    MyQMultiLineEdit *edittxt;
     QScrollArea *scroller;
-    myQMultiLineEdit *showlatency;
-    devchoice* devices[32];
+    MyQMultiLineEdit *showlatency;
+    DevChoice* devices[32];
     QMenu *File;
     QMenu *Edit;
     QMenu *Assemble;
@@ -103,9 +103,9 @@ private:
     QPushButton *gfxbutton;
     QPixmap gfx;
 //		QPixmap *backpm;
-    battlearea *batt;
-    quickconf *qc;
-    confstruct curconfig;
+    BattleArea *batt;
+    QuickConf *qc;
+    ConfStruct curconfig;
     bool changed;
     int instrlatency[256];
     int debuglines[4096];

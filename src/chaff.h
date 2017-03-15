@@ -27,13 +27,13 @@
   *@author Andreas Agorander
   */
 
-class chaff : public screenobject
+class Chaff : public ScreenObject
 {
 
 public:
 
-    chaff (int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui = true);
-    ~chaff();
+    Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui = true);
+    ~Chaff();
     void eraseobject (QPixmap *buffer);
     void showobject (QPixmap *buffer, int opt=0);
     int returntype();
@@ -42,7 +42,7 @@ public:
 
 private:
     int timeleft;
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
 };
 
 #endif

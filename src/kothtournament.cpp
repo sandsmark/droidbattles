@@ -24,7 +24,7 @@
 /**
 	* Init GUI elements
 	*/
-kothtournament::kothtournament()
+KothTournament::KothTournament()
 {
 
 //	int x;
@@ -95,11 +95,11 @@ kothtournament::kothtournament()
 //	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
 }
 
-kothtournament::~kothtournament()
+KothTournament::~KothTournament()
 {
 }
 
-int kothtournament::getnumofbots()
+int KothTournament::getnumofbots()
 {
     return botfiles->count();
 }
@@ -107,7 +107,7 @@ int kothtournament::getnumofbots()
 /**
 	* Return the dir for bot x
 	*/
-QString kothtournament::getbotfile (int x)
+QString KothTournament::getbotfile (int x)
 {
     return botfiles->item(x)->text();
 }
@@ -115,7 +115,7 @@ QString kothtournament::getbotfile (int x)
 /**
 	* Chooses one file on the HD
 	*/
-void kothtournament::choosefile()
+void KothTournament::choosefile()
 {
     QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
 //	int x;
@@ -129,18 +129,18 @@ void kothtournament::choosefile()
 /**
 	* Removes one bot in the list
 	*/
-void kothtournament::dechoosefile()
+void KothTournament::dechoosefile()
 {
 //	int x;
     delete botfiles->takeItem(botfiles->currentRow());
 }
 
-void kothtournament::ocl()
+void KothTournament::ocl()
 {
     emit okclicked();
 }
 
-void kothtournament::ccl()
+void KothTournament::ccl()
 {
     emit cancelclicked();
 }
@@ -148,7 +148,7 @@ void kothtournament::ccl()
 /**
 	* Don't close if the "X" is clicked
 	*/
-void kothtournament::closeEvent (QCloseEvent *e)
+void KothTournament::closeEvent (QCloseEvent *e)
 {
     e->ignore();
 }
@@ -156,7 +156,7 @@ void kothtournament::closeEvent (QCloseEvent *e)
 /**
 	* The following functions returns the settings
 	*/
-int kothtournament::getnumfights()
+int KothTournament::getnumfights()
 {
     QString s = wnumfights->text();
     if (s.length() == 0)
@@ -165,7 +165,7 @@ int kothtournament::getnumfights()
     return s.toInt();
 }
 
-int kothtournament::getlength()
+int KothTournament::getlength()
 {
     QString s = length->text();
     if (s.length() == 0)
@@ -174,17 +174,17 @@ int kothtournament::getlength()
     return s.toInt();
 }
 
-int kothtournament::getxsize()
+int KothTournament::getxsize()
 {
     return (maxx->cleanText()).toInt();
 }
 
-int kothtournament::getysize()
+int KothTournament::getysize()
 {
     return (maxy->cleanText()).toInt();
 }
 
-bool kothtournament::getiffast()
+bool KothTournament::getiffast()
 {
     return iffast->isChecked();
 }
@@ -193,7 +193,7 @@ bool kothtournament::getiffast()
 	* Opens an existing file defining settings and
 	* bots competeing
 	*/
-void kothtournament::chooselist()
+void KothTournament::chooselist()
 {
     QString tempname = QFileDialog::getOpenFileName (this, tr("Select tournament table file"), QDir::homePath(), "*.table");
     int x;
@@ -243,7 +243,7 @@ void kothtournament::chooselist()
 /**
 	* Returns the random seed
 	*/
-int kothtournament::getseed()
+int KothTournament::getseed()
 {
     QString s = seed->text();
     if (s.length() == 0)

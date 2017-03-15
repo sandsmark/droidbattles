@@ -20,7 +20,7 @@
 /**
 	* Constructor, inits device
 	*/
-beamer::beamer (screenobject &object, int arg1)
+Beamer::Beamer (ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -39,14 +39,14 @@ beamer::beamer (screenobject &object, int arg1)
 /**
 	* Destructor, does nothing
 	*/
-beamer::~beamer()
+Beamer::~Beamer()
 {
 }
 
 /**
 	* Checks for port values that orders him to do something
 	*/
-void beamer::execute()
+void Beamer::execute()
 {
     if (stacktaken[0][0] == true)
     {
@@ -74,7 +74,7 @@ void beamer::execute()
 /**
 	* Return values to the CPU instruktion IN
 	*/
-int beamer::getfromport (unsigned char port)
+int Beamer::getfromport (unsigned char port)
 {
     switch (port)
     {

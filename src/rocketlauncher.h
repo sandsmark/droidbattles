@@ -26,13 +26,13 @@
   *@author Andreas Agorander
   */
 
-class rocketlauncher : public device
+class RocketLauncher : public Device
 {
 
 public:
 
-    rocketlauncher (screenobject &object,int level,int offset);
-    ~rocketlauncher();
+    RocketLauncher (ScreenObject &object,int level,int offset);
+    ~RocketLauncher();
     void execute();
     int getfromport (unsigned char port);
 private:

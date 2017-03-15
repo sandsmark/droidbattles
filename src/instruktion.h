@@ -26,14 +26,14 @@
   * @author Andreas Agorander
   */
 
-class instruktion
+class Instruction
 {
 
 public:
 
-    instruktion (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
+    Instruction (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
                  int op);
-    ~instruktion();
+    ~Instruction();
     bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits);
     unsigned char getopcode();
     int getarg1bits();

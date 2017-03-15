@@ -32,12 +32,12 @@
 #include "screenobject.h"
 #include <iostream>
 
-class textmodeBattleArea
+class TextmodeBattleArea
 {
 public:
-    textmodeBattleArea();
-    virtual ~textmodeBattleArea();
-    textmodeBattleArea (const QString &name1,const QString &name2,const QString &name3,const QString &name4,const QString &name5,
+    TextmodeBattleArea();
+    virtual ~TextmodeBattleArea();
+    TextmodeBattleArea (const QString &name1,const QString &name2,const QString &name3,const QString &name4,const QString &name5,
                         const QString &name6,const QString &name7,const QString &name8,int numf,int ,int xs,
                         int ys,bool ifteams,int *bteams, bool tourney,
                         int mode = 0);
@@ -61,7 +61,7 @@ protected:
 
         int missilesLaunched;*/
 
-    screenobject *objects[256];
+    ScreenObject *objects[256];
 //		QWidget *mydrw;
 //		QScrollView *scrolling;
 //		QWidget *infowindow;
@@ -84,7 +84,7 @@ protected:
     int numfights;
     int fightswon[8];
     int fightsfought;
-    confstruct config;
+    ConfStruct config;
     int roundsrun;
     int maxrounds;
     int xsize;

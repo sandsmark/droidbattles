@@ -23,8 +23,8 @@
 /**
 	* Init positions, devices and load gfx
 	*/
-radarmissile::radarmissile (int X,int Y,int dir,int bootm,int stm,int mnum,
-                            textmodeBattleArea &area, RAM *mem,int owner, bool ui)
+RadarMissile::RadarMissile (int X,int Y,int dir,int bootm,int stm,int mnum,
+                            TextmodeBattleArea &area, Ram *mem,int owner, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -43,20 +43,20 @@ radarmissile::radarmissile (int X,int Y,int dir,int bootm,int stm,int mnum,
     {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
-        graphics = Pixmapholder::getpmp (4);
+        graphics = PixmapHolder::getpmp (4);
     }
     ramdevice = mem;
     ramdevice->addowner();
-    devices[1] = new steering (*this,4);
-    devices[2] = new scanner (*this,20000,0);
-    devices[0] = new robCPU (*ramdevice,*this,2,bootm%256,bootm/256,stm%256,
+    devices[1] = new Steering (*this,4);
+    devices[2] = new Scanner (*this,20000,0);
+    devices[0] = new RobCpu (*ramdevice,*this,2,bootm%256,bootm/256,stm%256,
                              stm/256);
 
     fuelval = 300;
     dbgWindow = NULL;
 }
 
-radarmissile::~radarmissile()
+RadarMissile::~RadarMissile()
 {
 //	delete graphics;
     if (dbgWindow) delete dbgWindow;
@@ -68,12 +68,12 @@ radarmissile::~radarmissile()
     if (ramdevice->getowners() == 0) delete ramdevice;
 }
 
-int radarmissile::objhit (int /*type*/, int /*strength*/)
+int RadarMissile::objhit (int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }
 
-int radarmissile::returntype()
+int RadarMissile::returntype()
 {
     return 2;
 }
@@ -81,7 +81,7 @@ int radarmissile::returntype()
 /**
 	* Paint object black
 	*/
-void radarmissile::eraseobject (QPixmap *buffer)
+void RadarMissile::eraseobject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
@@ -91,7 +91,7 @@ void radarmissile::eraseobject (QPixmap *buffer)
 /**
 	* Paint object gfx
 	*/
-void radarmissile::showobject (QPixmap *buffer, int opt)
+void RadarMissile::showobject (QPixmap *buffer, int opt)
 {
     QPainter painter(buffer);
     if (opt == 0)
@@ -106,7 +106,7 @@ void radarmissile::showobject (QPixmap *buffer, int opt)
 /**
 	* Execute devices, move and use fuel
 	*/
-int radarmissile::execute()
+int RadarMissile::execute()
 {
     int x;
     for (x=0; x<3; x++)            //Execute all devices
@@ -118,7 +118,7 @@ int radarmissile::execute()
     return changepos (cos (dir) * speed,sin (dir) * speed);       //Update position
 }
 
-int radarmissile::changepos (double X,double Y)
+int RadarMissile::changepos (double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -131,17 +131,17 @@ int radarmissile::changepos (double X,double Y)
     return 0;
 }
 
-int radarmissile::getcollisiontype()
+int RadarMissile::getcollisiontype()
 {
     return 2;
 }
 
-int radarmissile::getcollisionstrength()
+int RadarMissile::getcollisionstrength()
 {
     return 175;
 }
 
-int radarmissile::getsize()
+int RadarMissile::getsize()
 {
     return 1;
 }
@@ -150,7 +150,7 @@ int radarmissile::getsize()
 	* Inbetween function if the device want to call the
 	* batlearea
 	*/
-int radarmissile::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
+int RadarMissile::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 {
     return ourarea->devio (bot,dev,choice,arg1,arg2);
 }
@@ -158,7 +158,7 @@ int radarmissile::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 /**
 	* Get value from device port
 	*/
-int radarmissile::getdevport (unsigned char port)
+int RadarMissile::getdevport (unsigned char port)
 {
     int tempport = port%4;
     int tempdevice = int (port/4);
@@ -175,22 +175,22 @@ int radarmissile::getdevport (unsigned char port)
 /**
 	* Put value in device port
 	*/
-void radarmissile::putdevport (unsigned char port, unsigned short value)
+void RadarMissile::putdevport (unsigned char port, unsigned short value)
 {
     int tempport = port%4;
     int tempdevice = int (port/4);
     if (tempdevice < 3) devices[tempdevice]->addinport (tempport,value);
 }
 
-int radarmissile::returnradar()
+int RadarMissile::returnradar()
 {
     return 4;
 }
 
-void radarmissile::createDbgWindow (int id, QPlainTextEdit *e, int* l, int* m)
+void RadarMissile::createDbgWindow (int id, QPlainTextEdit *e, int* l, int* m)
 {
     if (dbgWindow) delete dbgWindow;
-    dbgWindow = new debugwindow (e,&l[0],&m[0]);
+    dbgWindow = new DebugWindow (e,&l[0],&m[0]);
     dbgWindow->resize (300,405);
     dbgWindow->show();
     QString title;

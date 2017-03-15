@@ -25,12 +25,12 @@
   *@author Andreas Agorander
   */
 
-class beam : public screenobject
+class Beam : public ScreenObject
 {
 
 public:
-    beam (int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true);
-    ~beam();
+    Beam (int X,int Y,int dir,int l,TextmodeBattleArea &area, int owner, bool ui = true);
+    ~Beam();
     int execute();
     void eraseobject (QPixmap *buffer);
     void showobject (QPixmap *buffer, int opt=0);
@@ -44,7 +44,7 @@ private:
     int lastpaintY;
     int effect;
     bool ispainted;
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
     int uX;
     int uY;
 };

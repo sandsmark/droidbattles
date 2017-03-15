@@ -39,15 +39,15 @@
   *@author Andreas Agorander
   */
 
-class startsbatt : public QLabel
+class StartsBatt : public QLabel
 {
 
     Q_OBJECT
 
 public:
 
-    startsbatt();
-    ~startsbatt();
+    StartsBatt();
+    ~StartsBatt();
     int getnumofbots();
     QString getbotfile(int bot);
     void closeEvent (QCloseEvent *e);

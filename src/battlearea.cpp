@@ -26,7 +26,7 @@ bool SingleStepMode = false;
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-battlearea::battlearea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
+BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
                         const QString &nam5, const QString &nam6, const QString &nam7, const QString &nam8, int numf,
                         int mx, int xs, int ys, bool ifteams, int *bteams,
                         bool tourney, bool fast, int mode, int maxp,
@@ -168,10 +168,10 @@ battlearea::battlearea (const QString &nam1, const QString &nam2, const QString 
     resize (640,570);
     startonebattle (firstrun);
 
-    setPixmap(Pixmapholder::getpm (3));
+    setPixmap(PixmapHolder::getpm (3));
 }
 
-void battlearea::resizeEvent (QResizeEvent*)
+void BattleArea::resizeEvent (QResizeEvent*)
 {
     scrolling->setGeometry (16,16,width()-116,height()-46);
     playb->setGeometry (width()-100,20,70,40);
@@ -182,7 +182,7 @@ void battlearea::resizeEvent (QResizeEvent*)
 /**
 	* Starts the timer that calls execute (executed by "play" button)
 	*/
-void battlearea::play()
+void BattleArea::play()
 {
     if (iffast == true)
         eventH->start (0);   //As fast as possible
@@ -194,7 +194,7 @@ void battlearea::play()
 /**
 	* Stops the timer that calls execute (executed by "pause" button)
 	*/
-void battlearea::pause()
+void BattleArea::pause()
 {
     eventH->stop();
     runmode = 0;
@@ -203,7 +203,7 @@ void battlearea::pause()
 /**
 	* Runs a single battle tick
 	*/
-void battlearea::singlestep()
+void BattleArea::singlestep()
 {
     if (debugenabled) SingleStepMode = true;
     this->execute();
@@ -213,7 +213,7 @@ void battlearea::singlestep()
 /**
 	* Destructor, deletes self
 	*/
-battlearea::~battlearea()
+BattleArea::~BattleArea()
 {
     eventH->stop();
     delete eventH;
@@ -229,7 +229,7 @@ battlearea::~battlearea()
 	* start one round of fight
 	* In case this isn't the first round, deallocate previous mem
 	*/
-void battlearea::startonebattle (int y)
+void BattleArea::startonebattle (int y)
 {
     int x;
     //If this isn't the first run, deallocate the memory
@@ -273,11 +273,11 @@ void battlearea::startonebattle (int y)
     {
         tn = names[x];
         if (!tn.isEmpty())
-            objects[x] = new robots (tn,*this,x,config,botteams[x]);
+            objects[x] = new Robots (tn,*this,x,config,botteams[x]);
         else
-            objects[x] = new screenobject();
+            objects[x] = new ScreenObject();
 
-        binfo[x] = new botinfo (names[x],objects[x],objects[x]->armorval,
+        binfo[x] = new BotInfo (names[x],objects[x],objects[x]->armorval,
                                 infowindow);
     }
 
@@ -287,9 +287,9 @@ void battlearea::startonebattle (int y)
         // the bot to be debugged is objects[debugbot]
         assert (objects[debugbot] != NULL);
         assert (objects[debugbot]->returntype() == 1);
-        int nCpus = ( (robots*) objects[debugbot])->numCPUs();
+        int nCpus = ( (Robots*) objects[debugbot])->numCPUs();
         for (int x=0; x<nCpus; x++) {
-            debugwindow* dw = new debugwindow (_dbedit,&_dbl[0],&_dbm[0]);
+            DebugWindow* dw = new DebugWindow (_dbedit,&_dbl[0],&_dbm[0]);
             dw->resize (300,405);
             dw->show();
             QString title;
@@ -301,7 +301,7 @@ void battlearea::startonebattle (int y)
 
     //Make all other positions as "standard" screenobjects
     for (x=maxbots; x<maxobjects; x++)
-        objects[x] = new screenobject();
+        objects[x] = new ScreenObject();
 
     //Create the infoboxes for the bots
     for (x=0; x<maxbots; x++)
@@ -341,7 +341,7 @@ void battlearea::startonebattle (int y)
 	* each time one "step" is executed in the battle
 	*/
 
-void battlearea::execute()
+void BattleArea::execute()
 {
 //	eventH->stop( );
     int x;
@@ -354,7 +354,7 @@ void battlearea::execute()
             {
                 objects[x]->eraseobject (&m_pixmap);  //Erase all bots (to call a draw)
                 delete objects[x];
-                objects[x] = new screenobject();
+                objects[x] = new ScreenObject();
             }
         }
         if (battlemode == 2)
@@ -403,7 +403,7 @@ void battlearea::execute()
                             if (objects[xxx]->returntype() == 0)
                             {
                                 delete objects[xxx];
-                                objects[xxx] = new explosion ( (xx1+xx2) /2, (yy1+yy2) /2,*this);
+                                objects[xxx] = new Explosion ( (xx1+xx2) /2, (yy1+yy2) /2,*this);
                                 break;
                             }
                         }
@@ -454,7 +454,7 @@ void battlearea::execute()
                             case 0 :
                                 objects[x2]->eraseobject (&m_pixmap);
                                 delete objects[x2];
-                                objects[x2] = new screenobject();
+                                objects[x2] = new ScreenObject();
                                 break;
                             case 1 :
                                 objects[x2]->eraseobject (&m_pixmap);
@@ -467,7 +467,7 @@ void battlearea::execute()
                                         //Calc X and Y position
                                         xstarts[x2] = random() %xsize;
                                         ystarts[x2] = random() %ysize;
-                                        objects[x2] = new robots ( names[x2],
+                                        objects[x2] = new Robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false);
                                         QObject::connect (objects[x2],
                                                           SIGNAL (armorchanged (int)),binfo[x2],
@@ -485,14 +485,14 @@ void battlearea::execute()
                                     }
                                     else
                                     {
-                                        objects[x2] = new screenobject();
+                                        objects[x2] = new ScreenObject();
                                         fightswon[x2] = roundsrun;
                                     }
                                 }
                                 else
                                 {
                                     delete objects[x2];
-                                    objects[x2] = new screenobject();
+                                    objects[x2] = new ScreenObject();
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
@@ -506,7 +506,7 @@ void battlearea::execute()
                                     //Calc X and Y position
                                     xstarts[x2] = random() %xsize;
                                     ystarts[x2] = random() %ysize;
-                                    objects[x2] = new robots ( names[x2],*this,
+                                    objects[x2] = new Robots ( names[x2],*this,
                                                                x2,config,botteams[x2],false);
                                     QObject::connect (objects[x2],
                                                       SIGNAL (armorchanged (int)),binfo[x2],
@@ -525,7 +525,7 @@ void battlearea::execute()
                                 else
                                 {
                                     delete objects[x2];
-                                    objects[x2] = new screenobject();
+                                    objects[x2] = new ScreenObject();
                                 }
                                 break;
                             }
@@ -537,7 +537,7 @@ void battlearea::execute()
                             case 0 :  //If it's a normal battle
                                 objects[x]->eraseobject (&m_pixmap);       //Erase him
                                 delete objects[x];
-                                objects[x] = new screenobject();
+                                objects[x] = new ScreenObject();
                                 x2 = maxobjects;
                                 continue;
                                 break;
@@ -553,7 +553,7 @@ void battlearea::execute()
                                         //Calc X and Y position
                                         xstarts[x] = random() %xsize;
                                         ystarts[x] = random() %ysize;
-                                        objects[x] = new robots ( names[x],*this,
+                                        objects[x] = new Robots ( names[x],*this,
                                                                   x,config,botteams[x],false);
                                         QObject::connect (objects[x],
                                                           SIGNAL (armorchanged (int)),binfo[x],
@@ -571,14 +571,14 @@ void battlearea::execute()
                                     }
                                     else
                                     {
-                                        objects[x] = new screenobject();
+                                        objects[x] = new ScreenObject();
                                         fightswon[x] = roundsrun;
                                     }
                                 }
                                 else
                                 {
                                     delete objects[x];
-                                    objects[x] = new screenobject();
+                                    objects[x] = new ScreenObject();
                                     x2 = maxobjects;
                                     continue;
                                 }
@@ -595,7 +595,7 @@ void battlearea::execute()
                                     //Calc X and Y position
                                     xstarts[x] = random() %xsize;
                                     ystarts[x] = random() %ysize;
-                                    objects[x] = new robots ( names[x],*this,x,
+                                    objects[x] = new Robots ( names[x],*this,x,
                                                               config,botteams[x],false);
                                     QObject::connect (objects[x],
                                                       SIGNAL (armorchanged (int)),binfo[x],
@@ -614,7 +614,7 @@ void battlearea::execute()
                                 else
                                 {
                                     delete objects[x];
-                                    objects[x] = new screenobject();
+                                    objects[x] = new ScreenObject();
                                     x2 = maxobjects;
                                     continue;
                                 }
@@ -629,7 +629,7 @@ void battlearea::execute()
         {                            //Example: shot that gets outside of screen
             objects[x]->eraseobject (&m_pixmap);
             delete objects[x];
-            objects[x] = new screenobject();
+            objects[x] = new ScreenObject();
         }
     }
 
@@ -830,10 +830,10 @@ void battlearea::execute()
     if (debugenabled)   //If this is a "quick battle", update register content info and such
         if (objects[debugbot]->returntype() == 1) // for robots only
         {
-            std::list<struct debugcontents> *dc = ( (robots*) objects[debugbot])->returndbgcont2();
+            std::list<struct DebugContents> *dc = ( (Robots*) objects[debugbot])->returndbgcont2();
             assert (dc->size() == dbgwindows.size());
-            QList<debugwindow*>::iterator i = dbgwindows.begin();
-            std::list<debugcontents>::iterator j = dc->begin();
+            QList<DebugWindow*>::iterator i = dbgwindows.begin();
+            std::list<DebugContents>::iterator j = dc->begin();
             for (; i!=dbgwindows.end(); i++,j++)
                 (*i)->updatedata (*j);
             delete dc;
@@ -858,7 +858,7 @@ void battlearea::execute()
 	* If a device wants to add a screenobject (as a shot) he calls
 	* this function (via his bot)
 	*/
-void battlearea::addscrobject (int owner,int X,int Y,int dir,int type,
+void BattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
                                int arg1,int arg2, void *arg3)
 {
     int x;
@@ -867,39 +867,39 @@ void battlearea::addscrobject (int owner,int X,int Y,int dir,int type,
         if (objects[x]->returntype() == doesnotexist)
         {
             delete objects[x];
-            RAM *temp3 = (RAM *) arg3;
+            Ram *temp3 = (Ram *) arg3;
             switch (type)
             {
             case 0 :
-                objects[x] = new screenobject();
+                objects[x] = new ScreenObject();
                 break;
             case 1 :
 //					objects[x] = new robots( "unnamed.bot",*this,x );
                 break;
             case 2 :
-                objects[x] = new missile (X,Y,dir,arg1,x,*this);
+                objects[x] = new Missile (X,Y,dir,arg1,x,*this);
                 break;
             case 3 :
-                objects[x] = new mine (X,Y,*this,owner);
+                objects[x] = new Mine (X,Y,*this,owner);
                 break;
             case 4 :
-                objects[x]=new radarmissile (X,Y,dir,arg1,arg2,x,*this,temp3,owner);
+                objects[x]=new RadarMissile (X,Y,dir,arg1,arg2,x,*this,temp3,owner);
                 ++missilesLaunched;
                 if (debugenabled && (owner==debugbot))
-                    ( (radarmissile*) objects[x])->createDbgWindow (missilesLaunched,
+                    ( (RadarMissile*) objects[x])->createDbgWindow (missilesLaunched,
                             _dbedit, _dbl, _dbm);
                 break;
             case 5 :
-                objects[x] = new beam (X,Y,dir,arg1,*this,owner);
+                objects[x] = new Beam (X,Y,dir,arg1,*this,owner);
                 break;
             case 6 :
-                objects[x] = new rocket (X,Y,dir,arg1,x,*this,owner);
+                objects[x] = new Rocket (X,Y,dir,arg1,x,*this,owner);
                 break;
             case 7 :
-                objects[x] = new chaff (X,Y,dir,arg1,*this);
+                objects[x] = new Chaff (X,Y,dir,arg1,*this);
                 break;
             default:
-                objects[x] = new screenobject();
+                objects[x] = new ScreenObject();
             }
             break;
         }
@@ -988,7 +988,7 @@ void battlearea::addscrobject (int owner,int X,int Y,int dir,int type,
 	* This function issues special areal (noncollision) hits.
 	* The AS-rocket uses it
 	*/
-void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
+void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
 {
     int X1,Y1,D1,S1,z;
     for (z=0; z<maxbots; z++)
@@ -1007,7 +1007,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
             {
             case 0 :
                 delete objects[z];
-                objects[z] = new screenobject();
+                objects[z] = new ScreenObject();
                 break;
             case 1 :
                 if (z < 8 && objects[z]->returntype() == 1)
@@ -1019,7 +1019,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
                         //Calc X and Y position
                         xstarts[z] = random() %xsize;
                         ystarts[z] = random() %ysize;
-                        objects[z] = new robots ( names[z],*this,z,
+                        objects[z] = new Robots ( names[z],*this,z,
                                                   config,botteams[z],false);
                         QObject::connect (objects[z],SIGNAL (armorchanged (int)),
                                           binfo[z],SLOT (armorupdated (int)));
@@ -1032,14 +1032,14 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
                     }
                     else
                     {
-                        objects[z] = new screenobject();
+                        objects[z] = new ScreenObject();
                         fightswon[z] = roundsrun;
                     }
                 }
                 else
                 {
                     delete objects[z];
-                    objects[z] = new screenobject();
+                    objects[z] = new ScreenObject();
                 }
                 break;
             case 2 :
@@ -1054,7 +1054,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
                     //Calc X and Y position
                     xstarts[x2] = random() %xsize;
                     ystarts[x2] = random() %ysize;
-                    objects[x2] = new robots ( names[x2],*this,x2,
+                    objects[x2] = new Robots ( names[x2],*this,x2,
                                                config,botteams[x2],false);
                     QObject::connect (objects[x2],SIGNAL (armorchanged (int)),
                                       binfo[x2],SLOT (armorupdated (int)));
@@ -1068,7 +1068,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
                 else
                 {
                     delete objects[x2];
-                    objects[x2] = new screenobject();
+                    objects[x2] = new ScreenObject();
                 }
                 break;
             }
@@ -1080,7 +1080,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
         if (objects[xxx]->returntype() == doesnotexist)
         {
             delete objects[xxx];
-            objects[xxx] = new explosion (x,y,*this);
+            objects[xxx] = new Explosion (x,y,*this);
             break;
         }
     }
@@ -1105,7 +1105,7 @@ void battlearea::explosions (int x,int y,int rad,int strength,int whichobject)
 /**
 	* Dump RAM if pressed in debugwindow
 	*/
-void battlearea::dmem()
+void BattleArea::dmem()
 {
     objects[7]->dumpRAM();
 }

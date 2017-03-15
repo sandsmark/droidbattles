@@ -25,13 +25,13 @@
   *@author Andreas Agorander
   */
 
-class armor : public device
+class Armor : public Device
 {
 
 public:
 
-    armor (screenobject &object,int);
-    ~armor();
+    Armor (ScreenObject &object,int);
+    ~Armor();
     void execute();
     int absorbhit (int str,int ifint);
     int returntype();

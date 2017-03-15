@@ -49,17 +49,17 @@
 #endif
 //#include <unistd.h>
 
-class createbot;
-class startsbatt;
-class startsurvbatt;
-class startdeathbatt;
-class battlearea;
-class confedit;
-class starttournament;
-class kothtournament;
+class CreateBot;
+class StartsBatt;
+class StartSurvBatt;
+class StartDeathBatt;
+class BattleArea;
+class ConfEdit;
+class StartTournament;
+class KothTournament;
 
-class startcup;
-class Docbrowser;
+class StartCup;
+class DocBrowser;
 class PixButton;
 /**
   * This Class is the base class for the application. It sets up the main
@@ -86,23 +86,23 @@ private:
     QPixmap *bnpm;
     /** Pointers to the various types of objects the menu object can start */
     // Editor for creating the bots
-    createbot *cre;
+    CreateBot *cre;
     // Base widget for battles
-    battlearea *batt;
+    BattleArea *batt;
     // Widget for showing info about bots
     QWidget *infobox;
     // Widget for startup of battle (ie determine which bots should fight)
-    startsbatt *ssb;
+    StartsBatt *ssb;
     // Message box showing some 'about' info about the application
     QMessageBox *aboutb;
 
-    kothtournament *kotht;
-    startcup *cuptournament;
-    starttournament *stment;
+    KothTournament *kotht;
+    StartCup *cuptournament;
+    StartTournament *stment;
 
-    Docbrowser *browser;
+    DocBrowser *browser;
 
-    confedit *ccf;
+    ConfEdit *ccf;
     char *currentdir;
     /** Status variables */
     bool editrunning;
@@ -113,7 +113,7 @@ private:
     int wingames[64];
     int winmatches[64];
     QString newlist[64];
-    struct matchresult results[128];
+    struct MatchResult results[128];
     int nextround[64];
     int resultcounter;
     int nextroundcount;

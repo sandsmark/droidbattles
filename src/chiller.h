@@ -24,11 +24,11 @@
   *@author Andreas Agorander
   */
 
-class chiller : public device
+class Chiller : public Device
 {
 public:
-    chiller (screenobject &object, int arg1);
-    ~chiller();
+    Chiller (ScreenObject &object, int arg1);
+    ~Chiller();
     void execute();
 private:
     bool ison;

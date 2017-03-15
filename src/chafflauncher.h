@@ -26,12 +26,12 @@
   *@author Andreas Agorander
   */
 
-class chafflauncher : public device
+class ChaffLauncher : public Device
 {
 
 public:
-    chafflauncher (screenobject &object,int level);
-    ~chafflauncher();
+    ChaffLauncher (ScreenObject &object,int level);
+    ~ChaffLauncher();
     void execute();
     int getfromport (unsigned char port);
 

@@ -17,16 +17,16 @@
 
 #include "device.h"
 
-device::device (screenobject &object)
+Device::Device (ScreenObject &object)
 {
     ourbot = &object;
 }
 
-device::device()
+Device::Device()
 {
 }
 
-device::~device()
+Device::~Device()
 {
 }
 
@@ -34,7 +34,7 @@ device::~device()
 	* Take in a value in the port (after an out instruktion from the CPU
 	* And place it in the stack
 	*/
-void device::addinport (unsigned char port, unsigned short value)
+void Device::addinport (unsigned char port, unsigned short value)
 {
     for (int count=0; count<4; count++)
     {
@@ -47,25 +47,25 @@ void device::addinport (unsigned char port, unsigned short value)
     }
 }
 
-void device::execute()
+void Device::execute()
 {
 }
 
-int device::getfromport (unsigned char /*port*/)
+int Device::getfromport (unsigned char /*port*/)
 {
     return 0;
 }
 
-int device::absorbhit (int str, int /*ifint*/)
+int Device::absorbhit (int str, int /*ifint*/)
 {
     return str;
 }
 
-void device::erasegfx (QPainter* /*buffer*/)
+void Device::erasegfx (QPainter* /*buffer*/)
 {
 }
 
-void device::showgfx (QPainter* /*buffer*/)
+void Device::showgfx (QPainter* /*buffer*/)
 {
 }
 
@@ -73,34 +73,34 @@ void device::showgfx (QPainter* /*buffer*/)
 	* Sets relative angle of device (relative to bot)
 	* ie. turret calls this function in the device he "turrets"
 	*/
-void device::setrelang (int x)
+void Device::setrelang (int x)
 {
     relang = x;
 }
 
-int device::returntype()
+int Device::returntype()
 {
     return 0;
 }
 
-int device::returnspecial()
+int Device::returnspecial()
 {
     return 0;
 }
 
-struct debugcontents device::returndbg()
+struct DebugContents Device::returndbg()
 {
-    return debugcontents();
+    return DebugContents();
 }
 
-void device::dospecial (int /*x*/, int /*y*/)
+void Device::dospecial (int /*x*/, int /*y*/)
 {
 }
 
 /**
 	* Move the sack one step down for port "port"
 	*/
-void device::moveportstack (int port)
+void Device::moveportstack (int port)
 {
     int count;
     for (count = 0; count < 3; count++)

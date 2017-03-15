@@ -17,7 +17,7 @@
 
 #include "ram.h"
 
-RAM::RAM()
+Ram::Ram()
 {
     mem = new unsigned char[1];
     numowners=1;
@@ -28,7 +28,7 @@ RAM::RAM()
 	* Constructs RAM and fills the RAM
 	* with contents
 	*/
-RAM::RAM (int amount,unsigned char *buf)
+Ram::Ram (int amount,unsigned char *buf)
 {
     RAMamount = amount;
     mem = new unsigned char[RAMamount];
@@ -41,7 +41,7 @@ RAM::RAM (int amount,unsigned char *buf)
 /**
 	* Destructor, deletes contents
 	*/
-RAM::~RAM()
+Ram::~Ram()
 {
     delete mem;
 }
@@ -49,7 +49,7 @@ RAM::~RAM()
 /**
 	* Returns byte at adress adress
 	*/
-unsigned char RAM::getbyte (int adress)
+unsigned char Ram::getbyte (int adress)
 {
     if (adress < RAMamount)
         return mem[adress];
@@ -60,7 +60,7 @@ unsigned char RAM::getbyte (int adress)
 /**
 	* Returns signed byte
 	*/
-char RAM::getibyte (int adress)
+char Ram::getibyte (int adress)
 {
     if (adress < RAMamount)
     {
@@ -75,7 +75,7 @@ char RAM::getibyte (int adress)
 /**
 	* Returns word
 	*/
-unsigned short RAM::getword (int adress)
+unsigned short Ram::getword (int adress)
 {
     if (adress < RAMamount-1)
     {
@@ -90,7 +90,7 @@ unsigned short RAM::getword (int adress)
 /**
 	* Returns signed word
 	*/
-short RAM::getiword (int adress)
+short Ram::getiword (int adress)
 {
     if (adress < RAMamount-1)
     {
@@ -104,7 +104,7 @@ short RAM::getiword (int adress)
 /**
 	* Sets byte
 	*/
-void RAM::setbyte (int adress,unsigned char value)
+void Ram::setbyte (int adress,unsigned char value)
 {
     if (adress < RAMamount)
         mem[adress] = value;
@@ -113,7 +113,7 @@ void RAM::setbyte (int adress,unsigned char value)
 /**
 	* Sets word
 	*/
-void RAM::setword (int adress,unsigned short value)
+void Ram::setword (int adress,unsigned short value)
 {
     if (adress < RAMamount-1)
     {
@@ -128,7 +128,7 @@ void RAM::setword (int adress,unsigned short value)
 	* Sets signed byte
 	* (Obsolete?)
 	*/
-void RAM::setibyte (int adress,char value)
+void Ram::setibyte (int adress,char value)
 {
     if (adress < RAMamount)
     {
@@ -141,7 +141,7 @@ void RAM::setibyte (int adress,char value)
 	* Sets signed word
 	* (Obsolete?)
 	*/
-void RAM::setiword (int adress,short value)
+void Ram::setiword (int adress,short value)
 {
     if (adress < RAMamount-1)
     {
@@ -153,7 +153,7 @@ void RAM::setiword (int adress,short value)
 /**
 	* Returns size of self
 	*/
-int RAM::returnsize()
+int Ram::returnsize()
 {
     return RAMamount;
 }
@@ -161,7 +161,7 @@ int RAM::returnsize()
 /**
 	* Returns number of objects using this RAM
 	*/
-int RAM::getowners()
+int Ram::getowners()
 {
     return numowners;
 }
@@ -169,7 +169,7 @@ int RAM::getowners()
 /**
 	* Add one user
 	*/
-void RAM::addowner()
+void Ram::addowner()
 {
     numowners++;
 }
@@ -177,7 +177,7 @@ void RAM::addowner()
 /**
 	* Remove one user
 	*/
-void RAM::removeowner()
+void Ram::removeowner()
 {
     numowners--;
 }

@@ -26,12 +26,12 @@
   *@author Andreas Agorander
   */
 
-class communication : public device
+class Communication : public Device
 {
 
 public:
-    communication (screenobject &object);
-    ~communication();
+    Communication (ScreenObject &object);
+    ~Communication();
     int getfromport (unsigned char port);
     void execute();
     void dospecial (int x,int y);

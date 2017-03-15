@@ -17,7 +17,7 @@
 
 #include "cloaker.h"
 
-cloaker::cloaker (screenobject &object, int arg1)
+Cloaker::Cloaker (ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -34,11 +34,11 @@ cloaker::cloaker (screenobject &object, int arg1)
     }
 }
 
-cloaker::~cloaker()
+Cloaker::~Cloaker()
 {
 }
 
-void cloaker::execute()
+void Cloaker::execute()
 {
     if (cloakon && ourbot->getfuel() > 5)
     {

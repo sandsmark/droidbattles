@@ -34,15 +34,15 @@
   *@author Andreas Agorander
   */
 
-class starttournament : public QWidget
+class StartTournament : public QWidget
 {
 
     Q_OBJECT
 
 public:
 
-    starttournament();
-    ~starttournament();
+    StartTournament();
+    ~StartTournament();
     int getnumofbots();
     QString getbotfile(int bot);
     void closeEvent (QCloseEvent *e);

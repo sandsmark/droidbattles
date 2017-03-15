@@ -19,7 +19,7 @@
 
 //Contains info about one mnemonic/operand combination for the assembler
 
-instruktion::instruktion (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,
+Instruction::Instruction (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,
                           int arg2b,int op)
 {
     mnemonic = new char[strlen (mnem) + 1];
@@ -33,7 +33,7 @@ instruktion::instruktion (const char mnem[],int arg1t,int arg2t,int bit,int arg1
     opcode = op;
 }
 
-instruktion::~instruktion()
+Instruction::~Instruction()
 {
     delete mnemonic;
 }
@@ -42,7 +42,7 @@ instruktion::~instruktion()
 	* Compares the mnemonic it has stored
 	* with the parameters
 	*/
-bool instruktion::checkmatch (QString &mnem, int arg1t, int arg2t, int bit)
+bool Instruction::checkmatch (QString &mnem, int arg1t, int arg2t, int bit)
 {
     if (mnem == mnemonic && arg1type == arg1t && arg2type ==
             arg2t && ( (bit == bits || bits == 0) || (bit == 0 && bits == 16)))
@@ -54,7 +54,7 @@ bool instruktion::checkmatch (QString &mnem, int arg1t, int arg2t, int bit)
 /**
 	* returns the objects opcode
 	*/
-unsigned char instruktion::getopcode()
+unsigned char Instruction::getopcode()
 {
     return opcode;
 }
@@ -63,11 +63,11 @@ unsigned char instruktion::getopcode()
 	* Returns the sizes of the operands
 	*/
 
-int instruktion::getarg1bits()
+int Instruction::getarg1bits()
 {
     return arg1bits;
 }
-int instruktion::getarg2bits()
+int Instruction::getarg2bits()
 {
     return arg2bits;
 }

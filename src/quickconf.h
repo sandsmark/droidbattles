@@ -25,14 +25,14 @@
   *@author Andreas Agorander
   */
 
-class quickconf : public startsbatt
+class QuickConf : public StartsBatt
 {
 
     Q_OBJECT
 
 public:
-    quickconf();
-    ~quickconf();
+    QuickConf();
+    ~QuickConf();
 
 private slots:
 

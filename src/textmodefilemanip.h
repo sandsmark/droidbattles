@@ -32,11 +32,11 @@
   *@author Andreas Agorander
   */
 
-class textmodeFileManip
+class TextModeFileManip
 {
 public:
-    textmodeFileManip();
-    ~textmodeFileManip();
+    TextModeFileManip();
+    ~TextModeFileManip();
     static void assemble (char *filename);
     static void checkConfig (char *filename);
     static void loadConfig (char *filename);

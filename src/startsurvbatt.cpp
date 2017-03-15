@@ -19,7 +19,7 @@
 //Added by qt3to4:
 #include <QTextStream>
 
-startsurvbatt::startsurvbatt()
+StartSurvBatt::StartSurvBatt()
 {
     ifteams->setText ("Fast battle");
     for (int x=0; x<8; x++)
@@ -30,11 +30,11 @@ startsurvbatt::startsurvbatt()
     loadfilesettings();
 }
 
-startsurvbatt::~startsurvbatt()
+StartSurvBatt::~StartSurvBatt()
 {
 }
 
-void startsurvbatt::loadfilesettings()
+void StartSurvBatt::loadfilesettings()
 {
     QString temp = QDir::homePath();
     temp += "/droidbattles/survbattle.save";
@@ -65,7 +65,7 @@ void startsurvbatt::loadfilesettings()
     }
 }
 
-void startsurvbatt::ocl()
+void StartSurvBatt::ocl()
 {
     QString temp = QDir::homePath();
     temp += "/droidbattles/survbattle.save";

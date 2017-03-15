@@ -17,7 +17,7 @@
 
 #include "steering.h"
 
-steering::steering (screenobject &object, int arg1)
+Steering::Steering (ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -34,7 +34,7 @@ steering::steering (screenobject &object, int arg1)
     }
 }
 
-steering::~steering()
+Steering::~Steering()
 {
 }
 
@@ -42,7 +42,7 @@ steering::~steering()
 	* See if ports orders change in heading, the check which way is
 	* faster to that heading (left / right )
 	*/
-void steering::execute()
+void Steering::execute()
 {
     if (stacktaken[0][0] == true)
     {
@@ -101,7 +101,7 @@ void steering::execute()
     }
 }
 
-int steering::getfromport (unsigned char port)
+int Steering::getfromport (unsigned char port)
 {
     switch (port)
     {

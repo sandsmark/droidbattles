@@ -20,7 +20,7 @@
 
 //Structure for holding the currently active configuration
 //(Generally read from current.cfg)
-struct confstruct
+struct ConfStruct
 {
     int maxdev;
     int maxcost;

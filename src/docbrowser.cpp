@@ -19,18 +19,18 @@
 //Added by qt3to4:
 #include <QCloseEvent>
 
-Docbrowser::Docbrowser (QString src)
+DocBrowser::DocBrowser (QString src)
 {
     setSource (src);
     resize (800,600);
     show();
 }
 
-Docbrowser::~Docbrowser()
+DocBrowser::~DocBrowser()
 {
 }
 
-void Docbrowser::closeEvent (QCloseEvent*)
+void DocBrowser::closeEvent (QCloseEvent*)
 {
     delete this;
 }

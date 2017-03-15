@@ -22,7 +22,7 @@
 /**
 	* Init position, graphics and such
 	*/
-missile::missile (int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &area, bool ui)
+Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &area, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -41,11 +41,11 @@ missile::missile (int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &ar
     {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
-        graphics = Pixmapholder::getpmp (7);
+        graphics = PixmapHolder::getpmp (7);
     }
 }
 
-missile::~missile()
+Missile::~Missile()
 {
 //	delete graphics;
     if (useUI) delete erasegfx;
@@ -54,7 +54,7 @@ missile::~missile()
 /**
 	* Move the shot one step
 	*/
-int missile::execute()
+int Missile::execute()
 {
     double dir = getdir() * pi / 512;
     return changepos (cos (dir) * getspeed(),sin (dir) * getspeed());
@@ -63,7 +63,7 @@ int missile::execute()
 /**
 	* Paint the shot black
 	*/
-void missile::eraseobject (QPixmap *buffer)
+void Missile::eraseobject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
@@ -72,7 +72,7 @@ void missile::eraseobject (QPixmap *buffer)
 /**
 	* Paint the shot on the screen
 	*/
-void missile::showobject (QPixmap *buffer,int opt)
+void Missile::showobject (QPixmap *buffer,int opt)
 {
     QPainter painter(buffer);
     if (opt == 0) {
@@ -84,22 +84,22 @@ void missile::showobject (QPixmap *buffer,int opt)
     oldY = int (Ypos);
 }
 
-int missile::returntype()
+int Missile::returntype()
 {
     return 2;
 }
 
-int missile::getcollisiontype()
+int Missile::getcollisiontype()
 {
     return 2;
 }
 
-int missile::getcollisionstrength()
+int Missile::getcollisionstrength()
 {
     return 15;
 }
 
-int missile::objhit (int /*type*/, int /*strength*/)
+int Missile::objhit (int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }
@@ -108,7 +108,7 @@ int missile::objhit (int /*type*/, int /*strength*/)
 	* If the shot gets outside the battlefield
 	* it deletes itself
 	*/
-int missile::changepos (double X,double Y)
+int Missile::changepos (double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -121,12 +121,12 @@ int missile::changepos (double X,double Y)
     return 0;
 }
 
-int missile::getsize()
+int Missile::getsize()
 {
     return 2;
 }
 
-int missile::returnradar()
+int Missile::returnradar()
 {
     return 1;
 }

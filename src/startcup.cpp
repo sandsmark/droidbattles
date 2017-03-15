@@ -17,15 +17,15 @@
 
 #include "startcup.h"
 
-startcup::startcup()
+StartCup::StartCup()
 {
 }
 
-startcup::~startcup()
+StartCup::~StartCup()
 {
 }
 
-void startcup::ocl()
+void StartCup::ocl()
 {
     int x = getnumofbots();
     if (x==4 || x==8 || x==16 || x==32 || x==64)

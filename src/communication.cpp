@@ -20,7 +20,7 @@
 /**
 	* Constructor, inits device
 	*/
-communication::communication (screenobject &object)
+Communication::Communication (ScreenObject &object)
 {
     ourbot = &object;
     int x;
@@ -43,14 +43,14 @@ communication::communication (screenobject &object)
 /**
 	* Destructor, does nothing
 	*/
-communication::~communication()
+Communication::~Communication()
 {
 }
 
 /**
 	* Checks for port orders
 	*/
-void communication::execute()
+void Communication::execute()
 {
     //First port, set receiver
     if (stacktaken[0][0] == true)
@@ -79,7 +79,7 @@ void communication::execute()
 /**
 	* Returns messages to CPU instruktion IN
 	*/
-int communication::getfromport (unsigned char port)
+int Communication::getfromport (unsigned char port)
 {
     int msg;
     switch (port)
@@ -104,7 +104,7 @@ int communication::getfromport (unsigned char port)
     return 0;
 }
 
-void communication::dospecial (int x, int /*y*/)
+void Communication::dospecial (int x, int /*y*/)
 {
     if (nummsg < 32)
         msglist[nummsg++] = x;

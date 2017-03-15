@@ -81,24 +81,24 @@ DroidBattles::DroidBattles()
     setFixedSize (500,350);
 
     //Load all pixmaps used by the application
-    Pixmapholder::addpm (":/images/mainmenu.png", 0);
+    PixmapHolder::addpm (":/images/mainmenu.png", 0);
 
-    Pixmapholder::addpm (":/images/backbutton.xpm", 1);
+    PixmapHolder::addpm (":/images/backbutton.xpm", 1);
 
-    Pixmapholder::addpm (":/images/metal.png", 2);
+    PixmapHolder::addpm (":/images/metal.png", 2);
 
-    Pixmapholder::addpm (":/images/metalback2.png", 3);
+    PixmapHolder::addpm (":/images/metalback2.png", 3);
 
-    Pixmapholder::addpm (":/images/radarmissile.bmp", 4);
+    PixmapHolder::addpm (":/images/radarmissile.bmp", 4);
 
-    Pixmapholder::addpm (":/images/chaff.bmp", 5);
+    PixmapHolder::addpm (":/images/chaff.bmp", 5);
 
-    Pixmapholder::addpm (":/images/mine.xpm", 6);
+    PixmapHolder::addpm (":/images/mine.xpm", 6);
 
-    Pixmapholder::addpm (":/images/missile.xpm", 7);
+    PixmapHolder::addpm (":/images/missile.xpm", 7);
 
     QPalette palette;
-    palette.setBrush(backgroundRole(), QBrush(Pixmapholder::getpm (0)));
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (0)));
     setPalette(palette);
 
 //    menubuttons[0] =  new QPushButton ("Bot-creator", this);
@@ -166,7 +166,7 @@ void DroidBattles::showdoc()
 {
     QString temp = returninstalldir();
     temp += "/doc/index.html";
-    browser = new Docbrowser ("qrc:/doc/index.html");
+    browser = new DocBrowser ("qrc:/doc/index.html");
 }
 /**
 	* Executed when the user presses start single battle
@@ -176,7 +176,7 @@ void DroidBattles::skirmish()
 {
     disablebattles();
     //Start the dialog where you can choose which bots should fight
-    ssb = new startsbatt();
+    ssb = new StartsBatt();
     ssb->resize (300,570);
     ssb->show();
     QObject::connect (ssb,SIGNAL (okclicked()),this,
@@ -211,7 +211,7 @@ void DroidBattles::startskirmish()
         ln = ssb->getlength();			//Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
-        batt = new battlearea ( names[0], names[1],
+        batt = new BattleArea ( names[0], names[1],
                                 names[2], names[3],
                                 names[4], names[5],
                                 names[6], names[7],
@@ -234,7 +234,7 @@ void DroidBattles::stopskirmish()
 void DroidBattles::survival()
 {
     disablebattles();
-    ssb = new startsurvbatt();
+    ssb = new StartSurvBatt();
     ssb->resize (300,570);
     ssb->show();
     QObject::connect (ssb,SIGNAL (okclicked()),this,
@@ -264,7 +264,7 @@ void DroidBattles::startsurvival()
         ln = ssb->getlength();			//Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
-        batt = new battlearea ( names[0], names[1],
+        batt = new BattleArea ( names[0], names[1],
                                 names[2], names[3],
                                 names[4], names[5],
                                 names[6], names[7],
@@ -284,7 +284,7 @@ void DroidBattles::stopsurvival()
 void DroidBattles::death()
 {
     disablebattles();
-    ssb = new startdeathbatt();
+    ssb = new StartDeathBatt();
     ssb->resize (300,570);
     ssb->show();
     QObject::connect (ssb,SIGNAL (okclicked()),this,SLOT (startdeath()));
@@ -312,7 +312,7 @@ void DroidBattles::startdeath()
         ln = ssb->getlength();			//Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
-        batt = new battlearea ( names[0], names[1],
+        batt = new BattleArea ( names[0], names[1],
                                 names[2], names[3],
                                 names[4], names[5],
                                 names[6], names[7],
@@ -336,7 +336,7 @@ void DroidBattles::stopdeath()
 	*/
 void DroidBattles::createb()
 {
-    cre = new createbot();
+    cre = new CreateBot();
     cre->resize (520,500);
     cre->show();
 }
@@ -372,7 +372,7 @@ void DroidBattles::quit()
 	*/
 void DroidBattles::editconf()
 {
-    ccf = new confedit();
+    ccf = new ConfEdit();
 }
 
 /**
@@ -381,7 +381,7 @@ void DroidBattles::editconf()
 void DroidBattles::tournament()
 {
     disabletourneys();
-    stment = new starttournament();
+    stment = new StartTournament();
     stment->resize (300,570);
     stment->show();
     QObject::connect (stment,SIGNAL (okclicked()),this,
@@ -423,7 +423,7 @@ void DroidBattles::starttourney()
     teams[0] = 0;
     teams[1] = 1;
 
-    batt = new battlearea ( names[0], names[1],
+    batt = new BattleArea ( names[0], names[1],
                             "","","","","","",numf,ln,xs,ys,false,teams,true,stment->getiffast());
     QObject::connect (batt, SIGNAL (battledone (int,int)),
                       this, SLOT (managetourney (int,int)));
@@ -556,7 +556,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
         enabletourneys();
         QString tempdc = QDir::currentPath();
         tempdc += "/tournament.html";
-        browser = new Docbrowser (tempdc);
+        browser = new DocBrowser (tempdc);
     }
     else
     {
@@ -568,7 +568,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
         teams[0] = 0;
         teams[1] = 1;
 
-        batt = new battlearea ( names[curmainbot],
+        batt = new BattleArea ( names[curmainbot],
                                 names[cursecbot],"","","","","","",numf,
                                 ln,xs,ys,false,teams,true,stment->getiffast());
         QObject::connect (batt, SIGNAL (battledone (int,int)),
@@ -583,7 +583,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
 void DroidBattles::koth()
 {
     disabletourneys();
-    kotht = new kothtournament();
+    kotht = new KothTournament();
     kotht->resize (300,570);
     kotht->show();
     QObject::connect (kotht,SIGNAL (okclicked()),this,SLOT (startkoth()));
@@ -623,7 +623,7 @@ void DroidBattles::startkoth()
     teams[0] = 0;
     teams[1] = 1;
 
-    batt = new battlearea ( names[numofbots-2],
+    batt = new BattleArea ( names[numofbots-2],
                             names[numofbots-1],"","","","","","",numf,
                             ln,xs,ys,false,teams,true,kotht->getiffast());
     QObject::connect (batt, SIGNAL (battledone (int,int)), this,
@@ -799,7 +799,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         enabletourneys();
         QString tempdc = QDir::currentPath();
         tempdc += "/Kothresults.html";
-        browser = new Docbrowser (tempdc);
+        browser = new DocBrowser (tempdc);
     }
     else
     {
@@ -811,7 +811,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         teams[0] = 0;
         teams[1] = 1;
 
-        batt = new battlearea ( names[curmainbot],
+        batt = new BattleArea ( names[curmainbot],
                                 names[cursecbot],"","","","","","",numf,
                                 ln,xs,ys,false,teams,true,kotht->getiffast());
         QObject::connect (batt, SIGNAL (battledone (int,int)), this,
@@ -824,7 +824,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
 void DroidBattles::cup()
 {
     disabletourneys();
-    cuptournament = new startcup();
+    cuptournament = new StartCup();
     cuptournament->resize (300,570);
     cuptournament->show();
     QObject::connect (cuptournament,SIGNAL (okclicked()),this,
@@ -869,7 +869,7 @@ void DroidBattles::startcupt()
     curmainbot = 0;
     cursecbot = 1;
 
-    batt = new battlearea ( names[0], names[1],"",
+    batt = new BattleArea ( names[0], names[1],"",
                             "","","","","",numf,ln,xs,ys,false,teams,true,
                             cuptournament->getiffast());
     QObject::connect (batt, SIGNAL (battledone (int,int)), this,
@@ -971,7 +971,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
         f2.close();
         QString tempdc = QDir::currentPath();
         tempdc += "/Cupresults.html";
-        browser = new Docbrowser (tempdc);
+        browser = new DocBrowser (tempdc);
         delete cuptournament;
         enabletourneys();
         return;
@@ -984,7 +984,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
     teams[0] = 0;
     teams[1] = 1;
 
-    batt = new battlearea ( names[nextround[curmainbot]],
+    batt = new BattleArea ( names[nextround[curmainbot]],
                             names[nextround[cursecbot]],"","","","","","",numf,
                             ln,xs,ys,false,teams,true,cuptournament->getiffast());
     QObject::connect (batt, SIGNAL (battledone (int,int)), this,

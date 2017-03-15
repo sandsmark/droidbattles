@@ -24,7 +24,7 @@
 /**
 	* Init bot position, load program file and graphics
 	*/
-robots::robots (const QString &name,textmodeBattleArea &object,int mnum, confstruct config,
+Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStruct config,
                 int tm,bool er, bool ui)
 {
     useUI = ui;
@@ -70,38 +70,38 @@ robots::robots (const QString &name,textmodeBattleArea &object,int mnum, confstr
             switch (my[1])
             {
             case 0 :
-                ramdevice = new RAM (1024,my);
+                ramdevice = new Ram (1024,my);
                 break;
             case 1 :
-                ramdevice = new RAM (2048,my);
+                ramdevice = new Ram (2048,my);
                 break;
             case 2 :
-                ramdevice = new RAM (4096,my);
+                ramdevice = new Ram (4096,my);
                 break;
             case 3 :
-                ramdevice = new RAM (8192,my);
+                ramdevice = new Ram (8192,my);
                 break;
             case 4 :
-                ramdevice = new RAM (16384,my);
+                ramdevice = new Ram (16384,my);
                 break;
             case 5 :
-                ramdevice = new RAM (24576,my);
+                ramdevice = new Ram (24576,my);
                 break;
             case 6 :
-                ramdevice = new RAM (32768,my);
+                ramdevice = new Ram (32768,my);
                 break;
             case 7 :
-                ramdevice = new RAM (49152,my);
+                ramdevice = new Ram (49152,my);
                 break;
             case 8 :
-                ramdevice = new RAM (65536,my);
+                ramdevice = new Ram (65536,my);
                 break;
             }
         }
         else
         {
             error ("File format error",name);
-            ramdevice = new RAM();
+            ramdevice = new Ram();
         }
         int x;
 
@@ -131,84 +131,84 @@ robots::robots (const QString &name,textmodeBattleArea &object,int mnum, confstr
                 switch (my[x*6+2])
                 {
                 case 0 :
-                    devicelist[x] = new device (*this);
+                    devicelist[x] = new Device (*this);
                     break;
                 case 1 :
-                    devicelist[x] = new robCPU (*ramdevice,*this,levelvalue,my[x*6+4],
+                    devicelist[x] = new RobCpu (*ramdevice,*this,levelvalue,my[x*6+4],
                                                 my[x*6+5],my[x*6+6],my[x*6+7]);
                     break;
                 case 2 :
-                    devicelist[x] = new engine (*this, levelvalue);
+                    devicelist[x] = new Engine (*this, levelvalue);
                     break;
                 case 3 :
-                    devicelist[x] = new steering (*this, levelvalue);
+                    devicelist[x] = new Steering (*this, levelvalue);
                     break;
                 case 4 :
-                    devicelist[x] = new plasma (*this, levelvalue, my[x*6+4]);
+                    devicelist[x] = new Plasma (*this, levelvalue, my[x*6+4]);
                     break;
                 case 5 :
-                    devicelist[x] = new armor (*this, levelvalue);
+                    devicelist[x] = new Armor (*this, levelvalue);
                     hitabsorborder[backx] = x;
                     backx--;
                     break;
                 case 6 :
-                    devicelist[x] = new scanner (*this, levelvalue, my[x*6+4]);
+                    devicelist[x] = new Scanner (*this, levelvalue, my[x*6+4]);
                     break;
                 case 7 :
-                    devicelist[x] = new fuel (*this, levelvalue);
+                    devicelist[x] = new Fuel (*this, levelvalue);
                     break;
                 case 8 :
-                    devicelist[x] = new chafflauncher (*this,levelvalue);
+                    devicelist[x] = new ChaffLauncher (*this,levelvalue);
                     break;
                 case 9 :
-                    devicelist[x] = new turret (*this,levelvalue,my[x*6+4]);
+                    devicelist[x] = new Turret (*this,levelvalue,my[x*6+4]);
                     break;
                 case 10 :
-                    devicelist[x] = new scandetect (*this);
+                    devicelist[x] = new ScanDetect (*this);
                     break;
                 case 11 :
-                    devicelist[x] = new timedev (*this);
+                    devicelist[x] = new TimeDev (*this);
                     break;
                 case 12 :
-                    devicelist[x] = new shield (*this, levelvalue);
+                    devicelist[x] = new Shield (*this, levelvalue);
                     hitabsorborder[forx] = x;
                     forx++;
                     break;
                 case 13 :
-                    devicelist[x] = new repair (*this, levelvalue);
+                    devicelist[x] = new Repair (*this, levelvalue);
                     break;
                 case 14 :
-                    devicelist[x] = new communication (*this);
+                    devicelist[x] = new Communication (*this);
                     ourradiodev = x;
                     break;
                 case 15 :
-                    devicelist[x] = new chiller (*this, levelvalue);
+                    devicelist[x] = new Chiller (*this, levelvalue);
                     break;
                 case 16 :
-                    devicelist[x] = new cloaker (*this,levelvalue);
+                    devicelist[x] = new Cloaker (*this,levelvalue);
                     break;
                 case 17 :
-                    devicelist[x] = new minelayer (*this, levelvalue);
+                    devicelist[x] = new MineLayer (*this, levelvalue);
                     break;
                 case 18 :
-                    devicelist[x] = new radarmissilelauncher (*this, levelvalue,
+                    devicelist[x] = new RadarMissileLauncher (*this, levelvalue,
                             ramdevice,my[x*6+4]);
                     break;
                 case 19 :
-                    devicelist[x] = new beamer (*this, levelvalue);
+                    devicelist[x] = new Beamer (*this, levelvalue);
                     break;
                 case 20 :
-                    devicelist[x] = new rocketlauncher (*this, levelvalue,my[x*6+4]);
+                    devicelist[x] = new RocketLauncher (*this, levelvalue,my[x*6+4]);
                     break;
                 default :
-                    devicelist[x] = new device (*this);
+                    devicelist[x] = new Device (*this);
                     break;
                 }
             }
             else
             {
                 error ("File format error",name);
-                devicelist[x] = new device (*this);
+                devicelist[x] = new Device (*this);
             }
         }
         if (numdev > config.maxdev)
@@ -221,9 +221,9 @@ robots::robots (const QString &name,textmodeBattleArea &object,int mnum, confstr
     else
     {
         error (QString("Couldn't open bot file %1!").arg(f.fileName()), name);
-        ramdevice = new RAM;
+        ramdevice = new Ram;
         for (int x=0; x<32; x++)
-            devicelist[x] = new device (*this);
+            devicelist[x] = new Device (*this);
     }
 
     if (useUI)
@@ -258,7 +258,7 @@ robots::robots (const QString &name,textmodeBattleArea &object,int mnum, confstr
 }
 
 
-robots::~robots()
+Robots::~Robots()
 {
     int x;
     for (x=0; x<32; x++)
@@ -275,7 +275,7 @@ robots::~robots()
 /**
 	* Execute devices, adjust spedd and position
 	*/
-int robots::execute()
+int Robots::execute()
 {
     int x;
     currentradar = 5;
@@ -332,7 +332,7 @@ int robots::execute()
 /**
 	* Paint bot black
 	*/
-void robots::eraseobject (QPixmap *buffer)
+void Robots::eraseobject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-16, (oldY>>6)-16, *erasegfx);
@@ -348,7 +348,7 @@ void robots::eraseobject (QPixmap *buffer)
 /**
 	* Show bot gfx on screen
 	*/
-void robots::showobject (QPixmap *buffer, int opt)
+void Robots::showobject (QPixmap *buffer, int opt)
 {
     QPainter painter(buffer);
 
@@ -374,7 +374,7 @@ void robots::showobject (QPixmap *buffer, int opt)
 /**
 	* Get values from device ports
 	*/
-int robots::getdevport (unsigned char port)
+int Robots::getdevport (unsigned char port)
 {
     int tempport = port%portsperdev;
     int tempdevice = int (port/portsperdev);
@@ -385,7 +385,7 @@ int robots::getdevport (unsigned char port)
 /**
 	* Put values in device ports
 	*/
-void robots::putdevport (unsigned char port, unsigned short value)
+void Robots::putdevport (unsigned char port, unsigned short value)
 {
     int tempport = port%portsperdev;
     int tempdevice = int (port/portsperdev);
@@ -395,13 +395,13 @@ void robots::putdevport (unsigned char port, unsigned short value)
 /**
 	* Inbetween function for devices that wants to add screenobjects to battlearea
 	*/
-void robots::addscrobject (int X,int Y,int dir,int type, int arg1,
+void Robots::addscrobject (int X,int Y,int dir,int type, int arg1,
                            int arg2, void *arg3)
 {
     ourarea->addscrobject (mynum,X,Y,dir,type,arg1,arg2,arg3);
 }
 
-int robots::returntype()
+int Robots::returntype()
 {
     return 1;
 }
@@ -409,7 +409,7 @@ int robots::returntype()
 /**
 	* Inbetween function for devices that want to communicate to battlearea
 	*/
-int robots::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
+int Robots::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 {
     return ourarea->devio (bot,dev,choice,arg1,arg2);
 }
@@ -418,7 +418,7 @@ int robots::iodevtobatt (int bot,int dev,int choice,int arg1,int arg2)
 	* Inbetween function for when one device wants to do something with
 	* another device
 	*/
-int robots::iodevtodev (int dev,int action, int value)
+int Robots::iodevtodev (int dev,int action, int value)
 {
     switch (action)
     {
@@ -440,12 +440,12 @@ int robots::iodevtodev (int dev,int action, int value)
     return 0;
 }
 
-int robots::getcollisiontype()
+int Robots::getcollisiontype()
 {
     return 1;
 }
 
-int robots::getcollisionstrength()
+int Robots::getcollisionstrength()
 {
     return int (speed/5);
 }
@@ -454,7 +454,7 @@ int robots::getcollisionstrength()
 	* If hit, let armor and shield absorb hit.
 	* If that doesn't help, die
 	*/
-int robots::objhit (int type,int strength)
+int Robots::objhit (int type,int strength)
 {
     int x;
     int xy;
@@ -484,28 +484,28 @@ int robots::objhit (int type,int strength)
         return 0;
 }
 
-int robots::getsize()
+int Robots::getsize()
 {
     return size;
 }
 
-QString robots::getdebug1()
+QString Robots::getdebug1()
 {
     return debug1;
 }
 
-QString robots::getdebug2()
+QString Robots::getdebug2()
 {
     return debug2;
 }
 
-void robots::setdebug1 (int msg)
+void Robots::setdebug1 (int msg)
 {
     QTextStream ts (&debug1);
     ts << "Angle is: " << msg << "  ";
 }
 
-void robots::setdebug2 (int msg)
+void Robots::setdebug2 (int msg)
 {
     QTextStream ts (&debug2);
     ts << "distance is: " << msg << "  ";
@@ -514,7 +514,7 @@ void robots::setdebug2 (int msg)
 /**
 	* Show error message (mainly for showing that bot doesn't conform to .cfg file)
 	*/
-void robots::error (const QString &string, const QString &name)
+void Robots::error (const QString &string, const QString &name)
 {
     if (showerror && useUI)
     {
@@ -528,12 +528,12 @@ void robots::error (const QString &string, const QString &name)
     }
 }
 
-void robots::receiveradio (int sig)
+void Robots::receiveradio (int sig)
 {
     devicelist[ourradiodev]->dospecial (sig,0);
 }
 
-int robots::getmem()
+int Robots::getmem()
 {
     return ramdevice->returnsize();
 }
@@ -541,7 +541,7 @@ int robots::getmem()
 /**
 	* Add interrupt to one of bots CPU:s
 	*/
-void robots::addinterrupt (int inter)
+void Robots::addinterrupt (int inter)
 {
     if (inter > 255)
         return;
@@ -562,7 +562,7 @@ void robots::addinterrupt (int inter)
 /**
 	* Returns debugstructure from first CPU
 	*/
-struct debugcontents robots::returndbgcont()
+struct DebugContents Robots::returndbgcont()
 {
     int x;
     for (x=0; x<32; x++)
@@ -574,13 +574,13 @@ struct debugcontents robots::returndbgcont()
         }
     }
 
-    return debugcontents(); // return empty debugcontents
+    return DebugContents(); // return empty debugcontents
 }
 
 /**
  * Returns number of CPUs
  */
-int robots::numCPUs()
+int Robots::numCPUs()
 {
     int num = 0;
     for (int x = 0; x <32; x++)
@@ -592,9 +592,9 @@ int robots::numCPUs()
  * Returns debugstructure from all CPUs
  */
 
-std::list<struct debugcontents>* robots::returndbgcont2()
+std::list<struct DebugContents>* Robots::returndbgcont2()
 {
-    std::list<debugcontents> *dc = new std::list<debugcontents>;
+    std::list<DebugContents> *dc = new std::list<DebugContents>;
     for (int x=0; x<32; x++)
         if (devicelist[x] && (devicelist[x]->returntype() == 9))
             dc->push_back (devicelist[x]->returndbg());
@@ -603,7 +603,7 @@ std::list<struct debugcontents>* robots::returndbgcont2()
 /**
 	* Object is seen by radar...
 	*/
-int robots::returnradar()
+int Robots::returnradar()
 {
     return currentradar;
 }
@@ -611,7 +611,7 @@ int robots::returnradar()
 /**
 	* When object is scanned, check if we have a scandetector...
 	*/
-void robots::objscanned (int intensity,int dir)
+void Robots::objscanned (int intensity,int dir)
 {
     int x;
     for (x=0; x<32; x++)
@@ -624,7 +624,7 @@ void robots::objscanned (int intensity,int dir)
     }
 }
 
-void robots::setradar (int x)
+void Robots::setradar (int x)
 {
     currentradar = x;
 }
@@ -634,7 +634,7 @@ void robots::setradar (int x)
 	* this function opens a file and dumps RAM
 	* contents to it
 	*/
-void robots::dumpRAM()
+void Robots::dumpRAM()
 {
     for (int x=0; x<256; x++)
     {

@@ -42,6 +42,6 @@ void PixButton::paintEvent (QPaintEvent *event)
 //    }
 //    QPushButton::paintEvent(event);
     QPainter paint(this);
-    paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(Pixmapholder::getpm(whichpix)));
+    paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(PixmapHolder::getpm(whichpix)));
     paint.drawText (isDown() ? 1 : 0, isDown() ? 1 : 0, width(), height(), Qt::AlignCenter, tex);
 }

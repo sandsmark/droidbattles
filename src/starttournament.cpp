@@ -20,7 +20,7 @@
 #include <QLabel>
 #include <QCloseEvent>
 
-starttournament::starttournament()
+StartTournament::StartTournament()
 {
 
 //	int x;
@@ -88,16 +88,16 @@ starttournament::starttournament()
 
 }
 
-starttournament::~starttournament()
+StartTournament::~StartTournament()
 {
 }
 
-int starttournament::getnumofbots()
+int StartTournament::getnumofbots()
 {
     return botfiles->count();
 }
 
-QString starttournament::getbotfile (int x)
+QString StartTournament::getbotfile (int x)
 {
     return botfiles->item(x)->text();
 }
@@ -105,7 +105,7 @@ QString starttournament::getbotfile (int x)
 /**
 	* Load a .bot file
 	*/
-void starttournament::choosefile()
+void StartTournament::choosefile()
 {
     QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
 //	int x;
@@ -119,23 +119,23 @@ void starttournament::choosefile()
 /**
 	* Remove a .bot file from list
 	*/
-void starttournament::dechoosefile()
+void StartTournament::dechoosefile()
 {
 //	int x;
     delete botfiles->takeItem(botfiles->currentRow());
 }
 
-void starttournament::ocl()
+void StartTournament::ocl()
 {
     emit okclicked();
 }
 
-void starttournament::ccl()
+void StartTournament::ccl()
 {
     emit cancelclicked();
 }
 
-void starttournament::closeEvent (QCloseEvent *e)
+void StartTournament::closeEvent (QCloseEvent *e)
 {
     e->ignore();
 }
@@ -144,7 +144,7 @@ void starttournament::closeEvent (QCloseEvent *e)
 	* The following functions returns settings
 	*/
 
-int starttournament::getnumfights()
+int StartTournament::getnumfights()
 {
     QString s = wnumfights->text();
     if (s.length() == 0)
@@ -153,7 +153,7 @@ int starttournament::getnumfights()
     return s.toInt();
 }
 
-int starttournament::getlength()
+int StartTournament::getlength()
 {
     QString s = length->text();
     if (s.length() == 0)
@@ -162,22 +162,22 @@ int starttournament::getlength()
     return s.toInt();
 }
 
-int starttournament::getxsize()
+int StartTournament::getxsize()
 {
     return (maxx->cleanText()).toInt();
 }
 
-int starttournament::getysize()
+int StartTournament::getysize()
 {
     return (maxy->cleanText()).toInt();
 }
 
-bool starttournament::getiffast()
+bool StartTournament::getiffast()
 {
     return iffast->isChecked();
 }
 
-int starttournament::getseed()
+int StartTournament::getseed()
 {
     QString s = seed->text();
     if (s.length() == 0)

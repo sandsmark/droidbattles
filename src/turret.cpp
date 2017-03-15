@@ -17,7 +17,7 @@
 
 #include "turret.h"
 
-turret::turret (screenobject &object, int arg1,int dev)
+Turret::Turret (ScreenObject &object, int arg1,int dev)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -36,11 +36,11 @@ turret::turret (screenobject &object, int arg1,int dev)
     }
 }
 
-turret::~turret()
+Turret::~Turret()
 {
 }
 
-int turret::getfromport (unsigned char port)
+int Turret::getfromport (unsigned char port)
 {
     switch (port)
     {
@@ -54,7 +54,7 @@ int turret::getfromport (unsigned char port)
     return 0;
 }
 
-void turret::execute()
+void Turret::execute()
 {
     if (stacktaken[0][0] == true)
     {

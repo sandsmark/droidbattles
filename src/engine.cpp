@@ -18,7 +18,7 @@
 #include "engine.h"
 //#include <qmessagebox.h>
 
-engine::engine (screenobject &object, int arg1)
+Engine::Engine (ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -35,14 +35,14 @@ engine::engine (screenobject &object, int arg1)
     }
 }
 
-engine::~engine()
+Engine::~Engine()
 {
 }
 
 /**
 	* Check for port orders
 	*/
-void engine::execute()
+void Engine::execute()
 {
     if (stacktaken[0][0] == true)
     {
@@ -97,7 +97,7 @@ void engine::execute()
 /**
 	* Returns to CPU instruction IN
 	*/
-int engine::getfromport (unsigned char port)
+int Engine::getfromport (unsigned char port)
 {
     switch (port)
     {

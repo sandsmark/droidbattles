@@ -25,12 +25,12 @@
   *@author Andreas Agorander
   */
 
-class cloaker : public device
+class Cloaker : public Device
 {
 
 public:
-    cloaker (screenobject &object, int arg1);
-    ~cloaker();
+    Cloaker (ScreenObject &object, int arg1);
+    ~Cloaker();
     void execute();
 private:
     bool cloakon;

@@ -25,12 +25,12 @@
   */
 
 
-class startsurvbatt : public startsbatt
+class StartSurvBatt : public StartsBatt
 {
     Q_OBJECT
 public:
-    startsurvbatt();
-    ~startsurvbatt();
+    StartSurvBatt();
+    ~StartSurvBatt();
 private slots:
     virtual void ocl();
     //numfights is numlives

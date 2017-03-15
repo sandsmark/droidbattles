@@ -21,7 +21,7 @@
 /**
 	* Constructor ,inits device
 	*/
-armor::armor (screenobject &object, int arg1)
+Armor::Armor (ScreenObject &object, int arg1)
 {
     ourbot = &object;
     strength = arg1;
@@ -46,7 +46,7 @@ armor::armor (screenobject &object, int arg1)
 /**
 	* Destructor, does nothing
 	*/
-armor::~armor()
+Armor::~Armor()
 {
 }
 
@@ -54,7 +54,7 @@ armor::~armor()
 	* Checks if interrupt shall be issued, and if
 	* any ports orders some actions
 	*/
-void armor::execute()
+void Armor::execute()
 {
     if (intenabled2)
     {
@@ -91,7 +91,7 @@ void armor::execute()
 	* Takes in the strength of the hit and
 	*	returns the amount of hitpoints it couldn't absorb
 	*/
-int armor::absorbhit (int str,int ifint)
+int Armor::absorbhit (int str,int ifint)
 {
     if (strength >= str)
     {
@@ -112,7 +112,7 @@ int armor::absorbhit (int str,int ifint)
 /**
 	* Returns armor id-code
 	*/
-int armor::returntype()
+int Armor::returntype()
 {
     return armortype;
 }
@@ -120,7 +120,7 @@ int armor::returntype()
 /**
 	* Returns original armor value - current value
 	*/
-int armor::returnspecial()
+int Armor::returnspecial()
 {
     return (orstrength-strength);
 }
@@ -128,7 +128,7 @@ int armor::returnspecial()
 /**
 	* Returns value to CPU instruktion IN
 	*/
-int armor::getfromport (unsigned char port)
+int Armor::getfromport (unsigned char port)
 {
     switch (port)
     {
@@ -146,7 +146,7 @@ int armor::getfromport (unsigned char port)
 	* The repair unit uses this function in order to not issue an interrupt
 	* every time he repairs.
 	*/
-void armor::dospecial (int x, int /*y*/)
+void Armor::dospecial (int x, int /*y*/)
 {
     ourbot->armorval -= x;
     strength -= x;

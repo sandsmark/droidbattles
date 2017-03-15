@@ -27,11 +27,11 @@
   *@author Andreas Agorander
   */
 
-class infobox : public QDialog
+class InfoBox : public QDialog
 {
 public:
-    infobox (QString msg, QWidget *parent=0);
-    ~infobox();
+    InfoBox (QString msg, QWidget *parent=0);
+    ~InfoBox();
     void closeEvent (QCloseEvent * e);
 private:
     QLabel *text;

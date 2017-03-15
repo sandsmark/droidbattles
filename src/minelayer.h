@@ -25,13 +25,13 @@
   *@author Andreas Agorander
   */
 
-class minelayer : public device
+class MineLayer : public Device
 {
 
 public:
 
-    minelayer (screenobject &, int);
-    ~minelayer();
+    MineLayer (ScreenObject &, int);
+    ~MineLayer();
     int getfromport(unsigned char port);
     void execute();
 

@@ -24,7 +24,7 @@
 /**
 	* Constructor: Init GUI
 	*/
-confedit::confedit()
+ConfEdit::ConfEdit()
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
@@ -52,7 +52,7 @@ confedit::confedit()
                       SLOT (openc()));
     QObject::connect (savebutton, SIGNAL (clicked()), this,
                       SLOT (savec()));
-    connect(closebutton, &QPushButton::clicked, this, &confedit::close);
+    connect(closebutton, &QPushButton::clicked, this, &ConfEdit::close);
     QObject::connect (makecurrentbutton, SIGNAL (clicked()), this,
                       SLOT (makecurrc()));
     QObject::connect (helpbutton, SIGNAL (clicked()), this,
@@ -192,14 +192,14 @@ confedit::confedit()
 /**
 	* Destructor, does nothing
 	*/
-confedit::~confedit()
+ConfEdit::~ConfEdit()
 {
 }
 
 /**
 	* Sets the default values
 	*/
-void confedit::defaultc()
+void ConfEdit::defaultc()
 {
     QString tempname = returninstalldir();
     tempname += "misc/current.cfg";
@@ -210,7 +210,7 @@ void confedit::defaultc()
 /**
 	* Opens existing config file and loads those values
 	*/
-void confedit::openc()
+void ConfEdit::openc()
 {
     QString tempname = QFileDialog::getOpenFileName (this, tr("Select config file"), QDir::homePath(), "*.cfg");
     openfile (tempname);
@@ -218,7 +218,7 @@ void confedit::openc()
 /**
 	* Saves current setings to a config file
 	*/
-void confedit::savec()
+void ConfEdit::savec()
 {
     QString tempname = QFileDialog::getSaveFileName (this, tr("Save config file"), QDir::homePath(), "*.cfg");
     if (tempname.isEmpty())
@@ -259,7 +259,7 @@ void confedit::savec()
 /**
 	* Saves curreent settings to homedir/droidbattles/current.cfg
 	*/
-void confedit::makecurrc()
+void ConfEdit::makecurrc()
 {
     QString filename = QDir::homePath();
     filename += "/droidbattles/current.cfg";
@@ -296,11 +296,11 @@ void confedit::makecurrc()
 /**
 	* TODO: load basic config help
 	*/
-void confedit::helpc()
+void ConfEdit::helpc()
 {
 }
 
-void confedit::openfile (QString &tempname)
+void ConfEdit::openfile (QString &tempname)
 {
     if (tempname.isEmpty())
     {

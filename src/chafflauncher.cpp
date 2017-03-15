@@ -19,7 +19,7 @@
 /**
 	* Constructor, init device
 	*/
-chafflauncher::chafflauncher (screenobject &object,int level)
+ChaffLauncher::ChaffLauncher (ScreenObject &object,int level)
 {
     chaffleft = level;
     int count,count2;
@@ -37,14 +37,14 @@ chafflauncher::chafflauncher (screenobject &object,int level)
 /**
 	* Destructor, does nothing
 	*/
-chafflauncher::~chafflauncher()
+ChaffLauncher::~ChaffLauncher()
 {
 }
 
 /**
 	* Checks for port orders
 	*/
-void chafflauncher::execute()
+void ChaffLauncher::execute()
 {
     int count;
     if (stacktaken[0][0] == true)
@@ -68,7 +68,7 @@ void chafflauncher::execute()
 /**
 	* Returns number of chaffs left to CPU instruktion IN
 	*/
-int chafflauncher::getfromport (unsigned char port)
+int ChaffLauncher::getfromport (unsigned char port)
 {
     switch (port)
     {

@@ -22,7 +22,7 @@
 /**
 	* Constructor, Init object
 	*/
-chaff::chaff (int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui)
+Chaff::Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui)
 {
     direction = d;
     Xpos = X;
@@ -33,7 +33,7 @@ chaff::chaff (int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui)
     {
         erasegfx = new QPixmap(12, 12);
         erasegfx->fill(Qt::black);
-        graphics = Pixmapholder::getpmp (5);
+        graphics = PixmapHolder::getpmp (5);
     }
     timeleft = 159;
     ourarea = &area;
@@ -44,7 +44,7 @@ chaff::chaff (int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui)
 /**
 	* Destructor, deallocate pixmaps
 	*/
-chaff::~chaff()
+Chaff::~Chaff()
 {
     if (useUI) delete erasegfx;
 //	delete graphics;
@@ -53,7 +53,7 @@ chaff::~chaff()
 /**
 	* Paint object
 	*/
-void chaff::showobject (QPixmap *buffer,int opt)
+void Chaff::showobject (QPixmap *buffer,int opt)
 {
 
 //	int x;
@@ -74,7 +74,7 @@ void chaff::showobject (QPixmap *buffer,int opt)
 /**
 	* Paint object black
 	*/
-void chaff::eraseobject (QPixmap *buffer)
+void Chaff::eraseobject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-6, (oldY>>6)-6, *erasegfx);
@@ -84,7 +84,7 @@ void chaff::eraseobject (QPixmap *buffer)
 /**
 	* Moves object, and deletes self when time runs out
 	*/
-int chaff::execute()
+int Chaff::execute()
 {
     double dira = getdir() * pi / 512;
     double tempX,tempY;
@@ -101,7 +101,7 @@ int chaff::execute()
 /**
 	* Return "exists" id that tells he's a non-colliding object
 	*/
-int chaff::returntype()
+int Chaff::returntype()
 {
     return noncollobject;
 }
@@ -109,7 +109,7 @@ int chaff::returntype()
 /**
 	* Return "is visible on radar" id
 	*/
-int chaff::returnradar()
+int Chaff::returnradar()
 {
     return 5;
 }

@@ -34,13 +34,13 @@
   *@author Andreas Agorander
   */
 
-class missile : public screenobject
+class Missile : public ScreenObject
 {
 
 public:
 
-    missile (int X,int Y,int dir,int owner,int mynum,textmodeBattleArea &area, bool ui = true);
-    ~missile();
+    Missile (int X,int Y,int dir,int owner,int mynum,TextmodeBattleArea &area, bool ui = true);
+    ~Missile();
     int execute();
     void eraseobject (QPixmap *buffer);
     void showobject (QPixmap *buffer, int opt = 0);
@@ -55,7 +55,7 @@ public:
 private:
 
     int strength;
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
 
 };
 

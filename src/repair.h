@@ -26,12 +26,12 @@
   *@author Andreas Agorander
   */
 
-class repair : public device
+class Repair : public Device
 {
 
 public:
-    repair (screenobject &object,int arg1);
-    ~repair();
+    Repair (ScreenObject &object,int arg1);
+    ~Repair();
     void execute();
     int getfromport (unsigned char port);
 private:

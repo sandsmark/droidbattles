@@ -22,7 +22,7 @@
 /**
 	* Init position and load gfx
 	*/
-mine::mine (int x,int y, textmodeBattleArea &area,int owner, bool ui)
+Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -36,7 +36,7 @@ mine::mine (int x,int y, textmodeBattleArea &area,int owner, bool ui)
     {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
-        graphics = Pixmapholder::getpmp (6);
+        graphics = PixmapHolder::getpmp (6);
     }
 
 }
@@ -44,7 +44,7 @@ mine::mine (int x,int y, textmodeBattleArea &area,int owner, bool ui)
 /**
 	* delete the graphics used
 	*/
-mine::~mine()
+Mine::~Mine()
 {
     if (useUI) delete erasegfx;
 //	delete graphics;
@@ -53,12 +53,12 @@ mine::~mine()
 /**
 	* Returns damage inflicted
 	*/
-int mine::getcollisionstrength()
+int Mine::getcollisionstrength()
 {
     return 70;
 }
 
-int mine::getcollisiontype()
+int Mine::getcollisiontype()
 {
     return 2;
 }
@@ -67,7 +67,7 @@ int mine::getcollisiontype()
 	* If time < 100 cycles mine is "noncolliding"
 	* ie doesn't explode
 	*/
-int mine::returntype()
+int Mine::returntype()
 {
     if (time1 < 100)
         return noncollobject;
@@ -75,7 +75,7 @@ int mine::returntype()
         return 2;
 }
 
-int mine::objhit (int /*type*/,int /*strength*/)
+int Mine::objhit (int /*type*/,int /*strength*/)
 {
     return objhitdestroyed;
 }
@@ -83,7 +83,7 @@ int mine::objhit (int /*type*/,int /*strength*/)
 /**
 	* Show the graphics on the battlefield
 	*/
-void mine::showobject (QPixmap *buffer,int opt=0)
+void Mine::showobject (QPixmap *buffer,int opt=0)
 {
     QPainter painter(buffer);
 
@@ -99,7 +99,7 @@ void mine::showobject (QPixmap *buffer,int opt=0)
 /**
 	* Paint it black
 	*/
-void mine::eraseobject (QPixmap *buffer)
+void Mine::eraseobject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
@@ -108,7 +108,7 @@ void mine::eraseobject (QPixmap *buffer)
 /**
 	* It only lives for 1000 cycles...
 	*/
-int mine::execute()
+int Mine::execute()
 {
     if (time1++ > 1000)
         return destroyself;
@@ -116,7 +116,7 @@ int mine::execute()
         return 0;
 }
 
-int mine::returnradar()
+int Mine::returnradar()
 {
     return 3;
 }

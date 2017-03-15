@@ -25,11 +25,11 @@
   *@author Andreas Agorander
   */
 
-class Pixmapholder
+class PixmapHolder
 {
 public:
-    Pixmapholder();
-    ~Pixmapholder();
+    PixmapHolder();
+    ~PixmapHolder();
     static void addpm (QString name, int num);
     static QPixmap & getpm (int num);
     static QPixmap * getpmp (int num);

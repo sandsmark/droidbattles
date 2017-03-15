@@ -24,12 +24,12 @@
   *@author Andreas Agorander
   */
 
-class startdeathbatt : public startsurvbatt
+class StartDeathBatt : public StartSurvBatt
 {
     Q_OBJECT
 public:
-    startdeathbatt();
-    ~startdeathbatt();
+    StartDeathBatt();
+    ~StartDeathBatt();
 
 protected:
     void loadfilesettings();

@@ -19,17 +19,17 @@
 //Added by qt3to4:
 #include <QTextStream>
 
-startdeathbatt::startdeathbatt()
+StartDeathBatt::StartDeathBatt()
 {
     tnumfights->setText ("Number of frags:");
     loadfilesettings();
 }
 
-startdeathbatt::~startdeathbatt()
+StartDeathBatt::~StartDeathBatt()
 {
 }
 
-void startdeathbatt::loadfilesettings()
+void StartDeathBatt::loadfilesettings()
 {
     QString temp = QDir::homePath();
     temp += "/droidbattles/deathbattle.save";
@@ -60,7 +60,7 @@ void startdeathbatt::loadfilesettings()
     }
 }
 
-void startdeathbatt::ocl()
+void StartDeathBatt::ocl()
 {
     QString temp = QDir::homePath();
     temp += "/droidbattles/deathbattle.save";

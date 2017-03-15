@@ -28,13 +28,13 @@
 	* and shows it in the infowindow
   *@author Andreas Agorander
 	*/
-class botinfo : public QWidget
+class BotInfo : public QWidget
 {
     Q_OBJECT
 
 public:
-    botinfo (const QString &botname, screenobject *rb, int armor, QWidget *parent);
-    ~botinfo();
+    BotInfo (const QString &botname, ScreenObject *rb, int armor, QWidget *parent);
+    ~BotInfo();
 
 private slots:
     void armorupdated (int x);
@@ -55,7 +55,7 @@ private:
     QLabel *message;
     QCheckBox *ifscanner;
     QLabel *showgfx;
-    screenobject *bot;
+    ScreenObject *bot;
 };
 
 #endif

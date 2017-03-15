@@ -28,12 +28,12 @@
   *@author Andreas Agorander
   */
 
-class shield : public device
+class Shield : public Device
 {
 
 public:
-    shield (screenobject &object,int arg1);
-    ~shield();
+    Shield (ScreenObject &object,int arg1);
+    ~Shield();
     int absorbhit (int strength,int ifint);
     void execute();
     int getfromport (unsigned char port);

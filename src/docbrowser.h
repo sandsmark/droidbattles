@@ -28,12 +28,12 @@
   *@author Andreas Agorander
   */
 
-class Docbrowser : public QTextBrowser
+class DocBrowser : public QTextBrowser
 {
 
 public:
-    Docbrowser (QString src);
-    ~Docbrowser();
+    DocBrowser (QString src);
+    ~DocBrowser();
     void closeEvent (QCloseEvent *e);
 };
 

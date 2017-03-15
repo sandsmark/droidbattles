@@ -31,15 +31,15 @@
   *@author Andreas Agorander
   */
 
-class debugwindow : public QDialog
+class DebugWindow : public QDialog
 {
 
     Q_OBJECT
 
 public:
-    debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm);
-    ~debugwindow();
-    void updatedata (struct debugcontents);
+    DebugWindow (QPlainTextEdit *Medit, int *dbl, int *dbm);
+    ~DebugWindow();
+    void updatedata (struct DebugContents);
     void addint (QString &,unsigned short);
 
 private slots:

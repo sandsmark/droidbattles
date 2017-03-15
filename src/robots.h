@@ -69,16 +69,16 @@
   *@author Andreas Agorander
   */
 
-class robots : public screenobject
+class Robots : public ScreenObject
 {
 
     Q_OBJECT
 
 public:
 
-    robots (const QString &name, textmodeBattleArea &area, int mnum, confstruct, int tm,
+    Robots (const QString &name, TextmodeBattleArea &area, int mnum, ConfStruct, int tm,
             bool er=true, bool ui = true);
-    ~robots();
+    ~Robots();
     int execute();
     void eraseobject (QPixmap *buffer);
     void showobject (QPixmap *buffer, int opt = 0);
@@ -103,10 +103,10 @@ public:
     void error (const QString &, const QString &);
     int getmem();
     void addinterrupt (int);
-    struct debugcontents returndbgcont();
+    struct DebugContents returndbgcont();
     int numCPUs();
     // the caller has to delete the returned pointer
-    std::list<struct debugcontents> *returndbgcont2();
+    std::list<struct DebugContents> *returndbgcont2();
     int returnradar();
     void setradar (int x);
     void dumpRAM();
@@ -114,11 +114,11 @@ public:
 private:
 
     int RAMamount;
-    RAM *ramdevice;
+    Ram *ramdevice;
     int radarsignature;
-    device *devicelist[32];
+    Device *devicelist[32];
     char hitabsorborder[32];
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
     bool gfxin;
     QMessageBox *rulebreak;
     int ourradiodev;

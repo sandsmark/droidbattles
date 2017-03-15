@@ -40,14 +40,14 @@
   *@author Andreas Agorander
   */
 
-class kothtournament : public QWidget
+class KothTournament : public QWidget
 {
 
     Q_OBJECT
 
 public:
-    kothtournament();
-    ~kothtournament();
+    KothTournament();
+    ~KothTournament();
     int getnumofbots();
     QString getbotfile(int bot);
     void closeEvent (QCloseEvent *e);

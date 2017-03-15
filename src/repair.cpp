@@ -17,21 +17,21 @@
 
 #include "repair.h"
 
-repair::repair (screenobject &object , int arg1)
+Repair::Repair (ScreenObject &object , int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
     repaircycles = ourlevel;
 }
 
-repair::~repair()
+Repair::~Repair()
 {
 }
 
 /**
 	* Check if one repair should be done
 	*/
-void repair::execute()
+void Repair::execute()
 {
     if (--repaircycles <= 0)
     {
@@ -50,7 +50,7 @@ void repair::execute()
     }
 }
 
-int repair::getfromport (unsigned char /*port*/)
+int Repair::getfromport (unsigned char /*port*/)
 {
     return 0;
 }

@@ -23,7 +23,7 @@
 /**
 	* Init GUI and load existing quick config
 	*/
-quickconf::quickconf()
+QuickConf::QuickConf()
 {
 
     int x;
@@ -121,7 +121,7 @@ quickconf::quickconf()
     }
 }
 
-quickconf::~quickconf()
+QuickConf::~QuickConf()
 {
     int x;
     for (x=0; x<8; x++)
@@ -133,7 +133,7 @@ quickconf::~quickconf()
 /**
 	* Saves the current settings to file
 	*/
-void quickconf::ocl()
+void QuickConf::ocl()
 {
     QString temp = QDir::homePath();
     temp += "/droidbattles/quick.conf";
@@ -156,7 +156,7 @@ void quickconf::ocl()
     }
 }
 
-void quickconf::ccl()
+void QuickConf::ccl()
 {
     delete this;
 }

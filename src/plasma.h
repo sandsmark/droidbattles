@@ -26,13 +26,13 @@
   *@author Andreas Agorander
   */
 
-class plasma : public device
+class Plasma : public Device
 {
 
 public:
 
-    plasma (screenobject &object,int arg1,int offset);
-    ~plasma();
+    Plasma (ScreenObject &object,int arg1,int offset);
+    ~Plasma();
     void execute();
 
 private:

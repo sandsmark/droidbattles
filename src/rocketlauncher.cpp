@@ -17,7 +17,7 @@
 
 #include "rocketlauncher.h"
 
-rocketlauncher::rocketlauncher (screenobject &object,int level, int offset)
+RocketLauncher::RocketLauncher (ScreenObject &object,int level, int offset)
 {
     ourlevel = level;
     ourbot = &object;
@@ -35,14 +35,14 @@ rocketlauncher::rocketlauncher (screenobject &object,int level, int offset)
     }
 }
 
-rocketlauncher::~rocketlauncher()
+RocketLauncher::~RocketLauncher()
 {
 }
 
 /**
 	* Check for port orders
 	*/
-void rocketlauncher::execute()
+void RocketLauncher::execute()
 {
     if (readiness < 200) readiness++;
     //Set distance
@@ -67,7 +67,7 @@ void rocketlauncher::execute()
 /**
 	* return inports
 	*/
-int rocketlauncher::getfromport (unsigned char port)
+int RocketLauncher::getfromport (unsigned char port)
 {
     switch (port)
     {

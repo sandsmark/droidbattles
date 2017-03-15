@@ -17,7 +17,7 @@
 
 #include "timedev.h"
 
-timedev::timedev (screenobject &object)
+TimeDev::TimeDev (ScreenObject &object)
 {
     ourbot = &object;
     timecount = 0;
@@ -34,7 +34,7 @@ timedev::timedev (screenobject &object)
     }
 }
 
-timedev::~timedev()
+TimeDev::~TimeDev()
 {
 }
 
@@ -42,7 +42,7 @@ timedev::~timedev()
 	* Check for changes in inports, update timer and
 	* check if time interrupt should be issued
 	*/
-void timedev::execute()
+void TimeDev::execute()
 {
     timecount++;
     if (stacktaken[0][0] == true)
@@ -64,7 +64,7 @@ void timedev::execute()
         ourbot->addinterrupt (1);
 }
 
-int timedev::getfromport (unsigned char port)
+int TimeDev::getfromport (unsigned char port)
 {
     switch (port)
     {

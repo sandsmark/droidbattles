@@ -25,7 +25,7 @@
 /**
 	* init GUI, load file from last battle
 	*/
-startsbatt::startsbatt()
+StartsBatt::StartsBatt()
 {
     setWindowFlags(Qt::Dialog);
 
@@ -94,14 +94,14 @@ startsbatt::startsbatt()
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
-    setPixmap(Pixmapholder::getpm(3));
+    setPixmap(PixmapHolder::getpm(3));
 //	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
     setMinimumSize (300,570);
     loadfilesettings();
 
 }
 
-void startsbatt::resizeEvent (QResizeEvent*)
+void StartsBatt::resizeEvent (QResizeEvent*)
 {
     for (int x=0; x<8; x++)
     {
@@ -110,7 +110,7 @@ void startsbatt::resizeEvent (QResizeEvent*)
     }
 }
 
-void startsbatt::loadfilesettings()
+void StartsBatt::loadfilesettings()
 {
     QString temp = QDir::homePath();
     temp += "/droidbattles/singlebattle.save";
@@ -141,16 +141,16 @@ void startsbatt::loadfilesettings()
     }
 }
 
-startsbatt::~startsbatt()
+StartsBatt::~StartsBatt()
 {
 }
 
-int startsbatt::getnumofbots()
+int StartsBatt::getnumofbots()
 {
     return 0;
 }
 
-QString startsbatt::getbotfile (int x)
+QString StartsBatt::getbotfile (int x)
 {
     return botfiles[x];
 }
@@ -158,7 +158,7 @@ QString startsbatt::getbotfile (int x)
 /**
 	* Load a botfile
 	*/
-void startsbatt::choosefile()
+void StartsBatt::choosefile()
 {
     QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
     int x;
@@ -175,7 +175,7 @@ void startsbatt::choosefile()
     }
 }
 
-void startsbatt::dechoosefile()
+void StartsBatt::dechoosefile()
 {
     int x;
 
@@ -189,7 +189,7 @@ void startsbatt::dechoosefile()
 /**
 	* When OK is clicked, save current settings to file and emit signal
 	*/
-void startsbatt::ocl()
+void StartsBatt::ocl()
 {
 // Save the current settings to file
     QString temp = QDir::homePath();
@@ -214,12 +214,12 @@ void startsbatt::ocl()
     emit okclicked();
 }
 
-void startsbatt::ccl()
+void StartsBatt::ccl()
 {
     emit cancelclicked();
 }
 
-void startsbatt::closeEvent (QCloseEvent *e)
+void StartsBatt::closeEvent (QCloseEvent *e)
 {
     e->ignore();
 }
@@ -228,7 +228,7 @@ void startsbatt::closeEvent (QCloseEvent *e)
 	* The following functions returns the settings
 	*/
 
-int startsbatt::getnumfights()
+int StartsBatt::getnumfights()
 {
     QString s = wnumfights->text();
     if (s.length() == 0)
@@ -237,7 +237,7 @@ int startsbatt::getnumfights()
     return s.toInt();
 }
 
-int startsbatt::getlength()
+int StartsBatt::getlength()
 {
     QString s = length->text();
     if (s.length() == 0)
@@ -246,22 +246,22 @@ int startsbatt::getlength()
     return s.toInt();
 }
 
-int startsbatt::getxsize()
+int StartsBatt::getxsize()
 {
     return (maxx->cleanText()).toInt();
 }
 
-int startsbatt::getysize()
+int StartsBatt::getysize()
 {
     return (maxy->cleanText()).toInt();
 }
 
-bool startsbatt::getifteams()
+bool StartsBatt::getifteams()
 {
     return ifteams->isChecked();
 }
 
-int startsbatt::getbotteam (int bot)
+int StartsBatt::getbotteam (int bot)
 {
     return team[bot]->currentIndex();
 }

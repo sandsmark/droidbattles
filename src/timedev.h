@@ -25,12 +25,12 @@
   *@author Andreas Agorander
   */
 
-class timedev : public device
+class TimeDev : public Device
 {
 
 public:
-    timedev (screenobject &);
-    ~timedev();
+    TimeDev (ScreenObject &);
+    ~TimeDev();
     void execute();
     int getfromport (unsigned char port);
 

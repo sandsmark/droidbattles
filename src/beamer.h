@@ -25,12 +25,12 @@
   *@author Andreas Agorander
   */
 
-class beamer : public device
+class Beamer : public Device
 {
 
 public:
-    beamer (screenobject &,int arg1);
-    ~beamer();
+    Beamer (ScreenObject &,int arg1);
+    ~Beamer();
     void execute();
     int getfromport (unsigned char port);
 

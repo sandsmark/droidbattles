@@ -20,7 +20,7 @@
 /**
 	* Init position
 	*/
-explosion::explosion (int X, int Y, battlearea &area)
+Explosion::Explosion (int X, int Y, BattleArea &area)
 {
     ourarea = &area;
     maxx = ourarea->getareainfo (0);
@@ -30,14 +30,14 @@ explosion::explosion (int X, int Y, battlearea &area)
     cycle = 1;
 }
 
-explosion::~explosion()
+Explosion::~Explosion()
 {
 }
 
 /**
 	* Explosion timecounter, life 32 cycles
 	*/
-int explosion::execute()
+int Explosion::execute()
 {
     if (++cycle > 32) return destroyself;
     return 0;
@@ -47,7 +47,7 @@ int explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void explosion::showobject (QPixmap *buffer, int /*opt*/)
+void Explosion::showobject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,255,0));
@@ -59,7 +59,7 @@ void explosion::showobject (QPixmap *buffer, int /*opt*/)
 /**
 	* Paints a black circle where the yellow was painted before
 	*/
-void explosion::eraseobject (QPixmap *buffer)
+void Explosion::eraseobject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
@@ -69,7 +69,7 @@ void explosion::eraseobject (QPixmap *buffer)
 /**
 	* Returns : object that's not collidable
 	*/
-int explosion::returntype()
+int Explosion::returntype()
 {
     return noncollobject;
 }

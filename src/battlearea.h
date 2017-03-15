@@ -41,19 +41,19 @@
   * @author Andreas Agorander
   */
 
-class battlearea : public QLabel, public textmodeBattleArea
+class BattleArea : public QLabel, public TextmodeBattleArea
 {
 
     Q_OBJECT
 
 public:
 
-    battlearea (const QString &name1, const QString &name2, const QString &name3, const QString &name4, const QString &name5,
+    BattleArea (const QString &name1, const QString &name2, const QString &name3, const QString &name4, const QString &name5,
                 const QString &name6, const QString &name7, const QString &name8, int numf, int , int xs,
                 int ys, bool ifteams, int *bteams, bool tourney, bool iffast,
                 int mode = 0, int maxp=10, bool ifdebug=false,
                 QPlainTextEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
-    ~battlearea();
+    ~BattleArea();
     void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
                        int arg2=0, void *arg3=0);
     //int devio( int bot,int dev,int choice,int arg1,int arg2 );
@@ -80,7 +80,7 @@ protected:
 
 private:
 
-    QList<debugwindow*> dbgwindows;
+    QList<DebugWindow*> dbgwindows;
     QPlainTextEdit *_dbedit;
     int *_dbl;
     int *_dbm;
@@ -101,11 +101,11 @@ private:
     PixButton *pauseb;
     PixButton *singles;
 
-    debugwindow *dbgwindow;
+    DebugWindow *dbgwindow;
     QPixmap *dumm;
 
     int updatescreen;
-    botinfo *binfo[8];
+    BotInfo *binfo[8];
     /*		QString names[8];
     		//QPixmap *backpm;
     		int numfights;

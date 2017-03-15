@@ -21,7 +21,7 @@ CPU::CPU()
 {
 }
 
-CPU::CPU (RAM &ramdev, screenobject& /*object*/)
+CPU::CPU (Ram &ramdev, ScreenObject& /*object*/)
 {
     mem = &ramdev;
 }

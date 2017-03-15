@@ -172,7 +172,7 @@ void startbattle (int argc, char *argv[])
     }
     if (numbots > 1)
     {
-        textmodeBattleArea *area = new textmodeBattleArea (bots[0] ,bots[1],
+        TextmodeBattleArea *area = new TextmodeBattleArea (bots[0] ,bots[1],
                 bots[2], bots[3], bots[4], bots[5], bots[6], bots[7], numfights, maxrounds,
                 xsize,ysize,teamfight,teams,false,battletype);
         while (true)
@@ -215,17 +215,17 @@ int main (int argc, char *argv[])
         if (strcmp (argv[2] , "-assemble") == 0)
         {
             if (argc >= 4)
-                textmodeFileManip::assemble (argv[3]);
+                TextModeFileManip::assemble (argv[3]);
         }
         else if (strcmp (argv[2] , "-check") == 0)
         {
             if (argc >= 4)
-                textmodeFileManip::checkConfig (argv[3]);
+                TextModeFileManip::checkConfig (argv[3]);
         }
         else if (strcmp (argv[2] , "-loadconfig") == 0)
         {
             if (argc >= 4)
-                textmodeFileManip::loadConfig (argv[3]);
+                TextModeFileManip::loadConfig (argv[3]);
         }
         else if (strcmp (argv[2] , "-battle") == 0)
         {

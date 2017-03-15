@@ -25,14 +25,14 @@
   *@author Andreas Agorander
   */
 
-class device
+class Device
 {
 
 public:
 
-    device();
-    virtual ~device();
-    device (screenobject &object);
+    Device();
+    virtual ~Device();
+    Device (ScreenObject &object);
     void addinport (unsigned char port,unsigned short value);
     void setrelang (int);
     virtual void execute();
@@ -42,7 +42,7 @@ public:
     virtual void showgfx (QPainter *painter);
     virtual int returntype();
     virtual int returnspecial();
-    virtual struct debugcontents returndbg();
+    virtual struct DebugContents returndbg();
     virtual void dospecial (int, int=0);
 protected:
 
@@ -50,7 +50,7 @@ protected:
 
     int portstack[4][4];
     bool stacktaken[4][4];
-    screenobject *ourbot;
+    ScreenObject *ourbot;
     int relang;
     int ourlevel;
     bool intenabled;

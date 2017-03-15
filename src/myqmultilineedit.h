@@ -25,10 +25,10 @@
   */
 
 //TODO : add syntax highlighting
-class myQMultiLineEdit : public QPlainTextEdit
+class MyQMultiLineEdit : public QPlainTextEdit
 {
 public:
-    myQMultiLineEdit (QWidget * parent=0) : QPlainTextEdit (parent) {}
+    MyQMultiLineEdit (QWidget * parent=0) : QPlainTextEdit (parent) {}
     QScrollBar *myVerticalScrollBar () const {
         return verticalScrollBar();
     }

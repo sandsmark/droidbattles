@@ -27,7 +27,7 @@
 	* the createbot dialog
 	*/
 
-devchoice::devchoice (createbot *cre,QWidget *parent, int num) : QWidget (parent)
+DevChoice::DevChoice (CreateBot *cre,QWidget *parent, int num) : QWidget (parent)
 {
     chosenlevel = 0;
     dev = 0;
@@ -93,14 +93,14 @@ devchoice::devchoice (createbot *cre,QWidget *parent, int num) : QWidget (parent
 
 }
 
-devchoice::~devchoice()
+DevChoice::~DevChoice()
 {
 }
 
 /**
 	* Returns the number of the device chosen
 	*/
-unsigned short devchoice::getitem()
+unsigned short DevChoice::getitem()
 {
     return comb->currentIndex();
 }
@@ -108,7 +108,7 @@ unsigned short devchoice::getitem()
 /**
 	* Sets the device chosen
 	*/
-void devchoice::setitem (int x)
+void DevChoice::setitem (int x)
 {
     comb->setCurrentIndex (x);
     emit change();
@@ -117,7 +117,7 @@ void devchoice::setitem (int x)
 /**
 	* Sets the level of the device (0-4)
 	*/
-void devchoice::levelchosen (int x)
+void DevChoice::levelchosen (int x)
 {
     chosenlevel = x;
     levels[x]->setChecked(true);
@@ -127,7 +127,7 @@ void devchoice::levelchosen (int x)
 /**
 	* Returns the level (0-4)
 	*/
-int devchoice::getlevel()
+int DevChoice::getlevel()
 {
     return chosenlevel;
 }
@@ -135,7 +135,7 @@ int devchoice::getlevel()
 /**
 	* Returns the extra argument for the device (white box)
 	*/
-int devchoice::getarg1()
+int DevChoice::getarg1()
 {
     QString temp = arg1->text();
     return (temp.trimmed()).toInt();
@@ -144,14 +144,14 @@ int devchoice::getarg1()
 /**
 	* Sets the value in the white box
 	*/
-void devchoice::setarg1 (const QString &value)
+void DevChoice::setarg1 (const QString &value)
 {
     arg1->setText (value.trimmed());
 }
 
-void devchoice::costchanged()
+void DevChoice::costchanged()
 {
-    struct confstruct curconfig;
+    struct ConfStruct curconfig;
     QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";
     QFile f (tempname);
@@ -196,7 +196,7 @@ void devchoice::costchanged()
     f.close();
 }
 
-void devchoice::showinfo()
+void DevChoice::showinfo()
 {
     QString msg;
     msg = "Info about device number";
@@ -1106,5 +1106,5 @@ void devchoice::showinfo()
         break;
     }
 //	QMessageBox::information( this,"Devinfo",msg );
-    showbox = new infobox (msg,0);
+    showbox = new InfoBox (msg,0);
 }

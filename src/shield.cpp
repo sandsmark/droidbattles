@@ -17,7 +17,7 @@
 
 #include "shield.h"
 
-shield::shield (screenobject &object, int arg1)
+Shield::Shield (ScreenObject &object, int arg1)
 {
     ourbot = &object;
     ourlevel = arg1;
@@ -34,7 +34,7 @@ shield::shield (screenobject &object, int arg1)
     }
 }
 
-shield::~shield()
+Shield::~Shield()
 {
 }
 
@@ -42,7 +42,7 @@ shield::~shield()
 	* Set shield up/down
 	* if shield is up, use fuel
 	*/
-void shield::execute()
+void Shield::execute()
 {
     if (stacktaken[0][0] == true)
     {
@@ -57,7 +57,7 @@ void shield::execute()
     }
 }
 
-int shield::absorbhit (int strength, int /*ifint*/)
+int Shield::absorbhit (int strength, int /*ifint*/)
 {
     if (Isup == true)
     {
@@ -69,7 +69,7 @@ int shield::absorbhit (int strength, int /*ifint*/)
     return strength;
 }
 
-int shield::getfromport (unsigned char port)
+int Shield::getfromport (unsigned char port)
 {
     switch (port)
     {
@@ -83,7 +83,7 @@ int shield::getfromport (unsigned char port)
 /**
 	* If shield is up, paint blue circle
 	*/
-void shield::showgfx (QPainter *painter)
+void Shield::showgfx (QPainter *painter)
 {
     if (Isup == true)
     {
@@ -98,7 +98,7 @@ void shield::showgfx (QPainter *painter)
 /**
 	* paint shield black
 	*/
-void shield::erasegfx (QPainter *painter)
+void Shield::erasegfx (QPainter *painter)
 {
     if (ispainted == true)
     {

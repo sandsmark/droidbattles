@@ -17,7 +17,7 @@
 
 #include "minelayer.h"
 
-minelayer::minelayer (screenobject &object, int ourlevel)
+MineLayer::MineLayer (ScreenObject &object, int ourlevel)
 {
     minesleft = ourlevel;
     ourbot = &object;
@@ -32,11 +32,11 @@ minelayer::minelayer (screenobject &object, int ourlevel)
     }
 }
 
-minelayer::~minelayer()
+MineLayer::~MineLayer()
 {
 }
 
-void minelayer::execute()
+void MineLayer::execute()
 {
     if (stacktaken[0][0] == true)
     {
@@ -53,7 +53,7 @@ void minelayer::execute()
 /**
 	* Returns mines left to in instruction
 	*/
-int minelayer::getfromport(unsigned char /*port*/)
+int MineLayer::getfromport(unsigned char /*port*/)
 {
     return minesleft;
 }

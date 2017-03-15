@@ -25,13 +25,13 @@
   *@author Andreas Agorander
   */
 
-class engine : public device
+class Engine : public Device
 {
 
 public:
 
-    ~engine();
-    engine (screenobject &object,int);
+    ~Engine();
+    Engine (ScreenObject &object,int);
     int getfromport (unsigned char port);
     void execute();
 

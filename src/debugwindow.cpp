@@ -24,7 +24,7 @@
 /**
 	* Constructor, create GUI elements
 	*/
-debugwindow::debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
+DebugWindow::DebugWindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
 {
 //	int x;
 
@@ -83,14 +83,14 @@ debugwindow::debugwindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
 
 }
 
-debugwindow::~debugwindow()
+DebugWindow::~DebugWindow()
 {
 }
 
 /**
 	* Updates the debug info
 	*/
-void debugwindow::updatedata (struct debugcontents contents)
+void DebugWindow::updatedata (struct DebugContents contents)
 {
     QString tmp;
     tmp = "ax :";
@@ -234,7 +234,7 @@ void debugwindow::updatedata (struct debugcontents contents)
 /**
 	* Adds an integer to a string
 	*/
-void debugwindow::addint (QString &str,unsigned short integ)
+void DebugWindow::addint (QString &str,unsigned short integ)
 {
     bool ready=false;
     QString temp;
@@ -249,7 +249,7 @@ void debugwindow::addint (QString &str,unsigned short integ)
     str += temp;
 }
 
-void debugwindow::distsignal()
+void DebugWindow::distsignal()
 {
     emit (dumpmem());
 }

@@ -17,17 +17,17 @@
 
 #include "rocket.h"
 
-rocket::rocket()
+Rocket::Rocket()
 {
 }
 
-rocket::~rocket()
+Rocket::~Rocket()
 {
 }
 /**
 	* Init position, gfx
 	*/
-rocket::rocket (int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
+Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
                 int owner, bool ui)
 {
     useUI = ui;
@@ -57,7 +57,7 @@ rocket::rocket (int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
     }
 }
 
-int rocket::objhit (int /*type*/, int /*strength*/)
+int Rocket::objhit (int /*type*/, int /*strength*/)
 {
     return 1;
 }
@@ -65,7 +65,7 @@ int rocket::objhit (int /*type*/, int /*strength*/)
 /**
 	* Non colliding object...
 	*/
-int rocket::returntype()
+int Rocket::returntype()
 {
     return noncollobject;
 }
@@ -73,7 +73,7 @@ int rocket::returntype()
 /**
 	* Paint gfx black
 	*/
-void rocket::eraseobject (QPixmap *buffer)
+void Rocket::eraseobject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
@@ -87,7 +87,7 @@ void rocket::eraseobject (QPixmap *buffer)
 /**
 	* Paint the flame from the rocket
 	*/
-void rocket::showobject (QPixmap *buffer, int /*opt*/)
+void Rocket::showobject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (255,0,0));
@@ -110,7 +110,7 @@ void rocket::showobject (QPixmap *buffer, int /*opt*/)
 	* Move rocket, and if he is at the correct position,
 	* cause the explosion
 	*/
-int rocket::execute()
+int Rocket::execute()
 {
     double dir = getdir() * pi / 512;
     int ret = changepos (cos (dir) * speed,sin (dir) * speed);       //Update position
@@ -126,7 +126,7 @@ int rocket::execute()
 /**
 	* Move, and if he moved outside, destroy self
 	*/
-int rocket::changepos (double X,double Y)
+int Rocket::changepos (double X,double Y)
 {
     oldX = int (Xpos);
     oldY = int (Ypos);
@@ -139,17 +139,17 @@ int rocket::changepos (double X,double Y)
     return 0;
 }
 
-int rocket::getcollisiontype()
+int Rocket::getcollisiontype()
 {
     return 2;
 }
 
-int rocket::getcollisionstrength()
+int Rocket::getcollisionstrength()
 {
     return 0;
 }
 
-int rocket::getsize()
+int Rocket::getsize()
 {
     return 2;
 }
@@ -157,12 +157,12 @@ int rocket::getsize()
 /**
 	* Is not himself affected by other rockets explosions
 	*/
-bool rocket::areaexplosionaffects()
+bool Rocket::areaexplosionaffects()
 {
     return false;
 }
 
-int rocket::returnradar()
+int Rocket::returnradar()
 {
     return 2;
 }

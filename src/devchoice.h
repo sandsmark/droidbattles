@@ -45,16 +45,16 @@
   * @author Andreas Agorander
   */
 
-class devchoice : public QWidget
+class DevChoice : public QWidget
 {
 
     Q_OBJECT
 
 public:
 
-    devchoice (createbot *cre, QWidget *parent=0,
+    DevChoice (CreateBot *cre, QWidget *parent=0,
                int num=0);
-    ~devchoice();
+    ~DevChoice();
     unsigned short getitem();
     int getlevel();
     int getarg1();
@@ -73,8 +73,8 @@ private:
     int mynum;
     QLabel *showcost;
     QPushButton *info;
-    createbot *callb;
-    infobox *showbox;
+    CreateBot *callb;
+    InfoBox *showbox;
 
 public slots:
 

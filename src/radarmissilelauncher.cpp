@@ -17,8 +17,8 @@
 
 #include "radarmissilelauncher.h"
 
-radarmissilelauncher::radarmissilelauncher (screenobject &object, int level,
-        RAM *memdevice, int offset)
+RadarMissileLauncher::RadarMissileLauncher (ScreenObject &object, int level,
+        Ram *memdevice, int offset)
 {
     ourlevel = level;
     memd = memdevice;
@@ -36,14 +36,14 @@ radarmissilelauncher::radarmissilelauncher (screenobject &object, int level,
     }
 }
 
-radarmissilelauncher::~radarmissilelauncher()
+RadarMissileLauncher::~RadarMissileLauncher()
 {
 }
 
 /**
 	* Commit port orders
 	*/
-void radarmissilelauncher::execute()
+void RadarMissileLauncher::execute()
 {
     if (reloadtime>0) reloadtime--;
     //Set boot mem
@@ -74,7 +74,7 @@ void radarmissilelauncher::execute()
 /**
 	* return reloadtime
 	*/
-int radarmissilelauncher::getfromport (unsigned char port)
+int RadarMissileLauncher::getfromport (unsigned char port)
 {
     switch (port)
     {

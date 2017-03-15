@@ -23,7 +23,7 @@
 /**
 	* Constructor, create all GUI elements
 	*/
-botinfo::botinfo (const QString &botname, screenobject *rb, int armor, QWidget *parent) : QWidget (parent)
+BotInfo::BotInfo (const QString &botname, ScreenObject *rb, int armor, QWidget *parent) : QWidget (parent)
 {
     bot = rb;
     if (!botname.isEmpty())
@@ -74,7 +74,7 @@ botinfo::botinfo (const QString &botname, screenobject *rb, int armor, QWidget *
 /**
 	* Destructor, does nothing
 	*/
-botinfo::~botinfo()
+BotInfo::~BotInfo()
 {
 }
 
@@ -82,7 +82,7 @@ botinfo::~botinfo()
 	* Updates armor progressbar
 	* Connected to armorchanged signal that the bot emits
 	*/
-void botinfo::armorupdated (int x)
+void BotInfo::armorupdated (int x)
 {
     armorlevel->reset();
     armorlevel->setValue(x);
@@ -91,7 +91,7 @@ void botinfo::armorupdated (int x)
 /**
 	* emits signal that makes the bots show/not show device gfx
 	*/
-void botinfo::statch (bool x)
+void BotInfo::statch (bool x)
 {
     emit (changeinset (x));
 }
@@ -99,7 +99,7 @@ void botinfo::statch (bool x)
 /**
 	* Updates fuel value
 	*/
-void botinfo::updatefuel (int x,int y)
+void BotInfo::updatefuel (int x,int y)
 {
     QString temp;
     temp.setNum (x);
@@ -113,7 +113,7 @@ void botinfo::updatefuel (int x,int y)
 /**
 	* Shows new message
 	*/
-void botinfo::newmessage (char *msg)
+void BotInfo::newmessage (char *msg)
 {
     QString temp;
     temp = "M : ";

@@ -27,19 +27,19 @@
   *@author Andreas Agorander
   */
 
-class explosion : public screenobject
+class Explosion : public ScreenObject
 {
 
 public:
-    explosion (int X, int Y, battlearea &area);
-    ~explosion();
+    Explosion (int X, int Y, BattleArea &area);
+    ~Explosion();
     int execute();
     void eraseobject (QPixmap *buffer);
     void showobject (QPixmap *buffer, int opt);
     int returntype();
 private:
     int cycle;
-    battlearea *ourarea;
+    BattleArea *ourarea;
 };
 
 #endif

@@ -26,13 +26,13 @@
   *@author Andreas Agorander
   */
 
-class steering : public device
+class Steering : public Device
 {
 
 public:
 
-    steering (screenobject &object,int);
-    ~steering();
+    Steering (ScreenObject &object,int);
+    ~Steering();
     int getfromport (unsigned char port);
     void execute();
 

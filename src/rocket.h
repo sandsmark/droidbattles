@@ -27,14 +27,14 @@
   *@author Andreas Agorander
   */
 
-class rocket : public screenobject
+class Rocket : public ScreenObject
 {
 
 public:
 
-    rocket();
-    ~rocket();
-    rocket (int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
+    Rocket();
+    ~Rocket();
+    Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
             int owner, bool ui=true);
     int objhit (int type,int strength);
     int returntype();
@@ -57,7 +57,7 @@ private:
     int pointY[50];
     int pointD[50];
     int countpoint;
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
 };
 
 #endif

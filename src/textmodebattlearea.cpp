@@ -21,13 +21,13 @@
 
 using namespace std;
 
-textmodeBattleArea::textmodeBattleArea()
+TextmodeBattleArea::TextmodeBattleArea()
 {
 }
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-textmodeBattleArea::textmodeBattleArea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
+TextmodeBattleArea::TextmodeBattleArea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
                                         const QString &nam5, const QString &nam6, const QString &nam7, const QString &nam8, int numf,
                                         int mx, int xs, int ys, bool ifteams, int *bteams,
                                         bool tourney, int mode)
@@ -118,7 +118,7 @@ textmodeBattleArea::textmodeBattleArea (const QString &nam1, const QString &nam2
 /**
 	* Destructor, deletes self
 	*/
-textmodeBattleArea::~textmodeBattleArea()
+TextmodeBattleArea::~TextmodeBattleArea()
 {
     int x;
     for (x=0; x<maxobjects; x++)
@@ -129,7 +129,7 @@ textmodeBattleArea::~textmodeBattleArea()
 	* start one round of fight
 	* In case this isn't the first round, deallocate previous mem
 	*/
-void textmodeBattleArea::startonebattle (int y)
+void TextmodeBattleArea::startonebattle (int y)
 {
     int x;
     //If this isn't the first run, deallocate the memory
@@ -171,14 +171,14 @@ void textmodeBattleArea::startonebattle (int y)
     {
         tn = names[x];
         if (!tn.isEmpty())
-            objects[x] = new robots ( tn,*this,x,config,botteams[x],false,false);
+            objects[x] = new Robots ( tn,*this,x,config,botteams[x],false,false);
         else
-            objects[x] = new screenobject();
+            objects[x] = new ScreenObject();
     }
 
     //Make all other positions as "standard" screenobjects
     for (x=maxbots; x<maxobjects; x++)
-        objects[x] = new screenobject();
+        objects[x] = new ScreenObject();
 
     roundsrun = 0;
 
@@ -189,7 +189,7 @@ void textmodeBattleArea::startonebattle (int y)
 	* each time one "step" is executed in the battle
 	*/
 
-int textmodeBattleArea::execround()
+int TextmodeBattleArea::execround()
 {
 //	eventH->stop( );
     int x;
@@ -201,7 +201,7 @@ int textmodeBattleArea::execround()
             for (x=0; x<maxbots; x++)
             {
                 delete objects[x];
-                objects[x] = new screenobject();
+                objects[x] = new ScreenObject();
             }
         }
         if (battlemode == 2)
@@ -289,7 +289,7 @@ int textmodeBattleArea::execround()
                             {
                             case 0 :
                                 delete objects[x2];
-                                objects[x2] = new screenobject();
+                                objects[x2] = new ScreenObject();
                                 break;
                             case 1 :
                                 if (x < 8 && objects[x2]->returntype() == 1)
@@ -301,20 +301,20 @@ int textmodeBattleArea::execround()
                                         //Calc X and Y position
                                         xstarts[x2] = random() %xsize;
                                         ystarts[x2] = random() %ysize;
-                                        objects[x2] = new robots ( names[x2],
+                                        objects[x2] = new Robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false,false);
                                         objects[x2]->objhit (0,0);
                                     }
                                     else
                                     {
-                                        objects[x2] = new screenobject();
+                                        objects[x2] = new ScreenObject();
                                         fightswon[x2] = roundsrun;
                                     }
                                 }
                                 else
                                 {
                                     delete objects[x2];
-                                    objects[x2] = new screenobject();
+                                    objects[x2] = new ScreenObject();
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
@@ -327,14 +327,14 @@ int textmodeBattleArea::execround()
                                     //Calc X and Y position
                                     xstarts[x2] = random() %xsize;
                                     ystarts[x2] = random() %ysize;
-                                    objects[x2] = new robots (names[x2],*this,
+                                    objects[x2] = new Robots (names[x2],*this,
                                                                x2,config,botteams[x2],false,false);
                                     objects[x2]->objhit (0,0);
                                 }
                                 else
                                 {
                                     delete objects[x2];
-                                    objects[x2] = new screenobject();
+                                    objects[x2] = new ScreenObject();
                                 }
                                 break;
                             }
@@ -345,7 +345,7 @@ int textmodeBattleArea::execround()
                             {
                             case 0 :  //If it's a normal battle
                                 delete objects[x];
-                                objects[x] = new screenobject();
+                                objects[x] = new ScreenObject();
                                 x2 = maxobjects;
                                 continue;
                                 break;
@@ -360,20 +360,20 @@ int textmodeBattleArea::execround()
                                         //Calc X and Y position
                                         xstarts[x] = random() %xsize;
                                         ystarts[x] = random() %ysize;
-                                        objects[x] = new robots ( names[x],*this,
+                                        objects[x] = new Robots ( names[x],*this,
                                                                   x,config,botteams[x],false,false);
                                         objects[x]->objhit (0,0);
                                     }
                                     else
                                     {
-                                        objects[x] = new screenobject();
+                                        objects[x] = new ScreenObject();
                                         fightswon[x] = roundsrun;
                                     }
                                 }
                                 else
                                 {
                                     delete objects[x];
-                                    objects[x] = new screenobject();
+                                    objects[x] = new ScreenObject();
                                     x2 = maxobjects;
                                     continue;
                                 }
@@ -389,14 +389,14 @@ int textmodeBattleArea::execround()
                                     //Calc X and Y position
                                     xstarts[x] = random() %xsize;
                                     ystarts[x] = random() %ysize;
-                                    objects[x] = new robots ( names[x],*this,x,
+                                    objects[x] = new Robots ( names[x],*this,x,
                                                               config,botteams[x],false,false);
                                     objects[x]->objhit (0,0);
                                 }
                                 else
                                 {
                                     delete objects[x];
-                                    objects[x] = new screenobject();
+                                    objects[x] = new ScreenObject();
                                     x2 = maxobjects;
                                     continue;
                                 }
@@ -410,7 +410,7 @@ int textmodeBattleArea::execround()
         if (ifdel == -1)             //If the object ordered it's own destruction
         {                            //Example: shot that gets outside of screen
             delete objects[x];
-            objects[x] = new screenobject();
+            objects[x] = new ScreenObject();
         }
     }
 
@@ -601,7 +601,7 @@ int textmodeBattleArea::execround()
 	* If a device wants to add a screenobject (as a shot) he calls
 	* this function (via his bot)
 	*/
-void textmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
+void TextmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
                                        int arg1,int arg2, void *arg3)
 {
     int x;
@@ -610,39 +610,39 @@ void textmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
         if (objects[x]->returntype() == doesnotexist)
         {
             delete objects[x];
-            RAM *temp3 = (RAM *) arg3;
+            Ram *temp3 = (Ram *) arg3;
             switch (type)
             {
             case 0 :
-                objects[x] = new screenobject();
+                objects[x] = new ScreenObject();
                 break;
             case 1 :
 //					objects[x] = new robots( "unnamed.bot",*this,x );
                 break;
             case 2 :
-                objects[x] = new missile (X,Y,dir,arg1,x,*this, false);
+                objects[x] = new Missile (X,Y,dir,arg1,x,*this, false);
                 break;
             case 3 :
-                objects[x] = new mine (X,Y,*this,owner,false);
+                objects[x] = new Mine (X,Y,*this,owner,false);
                 break;
             case 4 :
-                objects[x]=new radarmissile (X,Y,dir,arg1,arg2,x,*this,temp3,owner,false);
+                objects[x]=new RadarMissile (X,Y,dir,arg1,arg2,x,*this,temp3,owner,false);
                 /*          ++missilesLaunched;
                           if (debugenabled && (owner==debugbot))
                             ((radarmissile*)objects[x])->createDbgWindow(missilesLaunched,
                                 _dbedit, _dbl, _dbm);*/
                 break;
             case 5 :
-                objects[x] = new beam (X,Y,dir,arg1,*this,owner,false);
+                objects[x] = new Beam (X,Y,dir,arg1,*this,owner,false);
                 break;
             case 6 :
-                objects[x] = new rocket (X,Y,dir,arg1,x,*this,owner,false);
+                objects[x] = new Rocket (X,Y,dir,arg1,x,*this,owner,false);
                 break;
             case 7 :
-                objects[x] = new chaff (X,Y,dir,arg1,*this,false);
+                objects[x] = new Chaff (X,Y,dir,arg1,*this,false);
                 break;
             default:
-                objects[x] = new screenobject();
+                objects[x] = new ScreenObject();
             }
             break;
         }
@@ -654,7 +654,7 @@ void textmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
 	* the other screenobjects it calls this function
 	* (via his bot)
 	*/
-int textmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
+int TextmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
 {
     Q_UNUSED(dev);
 
@@ -674,7 +674,7 @@ int textmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
         break;
     case 5 :     //delete screenobject
         delete objects[bot];
-        objects[bot] = new screenobject();
+        objects[bot] = new ScreenObject();
         break;
     case 6 :
         return objects[arg1]->returnradar();
@@ -711,7 +711,7 @@ int textmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
 /**
 	* Returns info about the battlearea
 	*/
-int textmodeBattleArea::getareainfo (int choice)
+int TextmodeBattleArea::getareainfo (int choice)
 {
     switch (choice)
     {
@@ -733,7 +733,7 @@ int textmodeBattleArea::getareainfo (int choice)
 	* This function issues special areal (noncollision) hits.
 	* The AS-rocket uses it
 	*/
-void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
+void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
 {
     int X1,Y1,D1,S1,z;
     for (z=0; z<maxbots; z++)
@@ -751,7 +751,7 @@ void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
             {
             case 0 :
                 delete objects[z];
-                objects[z] = new screenobject();
+                objects[z] = new ScreenObject();
                 break;
             case 1 :
                 if (z < 8 && objects[z]->returntype() == 1)
@@ -763,19 +763,19 @@ void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                         //Calc X and Y position
                         xstarts[z] = random() %xsize;
                         ystarts[z] = random() %ysize;
-                        objects[z] = new robots ( names[z],*this,z,
+                        objects[z] = new Robots ( names[z],*this,z,
                                                   config,botteams[z],false,false);
                     }
                     else
                     {
-                        objects[z] = new screenobject();
+                        objects[z] = new ScreenObject();
                         fightswon[z] = roundsrun;
                     }
                 }
                 else
                 {
                     delete objects[z];
-                    objects[z] = new screenobject();
+                    objects[z] = new ScreenObject();
                 }
                 break;
             case 2 :
@@ -789,13 +789,13 @@ void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                     //Calc X and Y position
                     xstarts[x2] = random() %xsize;
                     ystarts[x2] = random() %ysize;
-                    objects[x2] = new robots ( names[x2],*this,x2,
+                    objects[x2] = new Robots ( names[x2],*this,x2,
                                                config,botteams[x2],false,false);
                 }
                 else
                 {
                     delete objects[x2];
-                    objects[x2] = new screenobject();
+                    objects[x2] = new ScreenObject();
                 }
                 break;
             }
@@ -806,7 +806,7 @@ void textmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
 /**
 	* Gets xposition for one of the random start positions
 	*/
-int textmodeBattleArea::getstartx (int bot)
+int TextmodeBattleArea::getstartx (int bot)
 {
     return xstarts[bot];
 }
@@ -814,7 +814,7 @@ int textmodeBattleArea::getstartx (int bot)
 /**
 	* Gets yposition for one o the random start positions
 	*/
-int textmodeBattleArea::getstarty (int bot)
+int TextmodeBattleArea::getstarty (int bot)
 {
     return ystarts[bot];
 }

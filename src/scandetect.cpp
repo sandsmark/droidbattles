@@ -17,7 +17,7 @@
 
 #include "scandetect.h"
 
-scandetect::scandetect (screenobject &object)
+ScanDetect::ScanDetect (ScreenObject &object)
 {
     ourbot = &object;
     int count;
@@ -35,11 +35,11 @@ scandetect::scandetect (screenobject &object)
     }
 }
 
-scandetect::~scandetect()
+ScanDetect::~ScanDetect()
 {
 }
 
-void scandetect::execute()
+void ScanDetect::execute()
 {
     if (stacktaken[0][0] == true)   //Zero scan counter
     {
@@ -48,7 +48,7 @@ void scandetect::execute()
     }
 }
 
-int scandetect::getfromport (unsigned char port)
+int ScanDetect::getfromport (unsigned char port)
 {
     switch (port)
     {
@@ -65,7 +65,7 @@ int scandetect::getfromport (unsigned char port)
     return 0;
 }
 
-int scandetect::returntype()
+int ScanDetect::returntype()
 {
     return 11;
 }
@@ -74,7 +74,7 @@ int scandetect::returntype()
 	* Gets called by enemy scanner via bot
 	* Updates variables
 	*/
-void scandetect::dospecial (int intensity,int dir)
+void ScanDetect::dospecial (int intensity,int dir)
 {
     numscans++;
     lastscandir = dir;

@@ -25,13 +25,13 @@
   *@author Andreas Agorander
   */
 
-class fuel : public device
+class Fuel : public Device
 {
 
 public:
 
-    fuel (screenobject &, int);
-    ~fuel();
+    Fuel (ScreenObject &, int);
+    ~Fuel();
     int getfromport (unsigned char port);
     void execute();
 private:

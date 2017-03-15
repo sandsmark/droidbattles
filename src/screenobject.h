@@ -27,15 +27,15 @@
   *@author Andreas Agorander
   */
 
-class screenobject : public QObject
+class ScreenObject : public QObject
 {
 
     Q_OBJECT
 
 public:
 
-    screenobject();
-    virtual ~screenobject();
+    ScreenObject();
+    virtual ~ScreenObject();
     virtual int changepos (double X,double Y);
     void changedir (int Z);
     void changespeed (int Z);
@@ -73,7 +73,7 @@ public:
     int armorval;
     int getteam();
     virtual void addinterrupt (int);
-    virtual struct debugcontents returndbgcont();
+    virtual struct DebugContents returndbgcont();
     virtual int returnradar();
     virtual int getcollid();
     void changeheat (int x);

@@ -25,14 +25,14 @@
 	* @author Andreas Agorander
 	*/
 
-class RAM
+class Ram
 {
 
 public:
 
-    RAM();
-    RAM (int amount,unsigned char *buf);
-    ~RAM();
+    Ram();
+    Ram (int amount,unsigned char *buf);
+    ~Ram();
     unsigned char getbyte (int adress);
     char getibyte (int adress);
     unsigned short getword (int adress);

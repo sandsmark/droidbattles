@@ -28,13 +28,13 @@
   *@author Andreas Agorander
   */
 
-class mine : public screenobject
+class Mine : public ScreenObject
 {
 
 public:
 
-    mine (int ,int,textmodeBattleArea &,int owner, bool ui = true);
-    ~mine();
+    Mine (int ,int,TextmodeBattleArea &,int owner, bool ui = true);
+    ~Mine();
     int returntype();
     int execute();
     int getcollisiontype();
@@ -47,7 +47,7 @@ public:
 private:
 
     int time1;
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
 
 };
 

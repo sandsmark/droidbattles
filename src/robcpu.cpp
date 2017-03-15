@@ -19,11 +19,11 @@
 extern bool SingleStepMode;  // defined in battlearea.h
 
 //#include <qmessagebox.h>
-robCPU::robCPU()
+RobCpu::RobCpu()
 {
 }
 
-robCPU::robCPU (RAM &ramdev,screenobject &object,int arg1,int arg2,int arg3,
+RobCpu::RobCpu (Ram &ramdev,ScreenObject &object,int arg1,int arg2,int arg3,
                 int arg4,int arg5)
 {
     ourlevel = arg1;
@@ -294,12 +294,12 @@ robCPU::robCPU (RAM &ramdev,screenobject &object,int arg1,int arg2,int arg3,
 }
 
 
-robCPU::~robCPU()
+RobCpu::~RobCpu()
 {
     delete registers;
 }
 
-void robCPU::execute()
+void RobCpu::execute()
 {
     cyclesleft += ourlevel;
     if (stacktaken[0][0] == true)   // Port 0, cause interrupt
@@ -320,7 +320,7 @@ void robCPU::execute()
     execinstr();   //Execute instruction
 }
 
-int robCPU::returntype()
+int RobCpu::returntype()
 {
     return 9;
 }
@@ -328,7 +328,7 @@ int robCPU::returntype()
 /**
 	* If ints is enabled return 5, else 4
 	*/
-int robCPU::returnspecial()
+int RobCpu::returnspecial()
 {
     if ( (registers[flags] & 0x0400) == 0x0400)
         return 5;
@@ -339,9 +339,9 @@ int robCPU::returnspecial()
 /**
 	* Returns debug information in a struct
 	*/
-struct debugcontents robCPU::returndbg()
+struct DebugContents RobCpu::returndbg()
 {
-    struct debugcontents temp;
+    struct DebugContents temp;
     temp.flags = registers[flags];
     temp.ax = registers[ax];
     temp.bx = registers[bx];
@@ -371,12 +371,12 @@ struct debugcontents robCPU::returndbg()
 /**
 	* Sends a "message" to the infowindow
 	*/
-void robCPU::sendmsg (char *msg)
+void RobCpu::sendmsg (char *msg)
 {
     ourbot->sendmsg (msg);
 }
 
-void robCPU::execinstr()
+void RobCpu::execinstr()
 {
     //Declare the temporary variables used
     int test1;

@@ -20,7 +20,7 @@
 /**
 	* Constructor , initializing and positioning beam
 	*/
-beam::beam (int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui)
+Beam::Beam (int X,int Y,int dir,int l,TextmodeBattleArea &area, int owner, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -47,7 +47,7 @@ beam::beam (int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool 
 /**
 	* Destructor, does nothing
 	*/
-beam::~beam()
+Beam::~Beam()
 {
 }
 
@@ -56,7 +56,7 @@ beam::~beam()
 	* and destroys self is time's up and no
 	* collision isssued
 	*/
-int beam::execute()
+int Beam::execute()
 {
     if (effect==0) return destroyself;
     if (effect >0) effect--;
@@ -66,7 +66,7 @@ int beam::execute()
 /**
 	* When collision, destroy self
 	*/
-int beam::objhit (int type,int strength)
+int Beam::objhit (int type,int strength)
 {
     Q_UNUSED(type);
     Q_UNUSED(strength);
@@ -77,7 +77,7 @@ int beam::objhit (int type,int strength)
 	* Returns 2 if it's time for collision
 	* -1 else
 	*/
-int beam::returntype()
+int Beam::returntype()
 {
     if (effect <= 1)
         return 2;
@@ -88,7 +88,7 @@ int beam::returntype()
 /**
 	* Paint object
 	*/
-void beam::showobject (QPixmap *buffer, int /*opt*/)
+void Beam::showobject (QPixmap *buffer, int /*opt*/)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,255));
@@ -99,7 +99,7 @@ void beam::showobject (QPixmap *buffer, int /*opt*/)
 /**
 	* Paint object black
 	*/
-void beam::eraseobject (QPixmap *buffer)
+void Beam::eraseobject (QPixmap *buffer)
 {
     QPainter p (buffer);
     p.setPen (QColor (0,0,0));
@@ -110,7 +110,7 @@ void beam::eraseobject (QPixmap *buffer)
 /**
 	* Return the beams damage
 	*/
-int beam::getcollisionstrength()
+int Beam::getcollisionstrength()
 {
     return beamdamage;
 }
@@ -118,7 +118,7 @@ int beam::getcollisionstrength()
 /**
 	* Return type (for future use)
 	*/
-int beam::getcollisiontype()
+int Beam::getcollisiontype()
 {
     return 2;
 }

@@ -24,13 +24,13 @@
   *@author Andreas Agorander
   */
 
-class turret : public device
+class Turret : public Device
 {
 
 public:
 
-    turret (screenobject &,int,int);
-    ~turret();
+    Turret (ScreenObject &,int,int);
+    ~Turret();
     int getfromport (unsigned char);
     void execute();
 

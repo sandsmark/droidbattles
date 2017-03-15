@@ -17,7 +17,7 @@
 
 #include "fuel.h"
 
-fuel::fuel (screenobject &object, int arg1)
+Fuel::Fuel (ScreenObject &object, int arg1)
 {
     int ourlevel = arg1;
     ourbot = &object;
@@ -35,14 +35,14 @@ fuel::fuel (screenobject &object, int arg1)
     }
 }
 
-fuel::~fuel()
+Fuel::~Fuel()
 {
 }
 
 /**
 	* Returns amount of fuel to in instruction
 	*/
-int fuel::getfromport (unsigned char port)
+int Fuel::getfromport (unsigned char port)
 {
     switch (port)
     {
@@ -59,7 +59,7 @@ int fuel::getfromport (unsigned char port)
 	* orders (which sets the should interrupt be
 	* issued variable and the level for the interrupt)
 	*/
-void fuel::execute()
+void Fuel::execute()
 {
     if (intenabled)
     {

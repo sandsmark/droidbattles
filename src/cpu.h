@@ -31,12 +31,12 @@
 	*Baseclass for all the CPU:s
   *@author Andreas Agorander
   */
-class CPU : public device
+class CPU : public Device
 {
 public:
 
     CPU();
-    CPU (RAM &ramdev,screenobject &object);
+    CPU (Ram &ramdev,ScreenObject &object);
     virtual ~CPU();
     virtual void callobout (unsigned char one, unsigned short two);
     virtual int callobin (unsigned char one);
@@ -48,7 +48,7 @@ public:
 
 protected:
 
-    RAM *mem;
+    Ram *mem;
     unsigned short *registers;
     unsigned char *bit8reg;
     signed short *iregisters;

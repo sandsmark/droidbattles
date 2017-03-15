@@ -29,11 +29,11 @@
 /**A radar device
   *@author Andreas Agorander
   */
-class scanner : public device
+class Scanner : public Device
 {
 public:
-    scanner (screenobject &object,int arg1,int offset);
-    ~scanner();
+    Scanner (ScreenObject &object,int arg1,int offset);
+    ~Scanner();
     void execute();
     int getfromport (unsigned char port);
     void erasegfx (QPainter *painter);

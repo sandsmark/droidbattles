@@ -21,7 +21,7 @@
 //Structure constructed to contain info about a CPU in a special instant
 //(For the debug window in a "quick battle")
 
-struct debugcontents
+struct DebugContents
 {
 
     unsigned short flags;

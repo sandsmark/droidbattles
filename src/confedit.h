@@ -43,15 +43,15 @@
 
 #define numdev 20
 
-class confedit : public QWidget
+class ConfEdit : public QWidget
 {
 
     Q_OBJECT
 
 public:
 
-    confedit();
-    ~confedit();
+    ConfEdit();
+    ~ConfEdit();
 
 private:
 

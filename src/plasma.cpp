@@ -17,7 +17,7 @@
 
 #include "plasma.h"
 
-plasma::plasma (screenobject &object, int arg1, int offset)
+Plasma::Plasma (ScreenObject &object, int arg1, int offset)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -35,7 +35,7 @@ plasma::plasma (screenobject &object, int arg1, int offset)
     }
 }
 
-plasma::~plasma()
+Plasma::~Plasma()
 {
 }
 
@@ -43,7 +43,7 @@ plasma::~plasma()
 	* Increases readiness and checks if port orders it
 	* to shoot
 	*/
-void plasma::execute()
+void Plasma::execute()
 {
     if (readiness < 200)
         readiness += ourlevel;

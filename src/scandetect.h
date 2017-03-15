@@ -27,11 +27,11 @@
   *@author Andreas Agorander
   */
 
-class scandetect : public device
+class ScanDetect : public Device
 {
 public:
-    scandetect (screenobject &object);
-    ~scandetect();
+    ScanDetect (ScreenObject &object);
+    ~ScanDetect();
     int getfromport (unsigned char port);
     void execute();
     int returntype();

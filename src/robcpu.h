@@ -26,18 +26,18 @@
   *@author Andreas Agorander
   */
 
-class robCPU : public CPU
+class RobCpu : public CPU
 {
 public:
-    robCPU();
-    robCPU (RAM &ramdev,screenobject &object,int arg1,int arg2,int arg3,
+    RobCpu();
+    RobCpu (Ram &ramdev,ScreenObject &object,int arg1,int arg2,int arg3,
             int arg4,int arg5);
-    ~robCPU();
+    ~RobCpu();
     void execute();
     int returntype();
     int returnspecial();
     void sendmsg (char *msg);
-    struct debugcontents returndbg();
+    struct DebugContents returndbg();
     void execinstr();
 };
 

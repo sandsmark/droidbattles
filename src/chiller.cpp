@@ -17,7 +17,7 @@
 
 #include "chiller.h"
 
-chiller::chiller (screenobject &object,int arg1)
+Chiller::Chiller (ScreenObject &object,int arg1)
 {
     ison = false;
     ourbot = &object;
@@ -34,11 +34,11 @@ chiller::chiller (screenobject &object,int arg1)
     }
 }
 
-chiller::~chiller()
+Chiller::~Chiller()
 {
 }
 
-void chiller::execute()
+void Chiller::execute()
 {
     if (ison && ourbot->getfuel() > 5)
     {

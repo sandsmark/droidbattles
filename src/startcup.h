@@ -25,12 +25,12 @@
   *@author Andreas Agorander
   */
 
-class startcup : public starttournament
+class StartCup : public StartTournament
 {
     Q_OBJECT
 public:
-    startcup();
-    ~startcup();
+    StartCup();
+    ~StartCup();
 private slots:
     void ocl();
 

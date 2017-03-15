@@ -31,13 +31,13 @@
   *@author Andreas Agorander
   */
 
-class radarmissile : public screenobject
+class RadarMissile : public ScreenObject
 {
 
 public:
 
-    radarmissile (int,int,int,int,int,int,textmodeBattleArea &,RAM *,int owner, bool ui=true);
-    ~radarmissile();
+    RadarMissile (int,int,int,int,int,int,TextmodeBattleArea &,Ram *,int owner, bool ui=true);
+    ~RadarMissile();
     int execute();
     void eraseobject (QPixmap *buffer);
     void showobject (QPixmap *buffer, int opt = 0);
@@ -55,11 +55,11 @@ public:
 
 private:
 
-    textmodeBattleArea *ourarea;
+    TextmodeBattleArea *ourarea;
     int strength;
-    RAM *ramdevice;
-    device *devices[3];
-    debugwindow* dbgWindow;
+    Ram *ramdevice;
+    Device *devices[3];
+    DebugWindow* dbgWindow;
 };
 
 #endif

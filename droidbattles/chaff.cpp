@@ -20,17 +20,20 @@
 	/**
 		* Constructor, Init object
 		*/
-chaff::chaff( int X,int Y,int d,int spd, battlearea &area )
+chaff::chaff( int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui = true )
 {
 	direction = d;
 	Xpos = X;
 	Ypos = Y;
 	speed = spd;
-	erasegfx = new QPixmap;
-	erasegfx->resize( 12,12 );
-	erasegfx->fill( black );
-	graphics = Pixmapholder::getpmp( 5 );
-
+  useUI = ui;
+	if( useUI )
+	{
+		erasegfx = new QPixmap;
+		erasegfx->resize( 12,12 );
+		erasegfx->fill( black );
+		graphics = Pixmapholder::getpmp( 5 );
+	}
 	timeleft = 159;
 	ourarea = &area;
 	maxx = ourarea->getareainfo( 0 );
@@ -42,7 +45,7 @@ chaff::chaff( int X,int Y,int d,int spd, battlearea &area )
 		*/
 chaff::~chaff( )
 {
-	delete erasegfx;
+	if( useUI )delete erasegfx;
 //	delete graphics;
 }
 

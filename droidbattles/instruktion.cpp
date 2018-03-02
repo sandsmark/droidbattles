@@ -44,7 +44,7 @@ instruktion::~instruktion( )
 		*/
 bool instruktion::checkmatch( QString &mnem, int arg1t, int arg2t, int bit )
 {
-	if( stricmp( mnem.data( ),mnemonic )==0 && arg1type == arg1t && arg2type ==
+	if( strcmp( mnem.data( ),mnemonic )==0 && arg1type == arg1t && arg2type ==
 			arg2t && ((bit == bits || bits == 0 ) || ( bit == 0 && bits == 16 ) ) )
 		return true;
 	else

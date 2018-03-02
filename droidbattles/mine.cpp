@@ -20,20 +20,23 @@
 	/**
 		* Init position and load gfx
 		*/
-mine::mine( int x,int y, battlearea &area,int owner )
+mine::mine( int x,int y, textmodeBattleArea &area,int owner, bool ui = true )
 {
+	useUI = ui;
 	myowner = owner;
-	time = 0;
+	time1 = 0;
 	ourarea = &area;
 	Xpos = x;
 	Ypos = y;
 	size = 1<<6;
 	noncollid = 256;
-
-	erasegfx = new QPixmap;
-	erasegfx->resize( 8,8 );
-	erasegfx->fill( black );
-	graphics = Pixmapholder::getpmp( 6 );
+  if( useUI )
+	{
+		erasegfx = new QPixmap;
+		erasegfx->resize( 8,8 );
+		erasegfx->fill( black );
+		graphics = Pixmapholder::getpmp( 6 );
+	}
 
 }
 
@@ -42,7 +45,7 @@ mine::mine( int x,int y, battlearea &area,int owner )
 		*/
 mine::~mine( )
 {
-	delete erasegfx;
+	if( useUI )delete erasegfx;
 //	delete graphics;
 }
 
@@ -65,7 +68,7 @@ int mine::getcollisiontype( )
 		*/
 int mine::returntype( )
 {
-	if( time < 100 )
+	if( time1 < 100 )
 		return noncollobject;
 	else
 		return 2;
@@ -102,7 +105,7 @@ void mine::eraseobject( QWidget *buffer )
 		*/
 int mine::execute( )
 {
-	if( time++ > 1000 )
+	if( time1++ > 1000 )
 		return destroyself;
 	else
 		return 0;

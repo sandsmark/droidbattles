@@ -27,9 +27,10 @@ rocket::~rocket( )
 	/**
 		* Init position, gfx
 		*/
-rocket::rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area,
-								int owner )
+rocket::rocket( int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
+								int owner, bool ui = true )
 {
+	useUI = ui;
 	myowner = owner;
 	ourarea = &area;
 	mynum = mnum;
@@ -45,11 +46,14 @@ rocket::rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area,
 	size = 1<<6;
 	countpoint = 0;
 	length = leng;
-	for( int x=0;x<50;x++ )
+	if( useUI )
 	{
-		pointX[x] = int( Xpos );
-		pointY[x] = int( Ypos );
-		pointD[x] = getdir( )+512 +(rand( )%128)-64;
+		for( int x=0;x<50;x++ )
+		{
+			pointX[x] = int( Xpos );
+			pointY[x] = int( Ypos );
+			pointD[x] = getdir( )+512 +(rand( )%128)-64;
+		}
 	}
 }
 
@@ -110,7 +114,8 @@ int rocket::execute( )
 {
 	double dir = getdir( ) * pi / 512;
 	changepos( cos( dir ) * speed,sin( dir ) * speed ); //Update position
-	int dist = int( sqrt( (Xpos-uX)*(Xpos-uX)+(Ypos-uY)*(Ypos-uY) ) );
+	int dist = int( sqrt( ((Xpos-uX)/2)*((Xpos-uX)/2)+((Ypos-uY)/2)*((Ypos-uY)/2) ) );
+	dist *= 2;
 	if( dist > length )
 	{
 		ourarea->explosions( Xpos,Ypos,3500,120,mynum );

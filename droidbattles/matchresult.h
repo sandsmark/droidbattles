@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 //Structure for holding results during tournaments
+
+#ifndef MATCHRESULT_H
+#define MATCHRESULT_H
+
 struct matchresult
 {
 	int secbot;
@@ -23,3 +27,5 @@ struct matchresult
 	int secbotwins;
 	int mainbot;
 };
+
+#endif

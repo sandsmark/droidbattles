@@ -22,22 +22,24 @@
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qmessagebox.h>
-#include "screenobject.h"
-#include "commonsymbols.h"
+//#include "screenobject.h"
+//#include "commonsymbols.h"
 #include "botinfo.h"
-#include "confstruct.h"
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qstring.h>
-#include <qdir.h>
+//#include "confstruct.h"
+//#include <qfile.h>
+//#include <qtextstream.h>
+//#include <qstring.h>
+//#include <qdir.h>
 #include <qscrollview.h>
 #include "pixbutton.h"
-#include <commonsymbols.h>
-#include "ram.h"
+//#include <commonsymbols.h>
+//#include "ram.h"
 #include "debugwindow.h"
 #include <qmultilineedit.h>
 #include <qpixmap.h>
 #include "pixmapholder.h"
+
+#include "textmodebattlearea.h"
 
 #include <list>
 #include <assert.h>
@@ -47,7 +49,7 @@
   * @author Andreas Agorander
   */
 
-class battlearea : public QWidget
+class battlearea : public QWidget, public textmodeBattleArea
 {
 
 	Q_OBJECT
@@ -63,12 +65,12 @@ class battlearea : public QWidget
 		void closeEvent( QCloseEvent *e );
 		void addscrobject(  int owner,int X,int Y,int dir,int type,int arg1=0,
 												int arg2=0, void *arg3=0 );
-		int devio( int bot,int dev,int choice,int arg1,int arg2 );
+		//int devio( int bot,int dev,int choice,int arg1,int arg2 );
 		void startonebattle( int );
-		int	getareainfo( int );
+		//int	getareainfo( int );
 		void explosions( int x,int y, int rad, int strength, int whichobject );
-		int getstartx( int );
-		int getstarty( int );
+		//int getstartx( int );
+		//int getstarty( int );
 
 	private slots:
 
@@ -87,14 +89,14 @@ class battlearea : public QWidget
 
 	private:
 
-		list<debugwindow*> dbgwindows;
+		std::list<debugwindow*> dbgwindows;
     QMultiLineEdit *_dbedit;
     int *_dbl;
     int *_dbm;
 
     int missilesLaunched;
 
-		screenobject *objects[256];
+//		screenobject *objects[256];
 		QWidget *mydrw;
 		QScrollView *scrolling;
 		QWidget *infowindow;
@@ -112,8 +114,8 @@ class battlearea : public QWidget
 
 		int updatescreen;
 		botinfo *binfo[8];
-		QString names[8];
-//		QPixmap *backpm;
+/*		QString names[8];
+		//QPixmap *backpm;
 		int numfights;
 		int fightswon[8];
 		int fightsfought;
@@ -136,20 +138,20 @@ class battlearea : public QWidget
 		bool debugenabled;
 		int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
 		int runmode; //0 - not running, 1 - running
-		int maxpoints;
+		int maxpoints;*/
 		// the following flag is true in single step mode
 		// and will be used by robCPU::execinstr()
 };
 		extern bool SingleStepMode;
 
-#include "robots.h"
-#include "mine.h"
-#include "radarmissile.h"
-#include "missile.h"
-#include "radarmissile.h"
-#include "beam.h"
-#include "rocket.h"
-#include "chaff.h"
+//#include "robots.h"
+//#include "mine.h"
+//#include "radarmissile.h"
+//#include "missile.h"
+//#include "radarmissile.h"
+//#include "beam.h"
+//#include "rocket.h"
+//#include "chaff.h"
 #include "explosion.h"
 
 #endif

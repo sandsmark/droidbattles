@@ -354,3 +354,15 @@ v 1.0.4
 	- Fixed opcode 0x0A,0x1E,0x20,0x28,0x3B,0x77,0xA7,0xB7,0xC7 (carl Kracker)
 	- The cursor now don't scroll to the start at "assemble successful"
 
+v 1.0.5
+
+	- Added ability to run some functionality from command-line (eg textmode || servermode)
+	- Changed font-size to 8, (seems to be more correct size this way)
+
+v 1.0.5b
+
+  - Fix bug with chaff:s causing the program to crash
+
+v 1.0.6
+	- "ported" so code compiles with gcc 3.x and Qt 3.x
+	- Fixed bugs caused by overflowed int:s (large arenas)

@@ -241,7 +241,7 @@ int screenobject::getcollid( )
 
 void screenobject::sendmsg( char *msg )
 {
-	emit messagechanged( msg );
+	if( useUI )emit messagechanged( msg );
 }
 
 void screenobject::objscanned( int intensity,int dir )

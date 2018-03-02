@@ -20,7 +20,7 @@
 
 #include <screenobject.h>
 #include <math.h>
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 
 /**
 	* AS-rocket object
@@ -34,8 +34,8 @@ class rocket : public screenobject
 
 		rocket( );
 		~rocket( );
-		rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area,
-						int owner );
+		rocket( int X,int Y,int dir,int leng,int mnum, textmodeBattleArea &area,
+						int owner, bool ui=true );
 		int objhit( int type,int strength );
 		int returntype( );
 		void eraseobject( QWidget *buffer );
@@ -57,7 +57,7 @@ class rocket : public screenobject
 		int pointY[50];
 		int pointD[50];
 		int countpoint;
-		battlearea *ourarea;
+		textmodeBattleArea *ourarea;
 };
 
 #endif

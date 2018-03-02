@@ -21,8 +21,9 @@
 		* Init positions, devices and load gfx
 		*/
 radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum,
-														battlearea &area, RAM *mem,int owner )
+														textmodeBattleArea &area, RAM *mem,int owner, bool ui = true )
 {
+	useUI = ui;
 	myowner = owner;
 	ourarea = &area;
 	mynum = mnum;
@@ -35,11 +36,13 @@ radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum,
 	double dira = getdir( ) * pi / 512;
 	changepos( cos( dira ) * 1500,sin( dira ) * 1500 );
 	size = 1<<6;
-	erasegfx = new QPixmap;
-	erasegfx->resize( 8,8 );
-	erasegfx->fill( black );
-	graphics = Pixmapholder::getpmp( 4 );
-
+	if( useUI )
+	{
+		erasegfx = new QPixmap;
+		erasegfx->resize( 8,8 );
+		erasegfx->fill( black );
+		graphics = Pixmapholder::getpmp( 4 );
+	}
 	ramdevice = mem;	
 	ramdevice->addowner( );
 	devices[1] = new steering( *this,4 );
@@ -55,7 +58,7 @@ radarmissile::~radarmissile( )
 {
 //	delete graphics;
   if (dbgWindow) delete dbgWindow;
-	delete erasegfx;
+	if( useUI )delete erasegfx;
 	delete devices[0];
 	delete devices[1];
 	delete devices[2];

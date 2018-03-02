@@ -175,6 +175,51 @@ it goes until only one bot is left (that wins). The results, with all battles
 fought is written to the file Cupresults.html.
 </PRE>
 <P>
+<H2><A NAME="ss7.7">7.7 Running in textmode</A>
+</H2>
+
+<P>
+<PRE>
+As of version 1.0.5 it is possible to run battles and perform other operations
+in textmode. 
+
+If you want to do something in textmode, the first argument to droidbattles must
+allways be -textmode (eg. run droidbattles -textmode)
+However, droidbattles in textmode is NOT an interactive run. All options for the
+operation you want to perform must be given on the command-line starting
+droidbattles.
+
+Possible operations are:
+-assemble &lt;file> , example: droidbattles -textmode -assemble /home/bluefire/mybot.basm
+Will assemble the bot mybot.basm
+
+-check &lt;file> , example: droidbattles -textmode -check /home/bluefire/mybot.bot
+Will check whether that bot passes the rules of the currently loaded config
+
+-loadconfig &lt;file> , example: droidbattles -textmode -loadconfig /home/bluefire/light.cfg
+Will load the config light.cfg
+
+-battle &lt;a load of other options>
+-battle is used to run a battle. The options you can give (and sometimes have to give) to
+-battle is:
+
+-normal , specifies that the battle is a normal battle
+-survival , specifies that the battle is a survival battle
+-deathmatch , specifies that the battle is a deathmatch battle
+-team &lt;number 1-4>, if you want to run a team battle this specifies the team of the
+bot following this specification
+-xsize &lt;number> , This specifies the xsize of the arena
+-ysize &lt;number> , This specifies the ysize of the arena
+-numfights &lt;number> , This specifies the number of bouts in normal mode, the number of
+lives in survival mode and the needed number of frags in deathmatch mode
+-maxrounds &lt;number> , This specifies the max length of battle, eg the number of battle
+"ticks" before a "draw" is called.
+-bot &lt;file> , to specify one of the bots fighting (maximum 8 bots can be specified, minimum 2)
+
+Note that in order to play tournaments this way you need an external script to run
+droidbattles many times as the tournament forms are not directly accessible
+this way.
+</PRE>
 <P>
 <HR>
 <A HREF="index-8.html">Next</A>

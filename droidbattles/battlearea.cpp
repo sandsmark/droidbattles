@@ -208,14 +208,14 @@ battlearea::~battlearea( )
 	eventH->stop( );
 	delete eventH;
 	delete infowindow;
-	list<debugwindow*>::iterator i;
+	std::list<debugwindow*>::iterator i;
 	for (i=dbgwindows.begin(); i!=dbgwindows.end(); i++)
     delete *i;
   dbgwindows.clear();
 //	if( debugenabled )delete dbgwindow;
 	int x;
-	for( x=0;x<maxobjects;x++ )
-		delete objects[x];
+//	for( x=0;x<maxobjects;x++ )
+//		delete objects[x];
 }
 
 	/**
@@ -253,7 +253,8 @@ void battlearea::startonebattle( int y )
 			{
 				int xdiff = abs(xstarts[y] - xstarts[x]);
 				int ydiff = abs(ystarts[y] - ystarts[x]);
-				int tdist = int( sqrt((xdiff*xdiff)+(ydiff*ydiff)) );
+				int tdist = int( sqrt(((xdiff*xdiff)/2)+((ydiff*ydiff)/2)) );
+				tdist *= 2;
 				if( tdist < dst )dst = tdist;
 			}
 			tries++;
@@ -275,7 +276,7 @@ void battlearea::startonebattle( int y )
   }
 
   if (debugenabled) {
-    list<debugwindow*>::iterator i;
+    std::list<debugwindow*>::iterator i;
     for (i=dbgwindows.begin(); i!=dbgwindows.end();i++)
       delete *i;
     dbgwindows.clear();
@@ -421,11 +422,12 @@ void battlearea::execute( )
 						}
 						xx1 = objects[x]->getXpos( );          //
 						xx2 = objects[x2]->getXpos( );         // Get positions
-						dx = xx1 - xx2;                        // and distances between
+						dx = (xx1 - xx2)/2;                        // and distances between
 						yy1 = objects[x]->getYpos( );          // each object
 						yy2 = objects[x2]->getYpos( );         //
-						dy = yy1 - yy2;                        //
+						dy = (yy1 - yy2)/2;                        //
 						dist = int( sqrt( dx*dx + dy*dy ) );   //
+						dist *= 2;
 
 						if( dist < ((objects[x]->getsize()<<6)+(objects[x2]->getsize( )<<6))
 								&& objects[x]->returntype( ) ==1 && objects[x2]->returntype( )
@@ -823,10 +825,10 @@ void battlearea::execute( )
 	if( debugenabled )  //If this is a "quick battle", update register content info and such
     if (objects[debugbot]->returntype() == 1) // for robots only
     {
-      list<struct debugcontents> *dc = ((robots*)objects[debugbot])->returndbgcont2();
+      std::list<struct debugcontents> *dc = ((robots*)objects[debugbot])->returndbgcont2();
       assert(dc->size() == dbgwindows.size());
-      list<debugwindow*>::iterator i = dbgwindows.begin();
-      list<debugcontents>::iterator j = dc->begin();
+      std::list<debugwindow*>::iterator i = dbgwindows.begin();
+      std::list<debugcontents>::iterator j = dc->begin();
       for (;i!=dbgwindows.end();i++,j++)
         (*i)->updatedata(*j);
       delete dc;
@@ -910,7 +912,7 @@ void battlearea::addscrobject( int owner,int X,int Y,int dir,int type,
 		* the other screenobjects it calls this function
 		* (via his bot)
 		*/
-int battlearea::devio( int bot,int dev,int choice,int arg1,int arg2 )
+/*int battlearea::devio( int bot,int dev,int choice,int arg1,int arg2 )
 {
 	switch ( choice )
 	{
@@ -960,12 +962,12 @@ int battlearea::devio( int bot,int dev,int choice,int arg1,int arg2 )
 
 	}
 	return 0;
-}
+} */
 
 	/**
 		* Returns info about the battlearea
 		*/
-int battlearea::getareainfo( int choice )
+/*int battlearea::getareainfo( int choice )
 {
 	switch ( choice )
 	{
@@ -980,7 +982,7 @@ int battlearea::getareainfo( int choice )
 		break;
 	}
 	return 0;
-}
+} */
 
 
 	/**
@@ -996,7 +998,8 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject)
 		if( !objects[z]->areaexplosionaffects( ) )continue;
 		X1 = objects[z]->getXpos( );
 		Y1 = objects[z]->getYpos( );
-		D1 = int( sqrt( ((X1-x)*(X1-x))+((Y1-y)*(Y1-y)) ) );
+		D1 = int( sqrt( (((X1-x)/2)*((X1-x)/2))+(((Y1-y)/2)*((Y1-y)/2)) ) );
+		D1 *= 2;
 		if( D1 >= rad )continue;
 		S1 = strength-( D1*strength/rad );
 		if( objects[z]->objhit( 9,S1 ) == 1 )  //If the damage killed him
@@ -1088,18 +1091,18 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject)
 	/**
 		* Gets xposition for one of the random start positions
 		*/
-int battlearea::getstartx( int bot )
+/*int battlearea::getstartx( int bot )
 {
 	return xstarts[bot];
-}
+} */
 
 	/**
 		* Gets yposition for one o the random start positions
 		*/
-int battlearea::getstarty( int bot )
+/*int battlearea::getstarty( int bot )
 {
 	return ystarts[bot];
-}
+} */
 
 	/**
 		* Dump RAM if pressed in debugwindow

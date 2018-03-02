@@ -235,9 +235,11 @@ void debugwindow::addint( QString &str,unsigned short integ )
 {
 	bool ready=false;
 	QString temp;
+	QString t2;
 	while( !ready )
 	{
-		temp = (integ%10+'0') + temp;
+		t2 = ((char)(integ%10+'0'));
+		temp = t2 + temp;
 		integ /= 10;
 		if( !integ )ready=true;
 	}

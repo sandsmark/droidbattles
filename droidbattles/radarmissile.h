@@ -19,12 +19,14 @@
 #define RADARMISSILE_H
 
 #include <screenobject.h>
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 #include "ram.h"
 #include "robcpu.h"
 #include "steering.h"
 #include "scanner.h"
 #include "device.h"
+#include <qmultilineedit.h>
+#include "debugwindow.h"
 /**
 	* A programmable missile
   *@author Andreas Agorander
@@ -35,7 +37,7 @@ class radarmissile : public screenobject
 
 	public:
 
-		radarmissile( int,int,int,int,int,int,battlearea &,RAM *,int owner );
+		radarmissile( int,int,int,int,int,int,textmodeBattleArea &,RAM *,int owner, bool ui=true );
 		~radarmissile( );
 		int execute( );
 		void eraseobject( QWidget *buffer );
@@ -54,7 +56,7 @@ class radarmissile : public screenobject
 
 	private:
 
-		battlearea *ourarea;
+		textmodeBattleArea *ourarea;
 		int strength;
 		RAM *ramdevice;
 		device *devices[3];

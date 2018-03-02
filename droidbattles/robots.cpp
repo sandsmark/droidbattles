@@ -20,9 +20,10 @@
 	/**
 		* Init bot position, load program file and graphics
 		*/
-robots::robots( char *name,battlearea &object,int mnum, confstruct config,
-								int tm,bool er=true )
+robots::robots( char *name,textmodeBattleArea &object,int mnum, confstruct config,
+								int tm,bool er=true, bool ui=true )
 {
+	useUI = ui;
 	int numdev = 0;
 	int cost = 0;
 	upcount = 0;
@@ -31,11 +32,6 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config,
 	myfile = name;
 	myfile = myfile.left( myfile.length( )-3 );
 	myfile += "dat";
-	if( team < 0 || team > 3 )
-	{
-		QString mesg;
-			error("Team",name);
-	}
 
 	ourarea = &object;
 
@@ -61,7 +57,9 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config,
 		showextragfx = true;
 		f.close( );
 		if( my[1] > config.maxram )         //Read in all devices
+		{
 			error( "Max amount of ram",name );
+		}
 		if( my[1] <= 9 )
 		{
 			cost += config.ramcost[my[1]];
@@ -224,35 +222,38 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config,
 			devicelist[x] = new device( *this );
 	}
 
-	erasegfx = new QPixmap;
-	erasegfx->resize( 32,32 );
-	erasegfx->fill( black );
-	graphics = new QPixmap;
-	graphics->resize( 32,32 );
-	QString temp;
-	temp = name;
-	temp = temp.left( temp.length( )-3 );
-	temp += "bmp";
-	QFile f2( temp );
-	if( f2.exists( ) == false )
+	if( useUI )
 	{
-		temp = returninstalldir( );
-		temp += "/pixmaps/skepp";
-		temp += QString::number( mynum );
-		temp += ".bmp";
+		erasegfx = new QPixmap;
+		erasegfx->resize( 32,32 );
+		erasegfx->fill( black );
+		graphics = new QPixmap;
+		graphics->resize( 32,32 );
+		QString temp;
+		temp = name;
+		temp = temp.left( temp.length( )-3 );
+		temp += "bmp";
+		QFile f2( temp );
+		if( f2.exists( ) == false )
+		{
+			temp = returninstalldir( );
+			temp += "/pixmaps/skepp";
+			temp += QString::number( mynum );
+			temp += ".bmp";
+		}
+		if(graphics->load( temp ) == false )
+		{
+			graphics->fill( white );
+		}
+		else
+			graphics->setMask( graphics->createHeuristicMask( ) );
+		 //Set a mask that makes the bot background transparent
+		piccols = graphics->width( )/32;
+		picrows = graphics->height( )/32;
+		currentrow = 0;
+		rowchangeval = 0;
+		degreesperpic = 1024/piccols;
 	}
-	if(graphics->load( temp ) == false )
-	{
-		graphics->fill( white );
-	}
-	else
-		graphics->setMask( graphics->createHeuristicMask( ) );
-	 //Set a mask that makes the bot background transparent
-	piccols = graphics->width( )/32;
-	picrows = graphics->height( )/32;
-	currentrow = 0;
-	rowchangeval = 0;
-	degreesperpic = 1024/piccols;
 	size = 16;
 	setheat( 0 );
 }
@@ -265,8 +266,11 @@ robots::~robots( )
 		delete devicelist[x];
 	ramdevice->removeowner( );
 	if( ramdevice->getowners( ) == 0 )delete ramdevice;
-	delete graphics;
-	delete erasegfx;
+	if( useUI )
+	{
+		delete graphics;
+		delete erasegfx;
+	}
 }
 
 	/**
@@ -302,7 +306,7 @@ int robots::execute( )
 	if( upcount > 10 )
 	{
 		upcount = 0;
-		emit fuelchanged( fuelval,getheat( ) );
+		if( useUI )emit fuelchanged( fuelval,getheat( ) );
 	}
 	changeheat( -7 );
 
@@ -470,7 +474,7 @@ int robots::objhit( int type,int strength )
 		if( strengthleft <= 0 )
 			break;
 	}
-	emit armorchanged( armorval );
+	if( useUI )emit armorchanged( armorval );
 
 	if( strengthleft > 0 )
 		return objhitdestroyed;
@@ -510,7 +514,7 @@ void robots::setdebug2( int msg )
 		*/
 void robots::error( char *string, char *name )
 {
-	if( showerror )
+	if( showerror && useUI )
 	{
 		QString msg = "The bot ";
 		msg += name;
@@ -583,9 +587,10 @@ int robots::numCPUs()
 /**
  * Returns debugstructure from all CPUs
  */
-list<struct debugcontents>* robots::returndbgcont2( )
+
+std::list<struct debugcontents>* robots::returndbgcont2( )
 {
-  list<debugcontents> *dc = new list<debugcontents>;
+  std::list<debugcontents> *dc = new std::list<debugcontents>;
 	for(int x=0;x<32;x++ )
 		if( devicelist[x] && (devicelist[x]->returntype() == 9))
 			dc->push_back(devicelist[x]->returndbg( ));

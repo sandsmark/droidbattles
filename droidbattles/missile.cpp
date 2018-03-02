@@ -20,8 +20,9 @@
 	/**
 		* Init position, graphics and such
 		*/
-missile::missile( int X,int Y,int dir,int owner,int mnum, battlearea &area )
+missile::missile( int X,int Y,int dir,int owner,int mnum, textmodeBattleArea &area, bool ui = true )
 {
+	useUI = ui;
 	myowner = owner;
 	ourarea = &area;
 	mynum = mnum;
@@ -34,16 +35,19 @@ missile::missile( int X,int Y,int dir,int owner,int mnum, battlearea &area )
 	double dira = getdir( ) * pi / 512;
 	changepos( cos( dira ) * 1500,sin( dira ) * 1500 );
 	size = 1<<6;
-	erasegfx = new QPixmap;
-	erasegfx->resize( 8,8 );
-	erasegfx->fill( black );
-	graphics = Pixmapholder::getpmp( 7 );
+	if( useUI )
+	{
+		erasegfx = new QPixmap;
+		erasegfx->resize( 8,8 );
+		erasegfx->fill( black );
+		graphics = Pixmapholder::getpmp( 7 );
+	}
 }
 
 missile::~missile( )
 {
 //	delete graphics;
-	delete erasegfx;
+	if( useUI )delete erasegfx;
 }
 
 	/**

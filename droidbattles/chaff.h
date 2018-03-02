@@ -19,7 +19,7 @@
 #define CHAFF_H
 
 #include <screenobject.h>
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 #include <pixmapholder.h>
 
 /**
@@ -32,7 +32,7 @@ class chaff : public screenobject
 
 	public:
 
-		chaff( int X,int Y,int d,int spd, battlearea &area );
+		chaff( int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui = true );
 		~chaff( );
 		void eraseobject( QWidget *buffer );
 		void showobject( QWidget *buffer,int opt=0 );
@@ -42,7 +42,7 @@ class chaff : public screenobject
 
 	private:
 		int timeleft;
-		battlearea *ourarea;
+		textmodeBattleArea *ourarea;
 };
 
 #endif

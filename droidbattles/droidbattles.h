@@ -17,6 +17,7 @@
 
 #ifndef DROIDBATTLES_H
 #define DROIDBATTLES_H
+#include "matchresult.h"
 
 // include files for QT
 #include <qstring.h>
@@ -43,30 +44,24 @@
 #include <qpixmapcache.h>
 
 // application specific includes
-#include "resource.h"
+//#include "resource.h"
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
-#include <unistd.h>
-#include "createbot.h"
-#include "startsbatt.h"
-#include "startsurvbatt.h"
-#include "startdeathbatt.h"
-#include "battlearea.h"
-#include "commonsymbols.h"
-#include "confedit.h"
-#include "starttournament.h"
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <installdir.h>
-#include "kothtournament.h"
-#include <matchresult.h>
-#include "startcup.h"
-#include "docbrowser.h"
-#include "pixbutton.h"
-#include "pixmapholder.h"
-#include <time.h>
+//#include <unistd.h>
 
+class createbot;
+class startsbatt;
+class startsurvbatt;
+class startdeathbatt;
+class battlearea;
+class confedit;
+class starttournament;
+class kothtournament;
+
+class startcup;
+class Docbrowser;
+class PixButton;
 /**
   * This Class is the base class for the application. It sets up the main
   * window and providing buttons for starting other parts of the program

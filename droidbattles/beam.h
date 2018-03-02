@@ -19,7 +19,7 @@
 #define BEAM_H
 
 #include <screenobject.h>
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 /**
 	* The "beam" screenobject, (lazerlike shot)
   *@author Andreas Agorander
@@ -29,7 +29,7 @@ class beam : public screenobject
 {
 
 	public:
-		beam( int X,int Y,int dir,int l,battlearea &area, int owner );
+		beam( int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true );
 		~beam( );
 		int execute( );
 		void eraseobject( QWidget *buffer );
@@ -44,7 +44,7 @@ class beam : public screenobject
 		int lastpaintY;
 		int effect;
 		bool ispainted;
-		battlearea *ourarea;
+		textmodeBattleArea *ourarea;
 		int uX;
 		int uY;
 };

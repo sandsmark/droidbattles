@@ -111,6 +111,8 @@ class screenobject : public QObject
 		int noncollid;
 		int myowner;
 
+		bool useUI;
+
 	private	slots:
 
 		void setextragfx( bool x );

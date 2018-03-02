@@ -16,7 +16,25 @@
  ***************************************************************************/
 
 #include "droidbattles.h"
+#include "createbot.h"
+#include "startsbatt.h"
+#include "startsurvbatt.h"
+#include "startdeathbatt.h"
+#include "battlearea.h"
+#include "commonsymbols.h"
+#include "confedit.h"
+#include "starttournament.h"
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <installdir.h>
+#include "kothtournament.h"
+#include "startcup.h"
+#include "docbrowser.h"
+#include "pixbutton.h"
+#include "pixmapholder.h"
+#include <time.h>
 
+#define VERSION "1.0.6"
 	/**
 		* Constructor, creates the main menu, it's buttons
 		* and connects them
@@ -204,10 +222,10 @@ void DroidBattles::startskirmish( )
 		xs = ssb->getxsize( );
 		ys = ssb->getysize( );
 		batt = new battlearea( 	(char *)names[0].data( ),(char *)names[1].data( ),
-														(char *)names[2].data( ),(char *)names[3].data( ),
-														(char *)names[4].data( ),(char *)names[5].data( ),
-														(char *)names[6].data( ),(char *)names[7].data( ),
-														numf,ln,xs,ys,ifteamfight,teams,false,false );
+		                        (char *)names[2].data( ),(char *)names[3].data( ),
+		                        (char *)names[4].data( ),(char *)names[5].data( ),
+		                        (char *)names[6].data( ),(char *)names[7].data( ),
+		                        numf,ln,xs,ys,ifteamfight,teams,false,false );
 		batt->show( );
 	}
 	delete ssb;
@@ -340,7 +358,7 @@ void DroidBattles::createb( )
 void DroidBattles::about( )
 {
 	QMessageBox::information( this, "About DroidBattles",
-	"DroidBattles " VERSION " 2001-09-09 by Andreas Agorander (Bluefire@bluefire.nu)\n"
+	"DroidBattles " VERSION " 2002-12-01 by Andreas Agorander (Bluefire@bluefire.nu)\n"
 	 "get the latest version at http://www.bluefire.nu/droidbattles" );
 }
 
@@ -731,7 +749,7 @@ void DroidBattles::mankothtourney( int wins1,int wins2 )
 		s2 << "<TITLE>KOTH results</TITLE>\n";
 		s2 << "</HEAD>\n";
 		s2 << "<BODY>\n";
-    s2 << "<TABLE>\n";
+		s2 << "<TABLE>\n";
 		s2 << "<TR>\n";
 		s2 << "<TD>Pos</TD>\n";
 		s2 << "<TD>Bot name</TD>\n";

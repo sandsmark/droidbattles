@@ -23,7 +23,7 @@
 #include <qtextstream.h>
 #include <qstring.h>
 #include <qwidget.h>
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 #include "ram.h"
 #include "device.h"
 #include <math.h>
@@ -63,6 +63,8 @@
 #include "chiller.h"
 #include "cloaker.h"
 
+#include "debugcontents.h"
+#include <list>
 /**The bot that is programmed...
   *@author Andreas Agorander
   */
@@ -74,8 +76,8 @@ class robots : public screenobject
 
 	public:
 
-		robots( char *name,battlearea &area,int mnum, confstruct,int tm,
-						bool er=true );
+		robots( char *name,textmodeBattleArea &area,int mnum, confstruct,int tm,
+						bool er=true, bool ui = true );
 		~robots( );
 		int execute( );
 		void eraseobject( QWidget *buffer );
@@ -104,7 +106,7 @@ class robots : public screenobject
 		struct debugcontents returndbgcont( );
     int numCPUs();
     // the caller has to delete the returned pointer
-		list<struct debugcontents> * returndbgcont2( );
+		std::list<struct debugcontents> *returndbgcont2( );
 		int returnradar( );
 		void setradar( int x );
 		void dumpRAM( );
@@ -116,7 +118,7 @@ class robots : public screenobject
 		int radarsignature;
 		device *devicelist[32];
 		char hitabsorborder[32];
-		battlearea *ourarea;
+		textmodeBattleArea *ourarea;
 		bool gfxin;
 		QMessageBox *rulebreak;
 		int ourradiodev;

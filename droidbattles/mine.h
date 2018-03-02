@@ -19,7 +19,7 @@
 #define MINE_H
 
 #include <screenobject.h>
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 #include <qwidget.h>
 #include <installdir.h>
 #include "pixmapholder.h"
@@ -33,7 +33,7 @@ class mine : public screenobject
 
 	public:
 
-		mine( int ,int,battlearea &,int owner );
+		mine( int ,int,textmodeBattleArea &,int owner, bool ui = true );
 		~mine( );
 		int returntype( );
 		int execute( );
@@ -46,8 +46,8 @@ class mine : public screenobject
 
 	private:
 
-		int time;
-		battlearea *ourarea;
+		int time1;
+		textmodeBattleArea *ourarea;
 
 };
 

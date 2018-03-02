@@ -20,8 +20,9 @@
 	/**
 		* Constructor , initializing and positioning beam
 		*/
-beam::beam( int X,int Y,int dir,int l,battlearea &area, int owner )
+beam::beam( int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true )
 {
+	useUI = ui;
 	myowner = owner;
 	ourarea = &area;
 	noncollid = collenabled;

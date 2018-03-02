@@ -19,7 +19,7 @@
 #define MISSILE_H
 
 #include "screenobject.h"
-#include "battlearea.h"
+#include "textmodebattlearea.h"
 #include <qwidget.h>
 #include "commonsymbols.h"
 #ifndef __USE_GNU
@@ -39,7 +39,7 @@ class missile : public screenobject
 
 	public:
 
-		missile( int X,int Y,int dir,int owner,int mynum,battlearea &area );
+		missile( int X,int Y,int dir,int owner,int mynum,textmodeBattleArea &area, bool ui = true );
 		~missile( );
 		int execute( );
 		void eraseobject( QWidget *buffer );
@@ -55,7 +55,7 @@ class missile : public screenobject
 	private:
 
 		int strength;
-		battlearea *ourarea;
+		textmodeBattleArea *ourarea;
 
 };
 

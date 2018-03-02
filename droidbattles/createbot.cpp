@@ -16,6 +16,16 @@
  ***************************************************************************/
 
 #include "createbot.h"
+#include <myqmultilineedit.h>
+#include <qscrollview.h>
+#include <qcombobox.h>
+#include "commonsymbols.h"
+#include "instruktion.h"
+#include <qregexp.h>
+#include <qtextstream.h>
+#include <unistd.h>
+#include "battlearea.h"
+#include "quickconf.h"
 
 	/**
 		* Constructor Inits GUI
@@ -595,7 +605,7 @@ void createbot::closec( )
 
 void createbot::copy( )
 {
-	edittxt->copyText( );
+	edittxt->copy( );
 }
 
 void createbot::cut( )
@@ -1780,7 +1790,7 @@ void createbot::assemble( )
 					type[0] = 7;
 					if( exist[1] == true )
 					{
-						bool isplus = !(stricmp( (token[1].left( 1 )).data( ),"+" ));
+						bool isplus = !(strcmp( (token[1].left( 1 )).data( ),"+" ));
 						tpos = token[1].toInt(&ok);
 						if(ok == false)
 						{
@@ -2016,31 +2026,31 @@ void createbot::assemble( )
 								value[i][0] = ax;
 								bits = 16;
 							}
-							if( stricmp( token[i].data( ),"bx" )==0 )
+							if( strcmp( token[i].data( ),"bx" )==0 )
 							{
 								type[i] = 5;
 								value[i][0] = bx;
 								bits = 16;
 							}
-							if( stricmp( token[i].data( ),"cx" )==0 )
+							if( strcmp( token[i].data( ),"cx" )==0 )
 							{
 								type[i] = 5;
 								value[i][0] = cx;
 								bits = 16;
 							}
-							if( stricmp( token[i].data( ),"dx" )==0 )
+							if( strcmp( token[i].data( ),"dx" )==0 )
 							{
 								type[i] = 5;
 								value[i][0] = dx;
 								bits = 16;
 							}
-							if( stricmp( token[i].data( ),"sp" )==0 )
+							if( strcmp( token[i].data( ),"sp" )==0 )
 							{
 								type[i] = 5;
 								value[i][0] = sp;
 								bits = 16;
 							}
-							if( stricmp( token[i].data( ),"bp" )==0 )
+							if( strcmp( token[i].data( ),"bp" )==0 )
 							{
 								type[i] = 5;
 								value[i][0] = bp;
@@ -2293,7 +2303,7 @@ void createbot::assemble( )
 					{
 						if( exist[i] == true && type[i] == 0 )
 						{
-							bool isplus = !(stricmp( (token[i].left( 1 )).data( ),"+" ));
+							bool isplus = !(strcmp( (token[i].left( 1 )).data( ),"+" ));
 							QString comp;
 							if( isplus )
 								comp = token[i].right( token[i].length( )-1 );
@@ -2340,7 +2350,7 @@ void createbot::assemble( )
 						}
 					}
 
-          if( (stricmp( curmnem.data( ),"mov" )==0) && (type[1] == 5) &&
+          if( (strcmp( curmnem.data( ),"mov" )==0) && (type[1] == 5) &&
 							(type[2] == 13) && (type[3] == 3) )
 					{
 						value[1][1] = value[2][0];
@@ -2354,7 +2364,7 @@ void createbot::assemble( )
 						}
 						goto found;
 					}
-          if( (stricmp( curmnem.data( ),"mov" )==0) && (type[1] == 13) &&
+          if( (strcmp( curmnem.data( ),"mov" )==0) && (type[1] == 13) &&
 							(type[2] == 3) && (type[3] == 5) )
 					{
 						value[1][1] = value[2][0];
@@ -2726,9 +2736,11 @@ void createbot::addint( QString & str,int integ )
 {
 	bool ready=false;
 	QString temp;
+	QString t2;
 	while( !ready )
 	{
-		temp = (integ%10+'0') + temp;
+		t2 = (integ%10+'0');
+		temp = t2 + temp;
 		integ /= 10;
 		if( !integ )ready=true;
 	}

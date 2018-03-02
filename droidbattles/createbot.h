@@ -22,22 +22,12 @@
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
-#include <myqmultilineedit.h>
-#include <qscrollview.h>
 #include <qstring.h>
-#include <qcombobox.h>
-#include "commonsymbols.h"
 #include <qfiledialog.h>
 #include <qfile.h>
-#include <qtextstream.h>
-#include "instruktion.h"
-#include <qregexp.h>
-#include <unistd.h>
 #include <qfiledialog.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
-#include "battlearea.h"
-#include "quickconf.h"
 #include "confstruct.h"
 #include "pixmapholder.h"
 #include "assert.h"
@@ -46,6 +36,12 @@
   */
 
 class devchoice;
+class myQMultiLineEdit;
+class QScrollView;
+class QComboBox;
+class instruktion;
+class battlearea;
+class quickconf;
 
 class createbot : public QWidget
 {

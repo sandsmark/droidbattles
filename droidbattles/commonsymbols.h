@@ -20,6 +20,9 @@
 
 #include <qstring.h>
 
+//global variabel for textmode...
+
+
 //This file contains all Constants used
 
 //constants for cpu registers
@@ -101,6 +104,7 @@ const int bit8 = 8;
 const int bit16 = 16;
 const int bit0 = 0;
 const int NUMDEV = 20;
+const int numdev = 20;
 
 //Miscellaneous
 const int maxbeamlength = 8000;

@@ -16,5 +16,7 @@
         <file>images/ship7.bmp</file>
 
         <file>images/mainmenu.png</file>
+        <file>images/metal.png</file>
+        <file>images/metalback2.png</file>
     </qresource>
 </RCC>

@@ -328,7 +328,7 @@ int RobCpu::type()
 /**
 	* If ints is enabled return 5, else 4
 	*/
-int RobCpu::returnspecial()
+int RobCpu::specialValue()
 {
     if ( (registers[flags] & 0x0400) == 0x0400)
         return 5;
@@ -339,7 +339,7 @@ int RobCpu::returnspecial()
 /**
 	* Returns debug information in a struct
 	*/
-struct DebugContents RobCpu::returndbg()
+struct DebugContents RobCpu::debugContents()
 {
     struct DebugContents temp;
     temp.flags = registers[flags];

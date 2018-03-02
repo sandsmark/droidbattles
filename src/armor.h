@@ -35,9 +35,9 @@ public:
     void execute();
     int absorbHit (int str,int ifint);
     int type();
-    int returnspecial();
+    int specialValue();
     int readPort (unsigned char port);
-    void dospecial (int,int=0);
+    void doSpecial (int,int=0);
 private:
 
     int strength;

@@ -36,8 +36,8 @@ public:
     ~Scanner();
     void execute();
     int readPort (unsigned char port);
-    void erasegfx (QPainter *painter);
-    void showgfx (QPainter *painter);
+    void erase (QPainter *painter);
+    void draw (QPainter *painter);
 
 private:
     int threshold;

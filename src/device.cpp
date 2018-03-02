@@ -34,7 +34,7 @@ Device::~Device()
 	* Take in a value in the port (after an out instruktion from the CPU
 	* And place it in the stack
 	*/
-void Device::addinport (unsigned char port, unsigned short value)
+void Device::addInputPort (unsigned char port, unsigned short value)
 {
     for (int count=0; count<4; count++)
     {
@@ -73,7 +73,7 @@ void Device::draw (QPainter* /*buffer*/)
 	* Sets relative angle of device (relative to bot)
 	* ie. turret calls this function in the device he "turrets"
 	*/
-void Device::setrelang (int x)
+void Device::setRelativeAngle (int x)
 {
     relang = x;
 }
@@ -93,7 +93,7 @@ struct DebugContents Device::debugContents()
     return DebugContents();
 }
 
-void Device::dospecial (int /*x*/, int /*y*/)
+void Device::doSpecial (int /*x*/, int /*y*/)
 {
 }
 

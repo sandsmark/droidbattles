@@ -85,7 +85,7 @@ void RadarMissile::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
-    devices[2]->erasegfx (&painter);
+    devices[2]->erase (&painter);
 }
 
 /**
@@ -100,7 +100,7 @@ void RadarMissile::drawObject (QPixmap *buffer, int opt)
         painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *erasegfx);
     oldX = int (Xpos);
     oldY = int (Ypos);
-    devices[2]->showgfx (&painter);
+    devices[2]->draw (&painter);
 }
 
 /**
@@ -112,7 +112,7 @@ int RadarMissile::execute()
     for (x=0; x<3; x++)            //Execute all devices
         devices[x]->execute();
     if (dbgWindow)
-        dbgWindow->updatedata (devices[0]->returndbg());
+        dbgWindow->updatedata (devices[0]->debugContents());
     double dir = direction() * pi / 512;
     if (--fuelval <= 0) return -1;
     return setPosition (cos (dir) * m_speed,sin (dir) * m_speed);       //Update position
@@ -179,7 +179,7 @@ void RadarMissile::writeDevicePort (unsigned char port, unsigned short value)
 {
     int tempport = port%4;
     int tempdevice = int (port/4);
-    if (tempdevice < 3) devices[tempdevice]->addinport (tempport,value);
+    if (tempdevice < 3) devices[tempdevice]->addInputPort (tempport,value);
 }
 
 int RadarMissile::returnRadar()

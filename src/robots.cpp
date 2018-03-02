@@ -340,7 +340,7 @@ void Robots::eraseObject (QPixmap *buffer)
     if (gfxin == true)
     {
         for (x=0; x<32; x++)
-            devicelist[x]->erasegfx (&painter);
+            devicelist[x]->erase (&painter);
         gfxin = false;
     }
 }
@@ -366,7 +366,7 @@ void Robots::drawObject (QPixmap *buffer, int opt)
     if (showextragfx == true)
     {
         for (x=0; x<32; x++)
-            devicelist[x]->showgfx (&painter);
+            devicelist[x]->draw (&painter);
         gfxin = true;
     }
 }
@@ -389,7 +389,7 @@ void Robots::writeDevicePort (unsigned char port, unsigned short value)
 {
     int tempport = port%portsperdev;
     int tempdevice = int (port/portsperdev);
-    devicelist[tempdevice]->addinport (tempport,value);
+    devicelist[tempdevice]->addInputPort (tempport,value);
 }
 
 /**
@@ -424,16 +424,16 @@ int Robots::writeToDevice (int dev,int action, int value)
     {
     case 1 :
         if (dev < 32 && dev >= 0)
-            devicelist[dev]->setrelang (value);
+            devicelist[dev]->setRelativeAngle (value);
         break;
     case 2 :
-        return devicelist[dev]->returntype();
+        return devicelist[dev]->type();
         break;
     case 3 :
-        return devicelist[dev]->returnspecial();
+        return devicelist[dev]->specialValue();
         break;
     case 4 :
-        devicelist[dev]->dospecial (value);
+        devicelist[dev]->doSpecial (value);
         emit armorchanged (armorval);
         break;
     }
@@ -472,7 +472,7 @@ int Robots::objectHit (int type,int strength)
     for (x=0; x<32; x++)
     {
         xy = hitabsorborder[x];
-        strengthleft = devicelist[xy]->absorbhit (strengthleft,ifint);
+        strengthleft = devicelist[xy]->absorbHit (strengthleft,ifint);
         if (strengthleft <= 0)
             break;
     }
@@ -530,7 +530,7 @@ void Robots::showError (const QString &string, const QString &name)
 
 void Robots::writeRadio (int sig)
 {
-    devicelist[ourradiodev]->dospecial (sig,0);
+    devicelist[ourradiodev]->doSpecial (sig,0);
 }
 
 int Robots::memorySize()
@@ -548,11 +548,11 @@ void Robots::addInterrupt (int inter)
     int x;
     for (x=0; x<32; x++)
     {
-        if (devicelist[x]->returntype() == CPUtype)
+        if (devicelist[x]->type() == CPUtype)
         {
-            if (devicelist[x]->returnspecial() == CPUwithint)
+            if (devicelist[x]->specialValue() == CPUwithint)
             {
-                devicelist[x]->addinport (0,inter);
+                devicelist[x]->addInputPort (0,inter);
                 break;
             }
         }
@@ -567,9 +567,9 @@ struct DebugContents Robots::debugContents()
     int x;
     for (x=0; x<32; x++)
     {
-        if (devicelist[x]->returntype() == 9)
+        if (devicelist[x]->type() == 9)
         {
-            return devicelist[x]->returndbg();
+            return devicelist[x]->debugContents();
             break;
         }
     }
@@ -584,7 +584,7 @@ int Robots::cpuCount()
 {
     int num = 0;
     for (int x = 0; x <32; x++)
-        if (devicelist[x] && (devicelist[x]->returntype() == 9)) num++;
+        if (devicelist[x] && (devicelist[x]->type() == 9)) num++;
     return num;
 }
 
@@ -596,8 +596,8 @@ std::list<struct DebugContents>* Robots::allDebugContents()
 {
     std::list<DebugContents> *dc = new std::list<DebugContents>;
     for (int x=0; x<32; x++)
-        if (devicelist[x] && (devicelist[x]->returntype() == 9))
-            dc->push_back (devicelist[x]->returndbg());
+        if (devicelist[x] && (devicelist[x]->type() == 9))
+            dc->push_back (devicelist[x]->debugContents());
     return dc;
 }
 /**
@@ -616,9 +616,9 @@ void Robots::objectScanned (int intensity,int dir)
     int x;
     for (x=0; x<32; x++)
     {
-        if (devicelist[x]->returntype() == 11)
+        if (devicelist[x]->type() == 11)
         {
-            devicelist[x]->dospecial (intensity,dir);
+            devicelist[x]->doSpecial (intensity,dir);
             break;
         }
     }

@@ -167,7 +167,7 @@ void Scanner::execute()
 /**
 	* Paint scanarc black
 	*/
-void Scanner::erasegfx (QPainter *painter)
+void Scanner::erase (QPainter *painter)
 {
     if (ispainted == true)
     {
@@ -182,7 +182,7 @@ void Scanner::erasegfx (QPainter *painter)
 /**
 	* Paint the white scanarc
 	*/
-void Scanner::showgfx (QPainter *painter)
+void Scanner::draw (QPainter *painter)
 {
     if (scanshow-- > 0)
     {

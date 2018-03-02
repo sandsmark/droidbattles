@@ -120,7 +120,7 @@ int Armor::type()
 /**
 	* Returns original armor value - current value
 	*/
-int Armor::returnspecial()
+int Armor::specialValue()
 {
     return (orstrength-strength);
 }
@@ -146,7 +146,7 @@ int Armor::readPort (unsigned char port)
 	* The repair unit uses this function in order to not issue an interrupt
 	* every time he repairs.
 	*/
-void Armor::dospecial (int x, int /*y*/)
+void Armor::doSpecial (int x, int /*y*/)
 {
     ourbot->armorval -= x;
     strength -= x;

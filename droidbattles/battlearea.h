@@ -32,6 +32,7 @@
 #include <qdir.h>
 #include <qscrollview.h>
 #include "pixbutton.h"
+#include <commonsymbols.h>
 #include "ram.h"
 #include "debugwindow.h"
 #include <qmultilineedit.h>
@@ -86,7 +87,7 @@ class battlearea : public QWidget
 
 	private:
 
-		std::list<debugwindow*> dbgwindows;
+		list<debugwindow*> dbgwindows;
     QMultiLineEdit *_dbedit;
     int *_dbl;
     int *_dbm;

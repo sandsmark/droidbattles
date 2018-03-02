@@ -190,7 +190,7 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-EXTRA_DIST = index.html index-1.html index-2.html index-3.html index-4.html index-5.html index-6.html index.sgml index-7.html index-10.html index-11.html index-12.html index-8.html index-9.html index-13.html 
+EXTRA_DIST = index.html index-1.html index-2.html index-3.html index-4.html index-5.html index-6.html index-10.html index-11.html index-12.html index-13.html index-14.html index-7.html index-8.html index-9.html 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../config.h
 CONFIG_CLEAN_FILES = 
@@ -204,10 +204,10 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/docs/en/Makefile
+#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/docs/en/Makefile
 #>+ 2
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/docs/en/Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/battlebots/docs/en/Makefile.in
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/docs/en/Makefile
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/droidbattles/docs/en/Makefile.in
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -219,7 +219,7 @@ TAGS:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = battlebots/docs/en
+subdir = droidbattles/docs/en
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -297,134 +297,143 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index.html /usr/local/battlebots/doc/index.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index.html /usr/local/droidbattles/doc/index.html
 #>+ 1
-	$(INSTALL_DATA) index.html $(DESTDIR)/usr/local/battlebots/doc/index.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index.html $(DESTDIR)/usr/local/droidbattles/doc/index.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-1.html /usr/local/battlebots/doc/index-1.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-1.html /usr/local/droidbattles/doc/index-1.html
 #>+ 1
-	$(INSTALL_DATA) index-1.html $(DESTDIR)/usr/local/battlebots/doc/index-1.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-1.html $(DESTDIR)/usr/local/droidbattles/doc/index-1.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-2.html /usr/local/battlebots/doc/index-2.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-2.html /usr/local/droidbattles/doc/index-2.html
 #>+ 1
-	$(INSTALL_DATA) index-2.html $(DESTDIR)/usr/local/battlebots/doc/index-2.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-2.html $(DESTDIR)/usr/local/droidbattles/doc/index-2.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-3.html /usr/local/battlebots/doc/index-3.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-3.html /usr/local/droidbattles/doc/index-3.html
 #>+ 1
-	$(INSTALL_DATA) index-3.html $(DESTDIR)/usr/local/battlebots/doc/index-3.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-3.html $(DESTDIR)/usr/local/droidbattles/doc/index-3.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-4.html /usr/local/battlebots/doc/index-4.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-4.html /usr/local/droidbattles/doc/index-4.html
 #>+ 1
-	$(INSTALL_DATA) index-4.html $(DESTDIR)/usr/local/battlebots/doc/index-4.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-4.html $(DESTDIR)/usr/local/droidbattles/doc/index-4.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-5.html /usr/local/battlebots/doc/index-5.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-5.html /usr/local/droidbattles/doc/index-5.html
 #>+ 1
-	$(INSTALL_DATA) index-5.html $(DESTDIR)/usr/local/battlebots/doc/index-5.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-5.html $(DESTDIR)/usr/local/droidbattles/doc/index-5.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-6.html /usr/local/battlebots/doc/index-6.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-6.html /usr/local/droidbattles/doc/index-6.html
 #>+ 1
-	$(INSTALL_DATA) index-6.html $(DESTDIR)/usr/local/battlebots/doc/index-6.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-6.html $(DESTDIR)/usr/local/droidbattles/doc/index-6.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-7.html /usr/local/battlebots/doc/index-7.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-10.html /usr/local/droidbattles/doc/index-10.html
 #>+ 1
-	$(INSTALL_DATA) index-7.html $(DESTDIR)/usr/local/battlebots/doc/index-7.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-10.html $(DESTDIR)/usr/local/droidbattles/doc/index-10.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-10.html /usr/local/battlebots/doc/index-10.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-11.html /usr/local/droidbattles/doc/index-11.html
 #>+ 1
-	$(INSTALL_DATA) index-10.html $(DESTDIR)/usr/local/battlebots/doc/index-10.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-11.html $(DESTDIR)/usr/local/droidbattles/doc/index-11.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-11.html /usr/local/battlebots/doc/index-11.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-12.html /usr/local/droidbattles/doc/index-12.html
 #>+ 1
-	$(INSTALL_DATA) index-11.html $(DESTDIR)/usr/local/battlebots/doc/index-11.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-12.html $(DESTDIR)/usr/local/droidbattles/doc/index-12.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-12.html /usr/local/battlebots/doc/index-12.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-13.html /usr/local/droidbattles/doc/index-13.html
 #>+ 1
-	$(INSTALL_DATA) index-12.html $(DESTDIR)/usr/local/battlebots/doc/index-12.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-13.html $(DESTDIR)/usr/local/droidbattles/doc/index-13.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-8.html /usr/local/battlebots/doc/index-8.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-14.html /usr/local/droidbattles/doc/index-14.html
 #>+ 1
-	$(INSTALL_DATA) index-8.html $(DESTDIR)/usr/local/battlebots/doc/index-8.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-14.html $(DESTDIR)/usr/local/droidbattles/doc/index-14.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-9.html /usr/local/battlebots/doc/index-9.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-7.html /usr/local/droidbattles/doc/index-7.html
 #>+ 1
-	$(INSTALL_DATA) index-9.html $(DESTDIR)/usr/local/battlebots/doc/index-9.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+	$(INSTALL_DATA) index-7.html $(DESTDIR)/usr/local/droidbattles/doc/index-7.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-13.html /usr/local/battlebots/doc/index-13.html
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-8.html /usr/local/droidbattles/doc/index-8.html
 #>+ 1
-	$(INSTALL_DATA) index-13.html $(DESTDIR)/usr/local/battlebots/doc/index-13.html
+	$(INSTALL_DATA) index-8.html $(DESTDIR)/usr/local/droidbattles/doc/index-8.html
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/doc/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/doc/
+#>- 	$(INSTALL_DATA) index-9.html /usr/local/droidbattles/doc/index-9.html
+#>+ 1
+	$(INSTALL_DATA) index-9.html $(DESTDIR)/usr/local/droidbattles/doc/index-9.html
 
 uninstall-local:
-#>- 	-rm -f /usr/local/battlebots/doc/index.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-1.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-1.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-1.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-2.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-1.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-2.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-2.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-3.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-2.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-3.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-3.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-4.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-3.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-4.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-4.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-5.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-4.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-5.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-5.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-6.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-5.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-6.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-6.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-7.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-6.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-10.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-7.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-10.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-10.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-11.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-10.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-11.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-11.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-12.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-11.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-12.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-12.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-13.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-12.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-8.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-13.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-14.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-8.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-9.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-14.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-7.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-9.html
-#>- 	-rm -f /usr/local/battlebots/doc/index-13.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-7.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-8.html
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-13.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-8.html
+#>- 	-rm -f /usr/local/droidbattles/doc/index-9.html
+#>+ 1
+	-rm -f $(DESTDIR)/usr/local/droidbattles/doc/index-9.html
 
 ####### kdevelop will overwrite this part!!! (end)############
 
@@ -440,8 +449,8 @@ docs-am:
 
 #>+ 5
 force-reedit:
-		cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/docs/en/Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/battlebots/docs/en/Makefile.in
+		cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/docs/en/Makefile
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/droidbattles/docs/en/Makefile.in
 
 
 #>+ 2

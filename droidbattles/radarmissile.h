@@ -18,7 +18,7 @@
 #ifndef RADARMISSILE_H
 #define RADARMISSILE_H
 
-#include "screenobject.h"
+#include <screenobject.h>
 #include "battlearea.h"
 #include "ram.h"
 #include "robcpu.h"
@@ -32,8 +32,6 @@
 
 class radarmissile : public screenobject
 {
-
-	Q_OBJECT
 
 	public:
 

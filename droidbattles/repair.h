@@ -18,7 +18,7 @@
 #ifndef REPAIR_H
 #define REPAIR_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 
 /**

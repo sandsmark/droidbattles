@@ -18,7 +18,7 @@
 #ifndef CHILLER_H
 #define CHILLER_H
 
-#include "device.h"
+#include <device.h>
 
 /**
   *@author Andreas Agorander

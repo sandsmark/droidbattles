@@ -22,7 +22,11 @@
 #include "battlearea.h"
 #include <qwidget.h>
 #include "commonsymbols.h"
-#include "installdir.h"
+#ifndef __USE_GNU
+#define __USE_GNU
+#endif
+#include <unistd.h>
+#include <installdir.h>
 #include "pixmapholder.h"
 
 /**
@@ -32,8 +36,6 @@
 
 class missile : public screenobject
 {
-
-	Q_OBJECT
 
 	public:
 

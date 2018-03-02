@@ -51,8 +51,13 @@
 #include "rocketlauncher.h"
 #include "chafflauncher.h"
 
+#ifndef __USE_GNU
+#define __USE_GNU
+#include <unistd.h>
+#endif
+
 #include "confstruct.h"
-#include "installdir.h"
+#include <installdir.h>
 #include "radarmissilelauncher.h"
 #include "scandetect.h"
 #include "chiller.h"
@@ -99,7 +104,7 @@ class robots : public screenobject
 		struct debugcontents returndbgcont( );
     int numCPUs();
     // the caller has to delete the returned pointer
-		std::list<struct debugcontents> * returndbgcont2( );
+		list<struct debugcontents> * returndbgcont2( );
 		int returnradar( );
 		void setradar( int x );
 		void dumpRAM( );

@@ -23,28 +23,27 @@
 		*/
 DroidBattles::DroidBattles( )
 {
-  setCaption( "DroidBattles 1.0.4" );
-//	setpriority( PRIO_PROCESS, 0, 5); //Lower process execution priority
-	srand( time( 0 ) ); //Initialize random seed
+  setCaption( "DroidBattles " VERSION );
+	setpriority( PRIO_PROCESS, 0, 5); //Lower process execution priority
+	srandom( time( 0 ) ); //Initialize random seed
 
 	/**
 		* If the dir homedir/droidbattles doesn't exist, create it
 		* Same with the file homedir/droidbattles/current.cfg
 		*/
-/*	QDir d = QDir::home( );
+	QDir d = QDir::home( );
 	if( !d.cd( "droidbattles" ) )
 	{
 		d.mkdir( "droidbattles" );
 		d.cd( "droidbattles" );
-	}*/
-//	QString temp = QDir::homeDirPath( );
-//	temp += "/droidbattles/current.cfg";
-	QString temp = "current.cfg";
+	}
+	QString temp = QDir::homeDirPath( );
+	temp += "/droidbattles/current.cfg";
 	QFile f( temp );
 	if( !f.exists( ) )
 	{
-//		temp = returninstalldir( );
-		temp += "current.cfg";
+		temp = returninstalldir( );
+		temp += "/current.cfg";
 		QFile f2( temp );
 		f2.open( IO_ReadOnly );
 		f.open( IO_WriteOnly );
@@ -60,36 +59,36 @@ DroidBattles::DroidBattles( )
 	setFixedSize( 500,350 );
 
 	//Load all pixmaps used by the application
-//	QString fname = returninstalldir( );
-	QString fname = "mainmenu.png";
+	QString fname = returninstalldir( );
+	fname += "/pixmaps/mainmenu.png";
 	Pixmapholder::addpm( fname,0 );
 
-//	fname = returninstalldir( );
-	fname = "backbutton.xpm";
+	fname = returninstalldir( );
+	fname += "/pixmaps/backbutton.xpm";
 	Pixmapholder::addpm( fname,1 );
 
-//	fname = returninstalldir( );
-	fname = "metal.png";
+	fname = returninstalldir( );
+	fname += "/pixmaps/metal.png";
 	Pixmapholder::addpm( fname,2 );
 
-//	fname = returninstalldir( );
-	fname = "metalback2.png";
+	fname = returninstalldir( );
+	fname += "/pixmaps/metalback2.png";
 	Pixmapholder::addpm( fname,3 );
 
-//	fname = returninstalldir( );
-	fname = "radarmissile.bmp";
+	fname = returninstalldir( );
+	fname += "/pixmaps/radarmissile.bmp";
 	Pixmapholder::addpm( fname,4 );
 
-//	fname = returninstalldir( );
-	fname = "chaff.bmp";
+	fname = returninstalldir( );
+	fname += "/pixmaps/chaff.bmp";
 	Pixmapholder::addpm( fname,5 );
 
-//	fname = returninstalldir( );
-	fname = "mine.xpm";
+	fname = returninstalldir( );
+	fname += "/pixmaps/mine.xpm";
 	Pixmapholder::addpm( fname,6 );
 
-//	fname = returninstalldir( );
-	fname = "missile.xpm";
+	fname = returninstalldir( );
+	fname += "/pixmaps/missile.xpm";
 	Pixmapholder::addpm( fname,7 );
 
 	setBackgroundPixmap( Pixmapholder::getpm( 0 ) );
@@ -157,8 +156,8 @@ DroidBattles::~DroidBattles( )
 
 void DroidBattles::showdoc( )
 {
-//	QString temp = returninstalldir( );
-	QString temp = "index.html";
+	QString temp = returninstalldir( );
+	temp += "/doc/index.html";
 	browser = new Docbrowser( temp );
 }
 	/**
@@ -341,7 +340,7 @@ void DroidBattles::createb( )
 void DroidBattles::about( )
 {
 	QMessageBox::information( this, "About DroidBattles",
-	"DroidBattles 1.0.4 2001-06-04 by Andreas Agorander (Bluefire@bluefire.nu)\n"
+	"DroidBattles " VERSION " 2001-09-09 by Andreas Agorander (Bluefire@bluefire.nu)\n"
 	 "get the latest version at http://www.bluefire.nu/droidbattles" );
 }
 
@@ -411,8 +410,8 @@ void DroidBattles::starttourney( )
 	xs = stment->getxsize( );
 	ys = stment->getysize( );
 	seed = stment->getseed( );
-	if( !seed )seed = rand( );
-	srand( seed );
+	if( !seed )seed = random( );
+	srandom( seed );
 	teams[0] = 0;
 	teams[1] = 1;
 
@@ -548,7 +547,7 @@ void DroidBattles::managetourney( int wins1, int wins2 )
 		f.close( );
 		enabletourneys( );
 		QString tempdc = QDir::currentDirPath( );
-		tempdc = "tournament.html";
+		tempdc += "/tournament.html";
 		browser = new Docbrowser( tempdc );
 	}
 	else
@@ -610,8 +609,8 @@ void DroidBattles::startkoth( )
 	xs = kotht->getxsize( );
 	ys = kotht->getysize( );
 	seed = kotht->getseed( );
-	if( !seed )seed = rand( );
-	srand( seed );
+	if( !seed )seed = random( );
+	srandom( seed );
 
 	teams[0] = 0;
 	teams[1] = 1;
@@ -791,7 +790,7 @@ void DroidBattles::mankothtourney( int wins1,int wins2 )
 		delete kotht;
 		enabletourneys( );
 		QString tempdc = QDir::currentDirPath( );
-		tempdc = "Kothresults.html";
+		tempdc += "/Kothresults.html";
 		browser = new Docbrowser( tempdc );
 	}
 	else
@@ -853,8 +852,8 @@ void DroidBattles::startcupt( )
 	xs = cuptournament->getxsize( );
 	ys = cuptournament->getysize( );
 	seed = cuptournament->getseed( );
-	if( !seed )seed = rand( );
-	srand( seed );
+	if( !seed )seed = random( );
+	srandom( seed );
 
 	teams[0] = 0;
 	teams[1] = 1;
@@ -963,7 +962,7 @@ void DroidBattles::mancuptourney( int wins1,int wins2 )
 		s2 << "\n</BODY>\n</HTML>";
 		f2.close( );
 		QString tempdc = QDir::currentDirPath( );
-		tempdc = "Cupresults.html";
+		tempdc += "/Cupresults.html";
 		browser = new Docbrowser( tempdc );
 		delete cuptournament;
 		enabletourneys( );

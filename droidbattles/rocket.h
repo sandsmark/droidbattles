@@ -18,7 +18,7 @@
 #ifndef ROCKET_H
 #define ROCKET_H
 
-#include "screenobject.h"
+#include <screenobject.h>
 #include <math.h>
 #include "battlearea.h"
 
@@ -29,8 +29,6 @@
 
 class rocket : public screenobject
 {
-
-	Q_OBJECT
 
 	public:
 

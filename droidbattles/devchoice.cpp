@@ -22,7 +22,7 @@
 		*/
 
 devchoice::devchoice( createbot *cre,QWidget *parent,const char *name,
-											int num ) : QWidget( parent,name )
+											int num = 0 ) : QWidget( parent,name )
 {
 	chosenlevel = 0;
 	dev = 0;

@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #include "robcpu.h"
-#include <stdlib.h>
-#include <math.h>
 extern bool SingleStepMode;  // defined in battlearea.h
 
 //#include <qmessagebox.h>
@@ -390,7 +388,7 @@ void robCPU::execinstr( )
 	signed int iintpart,irestpart,iresult;
 	unsigned short rtemp;
 	char status;
-	unsigned char bit,times;
+	unsigned char bit;
 	char message[20];
 	int execmementry=0;
 	for( x=0;x<30;x++ )
@@ -1093,7 +1091,7 @@ void robCPU::execinstr( )
 			//CMPSB
 			case 0x3B :
 				status = 0;
-				for( times = bit8reg[cl];times>0;times--)
+				for(unsigned char times = bit8reg[cl];times>0;times--)
 				{
 					test1 = mem->getbyte(registers[di]+times);
 					test2 = mem->getbyte(registers[si]+times);
@@ -1431,7 +1429,7 @@ void robCPU::execinstr( )
 
 			//ADD mem,imm 8
 			case 0x67 :
-				mem->setword( mem->getword( registers[eip]+1 ) ,
+				mem->setbyte( mem->getword( registers[eip]+1 ) ,
 					mem->getbyte( mem->getword( registers[eip]+1 ) ) +
 					mem->getbyte( registers[eip]+3 ) );
 				registers[eip] += 4;
@@ -2562,7 +2560,7 @@ void robCPU::execinstr( )
 				mem->setword( registers[sp], registers[eip]+2 );
 				tt = mem->returnsize( );
 				argum = mem->getbyte( registers[eip]+1 );
-				registers[eip] = mem->getword( tt-(argum*2) );
+				registers[eip] = mem->getword( tt-(argum*2+2) );
 				registers[sp] += 2;
 				registers[flags] &= 0xFBFF;
 			break;
@@ -2657,7 +2655,7 @@ void robCPU::execinstr( )
 
 			//RND
 			case 0xEC :
-				registers[ax] = rand( );
+				registers[ax] = random( );
 				registers[eip]++;
 			break;
 

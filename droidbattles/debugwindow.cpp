@@ -234,12 +234,10 @@ void debugwindow::updatedata( struct debugcontents contents )
 void debugwindow::addint( QString &str,unsigned short integ )
 {
 	bool ready=false;
-	QString temp,t2;
+	QString temp;
 	while( !ready )
 	{
-		t2 = ((integ%10)+'0');
-		t2 += temp;
-		temp = t2;
+		temp = (integ%10+'0') + temp;
 		integ /= 10;
 		if( !integ )ready=true;
 	}

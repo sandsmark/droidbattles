@@ -29,7 +29,7 @@ screenobject::~screenobject( )
 {
 }
 
-void screenobject::showobject( QWidget *buffer, int opt )
+void screenobject::showobject( QWidget *buffer, int opt = 0 )
 {
 }
 
@@ -113,8 +113,8 @@ int screenobject::objhit( int type,int strength )
 	return 0;
 }
 
-void screenobject::addscrobject( int X,int Y,int dir,int type, int arg1,
-																 int arg2,void *arg3 )
+void screenobject::addscrobject( int X,int Y,int dir,int type, int arg1=0,
+																 int arg2=0,void *arg3=0 )
 {
 }
 
@@ -222,8 +222,6 @@ void screenobject::addinterrupt( int inter )
 
 struct debugcontents screenobject::returndbgcont( )
 {
-	struct debugcontents dummy;
-	return dummy;
 }
 
 bool screenobject::areaexplosionaffects( )

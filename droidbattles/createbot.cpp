@@ -24,6 +24,7 @@ createbot::createbot( )
 {
 	setMinimumSize( 600,500 );
 	edittxt = new myQMultiLineEdit( this );
+	edittxt->setFont( QFont( "adobe-courier-iso8859-1",12 ) );
 	edittxt->setGeometry( 75,30,300,400 );
 	showlatency = new myQMultiLineEdit( this );
 	connect(edittxt->myVerticalScrollBar(),SIGNAL(valueChanged(int)),
@@ -91,10 +92,8 @@ createbot::createbot( )
 	amountRAM->show( );
 
 	dirname = new char[100];
-//	botname = QDir::homeDirPath( );	
-//	botname += "/droidbattles/unnamed";
-
-	botname = "unnamed";
+	botname = QDir::homeDirPath( );	
+	botname += "/droidbattles/unnamed";
 
 	gfxbutton = new QPushButton( this );
 	gfxbutton->setGeometry( 10,450,520,36 );
@@ -430,9 +429,8 @@ void createbot::newb( )
 		devices[x]->setarg1( 0 );
 	}
 	amountRAM->setCurrentItem( 0 );
-//	botname = QDir::homeDirPath( );	
-//	botname += "/droidbattles/unnamed";
-	botname = "unnamed";
+	botname = QDir::homeDirPath( );	
+	botname += "/droidbattles/unnamed";
 	gfx.resize( 0,0 );
 	changed = false;
 	edittxt->setEdited( false );
@@ -2618,9 +2616,8 @@ void createbot::stopconf( )
 		*/
 void createbot::checkconf( )
 {
-//	QString tempname = QDir::homeDirPath( );
-//	tempname += "/droidbattles/current.cfg";
-	QString tempname = "current.cfg";
+	QString tempname = QDir::homeDirPath( );
+	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
 	if( !f.open( IO_ReadOnly ) )
 	{
@@ -2728,12 +2725,10 @@ void createbot::checkconf( )
 void createbot::addint( QString & str,int integ )
 {
 	bool ready=false;
-	QString temp,tm;
+	QString temp;
 	while( !ready )
 	{
-		tm = (integ%10+'0');
-		tm += temp;
-		temp = tm;
+		temp = (integ%10+'0') + temp;
 		integ /= 10;
 		if( !integ )ready=true;
 	}

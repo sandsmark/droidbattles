@@ -49,7 +49,7 @@ chaff::~chaff( )
 	/**
 		* Paint object
 		*/
-void chaff::showobject( QWidget *buffer,int opt )
+void chaff::showobject( QWidget *buffer,int opt=0 )
 {
 	int picpos = 84-(int( timeleft/20 )* 12);
 

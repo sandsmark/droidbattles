@@ -84,7 +84,7 @@ quickconf::quickconf( )
 
 
 	QString temp = QDir::homeDirPath( );
-	temp = "quick.conf";
+	temp += "/droidbattles/quick.conf";
 	QFile f( temp );
 	if( f.exists( ) && f.open( IO_ReadOnly ) )
 	{
@@ -127,7 +127,7 @@ quickconf::~quickconf( )
 void quickconf::ocl( )
 {
 	QString temp = QDir::homeDirPath( );
-	temp = "quick.conf";
+	temp += "/droidbattles/quick.conf";
 	QFile f( temp );
 	if( f.open( IO_WriteOnly ) )
 	{

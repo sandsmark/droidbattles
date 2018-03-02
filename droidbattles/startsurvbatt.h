@@ -18,7 +18,7 @@
 #ifndef STARTSURVBATT_H
 #define STARTSURVBATT_H
 
-#include "startsbatt.h"
+#include <startsbatt.h>
 
 /**
   *@author Andreas Agorander
@@ -27,9 +27,6 @@
 
 class startsurvbatt : public startsbatt
 {
-
-	Q_OBJECT
-
 	public:
 		startsurvbatt( );
 		~startsurvbatt( );

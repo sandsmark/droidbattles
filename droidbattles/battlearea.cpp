@@ -24,9 +24,9 @@ bool SingleStepMode = false;
 battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 												char *nam5,char *nam6,char *nam7,char *nam8,int numf,
 												int mx, int xs, int ys, bool ifteams, int *bteams,
-												bool tourney,bool fast,int mode,int maxp,
-												bool ifdebug,QMultiLineEdit *dbedit,
-												int *dbl, int *dbm )
+												bool tourney,bool fast,int mode=0,int maxp=10,
+												bool ifdebug=false,QMultiLineEdit *dbedit=NULL,
+												int *dbl=0, int *dbm=0 )
 {
 
 	debugenabled = ifdebug;
@@ -43,9 +43,8 @@ battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 
 	// OPen the current config file
 	maxrounds = mx;
-//	QString tempname = QDir::homeDirPath( );
-//	tempname += "/droidbattles/current.cfg";
-	QString tempname = "current.cfg";
+	QString tempname = QDir::homeDirPath( );
+	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
 	if( !f.open( IO_ReadOnly ) )
 	{
@@ -178,7 +177,7 @@ void battlearea::play( )
 	if( iffast == true )
 		eventH->start( 0 ); //As fast as possible
 	else
-		eventH->start( 10 );//20 ms between ticks (50 times/second)
+		eventH->start( 20 );//20 ms between ticks (50 times/second)
 	runmode = 1;
 }
 
@@ -209,7 +208,7 @@ battlearea::~battlearea( )
 	eventH->stop( );
 	delete eventH;
 	delete infowindow;
-	std::list<debugwindow*>::iterator i;
+	list<debugwindow*>::iterator i;
 	for (i=dbgwindows.begin(); i!=dbgwindows.end(); i++)
     delete *i;
   dbgwindows.clear();
@@ -239,8 +238,8 @@ void battlearea::startonebattle( int y )
 
 	//Randomize start positions and make sure the bots don't start to
 	//close to each other
-	xstarts[0] = rand( )%xsize;
-	ystarts[0] = rand( )%ysize;
+	xstarts[0] = random( )%xsize;
+	ystarts[0] = random( )%ysize;
 	for( x =1;x<maxbots;x++ )
 	{
 		int dst=minstartdistance-1;
@@ -248,8 +247,8 @@ void battlearea::startonebattle( int y )
 		while( dst < minstartdistance && tries < 128 )
 		{
 			dst = minstartdistance;
-			xstarts[x] = rand( )%xsize;
-			ystarts[x] = rand( )%ysize;
+			xstarts[x] = random( )%xsize;
+			ystarts[x] = random( )%ysize;
 			for( y=0;y<x;y++ )
 			{
 				int xdiff = abs(xstarts[y] - xstarts[x]);
@@ -276,7 +275,7 @@ void battlearea::startonebattle( int y )
   }
 
   if (debugenabled) {
-	std::list<debugwindow*>::iterator i;
+    list<debugwindow*>::iterator i;
     for (i=dbgwindows.begin(); i!=dbgwindows.end();i++)
       delete *i;
     dbgwindows.clear();
@@ -324,7 +323,7 @@ void battlearea::startonebattle( int y )
 	{
 		if( !debugenabled )
 		{
-			eventH->start( 10 );
+			eventH->start( 20 );
 			runmode = 1;
 		}
 	}
@@ -459,8 +458,8 @@ void battlearea::execute( )
 										if( fightswon[x2] < maxpoints )
 										{
 											//Calc X and Y position
-											xstarts[x2] = rand( )%xsize;
-											ystarts[x2] = rand( )%ysize;
+											xstarts[x2] = random( )%xsize;
+											ystarts[x2] = random( )%ysize;
 											objects[x2] = new robots( (char *)names[x2].data( ),
 																		*this,x2,config,botteams[x2],false );
 											QObject::connect( objects[x2],
@@ -498,8 +497,8 @@ void battlearea::execute( )
 											fightswon[objects[x]->getowner( )]++;
 										checkwin = true;
 										//Calc X and Y position
-										xstarts[x2] = rand( )%xsize;
-										ystarts[x2] = rand( )%ysize;
+										xstarts[x2] = random( )%xsize;
+										ystarts[x2] = random( )%ysize;
 										objects[x2] = new robots( (char *)names[x2].data( ),*this,
 											x2,config,botteams[x2],false );
 										QObject::connect( objects[x2],
@@ -545,8 +544,8 @@ void battlearea::execute( )
 										if( fightswon[x] < maxpoints )
 										{
 											//Calc X and Y position
-											xstarts[x] = rand( )%xsize;
-											ystarts[x] = rand( )%ysize;
+											xstarts[x] = random( )%xsize;
+											ystarts[x] = random( )%ysize;
 											objects[x] = new robots( (char *)names[x].data( ),*this,
 												x,config,botteams[x],false );
 											QObject::connect( objects[x],
@@ -587,8 +586,8 @@ void battlearea::execute( )
 										x2 = maxobjects;
 										checkwin = true;
 										//Calc X and Y position
-										xstarts[x] = rand( )%xsize;
-										ystarts[x] = rand( )%ysize;
+										xstarts[x] = random( )%xsize;
+										ystarts[x] = random( )%ysize;
 										objects[x] = new robots( (char *)names[x].data( ),*this,x,
 											config,botteams[x],false );
 										QObject::connect( objects[x],
@@ -741,11 +740,10 @@ void battlearea::execute( )
 				QString msg;
 				if( !hideresmsg )
 				{
-					int xx;
 					switch ( battlemode )
 					{
 						case 0 :
-					 	for( xx = 0;xx<8;xx++ )
+					 	for( int xx = 0;xx<8;xx++ )
 					 	{
 							if( names[xx] != "" )
 							{
@@ -763,7 +761,7 @@ void battlearea::execute( )
 							msg += " won with ";
 							msg += QString::number( maxpoints-fightswon[botnum] );
 							msg += " lives left!\n";
-						 	for( xx = 0;xx<8;xx++ )
+						 	for( int xx = 0;xx<8;xx++ )
 						 	{
 								if( names[xx] != "" && xx != botnum )
 								{
@@ -825,10 +823,10 @@ void battlearea::execute( )
 	if( debugenabled )  //If this is a "quick battle", update register content info and such
     if (objects[debugbot]->returntype() == 1) // for robots only
     {
-	  std::list<struct debugcontents> *dc = ((robots*)objects[debugbot])->returndbgcont2();
+      list<struct debugcontents> *dc = ((robots*)objects[debugbot])->returndbgcont2();
       assert(dc->size() == dbgwindows.size());
-	  std::list<debugwindow*>::iterator i = dbgwindows.begin();
-	  std::list<debugcontents>::iterator j = dc->begin();
+      list<debugwindow*>::iterator i = dbgwindows.begin();
+      list<debugcontents>::iterator j = dc->begin();
       for (;i!=dbgwindows.end();i++,j++)
         (*i)->updatedata(*j);
       delete dc;
@@ -860,7 +858,7 @@ void battlearea::closeEvent( QCloseEvent *e )
 		* this function (via his bot)
 		*/
 void battlearea::addscrobject( int owner,int X,int Y,int dir,int type,
-															 int arg1,int arg2, void *arg3 )
+															 int arg1=0,int arg2=0, void *arg3=0 )
 {
 	int x;
 	for( x=0;x<maxobjects;x++ )
@@ -1018,8 +1016,8 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject)
 						if( fightswon[z] < maxpoints )
 						{
 							//Calc X and Y position
-							xstarts[z] = rand( )%xsize;
-							ystarts[z] = rand( )%ysize;
+							xstarts[z] = random( )%xsize;
+							ystarts[z] = random( )%ysize;
 							objects[z] = new robots( (char *)names[z].data( ),*this,z,
 								config,botteams[z],false );
 							QObject::connect( objects[z],SIGNAL( armorchanged( int ) ),
@@ -1053,8 +1051,8 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject)
 							fightswon[objects[x]->getowner( )]++;
 						checkwin = true;
 						//Calc X and Y position
-						xstarts[x2] = rand( )%xsize;
-						ystarts[x2] = rand( )%ysize;
+						xstarts[x2] = random( )%xsize;
+						ystarts[x2] = random( )%ysize;
 						objects[x2] = new robots( (char *)names[x2].data( ),*this,x2,
 							config,botteams[x2],false );
 						QObject::connect( objects[x2],SIGNAL( armorchanged( int ) ),

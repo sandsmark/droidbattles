@@ -85,7 +85,7 @@ int beam::returntype( )
 	/**
 		* Paint object
 		*/
-void beam::showobject( QWidget *buffer,int opt )
+void beam::showobject( QWidget *buffer,int opt=0 )
 {
 	QPainter p( buffer );
 	p.setPen( QColor( 0,0,255 ) );

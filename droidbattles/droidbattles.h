@@ -47,7 +47,7 @@
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
-//#include <unistd.h>
+#include <unistd.h>
 #include "createbot.h"
 #include "startsbatt.h"
 #include "startsurvbatt.h"
@@ -56,11 +56,11 @@
 #include "commonsymbols.h"
 #include "confedit.h"
 #include "starttournament.h"
-#include <time.h>
-//#include <resource.h>
-#include "installdir.h"
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <installdir.h>
 #include "kothtournament.h"
-#include "matchresult.h"
+#include <matchresult.h>
 #include "startcup.h"
 #include "docbrowser.h"
 #include "pixbutton.h"

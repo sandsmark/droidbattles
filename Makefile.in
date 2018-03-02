@@ -190,9 +190,9 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-SUBDIRS = battlebots 
+SUBDIRS = droidbattles 
 
-EXTRA_DIST = battlebots.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO NEWS battlebots.lsm tracker.basm 
+EXTRA_DIST = droidbattles.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO NEWS droidbattles.lsm 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 
@@ -218,7 +218,7 @@ $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 #>- 	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
 #>+ 2
 	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/Makefile.in
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/Makefile.in
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -494,17 +494,62 @@ dist-hook:
 	-perl am_edit
 
 install-data-local:
-#>- 	$(mkinstalldirs) /usr/local/battlebots/bots/
+#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/bots/
-#>- 	$(INSTALL_DATA) tracker.basm /usr/local/battlebots/bots/tracker.basm
+	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
+#>- 	$(INSTALL_DATA) AUTHORS /usr/local/battlebots/doc/AUTHORS
 #>+ 1
-	$(INSTALL_DATA) tracker.basm $(DESTDIR)/usr/local/battlebots/bots/tracker.basm
+	$(INSTALL_DATA) AUTHORS $(DESTDIR)/usr/local/battlebots/doc/AUTHORS
+#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
+#>- 	$(INSTALL_DATA) COPYING /usr/local/battlebots/doc/COPYING
+#>+ 1
+	$(INSTALL_DATA) COPYING $(DESTDIR)/usr/local/battlebots/doc/COPYING
+#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
+#>- 	$(INSTALL_DATA) ChangeLog /usr/local/battlebots/doc/ChangeLog
+#>+ 1
+	$(INSTALL_DATA) ChangeLog $(DESTDIR)/usr/local/battlebots/doc/ChangeLog
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) INSTALL /usr/local/droidbattles/INSTALL
+#>+ 1
+	$(INSTALL_DATA) INSTALL $(DESTDIR)/usr/local/droidbattles/INSTALL
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) README /usr/local/droidbattles/README
+#>+ 1
+	$(INSTALL_DATA) README $(DESTDIR)/usr/local/droidbattles/README
+#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
+#>- 	$(INSTALL_DATA) TODO /usr/local/battlebots/doc/TODO
+#>+ 1
+	$(INSTALL_DATA) TODO $(DESTDIR)/usr/local/battlebots/doc/TODO
 
 uninstall-local:
-#>- 	-rm -f /usr/local/battlebots/bots/tracker.basm
+#>- 	-rm -f /usr/local/battlebots/doc/AUTHORS
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/bots/tracker.basm
+	-rm -f $(DESTDIR)/usr/local/battlebots/doc/AUTHORS
+#>- 	-rm -f /usr/local/battlebots/doc/COPYING
+#>+ 1
+	-rm -f $(DESTDIR)/usr/local/battlebots/doc/COPYING
+#>- 	-rm -f /usr/local/battlebots/doc/ChangeLog
+#>+ 1
+	-rm -f $(DESTDIR)/usr/local/battlebots/doc/ChangeLog
+#>- 	-rm -f /usr/local/droidbattles/INSTALL
+#>+ 1
+	-rm -f $(DESTDIR)/usr/local/droidbattles/INSTALL
+#>- 	-rm -f /usr/local/droidbattles/README
+#>+ 1
+	-rm -f $(DESTDIR)/usr/local/droidbattles/README
+#>- 	-rm -f /usr/local/battlebots/doc/TODO
+#>+ 1
+	-rm -f $(DESTDIR)/usr/local/battlebots/doc/TODO
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
@@ -519,7 +564,7 @@ docs-am:
 #>+ 5
 force-reedit:
 		cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/Makefile.in
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/Makefile.in
 
 
 #>+ 2

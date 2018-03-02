@@ -17,7 +17,7 @@
 
 #include "pixbutton.h"
 
-PixButton::PixButton( char *text,int pix,QWidget *parent,char *name )
+PixButton::PixButton( char *text,int pix,QWidget *parent,char *name=0 )
  : QPushButton( parent,name )
 {
 	whichpix = pix;

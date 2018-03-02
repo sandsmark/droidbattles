@@ -18,7 +18,7 @@
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 
 /**

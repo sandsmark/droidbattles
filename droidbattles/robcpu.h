@@ -19,7 +19,7 @@
 #define ROBCPU_H
 
 #include "cpu.h"
-#include "screenobject.h"
+#include <screenobject.h>
 #include <qfile.h>
 
 /**CPU adapted for bot

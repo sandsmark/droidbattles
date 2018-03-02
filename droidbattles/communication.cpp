@@ -81,7 +81,7 @@ void communication::execute( )
 		*/
 int communication::getfromport( unsigned char port )
 {
-	int msg,x;
+	int msg;
 	switch ( port )
 	{
 		case 0 :
@@ -89,7 +89,7 @@ int communication::getfromport( unsigned char port )
 		break;
 		case 1 :
 			msg = msglist[0];
-			for( x=0;x<31;x++ )
+			for( int x=0;x<31;x++ )
 				msglist[x] = msglist[x+1];
 			nummsg--;
 			return msglist[0];

@@ -37,7 +37,7 @@ class armor : public device
     int returntype( );
 		int returnspecial( );
 		int getfromport( unsigned char port );
-		void dospecial( int x,int y=0 );
+		void dospecial( int,int=0 );
 	private:
 
 		int strength;

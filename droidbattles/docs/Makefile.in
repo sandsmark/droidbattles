@@ -204,10 +204,10 @@ GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/docs/Makefile
+#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/docs/Makefile
 #>+ 2
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/docs/Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/battlebots/docs/Makefile.in
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/docs/Makefile
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/droidbattles/docs/Makefile.in
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -309,7 +309,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = battlebots/docs
+subdir = droidbattles/docs
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -418,8 +418,8 @@ docs-am:
 
 #>+ 5
 force-reedit:
-		cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/docs/Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/battlebots/docs/Makefile.in
+		cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/docs/Makefile
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/droidbattles/docs/Makefile.in
 
 
 #>+ 2

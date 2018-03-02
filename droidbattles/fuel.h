@@ -18,7 +18,7 @@
 #ifndef FUEL_H
 #define FUEL_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 
 /**The fuel for the engines, shields and beam

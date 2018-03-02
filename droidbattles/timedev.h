@@ -18,7 +18,7 @@
 #ifndef TIMEDEV_H
 #define TIMEDEV_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 /**
 	* Device that keeps track of time

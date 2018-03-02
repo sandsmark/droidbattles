@@ -18,9 +18,9 @@
 #ifndef CHAFF_H
 #define CHAFF_H
 
-#include "screenobject.h"
+#include <screenobject.h>
 #include "battlearea.h"
-#include "pixmapholder.h"
+#include <pixmapholder.h>
 
 /**
 	* Chaff screenobject, made to fool scanners
@@ -29,8 +29,6 @@
 
 class chaff : public screenobject
 {
-
-	Q_OBJECT
 
 	public:
 

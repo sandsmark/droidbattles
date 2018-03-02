@@ -18,7 +18,7 @@
 #ifndef RADARMISSILELAUNCHER_H
 #define RADARMISSILELAUNCHER_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 #include "ram.h"
 /**

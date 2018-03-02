@@ -190,30 +190,30 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-bin_PROGRAMS = battlebots
-battlebots_SOURCES = pixmapholder.cpp pixbutton.cpp infobox.cpp cloaker.cpp chiller.cpp docbrowser.cpp startdeathbatt.cpp startsurvbatt.cpp startcup.cpp scandetect.cpp chaff.cpp chafflauncher.cpp debugwindow.cpp kothtournament.cpp rocket.cpp rocketlauncher.cpp beam.cpp beamer.cpp quickconf.cpp installdir.cpp turret.cpp timedev.cpp steering.cpp starttournament.cpp startsbatt.cpp shield.cpp screenobject.cpp scanner.cpp robots.cpp robcpu.cpp repair.cpp ram.cpp radarmissilelauncher.cpp radarmissile.cpp plasma.cpp missile.cpp minelayer.cpp mine.cpp instruktion.cpp fuel.cpp explosion.cpp engine.cpp device.cpp devchoice.cpp createbot.cpp cpu.cpp confedit.cpp communication.cpp botinfo.cpp battlearea.cpp armor.cpp battlebots.cpp main.cpp 
-battlebots_LDADD = $(LIB_QT) -lm -lXext -lX11 $(LIBSOCKET)
+bin_PROGRAMS = droidbattles
+droidbattles_SOURCES = myqmultilineedit.cpp radarmissilelauncher.cpp turret.cpp timedev.cpp steering.cpp starttournament.cpp startsurvbatt.cpp startsbatt.cpp startdeathbatt.cpp startcup.cpp shield.cpp screenobject.cpp scanner.cpp scandetect.cpp rocketlauncher.cpp rocket.cpp robots.cpp robcpu.cpp repair.cpp ram.cpp radarmissile.cpp quickconf.cpp plasma.cpp pixmapholder.cpp pixbutton.cpp missile.cpp minelayer.cpp mine.cpp kothtournament.cpp instruktion.cpp installdir.cpp infobox.cpp fuel.cpp explosion.cpp engine.cpp docbrowser.cpp device.cpp devchoice.cpp debugwindow.cpp createbot.cpp cpu.cpp confedit.cpp communication.cpp cloaker.cpp chiller.cpp chafflauncher.cpp chaff.cpp botinfo.cpp beamer.cpp beam.cpp battlearea.cpp armor.cpp droidbattles.cpp main.cpp 
+droidbattles_LDADD = -lqt -lXext -lX11 $(LIBSOCKET)
 
 SUBDIRS = docs 
 
-EXTRA_DIST = main.cpp battlebots.cpp resource.h battlebots.xpm mini-battlebots.xpm armor.cpp armor.h battlearea.cpp battlearea.h battlebots.h botinfo.cpp botinfo.h commonsymbols.h communication.cpp communication.h confedit.cpp confedit.h confstruct.h cpu.cpp cpu.h createbot.cpp createbot.h current.cfg devchoice.cpp devchoice.h device.cpp device.h engine.cpp engine.h explosion.cpp explosion.h fuel.cpp fuel.h heavy.cfg instruktion.cpp instruktion.h light.cfg medium.cfg mine.cpp mine.h mine.xpm minelayer.cpp minelayer.h missile.cpp missile.h missile.xpm plasma.cpp plasma.h radarmissile.cpp radarmissile.h radarmissilelauncher.cpp radarmissilelauncher.h ram.cpp ram.h repair.cpp repair.h robcpu.cpp robcpu.h robots.cpp robots.h scanner.cpp scanner.h screenobject.cpp screenobject.h shield.cpp shield.h startsbatt.cpp startsbatt.h starttournament.cpp starttournament.h steering.cpp steering.h timedev.cpp timedev.h turret.cpp turret.h ultralight.cfg battlebots.conf installdir.cpp installdir.h quickconf.cpp quickconf.h beamer.cpp beamer.h beam.cpp beam.h radarmissile.bmp rocketlauncher.cpp rocketlauncher.h rocket.cpp rocket.h kothtournament.cpp kothtournament.h matchresult.h debugcontents.h debugwindow.cpp debugwindow.h chafflauncher.cpp chafflauncher.h chaff.cpp chaff.h chaff.bmp scandetect.cpp scandetect.h startcup.cpp startcup.h startsurvbatt.cpp startsurvbatt.h startdeathbatt.cpp startdeathbatt.h docbrowser.cpp docbrowser.h skepp0.bmp skepp1.bmp skepp2.bmp skepp3.bmp skepp4.bmp skepp5.bmp skepp6.bmp skepp7.bmp chiller.cpp chiller.h cloaker.cpp cloaker.h BUGS mainmenu.png infobox.cpp infobox.h pixbutton.cpp pixbutton.h pixmapholder.cpp pixmapholder.h example1.basm metal.png metalback2.png backbutton.xpm sourceguide.txt index-14.html teamtracker.basm 
+EXTRA_DIST = main.cpp droidbattles.cpp droidbattles.h resource.h droidbattles.xpm mini-droidbattles.xpm armor.h battlearea.h beam.h beamer.h botinfo.h chaff.h chafflauncher.h chiller.h cloaker.h commonsymbols.h communication.h confedit.h confstruct.h cpu.h createbot.h debugcontents.h debugwindow.h devchoice.h device.h docbrowser.h engine.h explosion.h fuel.h infobox.h installdir.h instruktion.h kothtournament.h matchresult.h mine.h minelayer.h missile.h pixbutton.h pixmapholder.h plasma.h quickconf.h radarmissile.h radarmissilelauncher.h ram.h repair.h robcpu.h robots.h rocket.h rocketlauncher.h scandetect.h scanner.h screenobject.h shield.h startcup.h startdeathbatt.h startsbatt.h startsurvbatt.h starttournament.h steering.h timedev.h turret.h armor.cpp battlearea.cpp beam.cpp beamer.cpp botinfo.cpp chaff.cpp chafflauncher.cpp chiller.cpp cloaker.cpp communication.cpp confedit.cpp cpu.cpp createbot.cpp debugwindow.cpp devchoice.cpp device.cpp docbrowser.cpp engine.cpp explosion.cpp fuel.cpp infobox.cpp installdir.cpp instruktion.cpp kothtournament.cpp mine.cpp minelayer.cpp missile.cpp pixbutton.cpp pixmapholder.cpp plasma.cpp quickconf.cpp radarmissile.cpp ram.cpp repair.cpp robcpu.cpp robots.cpp rocket.cpp rocketlauncher.cpp scandetect.cpp scanner.cpp screenobject.cpp shield.cpp startcup.cpp startdeathbatt.cpp startsbatt.cpp startsurvbatt.cpp starttournament.cpp steering.cpp timedev.cpp turret.cpp current.cfg heavy.cfg light.cfg medium.cfg ultralight.cfg example1.basm teamtracker.basm droidbattles.conf backbutton.xpm missile.xpm chaff.bmp radarmissile.bmp skepp0.bmp skepp1.bmp skepp2.bmp skepp3.bmp skepp4.bmp skepp5.bmp skepp6.bmp skepp7.bmp mainmenu.png metal.png metalback2.png mine.xpm radarmissilelauncher.cpp myqmultilineedit.cpp myqmultilineedit.h 
 
 ####### kdevelop will overwrite this part!!! (end)############
 
 # set the include path for X, qt and KDE
 INCLUDES = $(all_includes)
 
-#>- battlebots_METASOURCES = AUTO
+#>- droidbattles_METASOURCES = AUTO
 
 # the library search path. 
-battlebots_LDFLAGS = $(all_libraries) 
+droidbattles_LDFLAGS = $(all_libraries) 
 
 # them while "make clean", use CLEANFILES
-DISTCLEANFILES = $(battlebots_METASOURCES)
+DISTCLEANFILES = $(droidbattles_METASOURCES)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
-bin_PROGRAMS =  battlebots$(EXEEXT)
+bin_PROGRAMS =  droidbattles$(EXEEXT)
 PROGRAMS =  $(bin_PROGRAMS)
 
 
@@ -221,47 +221,47 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-#>- battlebots_OBJECTS =  pixmapholder.$(OBJEXT) pixbutton.$(OBJEXT) \
-#>- infobox.$(OBJEXT) cloaker.$(OBJEXT) chiller.$(OBJEXT) \
-#>- docbrowser.$(OBJEXT) startdeathbatt.$(OBJEXT) startsurvbatt.$(OBJEXT) \
-#>- startcup.$(OBJEXT) scandetect.$(OBJEXT) chaff.$(OBJEXT) \
-#>- chafflauncher.$(OBJEXT) debugwindow.$(OBJEXT) kothtournament.$(OBJEXT) \
-#>- rocket.$(OBJEXT) rocketlauncher.$(OBJEXT) beam.$(OBJEXT) \
-#>- beamer.$(OBJEXT) quickconf.$(OBJEXT) installdir.$(OBJEXT) \
-#>- turret.$(OBJEXT) timedev.$(OBJEXT) steering.$(OBJEXT) \
-#>- starttournament.$(OBJEXT) startsbatt.$(OBJEXT) shield.$(OBJEXT) \
-#>- screenobject.$(OBJEXT) scanner.$(OBJEXT) robots.$(OBJEXT) \
-#>- robcpu.$(OBJEXT) repair.$(OBJEXT) ram.$(OBJEXT) \
-#>- radarmissilelauncher.$(OBJEXT) radarmissile.$(OBJEXT) plasma.$(OBJEXT) \
-#>- missile.$(OBJEXT) minelayer.$(OBJEXT) mine.$(OBJEXT) \
-#>- instruktion.$(OBJEXT) fuel.$(OBJEXT) explosion.$(OBJEXT) \
-#>- engine.$(OBJEXT) device.$(OBJEXT) devchoice.$(OBJEXT) \
-#>- createbot.$(OBJEXT) cpu.$(OBJEXT) confedit.$(OBJEXT) \
-#>- communication.$(OBJEXT) botinfo.$(OBJEXT) battlearea.$(OBJEXT) \
-#>- armor.$(OBJEXT) battlebots.$(OBJEXT) main.$(OBJEXT)
+#>- droidbattles_OBJECTS =  myqmultilineedit.$(OBJEXT) \
+#>- radarmissilelauncher.$(OBJEXT) turret.$(OBJEXT) timedev.$(OBJEXT) \
+#>- steering.$(OBJEXT) starttournament.$(OBJEXT) startsurvbatt.$(OBJEXT) \
+#>- startsbatt.$(OBJEXT) startdeathbatt.$(OBJEXT) startcup.$(OBJEXT) \
+#>- shield.$(OBJEXT) screenobject.$(OBJEXT) scanner.$(OBJEXT) \
+#>- scandetect.$(OBJEXT) rocketlauncher.$(OBJEXT) rocket.$(OBJEXT) \
+#>- robots.$(OBJEXT) robcpu.$(OBJEXT) repair.$(OBJEXT) ram.$(OBJEXT) \
+#>- radarmissile.$(OBJEXT) quickconf.$(OBJEXT) plasma.$(OBJEXT) \
+#>- pixmapholder.$(OBJEXT) pixbutton.$(OBJEXT) missile.$(OBJEXT) \
+#>- minelayer.$(OBJEXT) mine.$(OBJEXT) kothtournament.$(OBJEXT) \
+#>- instruktion.$(OBJEXT) installdir.$(OBJEXT) infobox.$(OBJEXT) \
+#>- fuel.$(OBJEXT) explosion.$(OBJEXT) engine.$(OBJEXT) \
+#>- docbrowser.$(OBJEXT) device.$(OBJEXT) devchoice.$(OBJEXT) \
+#>- debugwindow.$(OBJEXT) createbot.$(OBJEXT) cpu.$(OBJEXT) \
+#>- confedit.$(OBJEXT) communication.$(OBJEXT) cloaker.$(OBJEXT) \
+#>- chiller.$(OBJEXT) chafflauncher.$(OBJEXT) chaff.$(OBJEXT) \
+#>- botinfo.$(OBJEXT) beamer.$(OBJEXT) beam.$(OBJEXT) battlearea.$(OBJEXT) \
+#>- armor.$(OBJEXT) droidbattles.$(OBJEXT) main.$(OBJEXT)
 #>+ 21
-@KDE_USE_FINAL_FALSE@battlebots_OBJECTS = pixmapholder.$(OBJEXT) pixbutton.$(OBJEXT) \
-infobox.$(OBJEXT) cloaker.$(OBJEXT) chiller.$(OBJEXT) \
-docbrowser.$(OBJEXT) startdeathbatt.$(OBJEXT) startsurvbatt.$(OBJEXT) \
-startcup.$(OBJEXT) scandetect.$(OBJEXT) chaff.$(OBJEXT) \
-chafflauncher.$(OBJEXT) debugwindow.$(OBJEXT) kothtournament.$(OBJEXT) \
-rocket.$(OBJEXT) rocketlauncher.$(OBJEXT) beam.$(OBJEXT) \
-beamer.$(OBJEXT) quickconf.$(OBJEXT) installdir.$(OBJEXT) \
-turret.$(OBJEXT) timedev.$(OBJEXT) steering.$(OBJEXT) \
-starttournament.$(OBJEXT) startsbatt.$(OBJEXT) shield.$(OBJEXT) \
-screenobject.$(OBJEXT) scanner.$(OBJEXT) robots.$(OBJEXT) \
-robcpu.$(OBJEXT) repair.$(OBJEXT) ram.$(OBJEXT) \
-radarmissilelauncher.$(OBJEXT) radarmissile.$(OBJEXT) plasma.$(OBJEXT) \
-missile.$(OBJEXT) minelayer.$(OBJEXT) mine.$(OBJEXT) \
-instruktion.$(OBJEXT) fuel.$(OBJEXT) explosion.$(OBJEXT) \
-engine.$(OBJEXT) device.$(OBJEXT) devchoice.$(OBJEXT) \
-createbot.$(OBJEXT) cpu.$(OBJEXT) confedit.$(OBJEXT) \
-communication.$(OBJEXT) botinfo.$(OBJEXT) battlearea.$(OBJEXT) \
-armor.$(OBJEXT) battlebots.$(OBJEXT) main.$(OBJEXT)\
-createbot.moc.o quickconf.moc.o confedit.moc.o kothtournament.moc.o startsbatt.moc.o starttournament.moc.o robots.moc.o battlebots.moc.o screenobject.moc.o botinfo.moc.o debugwindow.moc.o battlearea.moc.o devchoice.moc.o 
-@KDE_USE_FINAL_TRUE@battlebots_OBJECTS = battlebots.all_cpp.o 
-battlebots_final_OBJECTS = battlebots.all_cpp.o 
-battlebots_DEPENDENCIES = 
+@KDE_USE_FINAL_FALSE@droidbattles_OBJECTS = myqmultilineedit.$(OBJEXT) \
+radarmissilelauncher.$(OBJEXT) turret.$(OBJEXT) timedev.$(OBJEXT) \
+steering.$(OBJEXT) starttournament.$(OBJEXT) startsurvbatt.$(OBJEXT) \
+startsbatt.$(OBJEXT) startdeathbatt.$(OBJEXT) startcup.$(OBJEXT) \
+shield.$(OBJEXT) screenobject.$(OBJEXT) scanner.$(OBJEXT) \
+scandetect.$(OBJEXT) rocketlauncher.$(OBJEXT) rocket.$(OBJEXT) \
+robots.$(OBJEXT) robcpu.$(OBJEXT) repair.$(OBJEXT) ram.$(OBJEXT) \
+radarmissile.$(OBJEXT) quickconf.$(OBJEXT) plasma.$(OBJEXT) \
+pixmapholder.$(OBJEXT) pixbutton.$(OBJEXT) missile.$(OBJEXT) \
+minelayer.$(OBJEXT) mine.$(OBJEXT) kothtournament.$(OBJEXT) \
+instruktion.$(OBJEXT) installdir.$(OBJEXT) infobox.$(OBJEXT) \
+fuel.$(OBJEXT) explosion.$(OBJEXT) engine.$(OBJEXT) \
+docbrowser.$(OBJEXT) device.$(OBJEXT) devchoice.$(OBJEXT) \
+debugwindow.$(OBJEXT) createbot.$(OBJEXT) cpu.$(OBJEXT) \
+confedit.$(OBJEXT) communication.$(OBJEXT) cloaker.$(OBJEXT) \
+chiller.$(OBJEXT) chafflauncher.$(OBJEXT) chaff.$(OBJEXT) \
+botinfo.$(OBJEXT) beamer.$(OBJEXT) beam.$(OBJEXT) battlearea.$(OBJEXT) \
+armor.$(OBJEXT) droidbattles.$(OBJEXT) main.$(OBJEXT)\
+createbot.moc.o quickconf.moc.o confedit.moc.o kothtournament.moc.o startsbatt.moc.o starttournament.moc.o robots.moc.o screenobject.moc.o botinfo.moc.o debugwindow.moc.o droidbattles.moc.o battlearea.moc.o devchoice.moc.o 
+@KDE_USE_FINAL_TRUE@droidbattles_OBJECTS = droidbattles.all_cpp.o 
+droidbattles_final_OBJECTS = droidbattles.all_cpp.o 
+droidbattles_DEPENDENCIES = 
 CXXFLAGS = @CXXFLAGS@
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 1
@@ -280,17 +280,17 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(battlebots_SOURCES)
-OBJECTS = $(battlebots_OBJECTS)
+SOURCES = $(droidbattles_SOURCES)
+OBJECTS = $(droidbattles_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cpp .lo .o .obj .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/Makefile
+#>- 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/Makefile
 #>+ 2
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/battlebots/Makefile.in
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/Makefile
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/droidbattles/Makefile.in
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -366,9 +366,9 @@ distclean-libtool:
 
 maintainer-clean-libtool:
 
-battlebots$(EXEEXT): $(battlebots_OBJECTS) $(battlebots_DEPENDENCIES)
-	@rm -f battlebots$(EXEEXT)
-	$(CXXLINK) $(battlebots_LDFLAGS) $(battlebots_OBJECTS) $(battlebots_LDADD) $(LIBS)
+droidbattles$(EXEEXT): $(droidbattles_OBJECTS) $(droidbattles_DEPENDENCIES)
+	@rm -f droidbattles$(EXEEXT)
+	$(CXXLINK) $(droidbattles_LDFLAGS) $(droidbattles_OBJECTS) $(droidbattles_LDADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.obj:
@@ -471,7 +471,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = battlebots
+subdir = droidbattles
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -514,32 +514,6 @@ battlearea.moc.o: battlearea.moc.cpp battlearea.h screenobject.h \
 	chafflauncher.h installdir.h radarmissilelauncher.h \
 	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
 	missile.h beam.h rocket.h chaff.h explosion.h
-battlebots.o: battlebots.cpp battlebots.h resource.h ../config.h \
-	createbot.h commonsymbols.h instruktion.h battlearea.h \
-	screenobject.h debugcontents.h botinfo.h confstruct.h \
-	pixbutton.h pixmapholder.h ram.h debugwindow.h robots.h \
-	device.h robcpu.h cpu.h engine.h steering.h plasma.h armor.h \
-	scanner.h fuel.h turret.h timedev.h shield.h repair.h \
-	communication.h minelayer.h beamer.h rocketlauncher.h \
-	chafflauncher.h installdir.h radarmissilelauncher.h \
-	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
-	missile.h beam.h rocket.h chaff.h explosion.h quickconf.h \
-	startsbatt.h devchoice.h infobox.h startsurvbatt.h \
-	startdeathbatt.h confedit.h starttournament.h kothtournament.h \
-	matchresult.h startcup.h docbrowser.h
-battlebots.moc.o: battlebots.moc.cpp battlebots.h resource.h ../config.h \
-	createbot.h commonsymbols.h instruktion.h battlearea.h \
-	screenobject.h debugcontents.h botinfo.h confstruct.h \
-	pixbutton.h pixmapholder.h ram.h debugwindow.h robots.h \
-	device.h robcpu.h cpu.h engine.h steering.h plasma.h armor.h \
-	scanner.h fuel.h turret.h timedev.h shield.h repair.h \
-	communication.h minelayer.h beamer.h rocketlauncher.h \
-	chafflauncher.h installdir.h radarmissilelauncher.h \
-	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
-	missile.h beam.h rocket.h chaff.h explosion.h quickconf.h \
-	startsbatt.h devchoice.h infobox.h startsurvbatt.h \
-	startdeathbatt.h confedit.h starttournament.h kothtournament.h \
-	matchresult.h startcup.h docbrowser.h
 beam.o: beam.cpp beam.h screenobject.h commonsymbols.h debugcontents.h \
 	battlearea.h botinfo.h confstruct.h pixbutton.h pixmapholder.h \
 	ram.h debugwindow.h robots.h device.h robcpu.h cpu.h engine.h \
@@ -575,40 +549,32 @@ confedit.o: confedit.cpp confedit.h installdir.h
 confedit.moc.o: confedit.moc.cpp confedit.h installdir.h
 cpu.o: cpu.cpp cpu.h ram.h screenobject.h commonsymbols.h \
 	debugcontents.h device.h
-createbot.o: createbot.cpp createbot.h commonsymbols.h instruktion.h \
-	battlearea.h screenobject.h debugcontents.h botinfo.h \
-	confstruct.h pixbutton.h pixmapholder.h ram.h debugwindow.h \
-	robots.h device.h robcpu.h cpu.h engine.h steering.h plasma.h \
-	armor.h scanner.h fuel.h turret.h timedev.h shield.h repair.h \
-	communication.h minelayer.h beamer.h rocketlauncher.h \
-	chafflauncher.h installdir.h radarmissilelauncher.h \
-	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
-	missile.h beam.h rocket.h chaff.h explosion.h quickconf.h \
-	startsbatt.h devchoice.h infobox.h
-createbot.moc.o: createbot.moc.cpp createbot.h commonsymbols.h \
-	instruktion.h battlearea.h screenobject.h debugcontents.h \
-	botinfo.h confstruct.h pixbutton.h pixmapholder.h ram.h \
-	debugwindow.h robots.h device.h robcpu.h cpu.h engine.h \
-	steering.h plasma.h armor.h scanner.h fuel.h turret.h timedev.h \
-	shield.h repair.h communication.h minelayer.h beamer.h \
-	rocketlauncher.h chafflauncher.h installdir.h \
-	radarmissilelauncher.h scandetect.h chiller.h cloaker.h mine.h \
-	radarmissile.h missile.h beam.h rocket.h chaff.h explosion.h \
-	quickconf.h startsbatt.h devchoice.h infobox.h
+createbot.o: createbot.cpp createbot.h myqmultilineedit.h \
+	commonsymbols.h instruktion.h battlearea.h screenobject.h \
+	debugcontents.h botinfo.h confstruct.h pixbutton.h \
+	pixmapholder.h ram.h debugwindow.h robots.h device.h robcpu.h \
+	cpu.h engine.h steering.h plasma.h armor.h scanner.h fuel.h \
+	turret.h timedev.h shield.h repair.h communication.h \
+	minelayer.h beamer.h rocketlauncher.h chafflauncher.h \
+	installdir.h radarmissilelauncher.h scandetect.h chiller.h \
+	cloaker.h mine.h radarmissile.h missile.h beam.h rocket.h \
+	chaff.h explosion.h quickconf.h startsbatt.h devchoice.h \
+	infobox.h
+createbot.moc.o: createbot.moc.cpp createbot.h myqmultilineedit.h \
+	commonsymbols.h instruktion.h battlearea.h screenobject.h \
+	debugcontents.h botinfo.h confstruct.h pixbutton.h \
+	pixmapholder.h ram.h debugwindow.h robots.h device.h robcpu.h \
+	cpu.h engine.h steering.h plasma.h armor.h scanner.h fuel.h \
+	turret.h timedev.h shield.h repair.h communication.h \
+	minelayer.h beamer.h rocketlauncher.h chafflauncher.h \
+	installdir.h radarmissilelauncher.h scandetect.h chiller.h \
+	cloaker.h mine.h radarmissile.h missile.h beam.h rocket.h \
+	chaff.h explosion.h quickconf.h startsbatt.h devchoice.h \
+	infobox.h
 debugwindow.o: debugwindow.cpp debugwindow.h debugcontents.h
 debugwindow.moc.o: debugwindow.moc.cpp debugwindow.h debugcontents.h
 devchoice.o: devchoice.cpp devchoice.h confstruct.h commonsymbols.h \
-	createbot.h instruktion.h battlearea.h screenobject.h \
-	debugcontents.h botinfo.h pixbutton.h pixmapholder.h ram.h \
-	debugwindow.h robots.h device.h robcpu.h cpu.h engine.h \
-	steering.h plasma.h armor.h scanner.h fuel.h turret.h timedev.h \
-	shield.h repair.h communication.h minelayer.h beamer.h \
-	rocketlauncher.h chafflauncher.h installdir.h \
-	radarmissilelauncher.h scandetect.h chiller.h cloaker.h mine.h \
-	radarmissile.h missile.h beam.h rocket.h chaff.h explosion.h \
-	quickconf.h startsbatt.h infobox.h
-devchoice.moc.o: devchoice.moc.cpp devchoice.h confstruct.h \
-	commonsymbols.h createbot.h instruktion.h battlearea.h \
+	createbot.h myqmultilineedit.h instruktion.h battlearea.h \
 	screenobject.h debugcontents.h botinfo.h pixbutton.h \
 	pixmapholder.h ram.h debugwindow.h robots.h device.h robcpu.h \
 	cpu.h engine.h steering.h plasma.h armor.h scanner.h fuel.h \
@@ -617,9 +583,46 @@ devchoice.moc.o: devchoice.moc.cpp devchoice.h confstruct.h \
 	installdir.h radarmissilelauncher.h scandetect.h chiller.h \
 	cloaker.h mine.h radarmissile.h missile.h beam.h rocket.h \
 	chaff.h explosion.h quickconf.h startsbatt.h infobox.h
+devchoice.moc.o: devchoice.moc.cpp devchoice.h confstruct.h \
+	commonsymbols.h createbot.h myqmultilineedit.h instruktion.h \
+	battlearea.h screenobject.h debugcontents.h botinfo.h \
+	pixbutton.h pixmapholder.h ram.h debugwindow.h robots.h \
+	device.h robcpu.h cpu.h engine.h steering.h plasma.h armor.h \
+	scanner.h fuel.h turret.h timedev.h shield.h repair.h \
+	communication.h minelayer.h beamer.h rocketlauncher.h \
+	chafflauncher.h installdir.h radarmissilelauncher.h \
+	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
+	missile.h beam.h rocket.h chaff.h explosion.h quickconf.h \
+	startsbatt.h infobox.h
 device.o: device.cpp device.h screenobject.h commonsymbols.h \
 	debugcontents.h
 docbrowser.o: docbrowser.cpp docbrowser.h installdir.h
+droidbattles.o: droidbattles.cpp droidbattles.h resource.h ../config.h \
+	createbot.h myqmultilineedit.h commonsymbols.h instruktion.h \
+	battlearea.h screenobject.h debugcontents.h botinfo.h \
+	confstruct.h pixbutton.h pixmapholder.h ram.h debugwindow.h \
+	robots.h device.h robcpu.h cpu.h engine.h steering.h plasma.h \
+	armor.h scanner.h fuel.h turret.h timedev.h shield.h repair.h \
+	communication.h minelayer.h beamer.h rocketlauncher.h \
+	chafflauncher.h installdir.h radarmissilelauncher.h \
+	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
+	missile.h beam.h rocket.h chaff.h explosion.h quickconf.h \
+	startsbatt.h devchoice.h infobox.h startsurvbatt.h \
+	startdeathbatt.h confedit.h starttournament.h kothtournament.h \
+	matchresult.h startcup.h docbrowser.h
+droidbattles.moc.o: droidbattles.moc.cpp droidbattles.h resource.h \
+	../config.h createbot.h myqmultilineedit.h commonsymbols.h \
+	instruktion.h battlearea.h screenobject.h debugcontents.h \
+	botinfo.h confstruct.h pixbutton.h pixmapholder.h ram.h \
+	debugwindow.h robots.h device.h robcpu.h cpu.h engine.h \
+	steering.h plasma.h armor.h scanner.h fuel.h turret.h timedev.h \
+	shield.h repair.h communication.h minelayer.h beamer.h \
+	rocketlauncher.h chafflauncher.h installdir.h \
+	radarmissilelauncher.h scandetect.h chiller.h cloaker.h mine.h \
+	radarmissile.h missile.h beam.h rocket.h chaff.h explosion.h \
+	quickconf.h startsbatt.h devchoice.h infobox.h startsurvbatt.h \
+	startdeathbatt.h confedit.h starttournament.h kothtournament.h \
+	matchresult.h startcup.h docbrowser.h
 engine.o: engine.cpp engine.h device.h screenobject.h commonsymbols.h \
 	debugcontents.h
 explosion.o: explosion.cpp explosion.h screenobject.h commonsymbols.h \
@@ -640,19 +643,19 @@ kothtournament.o: kothtournament.cpp kothtournament.h pixbutton.h \
 	pixmapholder.h
 kothtournament.moc.o: kothtournament.moc.cpp kothtournament.h \
 	pixbutton.h pixmapholder.h
-main.o: main.cpp battlebots.h resource.h ../config.h createbot.h \
-	commonsymbols.h instruktion.h battlearea.h screenobject.h \
-	debugcontents.h botinfo.h confstruct.h pixbutton.h \
-	pixmapholder.h ram.h debugwindow.h robots.h device.h robcpu.h \
-	cpu.h engine.h steering.h plasma.h armor.h scanner.h fuel.h \
-	turret.h timedev.h shield.h repair.h communication.h \
-	minelayer.h beamer.h rocketlauncher.h chafflauncher.h \
-	installdir.h radarmissilelauncher.h scandetect.h chiller.h \
-	cloaker.h mine.h radarmissile.h missile.h beam.h rocket.h \
-	chaff.h explosion.h quickconf.h startsbatt.h devchoice.h \
-	infobox.h startsurvbatt.h startdeathbatt.h confedit.h \
-	starttournament.h kothtournament.h matchresult.h startcup.h \
-	docbrowser.h
+main.o: main.cpp droidbattles.h resource.h ../config.h createbot.h \
+	myqmultilineedit.h commonsymbols.h instruktion.h battlearea.h \
+	screenobject.h debugcontents.h botinfo.h confstruct.h \
+	pixbutton.h pixmapholder.h ram.h debugwindow.h robots.h \
+	device.h robcpu.h cpu.h engine.h steering.h plasma.h armor.h \
+	scanner.h fuel.h turret.h timedev.h shield.h repair.h \
+	communication.h minelayer.h beamer.h rocketlauncher.h \
+	chafflauncher.h installdir.h radarmissilelauncher.h \
+	scandetect.h chiller.h cloaker.h mine.h radarmissile.h \
+	missile.h beam.h rocket.h chaff.h explosion.h quickconf.h \
+	startsbatt.h devchoice.h infobox.h startsurvbatt.h \
+	startdeathbatt.h confedit.h starttournament.h kothtournament.h \
+	matchresult.h startcup.h docbrowser.h
 mine.o: mine.cpp mine.h screenobject.h commonsymbols.h debugcontents.h \
 	battlearea.h botinfo.h confstruct.h pixbutton.h pixmapholder.h \
 	ram.h debugwindow.h robots.h device.h robcpu.h cpu.h engine.h \
@@ -672,6 +675,7 @@ missile.o: missile.cpp missile.h screenobject.h commonsymbols.h \
 	installdir.h radarmissilelauncher.h scandetect.h chiller.h \
 	cloaker.h mine.h radarmissile.h beam.h rocket.h chaff.h \
 	explosion.h
+myqmultilineedit.o: myqmultilineedit.cpp myqmultilineedit.h
 pixbutton.o: pixbutton.cpp pixbutton.h pixmapholder.h
 pixmapholder.o: pixmapholder.cpp pixmapholder.h
 plasma.o: plasma.cpp plasma.h device.h screenobject.h commonsymbols.h \
@@ -842,251 +846,242 @@ maintainer-clean
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) /usr/local/battlebots/
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/
-#>- 	$(INSTALL_DATA) current.cfg /usr/local/battlebots/current.cfg
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) droidbattles.xpm /usr/local/droidbattles/pixmaps/droidbattles.xpm
 #>+ 1
-	$(INSTALL_DATA) current.cfg $(DESTDIR)/usr/local/battlebots/current.cfg
-#>- 	$(mkinstalldirs) /usr/local/battlebots/
+	$(INSTALL_DATA) droidbattles.xpm $(DESTDIR)/usr/local/droidbattles/pixmaps/droidbattles.xpm
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/
-#>- 	$(INSTALL_DATA) heavy.cfg /usr/local/battlebots/heavy.cfg
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) mini-droidbattles.xpm /usr/local/droidbattles/pixmaps/mini-droidbattles.xpm
 #>+ 1
-	$(INSTALL_DATA) heavy.cfg $(DESTDIR)/usr/local/battlebots/heavy.cfg
-#>- 	$(mkinstalldirs) /usr/local/battlebots/
+	$(INSTALL_DATA) mini-droidbattles.xpm $(DESTDIR)/usr/local/droidbattles/pixmaps/mini-droidbattles.xpm
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/
-#>- 	$(INSTALL_DATA) light.cfg /usr/local/battlebots/light.cfg
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) current.cfg /usr/local/droidbattles/current.cfg
 #>+ 1
-	$(INSTALL_DATA) light.cfg $(DESTDIR)/usr/local/battlebots/light.cfg
-#>- 	$(mkinstalldirs) /usr/local/battlebots/
+	$(INSTALL_DATA) current.cfg $(DESTDIR)/usr/local/droidbattles/current.cfg
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/
-#>- 	$(INSTALL_DATA) medium.cfg /usr/local/battlebots/medium.cfg
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) heavy.cfg /usr/local/droidbattles/heavy.cfg
 #>+ 1
-	$(INSTALL_DATA) medium.cfg $(DESTDIR)/usr/local/battlebots/medium.cfg
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) heavy.cfg $(DESTDIR)/usr/local/droidbattles/heavy.cfg
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) mine.xpm /usr/local/battlebots/pixmaps/mine.xpm
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) light.cfg /usr/local/droidbattles/light.cfg
 #>+ 1
-	$(INSTALL_DATA) mine.xpm $(DESTDIR)/usr/local/battlebots/pixmaps/mine.xpm
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) light.cfg $(DESTDIR)/usr/local/droidbattles/light.cfg
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) missile.xpm /usr/local/battlebots/pixmaps/missile.xpm
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) medium.cfg /usr/local/droidbattles/medium.cfg
 #>+ 1
-	$(INSTALL_DATA) missile.xpm $(DESTDIR)/usr/local/battlebots/pixmaps/missile.xpm
-#>- 	$(mkinstalldirs) /usr/local/battlebots/
+	$(INSTALL_DATA) medium.cfg $(DESTDIR)/usr/local/droidbattles/medium.cfg
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/
-#>- 	$(INSTALL_DATA) ultralight.cfg /usr/local/battlebots/ultralight.cfg
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/
+#>- 	$(INSTALL_DATA) ultralight.cfg /usr/local/droidbattles/ultralight.cfg
 #>+ 1
-	$(INSTALL_DATA) ultralight.cfg $(DESTDIR)/usr/local/battlebots/ultralight.cfg
+	$(INSTALL_DATA) ultralight.cfg $(DESTDIR)/usr/local/droidbattles/ultralight.cfg
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/bots/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/bots/
+#>- 	$(INSTALL_DATA) example1.basm /usr/local/droidbattles/bots/example1.basm
+#>+ 1
+	$(INSTALL_DATA) example1.basm $(DESTDIR)/usr/local/droidbattles/bots/example1.basm
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/bots/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/bots/
+#>- 	$(INSTALL_DATA) teamtracker.basm /usr/local/droidbattles/bots/teamtracker.basm
+#>+ 1
+	$(INSTALL_DATA) teamtracker.basm $(DESTDIR)/usr/local/droidbattles/bots/teamtracker.basm
 #>- 	$(mkinstalldirs) /etc/
 #>+ 1
 	$(mkinstalldirs) $(DESTDIR)/etc/
-#>- 	$(INSTALL_DATA) battlebots.conf /etc/battlebots.conf
+#>- 	$(INSTALL_DATA) droidbattles.conf /etc/droidbattles.conf
 #>+ 1
-	$(INSTALL_DATA) battlebots.conf $(DESTDIR)/etc/battlebots.conf
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) droidbattles.conf $(DESTDIR)/etc/droidbattles.conf
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) radarmissile.bmp /usr/local/battlebots/pixmaps/radarmissile.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) backbutton.xpm /usr/local/droidbattles/pixmaps/backbutton.xpm
 #>+ 1
-	$(INSTALL_DATA) radarmissile.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/radarmissile.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) backbutton.xpm $(DESTDIR)/usr/local/droidbattles/pixmaps/backbutton.xpm
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) chaff.bmp /usr/local/battlebots/pixmaps/chaff.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) missile.xpm /usr/local/droidbattles/pixmaps/missile.xpm
 #>+ 1
-	$(INSTALL_DATA) chaff.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/chaff.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) missile.xpm $(DESTDIR)/usr/local/droidbattles/pixmaps/missile.xpm
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp0.bmp /usr/local/battlebots/pixmaps/skepp0.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) chaff.bmp /usr/local/droidbattles/pixmaps/chaff.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp0.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp0.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) chaff.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/chaff.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp1.bmp /usr/local/battlebots/pixmaps/skepp1.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) radarmissile.bmp /usr/local/droidbattles/pixmaps/radarmissile.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp1.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp1.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) radarmissile.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/radarmissile.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp2.bmp /usr/local/battlebots/pixmaps/skepp2.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp0.bmp /usr/local/droidbattles/pixmaps/skepp0.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp2.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp2.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) skepp0.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp0.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp3.bmp /usr/local/battlebots/pixmaps/skepp3.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp1.bmp /usr/local/droidbattles/pixmaps/skepp1.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp3.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp3.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) skepp1.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp1.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp4.bmp /usr/local/battlebots/pixmaps/skepp4.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp2.bmp /usr/local/droidbattles/pixmaps/skepp2.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp4.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp4.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) skepp2.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp2.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp5.bmp /usr/local/battlebots/pixmaps/skepp5.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp3.bmp /usr/local/droidbattles/pixmaps/skepp3.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp5.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp5.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) skepp3.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp3.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp6.bmp /usr/local/battlebots/pixmaps/skepp6.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp4.bmp /usr/local/droidbattles/pixmaps/skepp4.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp6.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp6.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) skepp4.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp4.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) skepp7.bmp /usr/local/battlebots/pixmaps/skepp7.bmp
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp5.bmp /usr/local/droidbattles/pixmaps/skepp5.bmp
 #>+ 1
-	$(INSTALL_DATA) skepp7.bmp $(DESTDIR)/usr/local/battlebots/pixmaps/skepp7.bmp
-#>- 	$(mkinstalldirs) /usr/local/battlebots/
+	$(INSTALL_DATA) skepp5.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp5.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/
-#>- 	$(INSTALL_DATA) BUGS /usr/local/battlebots/BUGS
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp6.bmp /usr/local/droidbattles/pixmaps/skepp6.bmp
 #>+ 1
-	$(INSTALL_DATA) BUGS $(DESTDIR)/usr/local/battlebots/BUGS
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) skepp6.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp6.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) mainmenu.png /usr/local/battlebots/pixmaps/mainmenu.png
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) skepp7.bmp /usr/local/droidbattles/pixmaps/skepp7.bmp
 #>+ 1
-	$(INSTALL_DATA) mainmenu.png $(DESTDIR)/usr/local/battlebots/pixmaps/mainmenu.png
-#>- 	$(mkinstalldirs) /usr/local/battlebots/bots/
+	$(INSTALL_DATA) skepp7.bmp $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp7.bmp
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/bots/
-#>- 	$(INSTALL_DATA) example1.basm /usr/local/battlebots/bots/example1.basm
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) mainmenu.png /usr/local/droidbattles/pixmaps/mainmenu.png
 #>+ 1
-	$(INSTALL_DATA) example1.basm $(DESTDIR)/usr/local/battlebots/bots/example1.basm
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) mainmenu.png $(DESTDIR)/usr/local/droidbattles/pixmaps/mainmenu.png
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) metal.png /usr/local/battlebots/pixmaps/metal.png
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) metal.png /usr/local/droidbattles/pixmaps/metal.png
 #>+ 1
-	$(INSTALL_DATA) metal.png $(DESTDIR)/usr/local/battlebots/pixmaps/metal.png
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) metal.png $(DESTDIR)/usr/local/droidbattles/pixmaps/metal.png
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) metalback2.png /usr/local/battlebots/pixmaps/metalback2.png
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) metalback2.png /usr/local/droidbattles/pixmaps/metalback2.png
 #>+ 1
-	$(INSTALL_DATA) metalback2.png $(DESTDIR)/usr/local/battlebots/pixmaps/metalback2.png
-#>- 	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
+	$(INSTALL_DATA) metalback2.png $(DESTDIR)/usr/local/droidbattles/pixmaps/metalback2.png
+#>- 	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/pixmaps/
-#>- 	$(INSTALL_DATA) backbutton.xpm /usr/local/battlebots/pixmaps/backbutton.xpm
+	$(mkinstalldirs) $(DESTDIR)/usr/local/droidbattles/pixmaps/
+#>- 	$(INSTALL_DATA) mine.xpm /usr/local/droidbattles/pixmaps/mine.xpm
 #>+ 1
-	$(INSTALL_DATA) backbutton.xpm $(DESTDIR)/usr/local/battlebots/pixmaps/backbutton.xpm
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) sourceguide.txt /usr/local/battlebots/doc/sourceguide.txt
-#>+ 1
-	$(INSTALL_DATA) sourceguide.txt $(DESTDIR)/usr/local/battlebots/doc/sourceguide.txt
-#>- 	$(mkinstalldirs) /usr/local/battlebots/doc/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/doc/
-#>- 	$(INSTALL_DATA) index-14.html /usr/local/battlebots/doc/index-14.html
-#>+ 1
-	$(INSTALL_DATA) index-14.html $(DESTDIR)/usr/local/battlebots/doc/index-14.html
-#>- 	$(mkinstalldirs) /usr/local/battlebots/bots/
-#>+ 1
-	$(mkinstalldirs) $(DESTDIR)/usr/local/battlebots/bots/
-#>- 	$(INSTALL_DATA) teamtracker.basm /usr/local/battlebots/bots/teamtracker.basm
-#>+ 1
-	$(INSTALL_DATA) teamtracker.basm $(DESTDIR)/usr/local/battlebots/bots/teamtracker.basm
+	$(INSTALL_DATA) mine.xpm $(DESTDIR)/usr/local/droidbattles/pixmaps/mine.xpm
 
 uninstall-local:
-#>- 	-rm -f /usr/local/battlebots/current.cfg
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/droidbattles.xpm
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/current.cfg
-#>- 	-rm -f /usr/local/battlebots/heavy.cfg
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/droidbattles.xpm
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/mini-droidbattles.xpm
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/heavy.cfg
-#>- 	-rm -f /usr/local/battlebots/light.cfg
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/mini-droidbattles.xpm
+#>- 	-rm -f /usr/local/droidbattles/current.cfg
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/light.cfg
-#>- 	-rm -f /usr/local/battlebots/medium.cfg
+	-rm -f $(DESTDIR)/usr/local/droidbattles/current.cfg
+#>- 	-rm -f /usr/local/droidbattles/heavy.cfg
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/medium.cfg
-#>- 	-rm -f /usr/local/battlebots/pixmaps/mine.xpm
+	-rm -f $(DESTDIR)/usr/local/droidbattles/heavy.cfg
+#>- 	-rm -f /usr/local/droidbattles/light.cfg
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/mine.xpm
-#>- 	-rm -f /usr/local/battlebots/pixmaps/missile.xpm
+	-rm -f $(DESTDIR)/usr/local/droidbattles/light.cfg
+#>- 	-rm -f /usr/local/droidbattles/medium.cfg
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/missile.xpm
-#>- 	-rm -f /usr/local/battlebots/ultralight.cfg
+	-rm -f $(DESTDIR)/usr/local/droidbattles/medium.cfg
+#>- 	-rm -f /usr/local/droidbattles/ultralight.cfg
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/ultralight.cfg
-#>- 	-rm -f /etc/battlebots.conf
+	-rm -f $(DESTDIR)/usr/local/droidbattles/ultralight.cfg
+#>- 	-rm -f /usr/local/droidbattles/bots/example1.basm
 #>+ 1
-	-rm -f $(DESTDIR)/etc/battlebots.conf
-#>- 	-rm -f /usr/local/battlebots/pixmaps/radarmissile.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/bots/example1.basm
+#>- 	-rm -f /usr/local/droidbattles/bots/teamtracker.basm
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/radarmissile.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/chaff.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/bots/teamtracker.basm
+#>- 	-rm -f /etc/droidbattles.conf
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/chaff.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp0.bmp
+	-rm -f $(DESTDIR)/etc/droidbattles.conf
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/backbutton.xpm
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp0.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp1.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/backbutton.xpm
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/missile.xpm
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp1.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp2.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/missile.xpm
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/chaff.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp2.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp3.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/chaff.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/radarmissile.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp3.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp4.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/radarmissile.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp0.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp4.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp5.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp0.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp1.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp5.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp6.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp1.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp2.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp6.bmp
-#>- 	-rm -f /usr/local/battlebots/pixmaps/skepp7.bmp
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp2.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp3.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/skepp7.bmp
-#>- 	-rm -f /usr/local/battlebots/BUGS
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp3.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp4.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/BUGS
-#>- 	-rm -f /usr/local/battlebots/pixmaps/mainmenu.png
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp4.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp5.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/mainmenu.png
-#>- 	-rm -f /usr/local/battlebots/bots/example1.basm
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp5.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp6.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/bots/example1.basm
-#>- 	-rm -f /usr/local/battlebots/pixmaps/metal.png
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp6.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/skepp7.bmp
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/metal.png
-#>- 	-rm -f /usr/local/battlebots/pixmaps/metalback2.png
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/skepp7.bmp
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/mainmenu.png
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/metalback2.png
-#>- 	-rm -f /usr/local/battlebots/pixmaps/backbutton.xpm
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/mainmenu.png
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/metal.png
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/pixmaps/backbutton.xpm
-#>- 	-rm -f /usr/local/battlebots/doc/sourceguide.txt
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/metal.png
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/metalback2.png
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/sourceguide.txt
-#>- 	-rm -f /usr/local/battlebots/doc/index-14.html
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/metalback2.png
+#>- 	-rm -f /usr/local/droidbattles/pixmaps/mine.xpm
 #>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/doc/index-14.html
-#>- 	-rm -f /usr/local/battlebots/bots/teamtracker.basm
-#>+ 1
-	-rm -f $(DESTDIR)/usr/local/battlebots/bots/teamtracker.basm
+	-rm -f $(DESTDIR)/usr/local/droidbattles/pixmaps/mine.xpm
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
@@ -1121,10 +1116,6 @@ robots.moc.cpp: $(srcdir)/robots.h
 	$(MOC) $(srcdir)/robots.h -o robots.moc.cpp
 
 #>+ 3
-battlebots.moc.cpp: $(srcdir)/battlebots.h
-	$(MOC) $(srcdir)/battlebots.h -o battlebots.moc.cpp
-
-#>+ 3
 screenobject.moc.cpp: $(srcdir)/screenobject.h
 	$(MOC) $(srcdir)/screenobject.h -o screenobject.moc.cpp
 
@@ -1137,6 +1128,10 @@ debugwindow.moc.cpp: $(srcdir)/debugwindow.h
 	$(MOC) $(srcdir)/debugwindow.h -o debugwindow.moc.cpp
 
 #>+ 3
+droidbattles.moc.cpp: $(srcdir)/droidbattles.h
+	$(MOC) $(srcdir)/droidbattles.h -o droidbattles.moc.cpp
+
+#>+ 3
 battlearea.moc.cpp: $(srcdir)/battlearea.h
 	$(MOC) $(srcdir)/battlearea.h -o battlearea.moc.cpp
 
@@ -1146,7 +1141,7 @@ devchoice.moc.cpp: $(srcdir)/devchoice.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  createbot.moc.cpp quickconf.moc.cpp confedit.moc.cpp kothtournament.moc.cpp startsbatt.moc.cpp starttournament.moc.cpp robots.moc.cpp battlebots.moc.cpp screenobject.moc.cpp botinfo.moc.cpp debugwindow.moc.cpp battlearea.moc.cpp devchoice.moc.cpp
+	-rm -f  createbot.moc.cpp quickconf.moc.cpp confedit.moc.cpp kothtournament.moc.cpp startsbatt.moc.cpp starttournament.moc.cpp robots.moc.cpp screenobject.moc.cpp botinfo.moc.cpp debugwindow.moc.cpp droidbattles.moc.cpp battlearea.moc.cpp devchoice.moc.cpp
 
 #>+ 2
 docs: docs-recursive docs-am
@@ -1156,29 +1151,29 @@ docs-am:
 
 #>+ 5
 force-reedit:
-		cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps battlebots/Makefile
-	cd $(top_srcdir) && perl am_edit battlebots-1.0.0/battlebots/Makefile.in
+		cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps droidbattles/Makefile
+	cd $(top_srcdir) && perl am_edit droidbattles-1.0.4/droidbattles/Makefile.in
 
 
 #>+ 11
-battlebots.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/pixmapholder.cpp $(srcdir)/pixbutton.cpp $(srcdir)/infobox.cpp $(srcdir)/cloaker.cpp $(srcdir)/chiller.cpp $(srcdir)/docbrowser.cpp $(srcdir)/startdeathbatt.cpp $(srcdir)/startsurvbatt.cpp $(srcdir)/startcup.cpp $(srcdir)/scandetect.cpp $(srcdir)/chaff.cpp $(srcdir)/chafflauncher.cpp $(srcdir)/debugwindow.cpp $(srcdir)/kothtournament.cpp $(srcdir)/rocket.cpp $(srcdir)/rocketlauncher.cpp $(srcdir)/beam.cpp $(srcdir)/beamer.cpp $(srcdir)/quickconf.cpp $(srcdir)/installdir.cpp $(srcdir)/turret.cpp $(srcdir)/timedev.cpp $(srcdir)/steering.cpp $(srcdir)/starttournament.cpp $(srcdir)/startsbatt.cpp $(srcdir)/shield.cpp $(srcdir)/screenobject.cpp $(srcdir)/scanner.cpp $(srcdir)/robots.cpp $(srcdir)/robcpu.cpp $(srcdir)/repair.cpp $(srcdir)/ram.cpp $(srcdir)/radarmissilelauncher.cpp $(srcdir)/radarmissile.cpp $(srcdir)/plasma.cpp $(srcdir)/missile.cpp $(srcdir)/minelayer.cpp $(srcdir)/mine.cpp $(srcdir)/instruktion.cpp $(srcdir)/fuel.cpp $(srcdir)/explosion.cpp $(srcdir)/engine.cpp $(srcdir)/device.cpp $(srcdir)/devchoice.cpp $(srcdir)/createbot.cpp $(srcdir)/cpu.cpp $(srcdir)/confedit.cpp $(srcdir)/communication.cpp $(srcdir)/botinfo.cpp $(srcdir)/battlearea.cpp $(srcdir)/armor.cpp $(srcdir)/battlebots.cpp $(srcdir)/main.cpp  createbot.moc.cpp quickconf.moc.cpp confedit.moc.cpp kothtournament.moc.cpp startsbatt.moc.cpp starttournament.moc.cpp robots.moc.cpp battlebots.moc.cpp screenobject.moc.cpp botinfo.moc.cpp debugwindow.moc.cpp battlearea.moc.cpp devchoice.moc.cpp
-	@echo 'creating battlebots.all_cpp.cpp ...'; \
-	rm -f battlebots.all_cpp.files battlebots.all_cpp.final; \
-	echo "#define KDE_USE_FINAL 1" >> battlebots.all_cpp.final; \
-	for file in pixmapholder.cpp pixbutton.cpp infobox.cpp cloaker.cpp chiller.cpp docbrowser.cpp startdeathbatt.cpp startsurvbatt.cpp startcup.cpp scandetect.cpp chaff.cpp chafflauncher.cpp debugwindow.cpp kothtournament.cpp rocket.cpp rocketlauncher.cpp beam.cpp beamer.cpp quickconf.cpp installdir.cpp turret.cpp timedev.cpp steering.cpp starttournament.cpp startsbatt.cpp shield.cpp screenobject.cpp scanner.cpp robots.cpp robcpu.cpp repair.cpp ram.cpp radarmissilelauncher.cpp radarmissile.cpp plasma.cpp missile.cpp minelayer.cpp mine.cpp instruktion.cpp fuel.cpp explosion.cpp engine.cpp device.cpp devchoice.cpp createbot.cpp cpu.cpp confedit.cpp communication.cpp botinfo.cpp battlearea.cpp armor.cpp battlebots.cpp main.cpp  createbot.moc.cpp quickconf.moc.cpp confedit.moc.cpp kothtournament.moc.cpp startsbatt.moc.cpp starttournament.moc.cpp robots.moc.cpp battlebots.moc.cpp screenobject.moc.cpp botinfo.moc.cpp debugwindow.moc.cpp battlearea.moc.cpp devchoice.moc.cpp; do \
-	  echo "#include \"$$file\"" >> battlebots.all_cpp.files; \
-	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> battlebots.all_cpp.final; \
+droidbattles.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/myqmultilineedit.cpp $(srcdir)/radarmissilelauncher.cpp $(srcdir)/turret.cpp $(srcdir)/timedev.cpp $(srcdir)/steering.cpp $(srcdir)/starttournament.cpp $(srcdir)/startsurvbatt.cpp $(srcdir)/startsbatt.cpp $(srcdir)/startdeathbatt.cpp $(srcdir)/startcup.cpp $(srcdir)/shield.cpp $(srcdir)/screenobject.cpp $(srcdir)/scanner.cpp $(srcdir)/scandetect.cpp $(srcdir)/rocketlauncher.cpp $(srcdir)/rocket.cpp $(srcdir)/robots.cpp $(srcdir)/robcpu.cpp $(srcdir)/repair.cpp $(srcdir)/ram.cpp $(srcdir)/radarmissile.cpp $(srcdir)/quickconf.cpp $(srcdir)/plasma.cpp $(srcdir)/pixmapholder.cpp $(srcdir)/pixbutton.cpp $(srcdir)/missile.cpp $(srcdir)/minelayer.cpp $(srcdir)/mine.cpp $(srcdir)/kothtournament.cpp $(srcdir)/instruktion.cpp $(srcdir)/installdir.cpp $(srcdir)/infobox.cpp $(srcdir)/fuel.cpp $(srcdir)/explosion.cpp $(srcdir)/engine.cpp $(srcdir)/docbrowser.cpp $(srcdir)/device.cpp $(srcdir)/devchoice.cpp $(srcdir)/debugwindow.cpp $(srcdir)/createbot.cpp $(srcdir)/cpu.cpp $(srcdir)/confedit.cpp $(srcdir)/communication.cpp $(srcdir)/cloaker.cpp $(srcdir)/chiller.cpp $(srcdir)/chafflauncher.cpp $(srcdir)/chaff.cpp $(srcdir)/botinfo.cpp $(srcdir)/beamer.cpp $(srcdir)/beam.cpp $(srcdir)/battlearea.cpp $(srcdir)/armor.cpp $(srcdir)/droidbattles.cpp $(srcdir)/main.cpp  createbot.moc.cpp quickconf.moc.cpp confedit.moc.cpp kothtournament.moc.cpp startsbatt.moc.cpp starttournament.moc.cpp robots.moc.cpp screenobject.moc.cpp botinfo.moc.cpp debugwindow.moc.cpp droidbattles.moc.cpp battlearea.moc.cpp devchoice.moc.cpp
+	@echo 'creating droidbattles.all_cpp.cpp ...'; \
+	rm -f droidbattles.all_cpp.files droidbattles.all_cpp.final; \
+	echo "#define KDE_USE_FINAL 1" >> droidbattles.all_cpp.final; \
+	for file in myqmultilineedit.cpp radarmissilelauncher.cpp turret.cpp timedev.cpp steering.cpp starttournament.cpp startsurvbatt.cpp startsbatt.cpp startdeathbatt.cpp startcup.cpp shield.cpp screenobject.cpp scanner.cpp scandetect.cpp rocketlauncher.cpp rocket.cpp robots.cpp robcpu.cpp repair.cpp ram.cpp radarmissile.cpp quickconf.cpp plasma.cpp pixmapholder.cpp pixbutton.cpp missile.cpp minelayer.cpp mine.cpp kothtournament.cpp instruktion.cpp installdir.cpp infobox.cpp fuel.cpp explosion.cpp engine.cpp docbrowser.cpp device.cpp devchoice.cpp debugwindow.cpp createbot.cpp cpu.cpp confedit.cpp communication.cpp cloaker.cpp chiller.cpp chafflauncher.cpp chaff.cpp botinfo.cpp beamer.cpp beam.cpp battlearea.cpp armor.cpp droidbattles.cpp main.cpp  createbot.moc.cpp quickconf.moc.cpp confedit.moc.cpp kothtournament.moc.cpp startsbatt.moc.cpp starttournament.moc.cpp robots.moc.cpp screenobject.moc.cpp botinfo.moc.cpp debugwindow.moc.cpp droidbattles.moc.cpp battlearea.moc.cpp devchoice.moc.cpp; do \
+	  echo "#include \"$$file\"" >> droidbattles.all_cpp.files; \
+	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> droidbattles.all_cpp.final; \
 	done; \
-	cat battlebots.all_cpp.final battlebots.all_cpp.files  > battlebots.all_cpp.cpp; \
-	rm -f battlebots.all_cpp.final battlebots.all_cpp.files
+	cat droidbattles.all_cpp.final droidbattles.all_cpp.files  > droidbattles.all_cpp.cpp; \
+	rm -f droidbattles.all_cpp.final droidbattles.all_cpp.files
 
 #>+ 3
 clean-final:
-	-rm -f battlebots.all_cpp.cpp
+	-rm -f droidbattles.all_cpp.cpp
 
 #>+ 2
 final:
-	$(MAKE) battlebots_OBJECTS="$(battlebots_final_OBJECTS)" all-am
+	$(MAKE) droidbattles_OBJECTS="$(droidbattles_final_OBJECTS)" all-am
 #>+ 3
 cvs-clean:
 	$(MAKE) -f $(top_srcdir)/admin/Makefile.common cvs-clean

@@ -21,7 +21,7 @@
 		* Init bot position, load program file and graphics
 		*/
 robots::robots( char *name,battlearea &object,int mnum, confstruct config,
-								int tm,bool er )
+								int tm,bool er=true )
 {
 	int numdev = 0;
 	int cost = 0;
@@ -41,7 +41,7 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config,
 
 	Xpos = ourarea->getstartx( mnum );//Get start position from battlearea
 	Ypos = ourarea->getstarty( mnum );
-	direction = rand( )%1024;
+	direction = random( )%1024;
 
 	fuelval = 0;
 	mynum = mnum;
@@ -237,7 +237,7 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config,
 	if( f2.exists( ) == false )
 	{
 		temp = returninstalldir( );
-		temp = "skepp";
+		temp += "/pixmaps/skepp";
 		temp += QString::number( mynum );
 		temp += ".bmp";
 	}
@@ -344,7 +344,7 @@ void robots::eraseobject( QWidget *buffer )
 	/**
 		* Show bot gfx on screen
 		*/
-void robots::showobject( QWidget *buffer, int opt )
+void robots::showobject( QWidget *buffer, int opt = 0 )
 {
 	int degrees = getdir( )+(degreesperpic/2);
 	if( degrees > 1023 )
@@ -389,8 +389,8 @@ void robots::putdevport( unsigned char port, unsigned short value )
 	/**
 		* Inbetween function for devices that wants to add screenobjects to battlearea
 		*/
-void robots::addscrobject( int X,int Y,int dir,int type, int arg1,
-													 int arg2, void *arg3 )
+void robots::addscrobject( int X,int Y,int dir,int type, int arg1=0,
+													 int arg2=0, void *arg3=0 )
 {
 	ourarea->addscrobject( mynum,X,Y,dir,type,arg1,arg2,arg3 );
 }
@@ -583,9 +583,9 @@ int robots::numCPUs()
 /**
  * Returns debugstructure from all CPUs
  */
-std::list<struct debugcontents>* robots::returndbgcont2( )
+list<struct debugcontents>* robots::returndbgcont2( )
 {
-	std::list<debugcontents> *dc = new std::list<debugcontents>;
+  list<debugcontents> *dc = new list<debugcontents>;
 	for(int x=0;x<32;x++ )
 		if( devicelist[x] && (devicelist[x]->returntype() == 9))
 			dc->push_back(devicelist[x]->returndbg( ));

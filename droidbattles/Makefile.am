@@ -1,96 +1,93 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
-bin_PROGRAMS = battlebots
-battlebots_SOURCES = pixmapholder.cpp pixbutton.cpp infobox.cpp cloaker.cpp chiller.cpp docbrowser.cpp startdeathbatt.cpp startsurvbatt.cpp startcup.cpp scandetect.cpp chaff.cpp chafflauncher.cpp debugwindow.cpp kothtournament.cpp rocket.cpp rocketlauncher.cpp beam.cpp beamer.cpp quickconf.cpp installdir.cpp turret.cpp timedev.cpp steering.cpp starttournament.cpp startsbatt.cpp shield.cpp screenobject.cpp scanner.cpp robots.cpp robcpu.cpp repair.cpp ram.cpp radarmissilelauncher.cpp radarmissile.cpp plasma.cpp missile.cpp minelayer.cpp mine.cpp instruktion.cpp fuel.cpp explosion.cpp engine.cpp device.cpp devchoice.cpp createbot.cpp cpu.cpp confedit.cpp communication.cpp botinfo.cpp battlearea.cpp armor.cpp battlebots.cpp main.cpp 
-battlebots_LDADD   = $(LIB_QT) -lm -lXext -lX11 $(LIBSOCKET)
+bin_PROGRAMS = droidbattles
+droidbattles_SOURCES = myqmultilineedit.cpp radarmissilelauncher.cpp turret.cpp timedev.cpp steering.cpp starttournament.cpp startsurvbatt.cpp startsbatt.cpp startdeathbatt.cpp startcup.cpp shield.cpp screenobject.cpp scanner.cpp scandetect.cpp rocketlauncher.cpp rocket.cpp robots.cpp robcpu.cpp repair.cpp ram.cpp radarmissile.cpp quickconf.cpp plasma.cpp pixmapholder.cpp pixbutton.cpp missile.cpp minelayer.cpp mine.cpp kothtournament.cpp instruktion.cpp installdir.cpp infobox.cpp fuel.cpp explosion.cpp engine.cpp docbrowser.cpp device.cpp devchoice.cpp debugwindow.cpp createbot.cpp cpu.cpp confedit.cpp communication.cpp cloaker.cpp chiller.cpp chafflauncher.cpp chaff.cpp botinfo.cpp beamer.cpp beam.cpp battlearea.cpp armor.cpp droidbattles.cpp main.cpp 
+droidbattles_LDADD   = -lqt -lXext -lX11 $(LIBSOCKET)
 
 SUBDIRS = docs 
 
-EXTRA_DIST = main.cpp battlebots.cpp resource.h battlebots.xpm mini-battlebots.xpm armor.cpp armor.h battlearea.cpp battlearea.h battlebots.h botinfo.cpp botinfo.h commonsymbols.h communication.cpp communication.h confedit.cpp confedit.h confstruct.h cpu.cpp cpu.h createbot.cpp createbot.h current.cfg devchoice.cpp devchoice.h device.cpp device.h engine.cpp engine.h explosion.cpp explosion.h fuel.cpp fuel.h heavy.cfg instruktion.cpp instruktion.h light.cfg medium.cfg mine.cpp mine.h mine.xpm minelayer.cpp minelayer.h missile.cpp missile.h missile.xpm plasma.cpp plasma.h radarmissile.cpp radarmissile.h radarmissilelauncher.cpp radarmissilelauncher.h ram.cpp ram.h repair.cpp repair.h robcpu.cpp robcpu.h robots.cpp robots.h scanner.cpp scanner.h screenobject.cpp screenobject.h shield.cpp shield.h startsbatt.cpp startsbatt.h starttournament.cpp starttournament.h steering.cpp steering.h timedev.cpp timedev.h turret.cpp turret.h ultralight.cfg battlebots.conf installdir.cpp installdir.h quickconf.cpp quickconf.h beamer.cpp beamer.h beam.cpp beam.h radarmissile.bmp rocketlauncher.cpp rocketlauncher.h rocket.cpp rocket.h kothtournament.cpp kothtournament.h matchresult.h debugcontents.h debugwindow.cpp debugwindow.h chafflauncher.cpp chafflauncher.h chaff.cpp chaff.h chaff.bmp scandetect.cpp scandetect.h startcup.cpp startcup.h startsurvbatt.cpp startsurvbatt.h startdeathbatt.cpp startdeathbatt.h docbrowser.cpp docbrowser.h skepp0.bmp skepp1.bmp skepp2.bmp skepp3.bmp skepp4.bmp skepp5.bmp skepp6.bmp skepp7.bmp chiller.cpp chiller.h cloaker.cpp cloaker.h BUGS mainmenu.png infobox.cpp infobox.h pixbutton.cpp pixbutton.h pixmapholder.cpp pixmapholder.h example1.basm metal.png metalback2.png backbutton.xpm sourceguide.txt index-14.html teamtracker.basm 
+EXTRA_DIST = main.cpp droidbattles.cpp droidbattles.h resource.h droidbattles.xpm mini-droidbattles.xpm armor.h battlearea.h beam.h beamer.h botinfo.h chaff.h chafflauncher.h chiller.h cloaker.h commonsymbols.h communication.h confedit.h confstruct.h cpu.h createbot.h debugcontents.h debugwindow.h devchoice.h device.h docbrowser.h engine.h explosion.h fuel.h infobox.h installdir.h instruktion.h kothtournament.h matchresult.h mine.h minelayer.h missile.h pixbutton.h pixmapholder.h plasma.h quickconf.h radarmissile.h radarmissilelauncher.h ram.h repair.h robcpu.h robots.h rocket.h rocketlauncher.h scandetect.h scanner.h screenobject.h shield.h startcup.h startdeathbatt.h startsbatt.h startsurvbatt.h starttournament.h steering.h timedev.h turret.h armor.cpp battlearea.cpp beam.cpp beamer.cpp botinfo.cpp chaff.cpp chafflauncher.cpp chiller.cpp cloaker.cpp communication.cpp confedit.cpp cpu.cpp createbot.cpp debugwindow.cpp devchoice.cpp device.cpp docbrowser.cpp engine.cpp explosion.cpp fuel.cpp infobox.cpp installdir.cpp instruktion.cpp kothtournament.cpp mine.cpp minelayer.cpp missile.cpp pixbutton.cpp pixmapholder.cpp plasma.cpp quickconf.cpp radarmissile.cpp ram.cpp repair.cpp robcpu.cpp robots.cpp rocket.cpp rocketlauncher.cpp scandetect.cpp scanner.cpp screenobject.cpp shield.cpp startcup.cpp startdeathbatt.cpp startsbatt.cpp startsurvbatt.cpp starttournament.cpp steering.cpp timedev.cpp turret.cpp current.cfg heavy.cfg light.cfg medium.cfg ultralight.cfg example1.basm teamtracker.basm droidbattles.conf backbutton.xpm missile.xpm chaff.bmp radarmissile.bmp skepp0.bmp skepp1.bmp skepp2.bmp skepp3.bmp skepp4.bmp skepp5.bmp skepp6.bmp skepp7.bmp mainmenu.png metal.png metalback2.png mine.xpm radarmissilelauncher.cpp myqmultilineedit.cpp myqmultilineedit.h 
 
 install-data-local:
-	$(mkinstalldirs) /usr/local/battlebots/
-	$(INSTALL_DATA) current.cfg /usr/local/battlebots/current.cfg
-	$(mkinstalldirs) /usr/local/battlebots/
-	$(INSTALL_DATA) heavy.cfg /usr/local/battlebots/heavy.cfg
-	$(mkinstalldirs) /usr/local/battlebots/
-	$(INSTALL_DATA) light.cfg /usr/local/battlebots/light.cfg
-	$(mkinstalldirs) /usr/local/battlebots/
-	$(INSTALL_DATA) medium.cfg /usr/local/battlebots/medium.cfg
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) mine.xpm /usr/local/battlebots/pixmaps/mine.xpm
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) missile.xpm /usr/local/battlebots/pixmaps/missile.xpm
-	$(mkinstalldirs) /usr/local/battlebots/
-	$(INSTALL_DATA) ultralight.cfg /usr/local/battlebots/ultralight.cfg
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) droidbattles.xpm /usr/local/droidbattles/pixmaps/droidbattles.xpm
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) mini-droidbattles.xpm /usr/local/droidbattles/pixmaps/mini-droidbattles.xpm
+	$(mkinstalldirs) /usr/local/droidbattles/
+	$(INSTALL_DATA) current.cfg /usr/local/droidbattles/current.cfg
+	$(mkinstalldirs) /usr/local/droidbattles/
+	$(INSTALL_DATA) heavy.cfg /usr/local/droidbattles/heavy.cfg
+	$(mkinstalldirs) /usr/local/droidbattles/
+	$(INSTALL_DATA) light.cfg /usr/local/droidbattles/light.cfg
+	$(mkinstalldirs) /usr/local/droidbattles/
+	$(INSTALL_DATA) medium.cfg /usr/local/droidbattles/medium.cfg
+	$(mkinstalldirs) /usr/local/droidbattles/
+	$(INSTALL_DATA) ultralight.cfg /usr/local/droidbattles/ultralight.cfg
+	$(mkinstalldirs) /usr/local/droidbattles/bots/
+	$(INSTALL_DATA) example1.basm /usr/local/droidbattles/bots/example1.basm
+	$(mkinstalldirs) /usr/local/droidbattles/bots/
+	$(INSTALL_DATA) teamtracker.basm /usr/local/droidbattles/bots/teamtracker.basm
 	$(mkinstalldirs) /etc/
-	$(INSTALL_DATA) battlebots.conf /etc/battlebots.conf
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) radarmissile.bmp /usr/local/battlebots/pixmaps/radarmissile.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) chaff.bmp /usr/local/battlebots/pixmaps/chaff.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp0.bmp /usr/local/battlebots/pixmaps/skepp0.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp1.bmp /usr/local/battlebots/pixmaps/skepp1.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp2.bmp /usr/local/battlebots/pixmaps/skepp2.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp3.bmp /usr/local/battlebots/pixmaps/skepp3.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp4.bmp /usr/local/battlebots/pixmaps/skepp4.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp5.bmp /usr/local/battlebots/pixmaps/skepp5.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp6.bmp /usr/local/battlebots/pixmaps/skepp6.bmp
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) skepp7.bmp /usr/local/battlebots/pixmaps/skepp7.bmp
-	$(mkinstalldirs) /usr/local/battlebots/
-	$(INSTALL_DATA) BUGS /usr/local/battlebots/BUGS
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) mainmenu.png /usr/local/battlebots/pixmaps/mainmenu.png
-	$(mkinstalldirs) /usr/local/battlebots/bots/
-	$(INSTALL_DATA) example1.basm /usr/local/battlebots/bots/example1.basm
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) metal.png /usr/local/battlebots/pixmaps/metal.png
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) metalback2.png /usr/local/battlebots/pixmaps/metalback2.png
-	$(mkinstalldirs) /usr/local/battlebots/pixmaps/
-	$(INSTALL_DATA) backbutton.xpm /usr/local/battlebots/pixmaps/backbutton.xpm
-	$(mkinstalldirs) /usr/local/battlebots/doc/
-	$(INSTALL_DATA) sourceguide.txt /usr/local/battlebots/doc/sourceguide.txt
-	$(mkinstalldirs) /usr/local/battlebots/doc/
-	$(INSTALL_DATA) index-14.html /usr/local/battlebots/doc/index-14.html
-	$(mkinstalldirs) /usr/local/battlebots/bots/
-	$(INSTALL_DATA) teamtracker.basm /usr/local/battlebots/bots/teamtracker.basm
+	$(INSTALL_DATA) droidbattles.conf /etc/droidbattles.conf
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) backbutton.xpm /usr/local/droidbattles/pixmaps/backbutton.xpm
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) missile.xpm /usr/local/droidbattles/pixmaps/missile.xpm
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) chaff.bmp /usr/local/droidbattles/pixmaps/chaff.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) radarmissile.bmp /usr/local/droidbattles/pixmaps/radarmissile.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp0.bmp /usr/local/droidbattles/pixmaps/skepp0.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp1.bmp /usr/local/droidbattles/pixmaps/skepp1.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp2.bmp /usr/local/droidbattles/pixmaps/skepp2.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp3.bmp /usr/local/droidbattles/pixmaps/skepp3.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp4.bmp /usr/local/droidbattles/pixmaps/skepp4.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp5.bmp /usr/local/droidbattles/pixmaps/skepp5.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp6.bmp /usr/local/droidbattles/pixmaps/skepp6.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) skepp7.bmp /usr/local/droidbattles/pixmaps/skepp7.bmp
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) mainmenu.png /usr/local/droidbattles/pixmaps/mainmenu.png
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) metal.png /usr/local/droidbattles/pixmaps/metal.png
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) metalback2.png /usr/local/droidbattles/pixmaps/metalback2.png
+	$(mkinstalldirs) /usr/local/droidbattles/pixmaps/
+	$(INSTALL_DATA) mine.xpm /usr/local/droidbattles/pixmaps/mine.xpm
 
 uninstall-local:
-	-rm -f /usr/local/battlebots/current.cfg
-	-rm -f /usr/local/battlebots/heavy.cfg
-	-rm -f /usr/local/battlebots/light.cfg
-	-rm -f /usr/local/battlebots/medium.cfg
-	-rm -f /usr/local/battlebots/pixmaps/mine.xpm
-	-rm -f /usr/local/battlebots/pixmaps/missile.xpm
-	-rm -f /usr/local/battlebots/ultralight.cfg
-	-rm -f /etc/battlebots.conf
-	-rm -f /usr/local/battlebots/pixmaps/radarmissile.bmp
-	-rm -f /usr/local/battlebots/pixmaps/chaff.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp0.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp1.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp2.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp3.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp4.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp5.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp6.bmp
-	-rm -f /usr/local/battlebots/pixmaps/skepp7.bmp
-	-rm -f /usr/local/battlebots/BUGS
-	-rm -f /usr/local/battlebots/pixmaps/mainmenu.png
-	-rm -f /usr/local/battlebots/bots/example1.basm
-	-rm -f /usr/local/battlebots/pixmaps/metal.png
-	-rm -f /usr/local/battlebots/pixmaps/metalback2.png
-	-rm -f /usr/local/battlebots/pixmaps/backbutton.xpm
-	-rm -f /usr/local/battlebots/doc/sourceguide.txt
-	-rm -f /usr/local/battlebots/doc/index-14.html
-	-rm -f /usr/local/battlebots/bots/teamtracker.basm
+	-rm -f /usr/local/droidbattles/pixmaps/droidbattles.xpm
+	-rm -f /usr/local/droidbattles/pixmaps/mini-droidbattles.xpm
+	-rm -f /usr/local/droidbattles/current.cfg
+	-rm -f /usr/local/droidbattles/heavy.cfg
+	-rm -f /usr/local/droidbattles/light.cfg
+	-rm -f /usr/local/droidbattles/medium.cfg
+	-rm -f /usr/local/droidbattles/ultralight.cfg
+	-rm -f /usr/local/droidbattles/bots/example1.basm
+	-rm -f /usr/local/droidbattles/bots/teamtracker.basm
+	-rm -f /etc/droidbattles.conf
+	-rm -f /usr/local/droidbattles/pixmaps/backbutton.xpm
+	-rm -f /usr/local/droidbattles/pixmaps/missile.xpm
+	-rm -f /usr/local/droidbattles/pixmaps/chaff.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/radarmissile.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp0.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp1.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp2.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp3.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp4.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp5.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp6.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/skepp7.bmp
+	-rm -f /usr/local/droidbattles/pixmaps/mainmenu.png
+	-rm -f /usr/local/droidbattles/pixmaps/metal.png
+	-rm -f /usr/local/droidbattles/pixmaps/metalback2.png
+	-rm -f /usr/local/droidbattles/pixmaps/mine.xpm
 
 ####### kdevelop will overwrite this part!!! (end)############
 
@@ -98,13 +95,13 @@ uninstall-local:
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
 
-battlebots_METASOURCES = AUTO
+droidbattles_METASOURCES = AUTO
 
 # the library search path. 
-battlebots_LDFLAGS = $(all_libraries) 
+droidbattles_LDFLAGS = $(all_libraries) 
 
 # them while "make clean", use CLEANFILES
-DISTCLEANFILES = $(battlebots_METASOURCES)
+DISTCLEANFILES = $(droidbattles_METASOURCES)
 
 
 

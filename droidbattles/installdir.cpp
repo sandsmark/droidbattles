@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "installdir.h"
+#include <installdir.h>
 
 QString returninstalldir( )
 {
 	/**
 		* Get the installation dir
 		*/
-/*
+
 	//Open config file
 	QString temp = "/etc/droidbattles.conf";
 	QString insdir;
@@ -38,6 +38,5 @@ QString returninstalldir( )
 	s >> temp;   //Read from file
 	s >> insdir;
 	f3.close( );
-	return insdir; */
-	return QString( "" );
+	return insdir;
 }

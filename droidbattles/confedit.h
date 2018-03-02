@@ -34,7 +34,7 @@
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
-//#include <unistd.h>
+#include <unistd.h>
 #include "installdir.h"
 
 /**edits and sets current config file

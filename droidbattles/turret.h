@@ -18,7 +18,7 @@
 #ifndef TURRET_H
 #define TURRET_H
 
-#include "device.h"
+#include <device.h>
 
 /**Turns "turretable" devices to an offset of the heading of the bot
   *@author Andreas Agorander

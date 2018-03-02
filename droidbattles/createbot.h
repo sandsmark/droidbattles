@@ -22,7 +22,7 @@
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
-#include "myqmultilineedit.h"
+#include <myqmultilineedit.h>
 #include <qscrollview.h>
 #include <qstring.h>
 #include <qcombobox.h>
@@ -32,7 +32,7 @@
 #include <qtextstream.h>
 #include "instruktion.h"
 #include <qregexp.h>
-//#include <unistd.h>
+#include <unistd.h>
 #include <qfiledialog.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>

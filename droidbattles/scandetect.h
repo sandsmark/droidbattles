@@ -18,7 +18,7 @@
 #ifndef SCANDETECT_H
 #define SCANDETECT_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 
 /**

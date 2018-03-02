@@ -10,7 +10,7 @@ dnl AC_CONFIG_AUX_DIR(admin)
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
 
-AM_INIT_AUTOMAKE(battlebots,1.0.0)
+AM_INIT_AUTOMAKE(droidbattles,1.0.4)
 
 AC_PREFIX_DEFAULT(/usr/local)
 if test "x$prefix" = "xNONE"; then
@@ -58,5 +58,5 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl add here all your Makefiles. This are created by configure
-AC_OUTPUT(Makefile battlebots/Makefile battlebots/docs/Makefile battlebots/docs/en/Makefile )
+AC_OUTPUT(Makefile droidbattles/Makefile droidbattles/docs/Makefile droidbattles/docs/en/Makefile )
 

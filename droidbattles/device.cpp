@@ -90,11 +90,9 @@ int device::returnspecial( )
 
 struct debugcontents device::returndbg( )
 {
-	struct debugcontents dummy;
-	return dummy;
 }
 
-void device::dospecial( int x, int y )
+void device::dospecial( int x, int y=0 )
 {
 }
 

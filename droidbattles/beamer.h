@@ -18,7 +18,7 @@
 #ifndef BEAMER_H
 #define BEAMER_H
 
-#include "device.h"
+#include <device.h>
 #include "screenobject.h"
 /**
 	* Device that fires beams

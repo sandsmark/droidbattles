@@ -83,7 +83,7 @@ void rocket::eraseobject( QWidget *buffer )
 	/**
 		* Paint the flame from the rocket
 		*/
-void rocket::showobject( QWidget *buffer, int opt )
+void rocket::showobject( QWidget *buffer, int opt=0 )
 {
 	QPainter p( buffer );
 	p.setPen( QColor( 255,0,0 ) );

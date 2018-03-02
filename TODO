@@ -4,9 +4,9 @@ TODO list updated 2001-03-25
 TODO during 1.x.x series :
 
 - New devices
-- Make it possible to run parts of BB from command line
+- Make it possible to run parts of BB from command line (enabling DB "servers"
 - Assembler needs complete rewrite (add structure making it easy to use several sorts of CPU:s in a single sourcefile)
-
+- Port to windows (Qt-win is free now)
 
 Maybe:
 

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: Running simulations</TITLE>
+ <LINK HREF="index-8.html" REL=next>
+ <LINK HREF="index-6.html" REL=previous>
+ <LINK HREF="index.html#toc7" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-8.html">Next</A>
+<A HREF="index-6.html">Previous</A>
+<A HREF="index.html#toc7">Contents</A>
+<HR>
+<H2><A NAME="s7">7. Running simulations</A></H2>
+
+<P>
+<P>There are several built in ways to run battles and tournaments, here we will go through
+them one by one.
+<P>
+<H2><A NAME="ss7.1">7.1 Running normal battle simulation</A>
+</H2>
+
+<P>
+<P>
+<PRE>
+1. Make sure that the bots you want to simulate are compiled.
+In case they're not, load up the bot creator, load the bot
+source and press assemble. When the assembler tells you
+assemble successful the bot is compiled.
+
+Also, make sure the correct config file is loaded. Do this by
+firing up the config editor, press load existing config. Then
+load the correct config (the standard ones are under
+/usr/local/battlebots/.. ), and then apply current config.
+
+2. Press start single battle.
+
+3. Press load and choose the correct .bot file
+
+4. repeat step 3 until all the bots you want to simulate are loaded
+(max 8).
+
+5. Choose how many battles the bots should go
+
+6. Choose the maximum time before a draw is called
+
+7. Choose the X and Y size of the battlearea
+
+8. If you want to run a team-battle, toggle the team-checkbox
+   And then choose the teams for all bots (the comboboxes with values 1-4 in)
+
+9. Press OK
+
+
+Also, if you want to test your bots quickly as you edit them you can use the
+quick battle feature in the bot-creator. You need to configure the quick battle
+function once, but after that all you have to do is assemble the bot and press
+quick battle and your bot is in a fight.
+
+Also when running a quick battle a debugwindow with some basic info (register
+contents, mem contents etc...) is shown.
+</PRE>
+<P>
+<H2><A NAME="ss7.2">7.2 Running survival battle simulation</A>
+</H2>
+
+<P>
+<PRE>
+A survival battle is started almost the same way as a normal battle. There are
+no team option in survival ,but there is a fast battle choice.
+No "number of fights" option but instead a number of lives.
+
+In actual combat the difference between normal and survival is that when you die
+in survival, you get your number of lifes decreased, and then (if you're not out
+of lifes) respawn, with a new fresh bot. The last bot with lives left wins. (Or
+if time runs out, the bot with the most lives left wins).
+</PRE>
+<P>
+<H2><A NAME="ss7.3">7.3 Running deatchmatch battle simulation</A>
+</H2>
+
+<P>
+<PRE>
+A deathmatch battle is started almost exactly as a survival battle.
+Only, instead of "number of lives" you select "number of frags".
+That is, How many frags a bot should get in order to win (and the
+battle end).
+</PRE>
+<P>
+<H2><A NAME="ss7.4">7.4 Running league tournaments</A>
+</H2>
+
+<P>
+<PRE>
+1. Make sure that the bots you want to simulate are compiled.
+In case they're not, load up the bot creator, load the bot
+source and press assemble. When the assembler tells you
+assemble successful the bot is compiled.
+
+Also make sure the correct config is loaded.
+
+2. Press start tournament.
+
+3. Press load and choose the correct .bot file
+
+4. repeat step 3 until all the bots you want to simulate are loaded
+(max 64).
+
+5. Choose how many battles the bots should go
+
+6. Choose the maximum time before a draw is called
+
+7. Choose the X and Y size of the battlearea
+
+8. If you have many bots in you might want to check the "fast battles"
+   checkbox, in order to have the battles go VERY fast.
+
+9. Press OK
+
+In a tournament, the bots go one on one, and all bots in the tournament
+meets. This means that If there are 4 bots in the tourney, 6 matches will
+be played. Be warned that this number increases rapidly. If n bots are in
+the tourney and each match consists of f fights this formula applies:
+
+total fights = ((n^2-n)/2)*f
+for n = 16 bots and f = 5 fights this means:
+total fights = ((16^2-16)/2)*5 = 600 fights.
+
+For this, I have included the "fast battles" option in tournaments. The battles
+will go quite fast (on a fast computer that is), but you won't see much of the
+battles.
+
+The result of the tournament is NOT put out on the screen directly. Rather it
+is output to tournament.html in an HTML formatted table document.
+</PRE>
+<P>
+<H2><A NAME="ss7.5">7.5 Running KOTH tournaments</A>
+</H2>
+
+<P>
+<PRE>
+KOTH tournaments is started in the same way as league tournaments.
+But the actual battles fought are different.
+In the first battle the two bots at the bottom fight, the loser is put
+on the lowest rank while the winner challenges the bot above.
+
+And so it continues, the winner in the battles continue moving up in the
+table and the loser stops in the table. This way a bot can in a single
+KOTH tournament run gain positions all the way to the top, but a bot
+can only lose one position in a single round.
+
+When all fights the way up to the top have been fought the results are
+written to two files: One HTML formatted file (Kothresults.html)containing
+the new table and the list of all matches that had been run in this round
+
+One file named currentKOTH.table which contains the current table and other
+options set in the start KOTH window.
+
+When you want to run the next round you should press "load list" button in
+the startKOTH window and select currentKOTH.table (or what you renamed that
+file to). and then all you have to do is press start and a new round is fought.
+</PRE>
+<P>
+<H2><A NAME="ss7.6">7.6 Running Cup tournaments</A>
+</H2>
+
+<P>
+<PRE>
+Cup tournaments is started the same way as League tournaments.
+However, the number of bots must be either: 4,8,16,32 or 64.
+The actual battles fought are also different. The bots pair up one on one and
+fight. The winners go through to the next round, and the losers is out. This way
+it goes until only one bot is left (that wins). The results, with all battles
+fought is written to the file Cupresults.html.
+</PRE>
+<P>
+<P>
+<HR>
+<A HREF="index-8.html">Next</A>
+<A HREF="index-6.html">Previous</A>
+<A HREF="index.html#toc7">Contents</A>
+</BODY>
+</HTML>

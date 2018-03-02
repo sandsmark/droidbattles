@@ -1,0 +1,60 @@
+Andreas Agorander
+Bluefire@bluefire.nu
+
+*IMPORTANT NOTICE*
+If you're upgrading from an earlier version, be sure to update the
+.cfg files in the user directories
+*IMPORTANT NOTICE*
+
+BattleBots v 1.0.0 README
+
+Installation:
+
+To install this package you should read INSTALL.
+Basically it will tell you to type this (as root):
+
+./configure
+make
+make install
+
+You will need these things for it to compile:
+
+Qt 2.x (Devel version)
+A unix system
+X-windows
+X11 headers installed
+$QTDIR must point to the installation directory of the
+current qt2 headers and libraries (usually /usr/lib/qt
+or /usr/lib/qt2)
+set it with:
+export QTDIR=/usr/lib/qt
+
+File placement:
+
+In case you want to remove the package the files
+are placed in these dirs:
+
+The executable:
+The binary is placed in /bin under the --prefix you
+give as option (see INSTALL).
+If you don't give an option it is placed in
+/usr/local/bin
+
+The data:
+The data that is common for all users is placed in
+/usr/local/battlebots/..
+
+The documentation:
+The html and sgml documentation is placed in
+/usr/local/battlebots/doc/
+
+User specific data is placed in (homedir)/battlebots/
+
+A config file is in /etc/battlebots.conf
+If you want to move the battlebots data from /usr/local to some
+other place you should edit this config file accordingly
+
+Usage:
+To get started programming bots and running
+simulations you should read the documentation at
+/usr/local/battlebots/doc/index.html

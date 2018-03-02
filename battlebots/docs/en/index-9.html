@@ -1,0 +1,518 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: Details of devices</TITLE>
+ <LINK HREF="index-10.html" REL=next>
+ <LINK HREF="index-8.html" REL=previous>
+ <LINK HREF="index.html#toc9" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-10.html">Next</A>
+<A HREF="index-8.html">Previous</A>
+<A HREF="index.html#toc9">Contents</A>
+<HR>
+<H2><A NAME="s9">9. Details of devices</A></H2>
+
+<P>
+<P>This section provides more details of all the hardware
+available to the bot...
+<P>In the port listings first the name of the port is listed and then a ddescription.
+The name is the predefined constant of the port and is of this form:
+<P>CPU#_GetXSize
+<P>First the name of the hardware,
+# stands for the number of the hardware eg. the first CPU has a 0 there and the fifth has a 4
+there. Then after that comes _ with the name of the port
+<P>
+<H2><A NAME="ss9.1">9.1 CPU:</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The CPU device is the device that runs the actual program.
+It can execute numerous opcodes.
+
+In addition to that it can take two parameters:
+
+%CPUboot and %CPUstack
+
+..
+..
+nop
+nop
+
+%CPUboot 0
+:label
+nop
+nop
+
+%CPUstack
+:label2
+
+This means that the first device CPU will boot at position :label
+and that it's stack memory starts at label2
+This is especially important if you use multiple CPU:s
+
+inports:
+first: CPU#_GetXSize, get X-size of battlearea
+second: CPU#_GetYSize, get Y-size of battlearea
+third: CPU#_GetBattleType, get type of battle (0-normal,1-survival,2-deathmatch)
+fourth: CPU#_GetMyTeam, get team/frequency of your bot.
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.2">9.2 Engine:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The engine device is what regulates with what speed your bot moves
+
+outports:
+first: Engine#_SetThrust, set the wanted speed
+second: Engine#_SetReverseThrust, set the wanted reverse speed
+
+inports:
+first: Engine#_GetThrust, get the current thrust level
+second: Engine#_GetSpeed, get the current speed
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.3">9.3 Steering:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The steering device makes your bot turn
+
+It can steer a certain number of botgrades each round (determined by config).
+There are 1024 botgrades on a circle, and the botgrade 0 is straight to the right.
+
+outports:
+first: Steering#_AdjustWantedDir, adjust-heading, The value is relative to the
+current aimed heading and is in botgrades, To turn right 8 botgrades: out 0*,8
+To turn left: out 0*,1016
+
+second: Steering#_SetDir, Aim at absolute heading
+out 1*, 512 ;Go straight left
+
+third: Steering#_AdjustCurrentDir, Sort of like the first, but the value isn't
+relative to the aimed heading, but relative to the current "real" heading. This
+can prevent the "overflow" problem...
+
+* Adjust for the position of the device
+
+inports:
+first: Steering#_GetDir, get current dir
+second: Steering#_GetWantedDir, get current wanted dir
+third: Steering#_GetXpos, get X-position
+fourth: Steering#_GetYpos, get Y-position
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.4">9.4 Plasmagun:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The plasmagun is a weapon
+
+outports:
+first: Plasmagun#_Shoot, fire shot
+inports:
+none
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.5">9.5 Armor:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The armor provides protection against enemy weapons
+If hit when no armour is left, the bot dies
+
+outports:
+first: Armor#_SetCollIntEnabled, hit/collision interrupt enable/disable
+second: Armor#_SetArmorIntEnabled, armor below level interrupt enable/disable
+third: Armor#_SetArmorIntLevel, set level for armor interrupt
+fourth: Armor#_SetHeatIntLevel, set level for heat interrupt
+
+inports:
+first: Armor#_GetArmor, Amount of armor for bot
+Second: Armor#_GetHeat, Amount of heat for bot (>500 and armor starts burning off)
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.6">9.6 Scanner:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The scanner searches an area for enemy bots
+
+outports:
+first: Scanner#_Scan, emit scan pulse (update distance and acuracy registers)
+second: Scanner#_SetScanWidth, set width of scanner
+third: Scanner#_SelectReturn, select what the fourth inport should return
+        0:frequency of bot last scanned
+        1:number of object last scanned
+        2:direction of object last scanned
+        3:speed of object last scanned
+fourth: Scanner#_SetSensitivity, Set sensitivity for scanner
+Decides what kind of objects the scanner sees.
+level 5 sees only bots and chaffs
+level 4 sees above and missiles
+level 3 sees above and mines
+level 2 sees above and rocket
+level 1 sees above and plasmashots
+
+inports:
+first: Scanner#_GetScanDistance, get distance to bot in last scan (65535 if none was found)
+second: Scanner#_GetScanAccuracy, Get accuracy of last scan. Returns a value (0-4) .
+If the enemy bot was in the middle of your scan it returns 2, if
+it was to the leftmost 0 and to the rightmost 4.
+third: Scanner#_GetScanWidth, return current width of scanner beam
+fourth: Scanner#_GetScanInfo, Return one of the four things set by the third outport
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.7">9.7 fuel:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+Provides fuel for the engine.
+
+outports:
+first: Fuel#_SetFuelIntEnabled, set fuel below level interrupt enable/disable
+second: Fuel#_SetFuelIntLevel, set level for interrupt
+
+inports:
+first: Fuel#_GetFuel, Get fuel amount
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.8">9.8 Turret:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+Can "turn" other devices around even if the bot stands still.
+The only devices that currently can be turned are scanner,
+plasmagun, AS-Rocket and missile. The turret needs the number
+of the device it is it should turn in the white box beside the
+combo-box.
+
+outports:
+first: Turret#_SetOffset, put at absolute offset (offsets device an absolute number
+from the bots heading)
+second: Turret#_AdjustOffset, put at relative offset (offset device a number from the
+current offset)
+
+inports:
+first: Turret#_GetOffset, return current offset
+second: Turret#_GetWantedOffset, return current wanted offset (in case it hasn't had the time
+to move all the way...)
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.9">9.9 Time-device:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This is a ticking clock
+It ticks once every combat round (~ 50 ticks per second)
+
+outports:
+first: Timer#_SetTime, Set current time tick
+second: Timer#_SetIntTime, Set time for interrupt
+third: Timer#_SetIntEnabled, Interrupt enable
+
+inports:
+first: Timer#_GetTime, Get current time
+second: Timer#_GetIntTime, Get interrupt time
+third: Timer#_GetIntEnabled, Get interrupt enabled
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.10">9.10 Shield device:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This device stops a percentage of all incoming damage.
+It doesn't get damaged itself, but it uses fuel whenever
+it's up
+
+It uses 5 fuel for every round it's up (should I increase this?)
+
+outports:
+first: Shield#_SetShieldEnabled, Up with shield/down with shield (1 is up, 0 is down)
+
+inports:
+first: Shield#_GetShieldEnabled, Get current state of shield (up/down)
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.11">9.11 Repair device:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This device (slowly) repairs the damage on your armor
+
+It doesn't react to inports/outports
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.12">9.12 Radio device:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+With this device your bots can communicate with all on
+their own frequenzy. In team battle each team has it's
+own frequenzy.
+
+
+outports:
+first: Radio#_SetReceiver, Set receiver (Sets bot, on your team that should receive msg:s)
+255 means all on your freq (incl.you) receives it.
+
+second: Radio#_SendMsg, Send number (sends a number to receiver
+third: Radio#_SetMsgIntEnabled, set message received int enabled/disabled
+
+inports:
+first: Radio#_GetNumMsgs, Gets the number of msgs in queue
+second: Radio#_GetMsg, Get first number in queue
+third: Radio#_GetMyNum, Get my number
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.13">9.13 Minelayer:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This device lays small explosive devices on the ground that explode on
+impact.
+
+Each mine can make 70 damage
+
+outports:
+first: Minelayer#_LayMine, lay mine
+
+inports:
+first: Minelayer#_GetMines, get mines left
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.14">9.14 Missile:</A>
+</H2>
+
+<P>
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This is a programmable missile, it contains (in this order) a CPU,steering
+and a scanner device that you can control programmatically. You need to
+tell it where in your ram it's CPU should boot, and if needed where it's
+stackmem is.
+
+outports:
+first: Missile#_SetBootPos, set bootposition
+second: Missile#_SetStackPos, set stackposition
+third: Missile#_FireMissile, fire missile
+
+inports:
+first: Missile#_GetLoadTime, return reloadtime (if this is != 0 you can't fire)
+
+example: (assuming missile is first device)
+
+:start
+...
+...
+mov ax,missileboot
+out 0,ax
+mov ax,missilestack
+out 1,ax
+nop
+nop
+nop
+out 2,1 ;Fire missile
+...
+...
+...
+jmp start
+
+:missileboot
+...
+... (missile steer code)
+...
+jmp missileboot
+
+:missilestack
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.15">9.15 beam</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+The beam is a short range weapon, you set the exact dir and distance for
+the aim and an almost immediate hit is issued when you fire.Maximum
+distance is 8000 units.
+
+outports:
+first: Beam#_FireBeam, fire beam
+second: Beam#_SetBeamDir, set dir of beam (you don't need turret for that)
+third: Beam#_SetBeamLength, set length of beam
+
+inports:
+first: Beam#_GetDir, return dir
+second: Beam#_GetLength, return length
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.16">9.16 AS-Rocket</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+AS-rocket is a weapon that as the beam have a certain distance set.
+When it is fired it goes that distance then explodes giving all
+objects nearby damage. The rocket is NOT affected by any other
+objects on the way to the goal, so the only way to get away is to
+move...
+
+outports:
+first: Rocket#_SetDistance, set distance
+second: Rocket#_FireRocket, fire a rocket
+
+inports:
+first: Rocket#_GetReadiness, get readiness (max 200)
+second: Rocket#_GetDistance, get distance
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<P>
+<H2><A NAME="ss9.17">9.17 chaff</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+Chaff is a device that emits chaffs. That is , radar reflecting debris
+that to enemy(and friendly) scanners appears to be bots, but really is
+some sort of decoy. They live for 320 cycles before they dissolve.
+They goes of in the same direction your bot is traveling (only at half your
+speed).
+
+outports:
+first: Chaff#_ReleaseDebris, fire debris
+
+inports:
+first: Chaff#_GetDebris, get number of debris left
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.18">9.18 Scanwarner/detector</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This device keeps a count of how many times you've been scanned and can give
+you some info about te last scan against you.
+
+outports:
+first: ScanWarn#_ZeroCounter, zero counter
+
+inports:
+first: ScanWarn#_GetNumScans, return counter (number of turns scanned)
+second: ScanWarn#_GetScanDir, return the approximate dir for last scan
+( ~128 botgrades error margain )
+third: ScanWarn#_GetScanIntensity, return "intensity" for last scan
+
+This value is calculated by adding two values:
+first value is a value over how much in center of the scan you were
+(center means 0 points, on the edge means 2 points)
+The second is a value of how near the enemy bot were when he scanned you, that is
+if you were in his lowest third of his scanners range this value is 0 and if you are
+almost at the edge of his range this value is 2.
+the value returned is thus 0-4.
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.19">9.19 Chiller</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This device helps cooling your bot each round. Even when doing passive cooling
+it helps,but activating active cooling doubles the cooling effect. However,
+active cooling uses fuel.
+
+Outports:
+first: Chiller#_SetExtraCooling, Set active cooling on/off
+
+Inports:
+none
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss9.20">9.20 Cloak device</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+This device lowers your radar signature, so that your bots appear to scanners to
+be of the size of a smaller object. If enemy scanners have their sensitivity set
+higher they wondt see you, however, enabling cloak will use fuel and generate heat
+
+Outports:
+first: Cloak#_EnableCloak, Set cloak on/off
+
+Inports:
+none
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<HR>
+<A HREF="index-10.html">Next</A>
+<A HREF="index-8.html">Previous</A>
+<A HREF="index.html#toc9">Contents</A>
+</BODY>
+</HTML>

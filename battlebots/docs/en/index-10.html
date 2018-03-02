@@ -1,0 +1,776 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: Details of instructions</TITLE>
+ <LINK HREF="index-11.html" REL=next>
+ <LINK HREF="index-9.html" REL=previous>
+ <LINK HREF="index.html#toc10" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-11.html">Next</A>
+<A HREF="index-9.html">Previous</A>
+<A HREF="index.html#toc10">Contents</A>
+<HR>
+<H2><A NAME="s10">10. Details of instructions</A></H2>
+
+<P>
+<P>This section gives a detailed explanation of the available assembler
+instructions.
+<P>
+<H2><A NAME="ss10.1">10.1 mov</A>
+</H2>
+
+<P>
+<P>mov dest,source :
+<BLOCKQUOTE><CODE>
+<PRE>
+Copies a value from source to dest.
+Source can be a register, memory referencing register,value or mem-adress.
+dest can be a register, memory referencing register or mem-adress
+(though you can't mov mem,mem)
+
+example:
+
+mov ax,100
+mov @ax,100
+mov ax,@100
+mov @100,ax
+mov ax,bx
+
+It can also be a mov with an offset, example:
+
+mov ax,@bx +4
+mov @cx +3,dx ;These are the only two instructions taking 3 arguments
+
+Observe that the mov with offset only works with exactly these operands
+( reg,@reg +val and @reg +val,reg )
+
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.2">10.2 nop</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+Wastes a clock-cycle
+
+Can be useful if you want to make sure that your out command is in
+effect before you continue in your code.
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.3">10.3 movsb/movsw</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+Copies cx number of bytes/words from @si to @di.
+
+Example:
+
+mov cx,100
+mov si, 50
+mov di, 150
+movsb       ;Copy bytes 50-149 to 150-249
+
+movsw would have copied twice as much data
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.4">10.4 stosb/stosw</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+Fills cx number of bytes/words at @di with contents of ah
+
+Example:
+
+mov ah,0
+mov di,100
+mov cx,100
+stosb      ;Zero bytes 100-199
+
+stosw would have zeroed twice as much data
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.5">10.5 lodsb/lodsw</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+lodsb does the equivalent of:
+mov ah,@si
+inc si
+
+lodsw does the equivalent of:
+mov ax,@si
+add si,2
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.6">10.6 push</A>
+</H2>
+
+<P>push source :
+<BLOCKQUOTE><CODE>
+<PRE>
+PUSHes a value onto the stack, and changes the stackpointer to point
+past the PUSHed value.
+
+Example :
+
+push ax ;save ax to the stack
+push @ax ;save value ax points to on the stack
+push 100 ;put value 100 on the stack
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.7">10.7 pop</A>
+</H2>
+
+<P>pop dest :
+<BLOCKQUOTE><CODE>
+<PRE>
+POPs the value off the stack and changes stack pointer (used with push).
+
+Example:
+
+push cx   ;save cx
+
+do something else with cx
+
+pop cx    ;restore cx
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.8">10.8 xchg</A>
+</H2>
+
+<P>xchg arg1,arg2 :
+<BLOCKQUOTE><CODE>
+<PRE>
+Exchanges the contents of arg1 and arg2.
+arg1 MUST be a register, arg2 can be register,memory or
+ memory referencing register
+
+Example :
+
+mov ax,5
+mov bx,7
+mov @5,8
+xchg ax,bx  ; ax=7, bx=5
+xchg ax,@100 ; ax=8, @5=7
+xchg ax,@bx ; ax=7 @bx or @5 = 8
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.9">10.9 test</A>
+</H2>
+
+<P>test arg1,bit :
+<BLOCKQUOTE><CODE>
+<PRE>
+Tests a single bit in arg1. If no value is given for bit,
+cl is used. If bit is set, equality flag is set, otherwise
+cleared.
+
+Example :
+
+mov cl,3  ;test bit 3
+test flags
+jz next  ;Jump to next if bit was set
+
+or this works just as good:
+
+test flags,3
+jz next
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.10">10.10 cmp/icmp</A>
+</H2>
+
+<P>cmp arg1,arg2 :
+<BLOCKQUOTE><CODE>
+<PRE>
+Compares arg1 with arg2. sets/clears the equality, above and
+below flags depending on the value of the operands...
+
+icmp treats the values as signed.
+
+Example :
+
+mov ax,100
+:loop
+inc ax
+cmp ax, 200  ;When ax is 200, jump outside the loop
+jz next
+
+jmp loop
+
+:next
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.11">10.11 cmpsb</A>
+</H2>
+
+<P>cmpsb
+<BLOCKQUOTE><CODE>
+<PRE>
+Compares cl bytes at @di with @si, sets/clears the equality,
+above and below flags.
+
+Example:
+
+mov cl,5  ;Check 5 bytes
+mov di,100
+mov si,200
+cmpsb     ;Check if the 5 bytes at @100 are the same as @200
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.12">10.12 jmp</A>
+</H2>
+
+<P>jmp val :
+<BLOCKQUOTE><CODE>
+<PRE>
+jumps to a position in RAM, often used with labels as the value.
+
+Examples:
+
+:label
+...
+...
+...
+jmp label
+
+but nothing stops you from doing:
+
+jmp 100  ;NOT RECOMMENDED!! use labels!
+
+You can also use a register as the adress container:
+
+mov ax,100
+jmp ax ; Use with caution!
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.13">10.13 jz,jnz,jae,jbe,ja,jb,cj,cjn</A>
+</H2>
+
+<P>jz, jnz, jae/jnb , jbe/jna , cj , cjn :
+<BLOCKQUOTE><CODE>
+<PRE>
+Conditional jumps... takes the latest flag modifying operation into
+account (test, cmp, cmpsb), or the value of a register
+
+jz dest : jump if equal
+jnz dest : jump if not equal
+jae dest : jump if above or equal
+jnb dest : jump if not below (same as above)
+jbe dest : jump if below or equal
+jna dest : jump if not above (same as above)
+ja dest : jump if above
+jb dest : jump if below
+cj reg dest: jump if register reg != 0
+cjn reg dest: jump if register reg == 0
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.14">10.14 lz,lnz,la,lb,lae,lbe</A>
+</H2>
+
+<P>lz/lnz/la/lb/lae/lbe reg
+<BLOCKQUOTE><CODE>
+<PRE>
+Loads either a 1 or a 0 inte register reg, depending on the state of the flags.
+lz reg : 1 if equal (otherwise 0)
+lnz reg : 1 if not equal
+lae reg : 1 if above or equal
+lnb reg : 1 if not below (same as above)
+lbe reg : 1 if below or equal
+lna reg : 1 if not above (same as above)
+la reg : 1 if above
+lb reg : 1 if below
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.15">10.15 loop</A>
+</H2>
+
+<P>loop dest :
+<BLOCKQUOTE><CODE>
+<PRE>
+
+decreases cx, and jumps to dest if cx != 0.
+
+Example:
+
+mov cx,100 ;100 loops
+:loopdest
+
+...
+...
+
+loop loopdest
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.16">10.16 call</A>
+</H2>
+
+<P>call dest :
+<BLOCKQUOTE><CODE>
+<PRE>
+Pushes the current position to the stack and jumps
+to dest.
+
+Example
+
+:start
+
+call dosomething
+call dosomethingelse
+
+jmp start
+
+:dosomething
+...
+ret
+
+
+:dosomethingelse
+...
+ret
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.17">10.17 ret</A>
+</H2>
+
+<P>ret ,ret val:
+<BLOCKQUOTE><CODE>
+<PRE>
+ret Pops the position of execution from the stack and jumps there
+see call for example
+
+ret val also pops a number of bytes (val)
+This is useful if you make generic functions that takes pushed arguments
+example:
+
+:start
+
+push ax
+push dx
+call funk
+...
+...
+jmp start
+
+:funk
+...
+...
+ret 4 ;return with 4 bytes used for arguments
+
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.18">10.18 iret</A>
+</H2>
+
+<P>iret :
+<BLOCKQUOTE><CODE>
+<PRE>
+Same as ret except it enables interrupts too.
+Used in interrupt service routines:
+
+%interrupt 0
+dosomething
+iret
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.19">10.19 cli,sti</A>
+</H2>
+
+<P>cli sti :
+<BLOCKQUOTE><CODE>
+<PRE>
+cli : Clear Interrupt flag (disable hardware interrupts)
+sti : Set Interrupt flag (enable hardware interrupts)
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.20">10.20 out</A>
+</H2>
+
+<P>out port,arg :
+<BLOCKQUOTE><CODE>
+<PRE>
+Sends value arg to port, this is the way to give your devices
+orders to do something.
+
+example:
+
+out 10,ax
+out 9,7
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.21">10.21 in</A>
+</H2>
+
+<P>in reg,port
+<BLOCKQUOTE><CODE>
+<PRE>
+Gets value from port to register reg. Thisi is the way to get
+info from your devices
+
+Example :
+
+in ax,10
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.22">10.22 inc,dec</A>
+</H2>
+
+<P>inc arg / dec arg :
+<BLOCKQUOTE><CODE>
+<PRE>
+Increases/decreases arg with 1:
+
+inc ax
+dec @bx
+inc @100
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.23">10.23 add,sub</A>
+</H2>
+
+<P>add arg1,arg2 / sub arg1,arg2 :
+<BLOCKQUOTE><CODE>
+<PRE>
+Adds /Subtracts arg1 with arg2.
+Result is in arg1 :
+
+add ax,bx
+sub cx,100
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.24">10.24 and,or,xor</A>
+</H2>
+
+<P>and/or/xor arg1,arg2
+<BLOCKQUOTE><CODE>
+<PRE>
+Performs bitwise and/or/xor on operands
+Result is in arg1
+
+Example:
+
+and ax,24
+or ax,bx
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.25">10.25 shr,shl</A>
+</H2>
+
+<P>shr / shl arg1,arg2 :
+<BLOCKQUOTE><CODE>
+<PRE>
+Performs a shift left/right on arg1 arg2 bits
+
+Example :
+
+shl ax,2 ;shift ax left 2 bits (same as multiply of 4)
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.26">10.26 ishr,ishl</A>
+</H2>
+
+<P>ishr/ishl :
+<BLOCKQUOTE><CODE>
+<PRE>
+Same as above, except sign bit is preserved
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.27">10.27 ror,rol</A>
+</H2>
+
+<P>ror/rol arg1,arg2 :
+<BLOCKQUOTE><CODE>
+<PRE>
+Rotates arg1 around arg2 bits.
+
+Example :
+ror ax,2 ;rotates the bits in ax 2 steps
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<P>
+<H2><A NAME="ss10.28">10.28 int</A>
+</H2>
+
+<P>int val :
+<BLOCKQUOTE><CODE>
+<PRE>
+Performs a software interrupt, with interrupt vector
+val being called:
+
+int 0 ;Perform int 0
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.29">10.29 mul/imul</A>
+</H2>
+
+<P>mul/imul :
+<BLOCKQUOTE><CODE>
+<PRE>
+Performs a multiplication of ax and dx. the low 16 bits
+of the result end up in ax, and the high 16 bits in dx.
+
+mov ax, 1024
+mov dx, 300
+mul
+(dx is now 4 and ax is 45056 I think (haven't double checked))
+
+imul is the same as mul, except it uses signed math
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.30">10.30 div/idiv</A>
+</H2>
+
+<P>div :
+<BLOCKQUOTE><CODE>
+<PRE>
+Performs an integer division of ax and dx. The integer part
+of the result end up in ax, the rest is in dx.
+
+mov ax,50
+mov dx,7
+div
+
+(ax is now 7 and dx is 1 )
+
+idiv is the same as div except it uses signed math
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.31">10.31 sin</A>
+</H2>
+
+<P>sin :
+<BLOCKQUOTE><CODE>
+<PRE>
+It takes the value in ax (0-1024 botgrades)
+And puts the sin value for it back in ax.
+The sin value is formatted as -32768 to 32767 (as -1 to 1)
+
+I would like to get some comments on how this instruktion
+should be changed or something
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.32">10.32 cos</A>
+</H2>
+
+<P>cos :
+<BLOCKQUOTE><CODE>
+<PRE>
+It takes the value in ax (0-1024 botgrades)
+And puts the cos value for it back in ax.
+The cos value is formatted as -32768 to 32767 (as -1 to 1)
+
+I would like to get some comments on how this instruktion
+should be changed or something
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<P>
+<H2><A NAME="ss10.33">10.33 sinfunc</A>
+</H2>
+
+<P>sinfunc :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction uses 3 registers in this formula:
+
+ax = ax + bx * sin dx
+(dx is 0-1024 botgrades)
+
+I would like some comments on the usefullness of this
+instruktion...
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.34">10.34 cosfunc</A>
+</H2>
+
+<P>cosfunc :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction uses 3 registers in this formula:
+
+ax = ax + bx * cos dx
+(dx is 0-1024 botgrades)
+
+I would like some comments on the usefullness of this
+instruktion...
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.35">10.35 atanfunc</A>
+</H2>
+
+<P>atanfunc :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction takes relative coordinates and returns the
+angle to those coordinates:
+bx is used as the relative X and dx as relative Y.
+result is in ax.
+bx and dx are treated as signed values
+
+mov bx, 100 ;100 units to the right and
+mov dx, -80 ;80 units up
+atanfunc    ;calculate angle
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.36">10.36 rnd</A>
+</H2>
+
+<P>rnd :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction puts a random number into ax. (It uses the stdlib function rand( ))
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.37">10.37 hwait</A>
+</H2>
+
+<P>hwait :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction decreases the current number of cycles to zero for the CPU.
+In each "hardware cycle" the CPU has between 3-7 cycles. if you execute an out
+instruction the effect is not applied until the next hardware cycle. The standard
+way of doing this was to insert a number of nop:s after an out instruktion.
+However you never knew exact how many nop:s would be needed, so you had to insert
+the "worst case" number of nop:s. with the hwait instruktion you don't waste any more
+cycles than necessary.
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.38">10.38 sqr</A>
+</H2>
+
+<P>sqr :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction calculates the square root of ax.
+The integer part is in ax and the decimal part in dx.
+example :
+mov ax,90
+sqr
+;ax is now 9
+;dx is now 31904
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.39">10.39 msg</A>
+</H2>
+
+<P>msg adress:
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction sends a message that will be visible in the battle infowindow.
+The message is max 18 characters, and is ended by a zero-value
+
+example :
+
+msg @message ;Put "ABC" as the message
+...
+#message
+db 65,66,67,0
+
+You can also:
+mov ax, message
+msg @ax
+
+The msg instruction is a zero-latency instruktion.
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.40">10.40 err</A>
+</H2>
+
+<P>err val :
+<BLOCKQUOTE><CODE>
+<PRE>
+This instruction sends a message (much like msg) but it looks like this:
+
+example:
+
+err 6 ;Print message "ERROR #: 6"
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss10.41">10.41 readfile / writefile</A>
+</H2>
+
+<P>readfile
+writefile
+<BLOCKQUOTE><CODE>
+<PRE>
+These instructions lets you access a file on disk.
+The file survives between battles, (it has the name of the bot with the
+ending .dat)
+
+The size of your file is 64 bytes for every kb of RAM.
+That is, a bot wit 4 kb RAM will have 256 bytes on disk.
+
+Writing to the file:
+mov ax,(position in file to start in)
+mov cx,(number of bytes to write)
+mov si,(position in RAM where the data to be written is positioned)
+writefile
+
+Reading from the file:
+mov ax,(position in file to start)
+mov cx,(number of bytes to read)
+mov di,(position in RAM to read to)
+readfile
+
+ax+cx must not be more than he filesize limit of your bot.
+
+Return value is in ax, and is number of bytes written/read,
+or -1 if an error occured
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<HR>
+<A HREF="index-11.html">Next</A>
+<A HREF="index-9.html">Previous</A>
+<A HREF="index.html#toc10">Contents</A>
+</BODY>
+</HTML>

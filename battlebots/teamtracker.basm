@@ -1,0 +1,81 @@
+RAM: 0
+
+DEVICE: 1 1 0
+DEVICE: 2 2 0
+DEVICE: 3 2 0
+DEVICE: 4 2 0
+DEVICE: 5 4 0
+DEVICE: 6 3 0
+DEVICE: 5 4 0
+DEVICE: 7 4 0
+DEVICE: 13 2 0
+DEVICE: 7 4 0
+DEVICE: 12 4 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+
+;It uses the scanner not only to find the enemy
+;but it also uses the "offset" feature in the scanner
+;to determine if he should turn into any direction in
+;order to keep the target within the scanner
+
+;This version adds some code to make
+;the bot to only follow and shoot at enemies
+;(For team battle)
+
+:start
+out Shield0_SetShieldEnabled,1      ; Up with shield
+out Scanner0_SetScanWidth,32    ; scan-arc of 32 bot grades
+in dx,CPU0_GetMyTeam ;Team number in dx
+out Scanner0_SelectReturn,0 ;Make scanner return team...
+
+:loop
+out Engine0_SetThrust,75      ; 75% speed ahead
+
+out Scanner0_Scan,1      ; emit scan pulse
+hwait
+
+in ax, Scanner0_GetScanDistance     ; get scandist
+cmp ax,60000
+jae next
+in ax,Scanner0_GetScanInfo ;other bots team into ax
+cmp ax,dx
+jz next ;If same team, skip
+in ax, Scanner0_GetScanAccuracy     ; get the offset
+cmp ax,2
+jz shoot      ; it is straight ahead
+jae turnright ;it is to our right
+
+:turnleft       ;else it is to our left´
+out Steering0_AdjustWantedDir, 1012
+jmp shoot
+
+:turnright
+out Steering0_AdjustWantedDir,12
+
+:shoot
+out Plasmagun0_Shoot,1
+jmp loop
+
+:next
+out Steering0_AdjustWantedDir,6    ; nothing found, turn right
+jmp loop

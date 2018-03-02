@@ -1,0 +1,309 @@
+v 0.1.0: Initial "real" release.
+
+v 0.1.1:
+
+	- The bot graphics should now show up (*doh*)
+	- Battlebots should now find "current.cfg" at start-up (getting rid of those error messages for the example bots)
+	- Some documentation added
+	- Some installation dirs have changed
+
+v 0.2.0
+
+	- Installation dirs changed again (all files are now under /usr/local/battlebots/..)
+	- Lots of devices added
+	- New CPU/assembler instruktions added
+	- Team battle added
+	- Variable size battlearea added.
+	- Explosions added
+	- A couple other things
+
+v 0.2.1
+
+	- Fixed a bug in steering device initialisation
+	- Fixed a serious bug in radio device
+	- %org can now take argument relative to current position (ie %org +100)
+	- Interrupts added (int val, %interrupt val etc.)
+	- These devices can emit interrupts: armor,timer,radio,status
+
+v 0.2.2
+
+	- Fixed memory referencing ( @register, @value )
+	- Added some documentation
+
+v 0.2.3
+
+	- Fixed two bugs in CPU-device & armor device that crashed the program
+	- Added tournaments
+	- Added assembler instruktions MUL/DIV
+
+v 0.2.4
+
+	- Fixed a bug that caused level 1 armor to give no protection (thx to Raymond Martineau)
+	- Fixed bugs in the config editor (You can now actually edit the costs properly) *DOH*
+	- Added "fast battle mode" for tournaments
+	- Lowered priority (increased nice-level to 5) needed for fast battle mode not making your pc unresponsive
+	- Added some config files (ultralight,light,medium,heavy) to the distribution.
+
+v 0.2.5
+
+	- Fixed two bugs that crashed the program if you tried to add 9 bots in single battle and if you entered value
+	  > 31 for turrets. (thx to Raymond Martineau)
+	- Fixed bug causing level 1 shields to give no protection (thx to Raymond Martineau)
+	- Made some changes that enables BB to run (and compile) with Qt 2.x (Qt 1.4x is no longer officially supported)
+	- Added some devices:
+			- teleporter
+			- mathdevice (sin/cos/tan etc) though it don't work yet...
+			- minelayer
+	- Added two outports to steering device:
+		* Steer at absolute heading
+		* Steer relative to current dir
+	- Changed example bot tracker to use the constant feature to make code more readable
+
+v 0.2.6
+
+	- Added config file under /etc defining install dir and such (In case you want to move BB from /usr/local
+	  youll need to edit this file
+	- BB now remember bots used in the last single battle
+	- Quick battle added in botcreator
+	- New devices:
+		* programmable radarmissile
+		* Short range beam
+		* AS-Rocket
+	- KOTH tournament added
+	- Return ID/freq/dir/speed added in scanner
+	- ret imm instruction added
+	- Non colliding placement of bots in battlearea
+	- Limited Debug functions for bot added (in quick battle)
+
+v 0.2.6b
+
+	- Fixed jmp reg instruktion
+	- Fixed bug in steering device making overflows possible
+	- %CPUstack still broken
+	- Fixed %org n OBSERVE %org +n still broken!
+	- Fixed dw (not confirmed)
+	- Fixed so comments don't waste a byte of RAM
+	- Fixed so you can have spaces before comments while not having
+    code on that line
+	- Fixed mov reg,@reg instruktions
+
+v 0.2.7
+
+	- Added instruktions
+		* lodsb
+		* lodsw
+		* sin
+		* cos
+		* sinfunc
+		* cosfunc
+		* mov reg,@reg +n
+		* mov @reg +n,reg
+	- Fixed %org +n
+	- Fixed %CPUstack and %CPUboot
+	- Added quick check of bot against config file under tests
+	- Positions are now stored as floats internally
+	- Removed devices
+		* navigator (inports moved to steering)
+		* status (inports and interrupts moved to armor and fuel)
+		* mathdevice (implements trigonometry directly in instruction set instead)
+	- Added port for going backwards in engine
+	- Increased fuel amount in fuel tanks
+	- Increased fuel usage by shield device
+	- Made speed differences between different levels of engines greater
+	- Increased steering speed slightly
+
+v 0.2.8
+
+	- Fixed instruktions
+		* movsb
+		* movsw
+		* stosb
+		* stosw
+	  (they only did the operation once instead of cx times as the docs said)
+	- Added instruktion rnd
+	- Fixed bug causing some info in .bot file to be set as 0
+		(causing the amount of RAM to always be 1024) this fixes some interrupt problems
+	- AS-rocket is no longer affected by aerial explosions (such as it itself causes)
+
+v 0.2.9
+
+	- Fixed bugs in steering device (thanks to Raymond Martineau)
+	- Fixed bug in the function in createbot which checks the bot against the cfg file
+	  (The function didn't count the cost correctly) (thx to Raymond Martineau)
+	- Fixed the instruktions "fixed" in 0.2.8
+	  Now they increased eip with cx too, which is very bad
+	- Fixed strange beam bug (thx Raymond Martineau)
+	- Added instruktion hwait (hardware wait, if you want to be sure the effect of an out
+	  instruktion is in effect the next instance, but don't waste time on many nop:s)
+	- Fixed bug in config editor (he no longer deletes the last value if you change one)
+
+v 0.3.0
+
+	- Condensed battle infowindow so that it's easier to see info for all bots fighting
+	- Fuel info is now showed in infowindow
+	- Random seed is now initialized
+	- Fixed bug that made shield ineffective (thx to Raymond Martineau)
+	- Added settings in config file (now you can set the values for the levels, not only
+	the costs)
+	- Added some negative number abilities to the bot-creator
+	- Added instruktions
+		* ror
+		* rol
+		* ja
+		* jb
+		* imul (not tested)
+		* idiv (not tested)
+	- iadd and isub instructions is no longer available
+	- Added new chaff device
+	- Fixed bug affecting positioning of beam (for real this time)
+
+v 0.3.0b
+
+	- Fixed bug in checkconf (had forgot to convert to new config format...)
+	- Fixed bug causing repair unit to give hit interrupts
+
+v 0.3.0c
+
+	- Fixed beam positioning bug (yes.. I know... but I REALLY did it this time)
+	- Fixed some scanner code angle overflow bug (thx to Daniel F Moisset)
+
+v 0.3.1
+
+	- Your own plasmashots no longer hit "each other"
+	- Added instruktions
+		* atanfunc
+		* sqr
+		* icmp
+		* msg
+		* err
+	- Added scanner detect device
+	- Fixed random seed
+	- Implemented reporting of random seed used in tournament and ability to
+	initialize random seed (limited form of replaying should be possible)
+	- Fixed hwait instruktion (thx to Raymond Martineau)
+	- Fixed radarmissile (thx to Raymond Martineau)
+
+v 0.3.2
+
+	- Added more comments in source code and more constants to make code more readable
+	  (even though much is left to do)
+	- Changed latencies for some instructions (sin,cos,div)
+	- Fix so that repair unit should work
+	- Fixed memory leak in botcreator::assemble
+	- Removed teleport device
+	- In normal battle all bots results are shown, not only the winner
+	- Added Cup tournament
+	- Added survival battle
+	- Fixed bug that under some circumstances made bullets go straight through bots
+	- Fixed error that made code like mov 12,0 go through the compile, (but such an
+	instruction don't exists. This made it possible to by accident write mov 12,0
+	instead of out 12,0 ,sec.basm has this bug in it's code)
+	- Added inports to CPU :
+		* get X size of battlearea
+		* get Y size of battlearea
+		* get max number of rounds for battle
+
+v 0.3.3
+
+	- Fixed some randomization issue
+	- Added deathmatch battle
+	- Fixed case for survival battle where a bot gets killed by aerial explosions.
+		The bot now gets respawned correctly.
+	- Changed  inports to CPU
+		* Added (get frequency/team) inport
+		* Removed Get max rounds of battle inport
+		* Added get battle mode (ie sort of battle)
+	- Added instructions
+		*readfile
+		*writefile
+		(This gives you access to a file on disk that survives between battles, this should
+		make it possible to make bots that learns over time ... at least in theory)
+	- Added sensitivity to scanner
+		*outport to scanner
+		*different masses for different screenobjects
+	- Added port listings to createbot
+	- Added cost shown at devices to createbot
+	- Added Dialogues when closing createbot, asking if contents should be saved
+	- Added documentation browser
+
+v 0.4.0
+
+	- Fixed reporting of victory in survival
+	- Added simple showing of instruction latencies in createbot
+	- Added different colored bots
+	- Changed beam value in config to mean amount of heat generated
+	- Added heat generation (with armor burned off if heat is high
+	These devices give heat:
+	* shield (when absorbing damage)
+	* plasmagun
+	* beam (alot)
+	* engine
+	* Cloak device
+	- Added heat interrupt (in armor dev)
+	- Added inport for heat (in armor)
+	- Added chiller device
+	- Added cloaker device
+	- Removed most warnings generated at compile time
+	- Redesigned communication device
+
+v 0.4.1
+
+	- Fixed bug sometimes causing bots to start with very high amounts of heat
+	  (This fix is more of a workaround... the bug itself is a mystery)
+	- Fixed bug causing reverse speed to be VERY slow
+	- Config editor now loads current.cfg on startup and (installdir)/current.cfg on
+	  "load default values"
+	- Botcreator now handles symbols with Capital Letters
+	- Assembler now automatically defines constants for ports (should improve readability and
+	  portability of code between different hardware...)
+	- Fixed bug preventing communication device from being used
+	- Fixed bug causing bots to not be able to see each other
+	- Fixed bug causing strange malplaced explosions
+	- Fixed bug causing scanner sensitivity not to be set
+	- You can now decide how many small pics there should be in your own made botgraphics, and
+	  you can also give your graphics several rows that could give your bot an "animated" look.
+
+v 0.4.2
+
+	- Fixed bug sometimes causing excessive heat and other funny effects (thrust in engine wasn't
+	  initialized to 0), This is the bug causing bots to randomly not functioning.
+	- Fixed crashes in Deathmatch battle (trying to ->getowner() from object possibly deleted)
+	- (Fixed bug causing end of files to be lost when saving)? - Need confirmation on this one
+	- Fixed armour showing at respawn (before it was left at 0% before the respawned bot got hit)
+
+v 0.4.3
+
+	- Fixed hit interrupt
+	- Debugwindow now shows the instructions executed by CPU last hardware cycle
+	- Fixed bug causing >16k RAM to cost VERY much
+	- Fixed mov reg,@reg +constant instruction
+	- Made positioning of windows on desktops more intelligent (eg. before all was in topleft corner...)
+	- Added "dumpmem" feature to debugwindow
+	- Added predefined constants to infoboxes
+	- It should now be a bit harder for bots to "get stuck" with each other
+
+v 0.4.4
+
+	- Added some "skins" to some windows (thx to David Heremans)
+	- Made infoboxes in createbot "normal" windows
+	- The instruction latency window now also shows adresses for instructions assembled
+	- Fixed assembling of mov reg,@reg +constant instruction (again...)
+	- There should no longer be possible to run two tournaments at once
+	- Fixed Repair device
+	- Added instructions lz,lnz,la,lb,lae,lbe,cj,cjn
+	- Fixed some possible crashes when loading corrupt .bot files
+	- Fixed some possible buffer overflows...
+
+v 1.0test1
+
+	- Fixed stupid typos causing cjn instruction to not assemble and work
+	- Fixed division by zero crashes
+	- When a tournament is finished, the resulting HTML file is now showed in a window
+	- Turret device now uses config values (Beware! tournament config files changed!)
+	- Fixed reporting of scanned bots team/frequency
+
+v 1.0.0
+
+	- Fixed resize of botcreator window
+	- Fixed bugs in respawn code in survival mode
+	- Various other cleanups and rebalancing

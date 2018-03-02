@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: Getting started: crash course </TITLE>
+ <LINK HREF="index-4.html" REL=next>
+ <LINK HREF="index-2.html" REL=previous>
+ <LINK HREF="index.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-4.html">Next</A>
+<A HREF="index-2.html">Previous</A>
+<A HREF="index.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. Getting started: crash course </A></H2>
+
+<P>
+<P>
+<H2><A NAME="ss3.1">3.1 Quick start: Creating bots</A>
+</H2>
+
+<P>This section is intended for people without the patience to go through the entire
+documentation to get started. The "crash-course" tutorial will go through the
+steps necessary to create a simple bot going around in circles capable of
+discovering and shooting at adversaries.
+<P>Since we will create a bot you should bring up the "bot-creator" window.
+<P>The first step in creating the bot is deciding which hardware a bot
+should have.
+Our program won't be that big, so 1k of RAM is enough for us.
+All bots need at least one CPU, choose CPU in the uppermost combobox.
+The five buttons below the combobox decides the "level" the device is
+at. In the case of the CPU, it decides the speed of the CPU.
+You can choose anyone you want, and test the differences it makes in
+the behaviour of the bot later.
+<P>The next device we need is an engine, we don't want to be sitting ducks
+do we? Choose engine in the second hardware entry.
+<P>Add (in this order) these devices:
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+steering (makes your bot turn),
+plasmagun (the weapon),
+scanner (what we use for finding the enemy),
+armor   (So that we can take some beating before blowing up),
+armor,
+fuel (Provides fuel for the engine),
+fuel
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>Here is the code we need to write for our bot:
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+out 17,24
+:loop
+out 4,50
+
+out 16,1
+hwait
+in ax,16
+cmp ax, 60000
+jae next
+
+out 12,1
+:next
+out 8,4
+jmp loop
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>it begins with this: out 17,24
+each device has up to 4 inports and 4 outports.
+You access these with the asm commands in and out.
+Which ports a certain device has access to depends
+on the number of the device.
+<P>The first device (CPU in this case) has ports 0 through 3
+Engine has 4 through 7 and so on.
+<P>port 17 is the second port on our scanner, and it sets the
+width of the scanner.
+In this case we set it to 48 botgrades (24*2=48)
+1 botgrade is 1/1024 of a circle.
+<P>The next line reads :loop.
+It's a label , all labels start with ':'
+<P>The next line: out 4,50
+Sets the thrust of our engine to 50, our bot will accelerate
+to a speed of 50 units per turn.
+<P>out 16,1
+Orders the scanner to emit a scan pulse, searching for other
+bots.
+<P>The hwait makes sure the result from the scan has time to get
+in before we try to read the result
+<P>in ax,16
+gets the scanned distance and puts it into CPU register ax
+<P>cmp ax,60000
+Compares the value in ax with 60000 (if no bot was in our
+scan-arc, the value will be above 60000)
+<P>jae next
+Jump if Above or Equal, jumps to next if no bot was in
+our scan arc
+<P>out 12,1
+Orders the plasmagun to shoot
+<P>:next
+A label
+<P>out 8,4
+Orders steering device to turn 4 botgrades to the right
+<P>jmp loop
+Jump to label loop
+<P>If you understand this example, you are well on your way
+to make your own bots.
+<P>Save this bot under the name "circles.basm".
+click on assemble under the assemble menu.
+If you wrote something wrong the assembler will complain
+but otherwise it will tell you "assemble successful".
+<P>Now you can test the bot in the simulator
+It will be named "circles.bot".
+<P>
+<H2><A NAME="ss3.2">3.2 Quick start: simulating</A>
+</H2>
+
+<P>
+<P>A quick way to see your new bot in a simulation:
+bring up the "normal battle".
+<P>Press load bot, if you assembled your bot a file named "circles.bot"
+should exist, choose it.
+<P>In order for a simulation to start you need at least 2 bots loaded. So you may
+either load the circles.bot again or load a different bot.
+<P>Then when you press OK, a battle will start immediately.
+<P>
+<HR>
+<A HREF="index-4.html">Next</A>
+<A HREF="index-2.html">Previous</A>
+<A HREF="index.html#toc3">Contents</A>
+</BODY>
+</HTML>

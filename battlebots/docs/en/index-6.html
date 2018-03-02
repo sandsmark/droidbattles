@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: The BattleBots assembler language</TITLE>
+ <LINK HREF="index-7.html" REL=next>
+ <LINK HREF="index-5.html" REL=previous>
+ <LINK HREF="index.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-7.html">Next</A>
+<A HREF="index-5.html">Previous</A>
+<A HREF="index.html#toc6">Contents</A>
+<HR>
+<H2><A NAME="s6">6. The BattleBots assembler language</A></H2>
+
+<P>
+<P>The bots are programmed using asm, here I will go through the basics...
+<P>
+<H2><A NAME="ss6.1">6.1 Basics of the mnemonics</A>
+</H2>
+
+<P>
+<P>All the real work is done by assembler 'mnemonics' These are instructions like for example
+mov, add, in or out. Each mnemonic has between 0-3 arguments.
+<P>Which argument combinations are possible depend on the instruction; but in general there are
+four different types of arguments:
+<P>registers
+registers pointing to memory,
+value
+memory adress
+<P>Registers are small memory cells within the CPU (that DON'T exist in RAM).
+Some of them are "general purpose registers" and can be used for almost
+anything,  some of them are used for special purposes... they are
+either 16 or 8-bit here's a short list:
+<P>ax : general purpose register, also used by some instruction as result
+containers (div, mul, idiv, imul), it's also used by STOSW as the source of the value
+ah : the high byte of AX, Used by STOSB as the source
+al : the low byte of AX
+<P>bx : general purpose register
+bh : high byte of bx
+bl : low byte of bx
+<P>cx : general purpose register, used as counting register for some instruktions that needs
+to know how many iterations they should make (STOSW,STOSB,MOVSB,MOVSW,CMPSB)
+ch : high byte of cx
+cl : low byte of cx
+<P>dx : general purpose register, used as result register for some instruktions (DIV,MUL)
+dh : high byte of dx
+dl : low byte of dx
+<P>eip : Instruktion Pointer, points to the current point of execution in RAM
+<P>sp : Stack Pointer, points to the current stack point in RAM
+<P>bp : Base Pointer, general purpose register (often used as temporary save for sp)
+<P>si : Source Index, used as memory pointer, (MOVSB,MOVSW,CMPSB)
+<P>di : Destination Index, used as memory pointer, (MOVSW,MOVSB,STOSW,STOSB,CMPSB)
+<P>flags : contains the state flags for the CPU
+<P>Registers pointing to memory is a register with an @ before it:
+<P>mov bx,100 ;100 -> bx
+mov ax,@bx ;Mov the contents of memory cell 100 to ax
+<P>Values is just that...:
+<P>mov bx,100
+<P>Note that pure values can't be the destination in an instruction
+<P>Memory adresses are values with an @ before it:
+<P>mov ax,@100 ;Mov the contents of memory cell 100 to ax
+<P>
+<H2><A NAME="ss6.2">6.2 Symbols:</A>
+</H2>
+
+<P>In most places where you use values you can use constants/symbols/labels:
+<P>$myconst 45
+Declares a constant with the name 'myconst' and the value 45. It can be used as such:
+<P>mov ax,@myconst  ;Move contents of memory cell 45 to ax
+mov ax,myconst   ;Move value 45 into ax
+<P>:label
+Declares a constant with the name 'label and the value of the position in RAM that the current
+assembly point is at. This is useful for jumping in code:
+<P>:label
+mov ax,bx
+add dx,cx
+jmp label
+<P>(Nothing stops you from doing 'jmp myconst' or 'jmp 100' or mov ax,label but it's not
+recommended)
+<P>#variable
+Functions about the same as :label, it defines a constant named 'variable' with the value of
+the current position in RAM. It is intended for declaring variables:
+<P>#myvar
+dw 5
+<P>mov ax,myvar puts the _ADRESS_ of myvar into ax and
+mov ax,@myvar puts the _CONTENTS_ of myvar int ax
+<P>There are a number of predefined constants (from version 0.4.1). These are named after your
+hardware and contains the values of the ports they use:
+<P>If you have two CPU:s and they are devices 0 and 5 the following constants are automatically
+declared:
+Name         Value
+CPU0_GetXSize 0
+CPU0_GetYSize 1
+CPU0_GetBattleType 2
+CPU0_GetMyTeam 3
+<P>CPU1_GetXSize 20
+CPU1_GetYSize 21
+CPU1_GetBattleType 22
+CPU1_GetMyTeam 23
+<P>All hardware gets symbols declared like this. If you change your mind and want the second
+CPU in slot 3 instead you would have to change all the values in your code if you didn't
+use these constants.
+<P>This way your code won't be depending on the exact number of your device. (And will as such
+be more portable between different "hardware"). Not to mention it gets easier to read.
+<P>
+<H2><A NAME="ss6.3">6.3 The "Red Tape" tags:</A>
+</H2>
+
+<P>
+<P>"Red tape" tags are code that in general doesn't assemble directly into runnable code
+but instead affect how the following code is generated.
+<P>%org number
+All code and such is placed in the RAM mem of the bot.
+%org number makes the code that comes after to start being
+assembled to position number.
+<P>Example:
+<P>nop
+nop
+%org 100
+nop
+nop
+<P>If this is the only code in the bot then nop:s are inserted at
+positions 0,1,100 and 101 in the RAM memory
+<P>also, you can make a relative org.
+Example:
+<P>%org 0
+nop
+nop
+%org 100
+nop
+nop
+%org +100
+nop
+<P>nop:s are inserted at positions 0,1,100,101 and 202
+<P>%CPUboot devicenumber
+<P>This tag makes the device devicenumber (assuming it is an CPU) to
+boot at the current position in the code.
+<P>example:
+<P>%CPUboot 0
+:start
+...
+...
+...
+...
+jmp start
+<P>%CPUboot 1
+:navigate
+...
+...
+...
+...
+...
+jmp navigate
+<P>This causes the CPU:s to execute "simultaneously" in different functions
+in the code.
+<P>%CPUstack devicenumber:
+If you use PUSH/POP/CALL or something like that you must set this.
+It functions as %CPUboot only this one sets stack mem.
+If it isn't set stackmem will default to 0.
+And in that case it WILL overwrite code if you execute a PUSH.
+<P>%interrupt interruptnumber:
+<P>If certain events occur, the hardware can
+"interrupt" the current CPU computing and take it to a "service routine".
+<P>Example bot :
+<P>Hardware:
+<P>CPU
+Plasmagun
+timedev
+<P>code:
+<P>:start
+cli       ;No interrupts when we initialize
+out 8,0   ;Set the timers current tick count to 0
+out 9,100 ;Set the interrupt count to 100
+out 10,1  ;enable this device interrupt
+sti       ;enable interrupts
+<P>:loop
+jmp loop  ;infinite loop
+<P>%interrupt 1 ;Here the code for interrupt 1 (timer interrupt) starts
+:service
+<P>out 8,0   ; reset clock count
+out 4,1   ; shoot
+<P>iret
+%CPUstack 0
+<P>This code will make the bot fire a shot every 100 clock ticks.
+Available interrupts are:
+<P>0: Collision/hit (issued by armor device)
+1: Time interrupt (issued by timedev)
+2: Message received (issued by radio)
+3: Armor below a certain level (issued by armor dev) !OBS only enable this int in ONE armor device
+4: Fuel below a certain level (issued by fuel dev) !OBS only enable this int in ONE fuel device
+5: Heat above level interrupt (issued by armor dev) !OBS only enable this int in ONE fuel device
+<P>If you have multiple CPU:s the first CPU with the interrupt flag set
+will get the int (set the flag with sti, clear it with cli).
+If no CPU has the interrupt flag on, no interrupt is issued.
+Entering an interrupt clears the interrupt flag, and executing
+an iret sets the interrupt flag.
+<P>Remember that you need to specify CPUstack if you use interrupts, as
+the adress of where the CPU where when he got interrupted is saved on
+the stack.
+<P>The adresses of your interrupt vectors are stored at the end of your RAM,
+So if you use interrupts 0 &amp; 1 you shouldn't do something with the 4 last
+bytes of your RAM
+<P>db/dw:
+<P>declare byte/declare word...
+Sets the current bytes to the values after db/dw.
+You may have up to 12 values after each db/dw
+<P>example:
+<P>db 0,1,200,3,4,5,4,3,2,1
+dw 12045,10000,14000,950
+<P>comments:
+<P>comments is started with the ; sign
+<P>example:
+; This is a comment
+nop        ;wait
+;  ^           ^
+; mnemonic   comment
+<P>
+<HR>
+<A HREF="index-7.html">Next</A>
+<A HREF="index-5.html">Previous</A>
+<A HREF="index.html#toc6">Contents</A>
+</BODY>
+</HTML>

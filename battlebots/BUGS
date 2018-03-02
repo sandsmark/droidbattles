@@ -1,0 +1,4 @@
+List of known bugs:
+
+- I have gotten 3 reports of BB truncating source files, losing lines at the end, though I
+have not been able to reproduce it...

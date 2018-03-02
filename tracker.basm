@@ -1,0 +1,73 @@
+RAM: 0
+
+DEVICE: 1 1 0
+DEVICE: 2 2 0
+DEVICE: 3 2 0
+DEVICE: 4 2 0
+DEVICE: 5 4 0
+DEVICE: 6 3 0
+DEVICE: 5 4 0
+DEVICE: 7 4 0
+DEVICE: 13 2 0
+DEVICE: 7 4 0
+DEVICE: 12 4 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+
+;It uses the scanner not only to find the enemy
+;but it also uses the "offset" feature in the scanner
+;to determine if he should turn into any direction in
+;order to keep the target within the scanner
+
+:start
+out 40,1      ; Up with shield
+out 21,32    ; scan-arc of 32 bot grades
+
+:loop
+out 4,75      ; 75% speed ahead
+
+out 20,1      ; emit scan pulse
+nop
+nop
+
+in ax, 20     ; get scandist
+cmp ax,60000
+jae next
+in ax, 21     ; get the offset
+cmp ax,2
+jz shoot      ; it is straight ahead
+jae turnright ;it is to our right
+
+:turnleft       ;else it is to our left´
+out 8, 1012
+jmp shoot
+
+:turnright
+out 8,12
+
+:shoot
+out 12,1
+jmp loop
+
+:next
+out 8,6    ; nothing found, turn right
+jmp loop

@@ -1,0 +1,135 @@
+RAM: 0
+
+DEVICE: 1 2 0
+DEVICE: 1 2 0
+DEVICE: 2 2 0
+DEVICE: 3 2 0
+DEVICE: 20 2 0
+DEVICE: 5 4 0
+DEVICE: 9 4 8
+DEVICE: 7 4 0
+DEVICE: 6 2 0
+DEVICE: 9 0 4
+DEVICE: 20 2 0
+DEVICE: 9 0 10
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+DEVICE: 0 0 0
+
+; Example bot showing use of Multiple CPU:s
+; this bot got 2 CPU:s doing different tasks:
+; CPU 1: navigation
+; CPU2: searches for and shoots at enemy
+;
+
+#WantedXpos
+dw 0
+#WantedYpos
+dw 0
+
+%CPUboot 0
+
+;This function handles the bots navigation
+:navmain
+
+;First, store the wanted positions we should move
+; to (randomized)
+rnd
+shr ax,1
+mov @WantedXpos,ax
+rnd
+shr ax,1
+mov @WantedYpos,ax
+
+out Engine0_SetThrust, 105
+
+;Loop until we are close to the point we wanted
+;to go to
+:wait
+
+mov bx,@WantedXpos
+mov dx,@WantedYpos
+in cx,Steering0_GetXPos
+in ax,Steering0_GetYPos
+sub bx,cx
+sub dx,ax
+
+mov si,bx
+mov di,dx
+push bx
+push dx
+atanfunc
+out Steering0_SetDir,ax
+pop dx
+pop bx
+
+icmp bx,2000
+ja wait
+icmp bx,-2000
+jb wait
+icmp bx,2000
+ja wait
+icmp bx,-2000
+jb wait
+
+jmp navmain
+
+%CPUstack 0
+
+%org +20
+
+%CPUboot 1
+out Scanner0_SetScanWidth,16
+out Turret0_SetOffset,0
+out Turret1_SetOffset,1020
+out Turret2_SetOffset,4
+hwait
+:shootmain
+:search
+out Scanner0_Scan,1
+hwait
+in ax,Scanner0_GetScanDistance
+cmp ax,60000
+jb found
+out Turret0_AdjustOffset,24
+out Turret1_AdjustOffset,24
+out Turret2_AdjustOffset,24
+hwait
+hwait
+hwait
+jmp search
+
+:found
+in bx,Scanner0_GetScanAccuracy
+sub bx,2
+ishl bx,3
+out Turret0_AdjustOffset,bx
+out Turret1_AdjustOffset,bx
+out Turret2_AdjustOffset,bx
+out Rocket0_SetDistance, ax
+out Rocket1_SetDistance, ax
+in cx,Rocket0_GetReadiness
+hwait
+cmp cx,100
+jb shootmain
+out Rocket0_FireRocket,1
+out Rocket1_FireRocket,1
+
+jmp shootmain

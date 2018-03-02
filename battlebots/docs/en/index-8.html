@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: Creating your config</TITLE>
+ <LINK HREF="index-9.html" REL=next>
+ <LINK HREF="index-7.html" REL=previous>
+ <LINK HREF="index.html#toc8" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-9.html">Next</A>
+<A HREF="index-7.html">Previous</A>
+<A HREF="index.html#toc8">Contents</A>
+<HR>
+<H2><A NAME="s8">8. Creating your config</A></H2>
+
+<P>
+<P>
+<PRE>
+In the config editor you can edit the allowed configurations of the bots.
+If you want to have som "sane" values to start with press "load default
+values".
+
+The first setting sets how many devices a bot should be allowed to have.
+The maximum is 32.
+
+The second is the maximum "cost" of the bot. Each device cost "money" and
+the cost can be different for different devices.
+And the costs should be different for different levels of a device.
+To ensure that you can't allways take the best level of all devices but
+instead force some tactics into the design of the bots this value should
+be balanced.
+
+The next setting is the maximum amount of RAM usage that should be allowed...
+The more RAM that's allowed, the more code and data-tables and such can be
+used.
+
+And in the editable combobox you can set the cost of RAM for each amount.
+The first element corresponds to the first amount of RAM and so on.
+
+Then comes the settings for each device.
+There are currently three settings available (more to come).
+1. If the device is allowed to use
+
+2. The cost of the device at each of the five levels.
+
+3. The value for the device at each level.
+This setting means different things for different devices, so here is a list:
+
+CPU: The number of cycles the CPU has each round
+Engine: The maximum speed
+steering: the number of botgrades it can turn each round
+plasmagun: the reload value for the gun (the higher, the faster he reloads)
+armor: The amount of armour he gives you
+scanner: maximum length of scanarc
+fuel: amount of fuel
+chaff: amount of chaffs available
+turret: turnrate per cycle
+scanwarner: N/A
+timedev: N/A
+shield: percentage of damage absorbed
+repair: countdown value till next reparation (lower means faster repair)
+radio: N/A
+minelayer: amount of mines
+missile: Countdown value till next fire (lower means faster rate of fire)
+beam: Amount of heat generated firing a shot
+AS-Rocket: Decrease in readiness for each fires rocket (lower means faster fire)
+cloaker: Amount of cloaking (decrease in radar signature)
+Chiller: Amount of cooling effect each round
+
+When you've created and saved your configs you can make them the currently used
+configs by pressing "Apply current config".
+</PRE>
+<P>
+<HR>
+<A HREF="index-9.html">Next</A>
+<A HREF="index-7.html">Previous</A>
+<A HREF="index.html#toc8">Contents</A>
+</BODY>
+</HTML>

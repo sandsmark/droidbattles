@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>The BattleBots Handbook: "Physical" details of objects</TITLE>
+ <LINK HREF="index-12.html" REL=next>
+ <LINK HREF="index-10.html" REL=previous>
+ <LINK HREF="index.html#toc11" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="index-12.html">Next</A>
+<A HREF="index-10.html">Previous</A>
+<A HREF="index.html#toc11">Contents</A>
+<HR>
+<H2><A NAME="s11">11. "Physical" details of objects</A></H2>
+
+<P>
+<P>A lot of the specific data, especially for the "devices" is set in the config file,
+why this list can't be complete. However some data is still hardcoded into the
+code and that is listed here. (In a future version of BattleBots I might move all
+of these "constants" into a config file too...)
+<P>
+<H2><A NAME="ss11.1">11.1 Speeds:</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+plasmashot: 256
+AS-rocket: 256
+Missile: 256
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss11.2">11.2 Explosion strength</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+plasmashot: 15
+mine: 70
+AS-rocket: 120-0 (120 at center, 0 at 3000 units)
+missile: 175
+beam: 7
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss11.3">11.3 Heat generated</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+firing plasmashot: 45
+engine thrust: forward : int(speed/35) backward : int(speed/25)
+shield absorbing damage: strength absorbed * 4
+using cloak: 5 + points of cloak (each cycle!)
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<H2><A NAME="ss11.4">11.4 Fuel used</A>
+</H2>
+
+<P>
+<BLOCKQUOTE><CODE>
+<PRE>
+engine thrust : 1+thrust/10
+firing beam : 20
+using cloak : 6
+using shield : 4
+active cooling : 5
+</PRE>
+</CODE></BLOCKQUOTE>
+<P>
+<HR>
+<A HREF="index-12.html">Next</A>
+<A HREF="index-10.html">Previous</A>
+<A HREF="index.html#toc11">Contents</A>
+</BODY>
+</HTML>

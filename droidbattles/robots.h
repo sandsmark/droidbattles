@@ -57,7 +57,7 @@
 #endif
 
 #include "confstruct.h"
-#include <installdir.h>
+#include "installdir.h"
 #include "radarmissilelauncher.h"
 #include "scandetect.h"
 #include "chiller.h"

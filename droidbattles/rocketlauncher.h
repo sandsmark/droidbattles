@@ -18,8 +18,8 @@
 #ifndef ROCKETLAUNCHER_H
 #define ROCKETLAUNCHER_H
 
-#include <screenobject.h>
-#include <device.h>
+#include "screenobject.h"
+#include "device.h"
 
 /**
 	* Device that fires AS-rockets

@@ -1986,7 +1986,7 @@ void robCPU::execinstr( )
 
 			//LZ reg
 			case 0x95 :
-				if( registers[flags] & equalflag == equalflag )
+				if( (registers[flags] & equalflag) == equalflag )
 					registers[mem->getbyte( registers[eip]+1 )] = 1;
 				else
 					registers[mem->getbyte( registers[eip]+1 )] = 0;

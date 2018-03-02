@@ -365,4 +365,8 @@ v 1.0.5b
 
 v 1.0.6
 	- "ported" so code compiles with gcc 3.x and Qt 3.x
-	- Fixed bugs caused by overflowed int:s (large arenas)
+
+v 1.0.7
+	- More fixes for compiling with modern versions of gcc
+	- Not KDevelop build environment anymore
+	- Fixed bug in rocket not disappearing when moving outside batlearea (karl) 

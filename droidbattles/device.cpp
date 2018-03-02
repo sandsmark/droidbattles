@@ -92,7 +92,7 @@ struct debugcontents device::returndbg( )
 {
 }
 
-void device::dospecial( int x, int y=0 )
+void device::dospecial( int x, int y )
 {
 }
 

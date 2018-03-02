@@ -18,7 +18,7 @@
 #ifndef EXPLOSION_H
 #define EXPLOSION_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include <qpainter.h>
 #include <qwidget.h>
 #include "battlearea.h"

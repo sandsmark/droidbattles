@@ -20,7 +20,7 @@
 	/**
 		* Constructor , initializing and positioning beam
 		*/
-beam::beam( int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui = true )
+beam::beam( int X,int Y,int dir,int l,textmodeBattleArea &area, int owner, bool ui )
 {
 	useUI = ui;
 	myowner = owner;
@@ -86,7 +86,7 @@ int beam::returntype( )
 	/**
 		* Paint object
 		*/
-void beam::showobject( QWidget *buffer,int opt=0 )
+void beam::showobject( QWidget *buffer,int opt )
 {
 	QPainter p( buffer );
 	p.setPen( QColor( 0,0,255 ) );

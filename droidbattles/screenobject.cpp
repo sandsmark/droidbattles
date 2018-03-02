@@ -29,7 +29,7 @@ screenobject::~screenobject( )
 {
 }
 
-void screenobject::showobject( QWidget *buffer, int opt = 0 )
+void screenobject::showobject( QWidget *buffer, int opt )
 {
 }
 
@@ -113,8 +113,8 @@ int screenobject::objhit( int type,int strength )
 	return 0;
 }
 
-void screenobject::addscrobject( int X,int Y,int dir,int type, int arg1=0,
-																 int arg2=0,void *arg3=0 )
+void screenobject::addscrobject( int X,int Y,int dir,int type, int arg1,
+																 int arg2,void *arg3 )
 {
 }
 

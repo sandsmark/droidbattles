@@ -20,7 +20,7 @@
 	/**
 		* Init position and load gfx
 		*/
-mine::mine( int x,int y, textmodeBattleArea &area,int owner, bool ui = true )
+mine::mine( int x,int y, textmodeBattleArea &area,int owner, bool ui )
 {
 	useUI = ui;
 	myowner = owner;

@@ -19,7 +19,7 @@
 #define ROBCPU_H
 
 #include "cpu.h"
-#include <screenobject.h>
+#include "screenobject.h"
 #include <qfile.h>
 
 /**CPU adapted for bot
@@ -37,7 +37,7 @@ class robCPU : public CPU
 		int returntype( );
 		int returnspecial( );
 		void sendmsg( char *msg );
-		struct debugcontents robCPU::returndbg( );
+		struct debugcontents returndbg( );
 		void execinstr( );
 };
 

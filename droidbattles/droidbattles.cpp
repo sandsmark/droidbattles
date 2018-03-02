@@ -26,7 +26,7 @@
 #include "starttournament.h"
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <installdir.h>
+#include "installdir.h"
 #include "kothtournament.h"
 #include "startcup.h"
 #include "docbrowser.h"
@@ -34,7 +34,7 @@
 #include "pixmapholder.h"
 #include <time.h>
 
-#define VERSION "1.0.6"
+#define VERSION "1.0.7"
 	/**
 		* Constructor, creates the main menu, it's buttons
 		* and connects them
@@ -358,7 +358,7 @@ void DroidBattles::createb( )
 void DroidBattles::about( )
 {
 	QMessageBox::information( this, "About DroidBattles",
-	"DroidBattles " VERSION " 2002-12-01 by Andreas Agorander (Bluefire@bluefire.nu)\n"
+	"DroidBattles " VERSION " 2005-10-07 by Andreas Agorander (Bluefire@bluefire.nu)\n"
 	 "get the latest version at http://www.bluefire.nu/droidbattles" );
 }
 

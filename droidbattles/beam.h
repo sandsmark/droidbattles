@@ -18,7 +18,7 @@
 #ifndef BEAM_H
 #define BEAM_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include "textmodebattlearea.h"
 /**
 	* The "beam" screenobject, (lazerlike shot)

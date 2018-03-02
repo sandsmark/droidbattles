@@ -21,7 +21,7 @@
 		* Init bot position, load program file and graphics
 		*/
 robots::robots( char *name,textmodeBattleArea &object,int mnum, confstruct config,
-								int tm,bool er=true, bool ui=true )
+								int tm,bool er, bool ui )
 {
 	useUI = ui;
 	int numdev = 0;
@@ -348,7 +348,7 @@ void robots::eraseobject( QWidget *buffer )
 	/**
 		* Show bot gfx on screen
 		*/
-void robots::showobject( QWidget *buffer, int opt = 0 )
+void robots::showobject( QWidget *buffer, int opt )
 {
 	int degrees = getdir( )+(degreesperpic/2);
 	if( degrees > 1023 )
@@ -393,8 +393,8 @@ void robots::putdevport( unsigned char port, unsigned short value )
 	/**
 		* Inbetween function for devices that wants to add screenobjects to battlearea
 		*/
-void robots::addscrobject( int X,int Y,int dir,int type, int arg1=0,
-													 int arg2=0, void *arg3=0 )
+void robots::addscrobject( int X,int Y,int dir,int type, int arg1,
+													 int arg2, void *arg3 )
 {
 	ourarea->addscrobject( mynum,X,Y,dir,type,arg1,arg2,arg3 );
 }

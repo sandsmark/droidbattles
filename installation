@@ -1,0 +1,65 @@
+#!/bin/sh
+PATH=/usr/bin:/bin; export PATH
+
+if test -w /usr/local/droidbattles
+then
+        #Copy files to this dir
+        cp current.cfg heavy.cfg light.cfg medium.cfg README ultralight.cfg /usr/local/droidbattles
+
+else
+        if test -d /usr/local/droidbattles
+        then
+                echo Sorry, cant write to /usr/local/droidbattles
+                exit -1
+        else
+                if test -w /usr/local
+                then
+
+                        mkdir /usr/local/droidbattles
+                        #Copy files to this dir
+                        cp current.cfg heavy.cfg light.cfg medium.cfg README ultralight.cfg /usr/local/droidbattles
+                else
+
+                        echo Sorry, cant create /usr/local/droidbattles
+                        exit -1
+                fi
+        fi
+
+fi
+
+if test -d /usr/local/droidbattles/bots
+then
+        cp teamtracker.basm example1.basm /usr/local/droidbattles/bots/
+else
+        mkdir /usr/local/droidbattles/bots
+        cp teamtracker.basm example1.basm /usr/local/droidbattles/bots/
+fi
+
+if test -d /usr/local/droidbattles/doc
+then
+        cp AUTHORS ChangeLog COPYING index.html index-1.html index-2.html index-3.html index-4.html index-5.html index-6.html index-7.html index-8.html index-9.html index-10.html index-11.html index-12.html index-13.html index-14.html /usr/local/droidbattles/doc
+else
+        mkdir /usr/local/droidbattles/doc
+        cp AUTHORS ChangeLog COPYING index.html index-1.html index-2.html index-3.html index-4.html index-5.html index-6.html index-7.html index-8.html index-9.html index-10.html index-11.html index-12.html index-13.html index-14.html /usr/local/droidbattles/doc
+fi
+
+if test -d /usr/local/droidbattles/pixmaps
+then
+        cp mainmenu.png backbutton.xpm chaff.bmp mine.xpm missile.xpm radarmissile.bmp skepp0.bmp skepp1.bmp skepp2.bmp skepp3.bmp skepp4.bmp skepp5.bmp skepp6.bmp skepp7.bmp /usr/local/droidbattles/pixmaps
+else
+        mkdir /usr/local/droidbattles/pixmaps
+        cp mainmenu.png backbutton.xpm chaff.bmp mine.xpm missile.xpm radarmissile.bmp skepp0.bmp skepp1.bmp skepp2.bmp skepp3.bmp skepp4.bmp skepp5.bmp skepp6.bmp skepp7.bmp /usr/local/droidbattles/pixmaps
+fi
+
+if test -d /usr/local/bin
+then
+        cp droidbattles /usr/local/bin/droidbattles
+else
+        mkdir /usr/local/bin
+        cp droidbattles /usr/local/bin/droidbattles
+fi
+
+cp droidbattles.conf /etc/droidbattles.conf
+
+echo Installation complete
+exit 0

@@ -26,7 +26,7 @@
 #define __USE_GNU
 #endif
 #include <unistd.h>
-#include <installdir.h>
+#include "installdir.h"
 #include "pixmapholder.h"
 
 /**

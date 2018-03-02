@@ -18,7 +18,7 @@
 #ifndef CHAFFLAUNCHER_H
 #define CHAFFLAUNCHER_H
 
-#include <device.h>
+#include "device.h"
 #include "screenobject.h"
 
 /**

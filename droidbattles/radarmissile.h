@@ -18,7 +18,7 @@
 #ifndef RADARMISSILE_H
 #define RADARMISSILE_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include "textmodebattlearea.h"
 #include "ram.h"
 #include "robcpu.h"

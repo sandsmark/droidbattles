@@ -53,7 +53,7 @@ void beamer::execute( )
 		moveportstack( 0 );
 		//Fire beam
 		if( ourbot->getfuel( ) <= 20 )return;
-    ourbot->setfuel( -20 );
+		ourbot->setfuel( -20 );
 		ourbot->changeheat( ourlevel );
 		ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
 			ourbot->getdir( )+relang,5,length );

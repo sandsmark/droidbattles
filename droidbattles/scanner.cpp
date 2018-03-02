@@ -91,8 +91,7 @@ void scanner::execute( )
 
 				distX = ourX - hisX;
 				distY = ourY - hisY;
-				dist = int( sqrt( ((distX/2)*(distX/2)) + ((distY/2)*(distY/2)) ) );
-				dist *= 2;
+        dist = int( sqrt( distX*distX + distY*distY ) );
 
 				angle = int( atan2( distY , distX ) * 512 / pi );
 

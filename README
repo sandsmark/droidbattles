@@ -1,7 +1,10 @@
 Quick installation instructions;
 
  * extract archive
- * ./configure
+
+Check Makefile in an editor, make the changes needed for compilation
+(especially QT directories)
+
  * make
  * make install (as root)
 

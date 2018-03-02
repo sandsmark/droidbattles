@@ -18,7 +18,7 @@
 #ifndef STARTCUP_H
 #define STARTCUP_H
 
-#include <starttournament.h>
+#include "starttournament.h"
 #include <qmessagebox.h>
 
 /**
@@ -27,7 +27,7 @@
 
 class startcup : public starttournament
 {
-
+	Q_OBJECT
 	public:
 		startcup( );
 		~startcup( );

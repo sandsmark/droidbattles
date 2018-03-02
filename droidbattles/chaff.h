@@ -18,9 +18,9 @@
 #ifndef CHAFF_H
 #define CHAFF_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include "textmodebattlearea.h"
-#include <pixmapholder.h>
+#include "pixmapholder.h"
 
 /**
 	* Chaff screenobject, made to fool scanners

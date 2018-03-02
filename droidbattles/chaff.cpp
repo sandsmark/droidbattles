@@ -20,7 +20,7 @@
 	/**
 		* Constructor, Init object
 		*/
-chaff::chaff( int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui = true )
+chaff::chaff( int X,int Y,int d,int spd, textmodeBattleArea &area, bool ui )
 {
 	direction = d;
 	Xpos = X;
@@ -52,7 +52,7 @@ chaff::~chaff( )
 	/**
 		* Paint object
 		*/
-void chaff::showobject( QWidget *buffer,int opt=0 )
+void chaff::showobject( QWidget *buffer,int opt )
 {
 	int picpos = 84-(int( timeleft/20 )* 12);
 

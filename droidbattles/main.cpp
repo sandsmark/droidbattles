@@ -199,7 +199,7 @@ int main( int argc, char *argv[] )
 		//If you want another look change QPlatinumStyle to
 		//one of: QCDEStyle, QWindowsStyle, QMotifStyle
 		a.setStyle( new QPlatinumStyle );
-		a.setFont( QFont( "helvetica", 12 ) );
+		a.setFont( QFont( "helvetica", 8 ) );
 		DroidBattles *droidbattles=new DroidBattles( );
 		a.setMainWidget( droidbattles );
 

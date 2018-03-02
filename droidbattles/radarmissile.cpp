@@ -21,7 +21,7 @@
 		* Init positions, devices and load gfx
 		*/
 radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum,
-														textmodeBattleArea &area, RAM *mem,int owner, bool ui = true )
+														textmodeBattleArea &area, RAM *mem,int owner, bool ui )
 {
 	useUI = ui;
 	myowner = owner;
@@ -88,7 +88,7 @@ void radarmissile::eraseobject( QWidget *buffer )
 	/**
 		* Paint object gfx
 		*/
-void radarmissile::showobject( QWidget *buffer, int opt=0 )
+void radarmissile::showobject( QWidget *buffer, int opt )
 {
 	if( opt == 0 )
 		bitBlt( buffer,( getXpos( )>>6 )-4,( getYpos( )>>6 )-4,graphics );

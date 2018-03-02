@@ -24,9 +24,9 @@ bool SingleStepMode = false;
 battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
 												char *nam5,char *nam6,char *nam7,char *nam8,int numf,
 												int mx, int xs, int ys, bool ifteams, int *bteams,
-												bool tourney,bool fast,int mode=0,int maxp=10,
-												bool ifdebug=false,QMultiLineEdit *dbedit=NULL,
-												int *dbl=0, int *dbm=0 )
+												bool tourney,bool fast,int mode,int maxp,
+												bool ifdebug,QMultiLineEdit *dbedit,
+												int *dbl, int *dbm )
 {
 
 	debugenabled = ifdebug;
@@ -253,8 +253,7 @@ void battlearea::startonebattle( int y )
 			{
 				int xdiff = abs(xstarts[y] - xstarts[x]);
 				int ydiff = abs(ystarts[y] - ystarts[x]);
-				int tdist = int( sqrt(((xdiff*xdiff)/2)+((ydiff*ydiff)/2)) );
-				tdist *= 2;
+				int tdist = int( sqrt((xdiff*xdiff)+(ydiff*ydiff)) );
 				if( tdist < dst )dst = tdist;
 			}
 			tries++;
@@ -422,12 +421,11 @@ void battlearea::execute( )
 						}
 						xx1 = objects[x]->getXpos( );          //
 						xx2 = objects[x2]->getXpos( );         // Get positions
-						dx = (xx1 - xx2)/2;                        // and distances between
+						dx = xx1 - xx2;                        // and distances between
 						yy1 = objects[x]->getYpos( );          // each object
 						yy2 = objects[x2]->getYpos( );         //
-						dy = (yy1 - yy2)/2;                        //
+						dy = yy1 - yy2;                        //
 						dist = int( sqrt( dx*dx + dy*dy ) );   //
-						dist *= 2;
 
 						if( dist < ((objects[x]->getsize()<<6)+(objects[x2]->getsize( )<<6))
 								&& objects[x]->returntype( ) ==1 && objects[x2]->returntype( )
@@ -860,7 +858,7 @@ void battlearea::closeEvent( QCloseEvent *e )
 		* this function (via his bot)
 		*/
 void battlearea::addscrobject( int owner,int X,int Y,int dir,int type,
-															 int arg1=0,int arg2=0, void *arg3=0 )
+															 int arg1,int arg2, void *arg3 )
 {
 	int x;
 	for( x=0;x<maxobjects;x++ )
@@ -998,8 +996,7 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject)
 		if( !objects[z]->areaexplosionaffects( ) )continue;
 		X1 = objects[z]->getXpos( );
 		Y1 = objects[z]->getYpos( );
-		D1 = int( sqrt( (((X1-x)/2)*((X1-x)/2))+(((Y1-y)/2)*((Y1-y)/2)) ) );
-		D1 *= 2;
+		D1 = int( sqrt( ((X1-x)*(X1-x))+((Y1-y)*(Y1-y)) ) );
 		if( D1 >= rad )continue;
 		S1 = strength-( D1*strength/rad );
 		if( objects[z]->objhit( 9,S1 ) == 1 )  //If the damage killed him

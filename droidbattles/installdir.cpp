@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <installdir.h>
+#include "installdir.h"
 
 QString returninstalldir( )
 {

@@ -26,7 +26,7 @@ textmodeBattleArea::textmodeBattleArea( )
 textmodeBattleArea::textmodeBattleArea( const char *nam1,const char *nam2,const char *nam3,const char *nam4,
 												const char *nam5,const char *nam6,const char *nam7,const char *nam8,int numf,
 												int mx, int xs, int ys, bool ifteams, int *bteams,
-												bool tourney,int mode=0 )
+												bool tourney,int mode )
 {
 	battlemode = mode;
 	maxpoints = numf;
@@ -152,8 +152,7 @@ void textmodeBattleArea::startonebattle( int y )
 			{
 				int xdiff = abs(xstarts[y] - xstarts[x]);
 				int ydiff = abs(ystarts[y] - ystarts[x]);
-				int tdist = int( sqrt(((xdiff*xdiff)/2)+((ydiff*ydiff)/2)) );
-				tdist *= 2;
+				int tdist = int( sqrt((xdiff*xdiff)+(ydiff*ydiff)) );
 				if( tdist < dst )dst = tdist;
 			}
 			tries++;
@@ -259,12 +258,11 @@ int textmodeBattleArea::execround( )
 						}
 						xx1 = objects[x]->getXpos( );          //
 						xx2 = objects[x2]->getXpos( );         // Get positions
-						dx = (xx1 - xx2);                        // and distances between
+						dx = xx1 - xx2;                        // and distances between
 						yy1 = objects[x]->getYpos( );          // each object
 						yy2 = objects[x2]->getYpos( );         //
 						dy = yy1 - yy2;                        //
-						dist = int( sqrt( (dx*dx)/2 + (dy*dy)/2 ) );   //
-						dist *= 2;
+						dist = int( sqrt( dx*dx + dy*dy ) );   //
 
 						if( dist < ((objects[x]->getsize()<<6)+(objects[x2]->getsize( )<<6))
 								&& objects[x]->returntype( ) ==1 && objects[x2]->returntype( )
@@ -598,7 +596,7 @@ int textmodeBattleArea::execround( )
 		* this function (via his bot)
 		*/
 void textmodeBattleArea::addscrobject( int owner,int X,int Y,int dir,int type,
-															 int arg1=0,int arg2=0, void *arg3=0 )
+															 int arg1,int arg2, void *arg3 )
 {
 	int x;
 	for( x=0;x<maxobjects;x++ )
@@ -736,8 +734,7 @@ void textmodeBattleArea::explosions( int x,int y,int rad,int strength,int whicho
 		if( !objects[z]->areaexplosionaffects( ) )continue;
 		X1 = objects[z]->getXpos( );
 		Y1 = objects[z]->getYpos( );
-		D1 = int( sqrt( (((X1-x)/2)*((X1-x)/2))+(((Y1-y)/2)*((Y1-y)/2)) ) );
-		D1 *= 2;
+		D1 = int( sqrt( ((X1-x)*(X1-x))+((Y1-y)*(Y1-y)) ) );
 		if( D1 >= rad )continue;
 		S1 = strength-( D1*strength/rad );
 		if( objects[z]->objhit( 9,S1 ) == 1 )  //If the damage killed him

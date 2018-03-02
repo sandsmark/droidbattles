@@ -23,7 +23,7 @@
   *@author Andreas Agorander
   */
 #include "ram.h"
-#include <commonsymbols.h>
+#include "commonsymbols.h"
 #include <qdir.h>
 #include <qstring.h>
 #include <qtextstream.h>

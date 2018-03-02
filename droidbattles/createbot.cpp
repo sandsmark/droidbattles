@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "createbot.h"
-#include <myqmultilineedit.h>
+#include "myqmultilineedit.h"
 #include <qscrollview.h>
 #include <qcombobox.h>
 #include "commonsymbols.h"
@@ -34,9 +34,10 @@ createbot::createbot( )
 {
 	setMinimumSize( 600,500 );
 	edittxt = new myQMultiLineEdit( this );
-	edittxt->setFont( QFont( "adobe-courier-iso8859-1",12 ) );
+	edittxt->setFont( QFont( "helvetica",9 ) );
 	edittxt->setGeometry( 75,30,300,400 );
 	showlatency = new myQMultiLineEdit( this );
+	showlatency->setFont( QFont( "helvetica",9 ) );
 	connect(edittxt->myVerticalScrollBar(),SIGNAL(valueChanged(int)),
 					this,SLOT(setShowlatencyScrollValue(int)));
 	connect(showlatency->myVerticalScrollBar(),SIGNAL(valueChanged(int)),

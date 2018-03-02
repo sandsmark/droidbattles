@@ -39,7 +39,8 @@ void repair::execute( )
 		int count;
 		for( count=0;count < 32;count++ )
 		{
-			if( (ourbot->iodevtodev( count,2,0 ) == 99) && (ourbot->iodevtodev( count,3,0 ) > 0) )
+			if( (ourbot->iodevtodev( count,2,0 ) == 99) &&
+				  (ourbot->iodevtodev( count,3,0 ) > 0) )
 			{
 				ourbot->iodevtodev( count,4,-1 );  //Repair one damage
 				break;

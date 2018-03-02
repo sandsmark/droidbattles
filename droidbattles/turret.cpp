@@ -70,6 +70,13 @@ void turret::execute( )
 		if( wantedoffset <0 )wantedoffset += 1024;
 		moveportstack( 1 );
 	}
+	if( stacktaken[2][0] == true )
+	{
+		wantedoffset = offset + portstack[2][0];
+		if( wantedoffset >1023 )wantedoffset %= 1024;
+		if( wantedoffset <0 )wantedoffset += 1024;
+		moveportstack( 2 );
+	}
 
 	///Turn the turret
 

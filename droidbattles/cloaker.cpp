@@ -40,7 +40,7 @@ cloaker::~cloaker( )
 
 void cloaker::execute( )
 {
-	if( cloakon && ourbot->getfuel( ) > 4 )
+	if( cloakon && ourbot->getfuel( ) > 5 )
 	{
 		ourbot->setfuel( -6 );
 		ourbot->changeheat( 5+ourlevel );

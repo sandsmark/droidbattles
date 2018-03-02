@@ -17,7 +17,7 @@
 
 #include "scanner.h"
 
-scanner::scanner( screenobject &object, int arg1 )
+scanner::scanner( screenobject &object, int arg1, int offset )
 {
 	ourlevel = arg1;
 	ourbot = &object;
@@ -27,7 +27,7 @@ scanner::scanner( screenobject &object, int arg1 )
 	maxscandist = ourlevel;
 	scantimes = 0;
 	scantimes2 = 0;
-	relang = 0;
+	relang = offset*4;
 	scanshow = 0;
 	threshold = 5;
 	int count,count2;
@@ -50,7 +50,10 @@ scanner::~scanner( )
 		*/
 void scanner::execute( )
 {
-	if( stacktaken[0][0] == true )
+
+  //Emit a scan pulse, search for closest visible object in
+  //scan arc
+  if( stacktaken[0][0] == true )
 	{
 		moveportstack( 0 );
 
@@ -61,7 +64,8 @@ void scanner::execute( )
 		int count;
 		for( count=0;count<255;count++ )
 		{
-			if( (count != ourbot->getnum( )) && (ourbot->iodevtobatt( 0,0,6,count,0 ) >= threshold) )
+			if( (count != ourbot->getnum( )) &&
+				(ourbot->iodevtobatt( 0,0,6,count,0 ) >= threshold) )
 			{
 				int ourX, ourY, hisX, hisY;
 				int startang, endang, leftang, rightang, angle, mangle;
@@ -76,7 +80,8 @@ void scanner::execute( )
 				// when (relang != 0), mangle could contain an unnormalized angle
 				if( mangle >= 1024 )
 					mangle -= 1024;
-				// that's it, now mangle is normalized (0..1023)				startang = mangle - width;
+				// that's it, now mangle is normalized (0..1023)
+				startang = mangle - width;
 				if( startang < 0 )
 					startang += 1024;
 
@@ -107,7 +112,8 @@ void scanner::execute( )
 					rightang = angle - mangle;
 				}
 
-				if( ( leftang < width || rightang < width ) && ( abs( dist ) < lastscandist ) && ( abs( dist ) < maxscandist ) )
+				if( ( leftang < width || rightang < width ) && ( abs( dist )
+								 < lastscandist ) && ( abs( dist ) < maxscandist ) )
 				{
 					lastscandist = dist;
           double widthinarc;
@@ -123,8 +129,8 @@ void scanner::execute( )
 					lastscanspeed = ourbot->iodevtobatt( 0,0,4,count,0 );
 					if( lastscanang == 5 )lastscanang--;
 
-					int tdir,tbot,tint,tdist;  //The following lines so that the scanned bot gets notified
-					tdir = lastscanang - 2;
+					int tdir,tbot,tint,tdist;  //The following lines so
+					tdir = lastscanang - 2;    //that the scanned bot gets notified
 					if( tdir < 0 )tdir = -tdir;
 					tdist = int( double(lastscandist)/double(maxscandist) * 4 );
 					tint = tdir + tdist;
@@ -133,22 +139,24 @@ void scanner::execute( )
 					if( tdir >= 1024 )tdir -= 1024;
 					tbot = count;
 					ourbot->iodevtobatt( tbot,0,9,tint,tdir );
-					
+
 				}
 			}
 		}
 	}
-
+  //Set scan width
 	if( stacktaken[1][0] == true )
 	{
 		width = portstack[1][0];
 		moveportstack( 1 );
 	}
+  //Select return from inport 3
 	if( stacktaken[2][0] == true )
 	{
 		wret = portstack[2][0];
 		moveportstack( 2 );
 	}
+  //Set sensitivity
 	if( stacktaken[3][0] == true )
 	{
 		threshold = portstack[3][0];
@@ -165,7 +173,9 @@ void scanner::erasegfx( QWidget *buffer )
 	{
 		QPainter p( buffer );
 		p.setPen( QColor( 0,0,0 ) );
-		p.drawPie( (lastpaintX-maxscandist)>>6,(lastpaintY-maxscandist)>>6,(maxscandist*2)>>6,(maxscandist*2)>>6,-(lastpaintang-lastpaintsize)*5.625,-lastpaintsize*11.25 );
+		p.drawPie( (lastpaintX-maxscandist)>>6,(lastpaintY-maxscandist)>>6,
+							 (maxscandist*2)>>6,(maxscandist*2)>>6,
+								-(lastpaintang-lastpaintsize)*5.625,-lastpaintsize*11.25 );
 		ispainted = false;
 	}
 }
@@ -179,7 +189,9 @@ void scanner::showgfx( QWidget *buffer )
 	{
 		QPainter p( buffer );
 		p.setPen( QColor( 255,255,255 ) );
-		p.drawPie( (ourbot->getXpos( )-maxscandist)>>6,(ourbot->getYpos( )-maxscandist)>>6,(maxscandist*2)>>6,(maxscandist*2)>>6,-((ourbot->getdir( )+relang)-width)*5.625,-width*11.25 );
+		p.drawPie( (ourbot->getXpos( )-maxscandist)>>6,(ourbot->getYpos( )
+								-maxscandist)>>6,(maxscandist*2)>>6,(maxscandist*2)>>6,
+								-((ourbot->getdir( )+relang)-width)*5.625,-width*11.25 );
 		lastpaintX = ourbot->getXpos( );
 		lastpaintY = ourbot->getYpos( );
 		lastpaintang = (ourbot->getdir( )+relang);

@@ -18,10 +18,10 @@
 #ifndef MINE_H
 #define MINE_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include "battlearea.h"
 #include <qwidget.h>
-#include <installdir.h>
+#include "installdir.h"
 #include "pixmapholder.h"
 /**
 	* The small explosive devices that lays on the ground
@@ -30,6 +30,8 @@
 
 class mine : public screenobject
 {
+
+	Q_OBJECT
 
 	public:
 

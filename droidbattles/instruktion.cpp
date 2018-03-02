@@ -19,7 +19,8 @@
 
 //Contains info about one mnemonic/operand combination for the assembler
 
-instruktion::instruktion( char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,int op )
+instruktion::instruktion( char mnem[],int arg1t,int arg2t,int bit,int arg1b,
+													int arg2b,int op )
 {
 	mnemonic = new char[strlen( mnem )+1];
 	for( int x=0;x<strlen( mnem )+1;x++ )

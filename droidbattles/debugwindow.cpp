@@ -76,7 +76,7 @@ debugwindow::debugwindow( QMultiLineEdit *Medit, int *dbl, int *dbm )
 	debuglines = &dbl[0];
 	debugmem = &dbm[0];
 
-	QObject::connect( dumpmemb,SIGNAL( clicked( ) ),this,SLOT( distsignal( ) ) );
+	QObject::connect( dumpmemb,SIGNAL( clicked( ) ),this,SLOT( distsignal() ) );
 	
 }
 
@@ -234,10 +234,12 @@ void debugwindow::updatedata( struct debugcontents contents )
 void debugwindow::addint( QString &str,unsigned short integ )
 {
 	bool ready=false;
-	QString temp;
+	QString temp,t2;
 	while( !ready )
 	{
-		temp = (integ%10+'0') + temp;
+		t2 = ((integ%10)+'0');
+		t2 += temp;
+		temp = t2;
 		integ /= 10;
 		if( !integ )ready=true;
 	}

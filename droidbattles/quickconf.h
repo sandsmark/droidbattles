@@ -19,7 +19,7 @@
 #define QUICKCONF_H
 
 #include <qwidget.h>
-#include <startsbatt.h>
+#include "startsbatt.h"
 /**
 	* Dialog that configs quick battle
   *@author Andreas Agorander
@@ -33,7 +33,6 @@ class quickconf : public startsbatt
 	public:
 		quickconf( );
 		~quickconf( );
-//		void loadfilesettings( );
 
 	private slots:
 

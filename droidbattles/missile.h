@@ -22,12 +22,9 @@
 #include "battlearea.h"
 #include <qwidget.h>
 #include "commonsymbols.h"
-#ifndef __USE_GNU
-#define __USE_GNU
-#include <unistd.h>
-#include <installdir.h>
+#include "installdir.h"
 #include "pixmapholder.h"
-#endif
+
 /**
 	* the shots from the plasmagun
   *@author Andreas Agorander
@@ -35,6 +32,8 @@
 
 class missile : public screenobject
 {
+
+	Q_OBJECT
 
 	public:
 

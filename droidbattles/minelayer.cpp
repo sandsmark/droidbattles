@@ -43,7 +43,8 @@ void minelayer::execute( )
 		moveportstack( 0 );
 		if( minesleft > 0 )
 		{
-			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),ourbot->getdir( ),3 );
+			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
+														ourbot->getdir( ),3 );
 			minesleft--;
 		}
 	}

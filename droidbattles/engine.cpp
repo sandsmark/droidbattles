@@ -60,22 +60,22 @@ void engine::execute( )
 		moveportstack( 1 );
 	}
 
-//	QMessageBox::information( 0,"ENG1",QString::number( ourbot->getheat( ) ) );
 	if( thrust >= 0 )
 	{
 		ourbot->changeheat( int(thrust/35) );
 		if( thrust > ourbot->getspeed( ) && ourbot->getfuel( ) >= thrust+1 )
 		{
-			ourbot->changespeed(1);
-			ourbot->setfuel( -(1+thrust/10) );
+			ourbot->changespeed( 1 );
+			if( thrust > 0 )ourbot->setfuel( -(1+thrust/10) );
 		}
 		else
 		{
 			if( ourbot->getspeed( ) > 0 )
 				ourbot->changespeed( -1 );
+			if( ourbot->getspeed( ) < 0 )
+				ourbot->changespeed( 1 );
 		}
 	}
-//	QMessageBox::information( 0,"ENG2",QString::number( ourbot->getheat( ) ) );
 	if( thrust < 0 )
 	{
 		ourbot->changeheat( int(-(thrust/25)) );
@@ -88,9 +88,10 @@ void engine::execute( )
 		{
 			if( ourbot->getspeed( ) < 0 )
 				ourbot->changespeed( 1 );
+			if( ourbot->getspeed( ) > 0 )
+				ourbot->changespeed( -1 );
 		}
 	}
-//	QMessageBox::information( 0,"ENG3",QString::number( ourbot->getheat( ) ) );
 }
 
 	/**

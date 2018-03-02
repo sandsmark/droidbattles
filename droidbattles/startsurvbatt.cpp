@@ -35,7 +35,7 @@ startsurvbatt::~startsurvbatt( )
 void startsurvbatt::loadfilesettings( )
 {
 	QString temp = QDir::homeDirPath( );
-	temp += "/battlebots/survbattle.save";
+	temp += "/droidbattles/survbattle.save";
 	QFile f( temp );
 	if( f.exists( ) && f.open( IO_ReadOnly ) )
 	{
@@ -66,7 +66,7 @@ void startsurvbatt::loadfilesettings( )
 void startsurvbatt::ocl( )
 {
 	QString temp = QDir::homeDirPath( );
-	temp += "/battlebots/survbattle.save";
+	temp += "/droidbattles/survbattle.save";
 	QFile f( temp );
 	if( f.open( IO_WriteOnly ) )
 	{

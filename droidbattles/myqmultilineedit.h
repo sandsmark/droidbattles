@@ -1,9 +1,9 @@
 /***************************************************************************
-                          fuel.h  -  description
+                          myqmultilineedit.h  -  description
                              -------------------
-    begin                : Mon Apr 17 2000
-    copyright            : (C) 2000 by Andreas Agorander
-    email                : Bluefire@linux.nu
+    begin                : Sun Jun 3 2001
+    copyright            : (C) 2001 by Peter Schmidt
+    email                : peter.z.schmidt@compaq.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,30 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FUEL_H
-#define FUEL_H
+#ifndef MYQMULTILINEEDIT_H
+#define MYQMULTILINEEDIT_H
 
-#include "device.h"
-#include "screenobject.h"
+#include <qmultilineedit.h>
 
-/**The fuel for the engines, shields and beam
-  *@author Andreas Agorander
+/**
+  *@author Peter Schmidt
   */
 
-class fuel : public device
+//TODO : add syntax highlighting
+class myQMultiLineEdit : public QMultiLineEdit
 {
-
 	public:
-	
-		fuel( screenobject &, int );
-		~fuel( );
-		int getfromport( unsigned char port );
-    void execute( );
-	private:
-
-		int fuelleft;
-		int fuelintlevel;
-//		bool intenabled;
+		myQMultiLineEdit( QWidget * parent=0 ) : QMultiLineEdit( parent ) {}
+		QScrollBar *myVerticalScrollBar () const { return verticalScrollBar( ); }
 };
 
 #endif

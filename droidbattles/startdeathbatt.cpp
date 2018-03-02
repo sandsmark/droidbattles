@@ -30,7 +30,7 @@ startdeathbatt::~startdeathbatt( )
 void startdeathbatt::loadfilesettings( )
 {
 	QString temp = QDir::homeDirPath( );
-	temp += "/battlebots/deathbattle.save";
+	temp += "/droidbattles/deathbattle.save";
 	QFile f( temp );
 	if( f.exists( ) && f.open( IO_ReadOnly ) )
 	{
@@ -61,7 +61,7 @@ void startdeathbatt::loadfilesettings( )
 void startdeathbatt::ocl( )
 {
 	QString temp = QDir::homeDirPath( );
-	temp += "/battlebots/deathbattle.save";
+	temp += "/droidbattles/deathbattle.save";
 	QFile f( temp );
 	if( f.open( IO_WriteOnly ) )
 	{

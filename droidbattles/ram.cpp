@@ -79,8 +79,9 @@ unsigned short RAM::getword( int adress )
 {
 	if( adress < RAMamount-1 )
 	{
-		usret = (unsigned short *)&mem[adress];
-		return *usret;
+//		usret = (unsigned short *)&mem[adress];
+//		return *usret;
+		return mem[adress] + mem[adress+1]*256;
 	}
 	else
 		return 0xFFFF;
@@ -116,8 +117,10 @@ void RAM::setword( int adress,unsigned short value )
 {
 	if( adress < RAMamount-1 )
 	{
-		usret = (unsigned short *)&mem[adress];
-		*usret = value;
+		mem[adress] = value%256;
+		mem[adress + 1] = value/256;
+//		usret = (unsigned short *)&mem[adress];
+//		*usret = value;
 	}
 }
 

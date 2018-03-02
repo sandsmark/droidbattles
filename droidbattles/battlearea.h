@@ -32,14 +32,17 @@
 #include <qdir.h>
 #include <qscrollview.h>
 #include "pixbutton.h"
-#include <commonsymbols.h>
 #include "ram.h"
 #include "debugwindow.h"
 #include <qmultilineedit.h>
 #include <qpixmap.h>
 #include "pixmapholder.h"
+
+#include <list>
+#include <assert.h>
+
 /**
-	* The class that takes care of showing and computing the actual fight between the bots
+	* The class that takes care of showing and computing the actual fight
   * @author Andreas Agorander
   */
 
@@ -50,12 +53,15 @@ class battlearea : public QWidget
 
 	public:
 
-		battlearea( char *name1,char *name2,char *name3,char *name4,char *name5,char *name6,char *name7,
-		char *name8,int numf,int ,int xs,int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
-		int mode = 0, int maxp=10,bool ifdebug=false,QMultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0 );
+		battlearea( char *name1,char *name2,char *name3,char *name4,char *name5,
+								char *name6,char *name7,char *name8,int numf,int ,int xs,
+								int ys,bool ifteams,int *bteams, bool tourney,bool iffast,
+								int mode = 0, int maxp=10,bool ifdebug=false,
+								QMultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0 );
 		~battlearea( );
 		void closeEvent( QCloseEvent *e );
-		void addscrobject( int owner,int X,int Y,int dir,int type,int arg1=0,int arg2=0, void *arg3=0 );
+		void addscrobject(  int owner,int X,int Y,int dir,int type,int arg1=0,
+												int arg2=0, void *arg3=0 );
 		int devio( int bot,int dev,int choice,int arg1,int arg2 );
 		void startonebattle( int );
 		int	getareainfo( int );
@@ -79,6 +85,13 @@ class battlearea : public QWidget
 		void resizeEvent ( QResizeEvent * );
 
 	private:
+
+		std::list<debugwindow*> dbgwindows;
+    QMultiLineEdit *_dbedit;
+    int *_dbl;
+    int *_dbm;
+
+    int missilesLaunched;
 
 		screenobject *objects[256];
 		QWidget *mydrw;
@@ -123,7 +136,11 @@ class battlearea : public QWidget
 		int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
 		int runmode; //0 - not running, 1 - running
 		int maxpoints;
+		// the following flag is true in single step mode
+		// and will be used by robCPU::execinstr()
 };
+		extern bool SingleStepMode;
+
 #include "robots.h"
 #include "mine.h"
 #include "radarmissile.h"

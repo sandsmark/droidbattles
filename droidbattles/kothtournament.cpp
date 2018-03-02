@@ -38,9 +38,12 @@ kothtournament::kothtournament( )
 	iffast = new QCheckBox( "Fast (nodelay) battle",this );
 	iffast->setGeometry( 20,50,170,20 );
 
-	QObject::connect( press[0],SIGNAL( clicked( ) ),this,SLOT( choosefile( ) ) );
-	QObject::connect( press[1],SIGNAL( clicked( ) ),this,SLOT( dechoosefile( ) ) );
-	QObject::connect( loadlist,SIGNAL( clicked( ) ),this,SLOT( chooselist( ) ) );
+	QObject::connect( press[0],SIGNAL( clicked( ) ),this,
+										SLOT( choosefile( ) ) );
+	QObject::connect( press[1],SIGNAL( clicked( ) ),this,
+										SLOT( dechoosefile( ) ) );
+	QObject::connect( loadlist,SIGNAL( clicked( ) ),this,
+										SLOT( chooselist( ) ) );
 
 	readyb = new PixButton( "OK",1,this );
 	readyb->setGeometry( 100,500,80,40 );

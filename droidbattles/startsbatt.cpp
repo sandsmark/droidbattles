@@ -27,10 +27,10 @@ startsbatt::startsbatt( )
 	{
 		botfiles[x] = "";
 		shownames[x] = new QLabel( this );
-		shownames[x]->setGeometry( 10,50+x*25,190,20 );
+		shownames[x]->setGeometry( 10,50+x*25,230,20 );
 		shownames[x]->show( );
 		team[x] = new QComboBox( this );
-		team[x]->setGeometry( 215,50+x*25,40,20 );
+		team[x]->setGeometry( 255,50+x*25,40,20 );
 		team[x]->insertItem( "1" );
 		team[x]->insertItem( "2" );
 		team[x]->insertItem( "3" );
@@ -44,8 +44,10 @@ startsbatt::startsbatt( )
 	ifteams = new QCheckBox( "Teams",this );
 	ifteams->setGeometry( 170,10,80,20 );
 
-	QObject::connect( press[0],SIGNAL( clicked( ) ),this,SLOT( choosefile( ) ) );
-	QObject::connect( press[1],SIGNAL( clicked( ) ),this,SLOT( dechoosefile( ) ) );
+	QObject::connect( press[0],SIGNAL( clicked( ) ),this,
+		SLOT( choosefile( ) ) );
+	QObject::connect( press[1],SIGNAL( clicked( ) ),this,
+		SLOT( dechoosefile( ) ) );
 
 	readyb = new PixButton( "OK",1,this );
 	readyb->setGeometry( 100,500,80,40 );
@@ -80,15 +82,24 @@ startsbatt::startsbatt( )
 	maxy->setValue( 32768 );
 
 //	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
-
+	setMinimumSize( 300,570 );
 	loadfilesettings( );
 
+}
+
+void startsbatt::resizeEvent( QResizeEvent *e )
+{
+	for( int x=0;x<8;x++ )
+	{
+		shownames[x]->resize( width( )-70,20 );
+		team[x]->setGeometry( width( )-45,50+x*25,40,20 );
+	}
 }
 
 void startsbatt::loadfilesettings( )
 {
 	QString temp = QDir::homeDirPath( );
-	temp += "/battlebots/singlebattle.save";
+	temp += "/droidbattles/singlebattle.save";
 	QFile f( temp );
 	if( f.exists( ) && f.open( IO_ReadOnly ) )
 	{
@@ -168,7 +179,7 @@ void startsbatt::ocl( )
 {
 // Save the current settings to file
 	QString temp = QDir::homeDirPath( );
-	temp += "/battlebots/singlebattle.save";
+	temp += "/droidbattles/singlebattle.save";
 	QFile f( temp );
 	if( f.open( IO_WriteOnly ) )
 	{

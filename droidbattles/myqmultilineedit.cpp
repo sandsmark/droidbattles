@@ -1,8 +1,8 @@
 /***************************************************************************
-                          fuel.h  -  description
+                          myqmultilineedit.cpp  -  description
                              -------------------
-    begin                : Mon Apr 17 2000
-    copyright            : (C) 2000 by Andreas Agorander
+    begin                : Sun Jun 3 2001
+    copyright            : (C) 2001 by Andreas Agorander
     email                : Bluefire@linux.nu
  ***************************************************************************/
 
@@ -15,30 +15,4 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FUEL_H
-#define FUEL_H
-
-#include "device.h"
-#include "screenobject.h"
-
-/**The fuel for the engines, shields and beam
-  *@author Andreas Agorander
-  */
-
-class fuel : public device
-{
-
-	public:
-	
-		fuel( screenobject &, int );
-		~fuel( );
-		int getfromport( unsigned char port );
-    void execute( );
-	private:
-
-		int fuelleft;
-		int fuelintlevel;
-//		bool intenabled;
-};
-
-#endif
+#include "myqmultilineedit.h"

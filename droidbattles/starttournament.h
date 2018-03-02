@@ -50,8 +50,6 @@ Q_OBJECT
 		int getysize( );
 		bool getiffast( );
 		int getseed( );
-//		bool getifteams( );
-//		int getbotteam( int bot );
 
 	private slots:
 
@@ -68,9 +66,6 @@ Q_OBJECT
 	private:
 
 		int numofbots;
-//		QString botfiles[8];
-//		QLabel *shownames[8];
-//		QComboBox *team[8];
 		QListBox *botfiles;
 		QLabel *tnumfights;
 		QLineEdit *wnumfights;
@@ -87,7 +82,6 @@ Q_OBJECT
 		QLabel *seedinfo;
 		QLineEdit *seed;
 		QCheckBox *iffast;
-//		QCheckBox *ifteams;
 };
 
 #endif

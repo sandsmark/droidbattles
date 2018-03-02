@@ -15,25 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <installdir.h>
+#include "installdir.h"
 
 QString returninstalldir( )
 {
 	/**
 		* Get the installation dir
 		*/
-	QString temp = "/etc/battlebots.conf";
+/*
+	//Open config file
+	QString temp = "/etc/droidbattles.conf";
 	QString insdir;
 	QFile f3( temp );
+	//If no config file exists, take the default location
 	if( !f3.exists( ) )
 	{
-		temp = "/usr/local/battlebots";
+		temp = "/usr/local/droidbattles";
 		return temp;
 	}	
 	f3.open( IO_ReadOnly );
   QTextStream s( &f3 );
-	s >> temp;
+	s >> temp;   //Read from file
 	s >> insdir;
 	f3.close( );
-	return insdir;
+	return insdir; */
+	return QString( "" );
 }

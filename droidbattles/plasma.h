@@ -31,7 +31,7 @@ class plasma : public device
 
 	public:
 
-		plasma( screenobject &object,int );
+		plasma( screenobject &object,int arg1,int offset );
 		~plasma( );
 		void execute( );
 

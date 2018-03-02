@@ -30,30 +30,25 @@
 	* and shows it in the infowindow
   *@author Andreas Agorander
 	*/
-
 class botinfo : public QWidget
 {
-
 	Q_OBJECT
 
 	public:
-
-		botinfo( const char *botname, screenobject *rb, int armor,QWidget *parent, const char *name=0 );
+		botinfo( const char *botname, screenobject *rb, int armor,QWidget *parent,
+			const char *name=0 );
 		~botinfo( );
 
 	private slots:
-
 		void armorupdated( int x );
 		void updatefuel( int x,int y );
 		void statch( bool x );
 		void newmessage( char *msg );
 
 	signals:
-		
 		void changeinset( bool x );
 
 	private:
-
 		QLabel *botnam;
 		QProgressBar *armorlevel;
 		QProgressBar *heatlevel;
@@ -64,7 +59,6 @@ class botinfo : public QWidget
 		QCheckBox *ifscanner;
 		QWidget *showgfx;
 		screenobject *bot;
-
 };
 
 #endif

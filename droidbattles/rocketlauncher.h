@@ -18,8 +18,8 @@
 #ifndef ROCKETLAUNCHER_H
 #define ROCKETLAUNCHER_H
 
-#include <screenobject.h>
-#include <device.h>
+#include "screenobject.h"
+#include "device.h"
 
 /**
 	* Device that fires AS-rockets
@@ -31,7 +31,7 @@ class rocketlauncher : public device
 
 	public:
 
-		rocketlauncher( screenobject &object,int level );
+		rocketlauncher( screenobject &object,int level,int offset );
 		~rocketlauncher( );
 		void execute( );
 		int getfromport( unsigned char port );

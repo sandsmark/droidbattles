@@ -20,7 +20,8 @@
 	/**
 		* Init bot position, load program file and graphics
 		*/
-robots::robots( char *name,battlearea &object,int mnum, confstruct config, int tm,bool er=true )
+robots::robots( char *name,battlearea &object,int mnum, confstruct config,
+								int tm,bool er )
 {
 	int numdev = 0;
 	int cost = 0;
@@ -33,8 +34,6 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 	if( team < 0 || team > 3 )
 	{
 		QString mesg;
-//		mesg = "Error in team nr: ";
-//		mesg += team;
 			error("Team",name);
 	}
 
@@ -42,7 +41,7 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 
 	Xpos = ourarea->getstartx( mnum );//Get start position from battlearea
 	Ypos = ourarea->getstarty( mnum );
-	direction = random( )%1024;
+	direction = rand( )%1024;
 
 	fuelval = 0;
 	mynum = mnum;
@@ -106,7 +105,6 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 
 		for( x=0;x<32;x++ )
 			hitabsorborder[x] = 0;
-//	int forx=0;
 		int backx=31;
 		int forx=0;
 		int levelvalue = 0;
@@ -134,7 +132,8 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 						devicelist[x] = new device( *this );
 					break;
 					case 1 :
-						devicelist[x] = new robCPU( *ramdevice,*this,levelvalue,my[x*6+4],my[x*6+5],my[x*6+6],my[x*6+7] );
+						devicelist[x] = new robCPU( *ramdevice,*this,levelvalue,my[x*6+4],
+																				my[x*6+5],my[x*6+6],my[x*6+7] );
 					break;
 					case 2 :
 						devicelist[x] = new engine( *this, levelvalue );
@@ -143,7 +142,7 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 						devicelist[x] = new steering( *this, levelvalue );
 					break;
 					case 4 :
-						devicelist[x] = new plasma( *this, levelvalue );
+						devicelist[x] = new plasma( *this, levelvalue, my[x*6+4] );
 					break;
 					case 5 :
 						devicelist[x] = new armor( *this, levelvalue );
@@ -151,7 +150,7 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 						backx--;
 					break;
 					case 6 :
-						devicelist[x] = new scanner( *this, levelvalue );
+						devicelist[x] = new scanner( *this, levelvalue, my[x*6+4] );
 					break;
 					case 7 :
 						devicelist[x] = new fuel( *this, levelvalue );
@@ -190,13 +189,14 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 						devicelist[x] = new minelayer( *this, levelvalue );
 					break;
 					case 18 :
-						devicelist[x] = new radarmissilelauncher( *this, levelvalue,ramdevice );
+						devicelist[x] = new radarmissilelauncher( *this, levelvalue,
+																											ramdevice,my[x*6+4] );
 					break;
 					case 19 :
 						devicelist[x] = new beamer( *this, levelvalue );
 					break;
 					case 20 :
-						devicelist[x] = new rocketlauncher( *this, levelvalue );
+						devicelist[x] = new rocketlauncher( *this, levelvalue,my[x*6+4] );
 					break;
 					default :
 						devicelist[x] = new device( *this );
@@ -237,7 +237,7 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 	if( f2.exists( ) == false )
 	{
 		temp = returninstalldir( );
-		temp += "/pixmaps/skepp";
+		temp = "skepp";
 		temp += QString::number( mynum );
 		temp += ".bmp";
 	}
@@ -246,8 +246,8 @@ robots::robots( char *name,battlearea &object,int mnum, confstruct config, int t
 		graphics->fill( white );
 	}
 	else
-		graphics->setMask( graphics->createHeuristicMask( ) ); //Set a mask that makes the bot background
-		//transparent
+		graphics->setMask( graphics->createHeuristicMask( ) );
+	 //Set a mask that makes the bot background transparent
 	piccols = graphics->width( )/32;
 	picrows = graphics->height( )/32;
 	currentrow = 0;
@@ -278,11 +278,10 @@ int robots::execute( )
 	currentradar = 5;
 	for( x=0;x<32;x++ )             //Execute all devices
 	{
-//		QMessageBox::information( 0,"RB", QString::number( getheat( ) ) );
 		devicelist[x]->execute( );
 	}
 	double dir = getdir( ) * pi / 512;
-	changepos( cos( dir ) * getspeed( ),sin( dir ) * getspeed( ) ); //Update position
+	changepos( cos( dir ) * getspeed( ),sin( dir ) * getspeed( ) );//Update position
 	rowchangeval += getspeed( );
 	if( rowchangeval > 512 )
 	{
@@ -306,8 +305,6 @@ int robots::execute( )
 		emit fuelchanged( fuelval,getheat( ) );
 	}
 	changeheat( -7 );
-//	if( getheat( ) > 2000 )setheat( 0 ); //Temporary workaround
-	//Why is the heat bug happening at all??? heatval is inited to zero in code !?!?...
 
 	if( getheat( ) > 500 && getheat( ) <= 600 )
 	{
@@ -347,24 +344,8 @@ void robots::eraseobject( QWidget *buffer )
 	/**
 		* Show bot gfx on screen
 		*/
-void robots::showobject( QWidget *buffer, int opt = 0 )
+void robots::showobject( QWidget *buffer, int opt )
 {
-/*	int degrees = getdir( )+32;
-	if( degrees > 1023 )
-	degrees -= 1024;
-
-	int picpos = int( int( degrees / 2 ) / 32 )* 32;
-
-	int x;
-	if( opt == 0 )
-		bitBlt( buffer,( getXpos( )>>6 )-16,( getYpos( )>>6 )-16,graphics,picpos,0,32,32 );
-	if( showextragfx == true )
-	{
-		for( x=0;x<32;x++ )
-			devicelist[x]->showgfx( buffer );
-		gfxin = true;
-	}*/
-
 	int degrees = getdir( )+(degreesperpic/2);
 	if( degrees > 1023 )
 		degrees -= 1024;
@@ -374,7 +355,8 @@ void robots::showobject( QWidget *buffer, int opt = 0 )
 	
 	int x;
 	if( opt == 0 )
-		bitBlt( buffer,( getXpos( )>>6 )-16,( getYpos( )>>6 )-16,graphics,picpos,ypicpos,32,32 );
+		bitBlt( buffer,( getXpos( )>>6 )-16,( getYpos( )>>6 )-16,graphics,picpos,
+						ypicpos,32,32 );
 	if( showextragfx == true )
 	{
 		for( x=0;x<32;x++ )
@@ -405,9 +387,10 @@ void robots::putdevport( unsigned char port, unsigned short value )
 }
 
 	/**
-		* Inbetween function for devices that wants to add screenovjects to battlearea
+		* Inbetween function for devices that wants to add screenobjects to battlearea
 		*/
-void robots::addscrobject( int X,int Y,int dir,int type, int arg1=0,int arg2=0, void *arg3=0 )
+void robots::addscrobject( int X,int Y,int dir,int type, int arg1,
+													 int arg2, void *arg3 )
 {
 	ourarea->addscrobject( mynum,X,Y,dir,type,arg1,arg2,arg3 );
 }
@@ -529,17 +512,11 @@ void robots::error( char *string, char *name )
 {
 	if( showerror )
 	{
-//		rulebreak = new QMessageBox( );
-//		rulebreak->setCaption( "Message from the bot" );
 		QString msg = "The bot ";
 		msg += name;
 		msg += "\nbreaks the following rule in the config file: \n";
 		msg += string;
 		msg += team;	
-//		rulebreak->setText( msg );
-//		rulebreak->setButtonText( 0, "OK" );
-//		int ret = rulebreak->exec( );
-//		delete rulebreak;
 		QMessageBox::information( 0,"Message from the bot",msg );
 		return;
 	}
@@ -560,8 +537,6 @@ int robots::getmem( )
 		*/
 void robots::addinterrupt( int inter )
 {
-
-//	QMessageBox::information( 0,"BB", QString::number( inter ) );
 	if( inter > 255 )
 		return;
 	int x;
@@ -594,6 +569,28 @@ struct debugcontents robots::returndbgcont( )
 	}
 }
 
+/**
+ * Returns number of CPUs
+ */
+int robots::numCPUs()
+{
+  int num = 0;
+  for (int x = 0; x <32; x++)
+    if (devicelist[x] && (devicelist[x]->returntype() == 9)) num++;
+  return num;
+}
+
+/**
+ * Returns debugstructure from all CPUs
+ */
+std::list<struct debugcontents>* robots::returndbgcont2( )
+{
+	std::list<debugcontents> *dc = new std::list<debugcontents>;
+	for(int x=0;x<32;x++ )
+		if( devicelist[x] && (devicelist[x]->returntype() == 9))
+			dc->push_back(devicelist[x]->returndbg( ));
+  return dc;
+}
 	/**
 		* Object is seen by radar...
 		*/
@@ -623,6 +620,11 @@ void robots::setradar( int x )
 	currentradar = x;
 }
 
+	/**
+		* When dumpRAM button in debugwindow is pressed
+		* this function opens a file and dumps RAM
+		* contents to it
+		*/
 void robots::dumpRAM( )
 {
 	for( int x=0;x<256;x++ )

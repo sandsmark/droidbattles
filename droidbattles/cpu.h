@@ -27,16 +27,12 @@
 #include "device.h"
 #include "qfile.h"
 
-
 /**
 	*Baseclass for all the CPU:s
-	*bot.
   *@author Andreas Agorander
   */
-
 class CPU : public device
 {
-
 	public:
 
 		CPU( );
@@ -50,8 +46,6 @@ class CPU : public device
 		virtual void execinstr( );
 		virtual int getfromport( unsigned char port );
 
-//		struct debugcontents returndbg( );
-
 	protected:
 
 		RAM *mem;
@@ -63,7 +57,9 @@ class CPU : public device
 		char cyclesleft;
 		int bootmem;
 		unsigned short stackmem;
+		//Table over latencies for different opcodes
 	  char instrlatency[256];
+		//List of adresses executed last cycle
 		int lastexecmem[30];
 };
 

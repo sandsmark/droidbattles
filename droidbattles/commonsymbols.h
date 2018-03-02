@@ -20,7 +20,9 @@
 
 #include <qstring.h>
 
-//Global constants
+//This file contains all Constants used
+
+//constants for cpu registers
 const int eip=5;
 const int ax=1;
 const int bx=2;
@@ -39,15 +41,19 @@ const int dh=9;
 const int di=6;
 const int si=7;
 const int flags=0;
+
+
 const double pi=3.14159265358979;
 const int portsperdev = 4;
 
+//Indexes for the interrupts
 const int hitinterrupt = 0;
 const int timeinterrupt = 1;
 const int msginterrupt = 2;
 const int armlevelint = 3;
 const int fuellevelint = 4;
 
+//Flag register operation constants
 const int setequalflag = 0x8000;
 const int setaboveflag = 0x2000;
 const int setbelowflag = 0x4000;
@@ -63,6 +69,7 @@ const int clearbelowflags = 0x5FFF;
 const int setunequalflag = 0x7FFF;
 const int clearinterruptflag = 0xFBFF;
 
+//Device type-code constants
 const int armortype = 99;
 const int CPUtype = 9;
 const int CPUwithint = 5;
@@ -84,12 +91,7 @@ const int doesexist = 1;
 const int doesnotexist = 0;
 const int debugbot = 7;
 
-//const int gexist = 0;
-//const int gXpos = 1;
-//const int gYpos = 2;
-//const int gdir = 3;
-//const int gspeed = 4;
-
+//Assembler Instruction declaration constants
 const int none = 0;
 const int val = 3;
 const int memc = 4;
@@ -100,6 +102,7 @@ const int bit16 = 16;
 const int bit0 = 0;
 const int NUMDEV = 20;
 
+//Miscellaneous
 const int maxbeamlength = 8000;
 const int minbeamlength = 1100;
 const int beamdamage = 7;
@@ -110,6 +113,5 @@ const int destroyself = -1;
 const int seenbyradar = 1;
 
 const int noncollobject = -1;
-
 
 #endif

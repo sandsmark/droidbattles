@@ -20,7 +20,8 @@
 	/**
 		* Constructor, create all GUI elements
 		*/
-botinfo::botinfo( const char *botname, screenobject *rb,int armor,QWidget *parent, const char *name) : QWidget( parent,name )
+botinfo::botinfo( const char *botname, screenobject *rb,int armor,
+									QWidget *parent, const char *name) : QWidget( parent,name )
 {
 	QString tn = botname;
 	bot = rb;
@@ -55,7 +56,8 @@ botinfo::botinfo( const char *botname, screenobject *rb,int armor,QWidget *paren
 		ifscanner = new QCheckBox( "Show device gfx",this );
 		ifscanner->setGeometry( 5,35,120,15 );
 		ifscanner->setChecked( true );
-		QObject::connect( ifscanner, SIGNAL( toggled( bool ) ), this, SLOT(statch( bool )) );
+		QObject::connect( ifscanner, SIGNAL( toggled( bool ) ), this,
+											SLOT(statch( bool )) );
 
 		showgfx = new QWidget( this );
 		showgfx->setGeometry( 500,0,32,32 );

@@ -55,7 +55,8 @@ void beamer::execute( )
 		if( ourbot->getfuel( ) <= 20 )return;
     ourbot->setfuel( -20 );
 		ourbot->changeheat( ourlevel );
-		ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),ourbot->getdir( )+relang,5,length );
+		ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
+			ourbot->getdir( )+relang,5,length );
 	}
 	if( stacktaken[1][0] == true )
 	{

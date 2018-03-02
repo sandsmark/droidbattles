@@ -1,8 +1,8 @@
 /***************************************************************************
                           resource.h  -  description
                              -------------------
-    begin                : Mon Aug 28 20:36:39 CEST 2000
-    copyright            : (C) 2000 by Andreas Agorander
+    begin                : Sun Jun  3 10:04:25 CEST 2001
+    copyright            : (C) 2001 by Andreas Agorander
     email                : Bluefire@linux.nu
  ***************************************************************************/
 
@@ -65,8 +65,8 @@
 
 ///////////////////////////////////////////////////////////////////
 // General application values
-#define IDS_APP_ABOUT               "BattleBots\nVersion " VERSION \
-                                    "\n(w) 2000 by Andreas Agorander"
+#define IDS_APP_ABOUT               "DroidBattles\nVersion " VERSION \
+                                    "\n(w) 2001 by Andreas Agorander"
 #define IDS_STATUS_DEFAULT          "Ready."
 
 #endif // RESOURCE_H

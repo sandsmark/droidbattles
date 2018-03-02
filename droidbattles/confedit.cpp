@@ -40,12 +40,18 @@ confedit::confedit( )
 
 	helpbutton->setEnabled( false );
 
-	QObject::connect( defaultbutton, SIGNAL( clicked( ) ), this, SLOT( defaultc( ) ) );
-	QObject::connect( openbutton, SIGNAL( clicked( ) ), this, SLOT( openc( ) ) );
-	QObject::connect( savebutton, SIGNAL( clicked( ) ), this, SLOT( savec( ) ) );
-	QObject::connect( closebutton, SIGNAL( clicked( ) ), this, SLOT( closec( ) ) );
- 	QObject::connect( makecurrentbutton, SIGNAL( clicked( ) ), this, SLOT( makecurrc( ) ) );
- 	QObject::connect( helpbutton, SIGNAL( clicked( ) ), this, SLOT( helpc( ) ) );
+	QObject::connect( defaultbutton, SIGNAL( clicked( ) ), this,
+										SLOT( defaultc( ) ) );
+	QObject::connect( openbutton, SIGNAL( clicked( ) ), this,
+										SLOT( openc( ) ) );
+	QObject::connect( savebutton, SIGNAL( clicked( ) ), this,
+										SLOT( savec( ) ) );
+	QObject::connect( closebutton, SIGNAL( clicked( ) ), this,
+										SLOT( closec( ) ) );
+ 	QObject::connect( makecurrentbutton, SIGNAL( clicked( ) ), this,
+										SLOT( makecurrc( ) ) );
+ 	QObject::connect( helpbutton, SIGNAL( clicked( ) ), this,
+										SLOT( helpc( ) ) );
 
 	valid = new QIntValidator( this );
 
@@ -118,7 +124,7 @@ confedit::confedit( )
 	devicegroup[12] = new QGroupBox( "repair",setarea );
 	devicegroup[13] = new QGroupBox( "radio",setarea );
 	devicegroup[14] = new QGroupBox( "chiller",setarea );
-	devicegroup[15] = new QGroupBox( "empty",setarea );
+	devicegroup[15] = new QGroupBox( "cloaker",setarea );
 	devicegroup[16] = new QGroupBox( "minelayer",setarea );
 	devicegroup[17] = new QGroupBox( "missile",setarea );
 	devicegroup[18] = new QGroupBox( "beam",setarea );
@@ -164,7 +170,7 @@ confedit::confedit( )
 		
 	}
 	QString tempname = QDir::homeDirPath( );
-	tempname += "/battlebots/current.cfg";
+	tempname += "/droidbattles/current.cfg";
 	openfile( tempname );
 	show( );
 }
@@ -244,12 +250,12 @@ void confedit::closec( )
 }
 
 	/**
-		* Saves curreent settings to homedir/battlebots/current.cfg
+		* Saves curreent settings to homedir/droidbattles/current.cfg
 		*/
 void confedit::makecurrc( )
 {
 	QString filename = QDir::homeDirPath( );
-	filename += "/battlebots/current.cfg";
+	filename += "/droidbattles/current.cfg";
 	QFile f( filename );
 	if( !f.open( IO_WriteOnly ) )
 	{

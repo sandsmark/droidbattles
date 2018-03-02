@@ -16,13 +16,17 @@
  ***************************************************************************/
 
 #include "battlearea.h"
+bool SingleStepMode = false;
 
 	/**
 		* Constructor, inits area and starts first battle round
 		*/
-battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,char *nam5,char *nam6,char *nam7,
-char *nam8,int numf,int mx, int xs, int ys, bool ifteams, int *bteams, bool tourney,bool fast,
-int mode=0,int maxp=10,bool ifdebug=false,QMultiLineEdit *dbedit=NULL, int *dbl=0, int *dbm=0 )
+battlearea::battlearea( char *nam1,char *nam2,char *nam3,char *nam4,
+												char *nam5,char *nam6,char *nam7,char *nam8,int numf,
+												int mx, int xs, int ys, bool ifteams, int *bteams,
+												bool tourney,bool fast,int mode,int maxp,
+												bool ifdebug,QMultiLineEdit *dbedit,
+												int *dbl, int *dbm )
 {
 
 	debugenabled = ifdebug;
@@ -39,8 +43,9 @@ int mode=0,int maxp=10,bool ifdebug=false,QMultiLineEdit *dbedit=NULL, int *dbl=
 
 	// OPen the current config file
 	maxrounds = mx;
-	QString tempname = QDir::homeDirPath( );
-	tempname += "/battlebots/current.cfg";
+//	QString tempname = QDir::homeDirPath( );
+//	tempname += "/droidbattles/current.cfg";
+	QString tempname = "current.cfg";
 	QFile f( tempname );
 	if( !f.open( IO_ReadOnly ) )
 	{
@@ -137,11 +142,18 @@ int mode=0,int maxp=10,bool ifdebug=false,QMultiLineEdit *dbedit=NULL, int *dbl=
 										this, SLOT( execute( ) ) );
 	if( ifdebug )
 	{
-		dbgwindow = new debugwindow( dbedit,&dbl[0],&dbm[0] );
-		dbgwindow->resize( 300,405 );
-		dbgwindow->show( );
-		QObject::connect( dbgwindow,SIGNAL( dumpmem( ) ),this,SLOT( dmem( ) ) );
+    // keep parameters
+    _dbedit = dbedit;
+    _dbl    = dbl;
+    _dbm    = dbm;
+
+//		dbgwindow = new debugwindow( dbedit,&dbl[0],&dbm[0] );
+//		dbgwindow->resize( 300,405 );
+//		dbgwindow->show( );
+//		QObject::connect( dbgwindow,SIGNAL( dumpmem( ) ),this,SLOT( dmem( ) ) );
 	}
+  missilesLaunched = 0;
+
 	setMinimumSize( 150,150 );
 	resize( 640,570 );
 	startonebattle( firstrun );
@@ -166,7 +178,7 @@ void battlearea::play( )
 	if( iffast == true )
 		eventH->start( 0 ); //As fast as possible
 	else
-		eventH->start( 20 );//20 ms between ticks (50 times/second)
+		eventH->start( 10 );//20 ms between ticks (50 times/second)
 	runmode = 1;
 }
 
@@ -184,7 +196,9 @@ void battlearea::pause( )
 		*/
 void battlearea::singlestep( )
 {
+	if( debugenabled )SingleStepMode = true;	
 	this->execute( );
+	if( debugenabled )SingleStepMode = false;
 }
 
 	/**
@@ -195,7 +209,11 @@ battlearea::~battlearea( )
 	eventH->stop( );
 	delete eventH;
 	delete infowindow;
-	if( debugenabled )delete dbgwindow;
+	std::list<debugwindow*>::iterator i;
+	for (i=dbgwindows.begin(); i!=dbgwindows.end(); i++)
+    delete *i;
+  dbgwindows.clear();
+//	if( debugenabled )delete dbgwindow;
 	int x;
 	for( x=0;x<maxobjects;x++ )
 		delete objects[x];
@@ -221,8 +239,8 @@ void battlearea::startonebattle( int y )
 
 	//Randomize start positions and make sure the bots don't start to
 	//close to each other
-	xstarts[0] = random( )%xsize;
-	ystarts[0] = random( )%ysize;
+	xstarts[0] = rand( )%xsize;
+	ystarts[0] = rand( )%ysize;
 	for( x =1;x<maxbots;x++ )
 	{
 		int dst=minstartdistance-1;
@@ -230,8 +248,8 @@ void battlearea::startonebattle( int y )
 		while( dst < minstartdistance && tries < 128 )
 		{
 			dst = minstartdistance;
-			xstarts[x] = random( )%xsize;
-			ystarts[x] = random( )%ysize;
+			xstarts[x] = rand( )%xsize;
+			ystarts[x] = rand( )%ysize;
 			for( y=0;y<x;y++ )
 			{
 				int xdiff = abs(xstarts[y] - xstarts[x]);
@@ -249,11 +267,32 @@ void battlearea::startonebattle( int y )
 	{
 		tn = names[x];
 		if( !tn.isEmpty( ) )
-			objects[x] = new robots( (char *)tn.data( ),*this,x,config,botteams[x] );
+			objects[x] = new robots( (char*)tn.data( ),*this,x,config,botteams[x] );
 		else
 			objects[x] = new screenobject( );
 
-	 	binfo[x] = new botinfo( names[x],objects[x],objects[x]->armorval,infowindow );
+	 	binfo[x] = new botinfo( names[x],objects[x],objects[x]->armorval,
+														infowindow );
+  }
+
+  if (debugenabled) {
+	std::list<debugwindow*>::iterator i;
+    for (i=dbgwindows.begin(); i!=dbgwindows.end();i++)
+      delete *i;
+    dbgwindows.clear();
+    // the bot to be debugged is objects[debugbot]
+    assert(objects[debugbot] != NULL);
+    assert(objects[debugbot]->returntype() == 1);
+    int nCpus = ((robots*)objects[debugbot])->numCPUs();
+    for( int x=0;x<nCpus;x++ ) {
+      debugwindow* dw = new debugwindow( _dbedit,&_dbl[0],&_dbm[0] );
+      dw->resize( 300,405 );
+      dw->show( );
+      QString title;
+      title.sprintf("CPU #%d",x);
+      dw->setCaption(title);  // set title
+      dbgwindows.push_back(dw);
+    }
   }
 
 	//Make all other positions as "standard" screenobjects
@@ -264,10 +303,14 @@ void battlearea::startonebattle( int y )
 	for( x=0;x<maxbots;x++ )
 	{
 		binfo[x]->setGeometry( 10,10+x*50,540,50 );
-		QObject::connect( objects[x],SIGNAL( armorchanged( int ) ),binfo[x],SLOT( armorupdated( int ) ) );
-		QObject::connect( binfo[x], SIGNAL( changeinset( bool ) ), objects[x], SLOT( setextragfx( bool ) ) );
-		QObject::connect( objects[x],SIGNAL( fuelchanged( int,int ) ),binfo[x],SLOT( updatefuel( int,int ) ) );
-		QObject::connect( objects[x],SIGNAL( messagechanged( char * ) ),binfo[x],SLOT( newmessage( char * ) ) );
+		QObject::connect( objects[x],SIGNAL( armorchanged( int ) ),binfo[x],
+											SLOT( armorupdated( int ) ) );
+		QObject::connect( binfo[x], SIGNAL( changeinset( bool ) ), objects[x],
+											SLOT( setextragfx( bool ) ) );
+		QObject::connect( objects[x],SIGNAL( fuelchanged( int,int ) ),binfo[x],
+											SLOT( updatefuel( int,int ) ) );
+		QObject::connect( objects[x],SIGNAL( messagechanged( char * ) ),binfo[x],
+											SLOT( newmessage( char * ) ) );
 	}
 	roundsrun = 0;
 	infowindow->show( );
@@ -281,7 +324,7 @@ void battlearea::startonebattle( int y )
 	{
 		if( !debugenabled )
 		{
-			eventH->start( 20 );
+			eventH->start( 10 );
 			runmode = 1;
 		}
 	}
@@ -303,7 +346,7 @@ void battlearea::execute( )
 		{
 			for( x=0;x<maxbots;x++ )
 			{
-		  	objects[x]->eraseobject( mydrw );//Erase all bots (so that it becomes a draw)
+		  	objects[x]->eraseobject( mydrw );//Erase all bots (to call a draw)
 		  	delete objects[x];
 				objects[x] = new screenobject( );
 			}
@@ -319,32 +362,35 @@ void battlearea::execute( )
 
 	for( x=0;x<maxobjects;x++ )
 	{
-		int ifdel = objects[x]->execute( ); //Let each object execute, move around and things like that
+		int ifdel = objects[x]->execute( ); //Let each object execute,
+																				//move around and things like that
 		objects[x]->showobject( mydrw );    //Let each object paint itself
 		int x2;
-		if( objects[x]->returntype( ) > 0 )//If the object exists and is a "collidable" object
-		{
+		if( objects[x]->returntype( ) > 0 )//Check If the object exists and
+		{                                  //is a "collidable" object
 			for( x2=(x+1);x2<maxobjects;x2++ )	//Loop through all possible objects
 			{																	//(to check for collisions)
 
-				// Also, if the objects has the same collid (and it's != 256) don't issue a collision
-				// (Eg, bullets fired by the same bot)
+				// Also, if the objects has the same collid (and it's != 256)
+				// (Eg, bullets fired by the same bot)  don't issue a collision
 				if( objects[x2]->returntype( ) > 0 &&
-					( (objects[x]->getcollid( ) == collenabled || objects[x2]->getcollid( ) == collenabled) ||
-					(	objects[x]->getcollid( ) != objects[x2]->getcollid( ) ) ) ) //If object exists
-				{
+					( (objects[x]->getcollid( ) == collenabled ||
+						objects[x2]->getcollid( ) == collenabled) ||
+					(	objects[x]->getcollid( ) != objects[x2]->getcollid( ) ) ) )
+				{                              //If object exists
 					int xx1,xx2,yy1,yy2,dist,dx,dy;
 
 					xx1 = objects[x]->getXpos( );          //
 					xx2 = objects[x2]->getXpos( );         // Get positions
-					dx = xx1 - xx2;                        // and distances between each object
-					yy1 = objects[x]->getYpos( );          //
+					dx = (xx1 - xx2)/2;                        // and distances
+					yy1 = objects[x]->getYpos( );          // between each object
 					yy2 = objects[x2]->getYpos( );         //
-					dy = yy1 - yy2;                        //
-					dist = int( sqrt( dx*dx + dy*dy ) );   //
+					dy = (yy1 - yy2)/2;                        //
+					dist = int( sqrt( (dx*dx) + (dy*dy) ) );   //
+					dist *= 2;
 
-					if( dist < (objects[x]->getsize( )<<6)+(objects[x2]->getsize( )<<6) )  //If they're bigger than their distance they have collided
-					{
+					if( dist < (( objects[x]->getsize( )<<6)+(objects[x2]->getsize( )<<6 )) )
+					{   //If they're bigger than their distance they have collided
 						int xxx;
 						for ( xxx=254;xxx > 128;xxx-- )
 						{
@@ -358,34 +404,41 @@ void battlearea::execute( )
 						int type1,type2,str1,str2;
 						type1 = objects[x]->getcollisiontype( );
 						type2 = objects[x2]->getcollisiontype( );
-						str1 = objects[x]->getcollisionstrength( );     // Get the damage they will
-						str2 = objects[x2]->getcollisionstrength( );    // inflict on each other
-						if( type1 == 1 )                                // If he collided with a bot
+						str1 = objects[x]->getcollisionstrength( );// Get the damage they will
+						str2 = objects[x2]->getcollisionstrength( );// inflict on each other
+						if( type1 == 1 )    // If he collided with a bot
 						{
-							objects[x2]->setspeed( -(objects[x2]->getspeed( )/2) );                                               //
-							double dir = objects[x2]->getdir( ) * toradians;                                                       // Change the direction of travel
-							objects[x2]->changepos( cos( dir ) * objects[x2]->getspeed( ),sin( dir ) * objects[x2]->getspeed( ) );//
+							objects[x2]->setspeed( -(objects[x2]->getspeed( )/2) );
+							double dir = objects[x2]->getdir( ) * toradians; //Change dir
+							objects[x2]->changepos( cos( dir ) * objects[x2]->getspeed( ),
+																			sin( dir ) * objects[x2]->getspeed( ) );
 						}
 						if( type2 == 1 )
 						{
 							objects[x]->setspeed( -(objects[x]->getspeed( )/2) );
 							double dir = objects[x]->getdir( ) * toradians;
-							objects[x]->changepos( cos( dir ) * objects[x]->getspeed( ),sin( dir ) * objects[x]->getspeed( ) );
+							objects[x]->changepos( cos( dir ) * objects[x]->getspeed( ),
+																		 sin( dir ) * objects[x]->getspeed( ) );
 						}
 						xx1 = objects[x]->getXpos( );          //
 						xx2 = objects[x2]->getXpos( );         // Get positions
-						dx = xx1 - xx2;                        // and distances between each object
-						yy1 = objects[x]->getYpos( );          //
+						dx = xx1 - xx2;                        // and distances between
+						yy1 = objects[x]->getYpos( );          // each object
 						yy2 = objects[x2]->getYpos( );         //
 						dy = yy1 - yy2;                        //
 						dist = int( sqrt( dx*dx + dy*dy ) );   //
 
-						if( dist < (objects[x]->getsize( )<<6)+(objects[x2]->getsize( )<<6) && objects[x]->returntype( ) ==1 && objects[x2]->returntype( ) ==1 )  //If they're bigger than their distance, move them apart
+						if( dist < ((objects[x]->getsize()<<6)+(objects[x2]->getsize( )<<6))
+								&& objects[x]->returntype( ) ==1 && objects[x2]->returntype( )
+							 ==1 )  //If they're bigger than their distance, move them apart
 						{
 							double angl = atan2( dy,dx );
-							int dst = (objects[x]->getsize( )<<6)+(objects[x2]->getsize( )<<6)-dist;
-							objects[x]->changepos( cos( angl )*((dst+16)/2),sin( angl )*((dst+16)/2) );
-							objects[x2]->changepos( cos( angl+pi )*((dst+16)/2),sin( angl+pi )*((dst+16)/2) );
+							int dst = (objects[x]->getsize( )<<6)+
+												(objects[x2]->getsize( )<<6)-dist;
+							objects[x]->changepos( cos( angl )*((dst+16)/2),sin( angl )*
+												((dst+16)/2) );
+							objects[x2]->changepos( cos( angl+pi )*((dst+16)/2),
+												sin( angl+pi )*((dst+16)/2) );
 						}
 						int x2owner = objects[x2]->getowner( );
 						if( objects[x2]->objhit( 9,str1 ) == 1 )
@@ -406,18 +459,28 @@ void battlearea::execute( )
 										if( fightswon[x2] < maxpoints )
 										{
 											//Calc X and Y position
-											xstarts[x2] = random( )%xsize;
-											ystarts[x2] = random( )%ysize;
-											objects[x2] = new robots( (char *)names[x2].data( ),*this,x2,config,botteams[x2],false );
-											QObject::connect( objects[x2],SIGNAL( armorchanged( int ) ),binfo[x2],SLOT( armorupdated( int ) ) );
-											QObject::connect( binfo[x2], SIGNAL( changeinset( bool ) ), objects[x2], SLOT( setextragfx( bool ) ) );
-											QObject::connect( objects[x2],SIGNAL( fuelchanged( int,int ) ),binfo[x2],SLOT( updatefuel( int,int ) ) );
-											QObject::connect( objects[x2],SIGNAL( messagechanged( char * ) ),binfo[x2],SLOT( newmessage( char * ) ) );
+											xstarts[x2] = rand( )%xsize;
+											ystarts[x2] = rand( )%ysize;
+											objects[x2] = new robots( (char *)names[x2].data( ),
+																		*this,x2,config,botteams[x2],false );
+											QObject::connect( objects[x2],
+												SIGNAL( armorchanged( int ) ),binfo[x2],
+												SLOT( armorupdated( int ) ) );
+											QObject::connect( binfo[x2],
+												SIGNAL( changeinset( bool ) ), objects[x2],
+												SLOT( setextragfx( bool ) ) );
+											QObject::connect( objects[x2],
+												SIGNAL( fuelchanged( int,int ) ),binfo[x2],
+												SLOT( updatefuel( int,int ) ) );
+											QObject::connect( objects[x2],
+												SIGNAL( messagechanged( char * ) ),binfo[x2],
+												SLOT( newmessage( char * ) ) );
 											objects[x2]->objhit( 0,0 );
 										}
 										else
 										{
 											objects[x2] = new screenobject( );
+											fightswon[x2] = roundsrun;
 										}
 									}
 									else
@@ -430,17 +493,27 @@ void battlearea::execute( )
 									objects[x2]->eraseobject( mydrw );
 									if( objects[x2]->returntype( ) == 1 )
 									{
-										if( objects[x]->getowner( ) < 8 && x2 != objects[x]->getowner( ) )
+										if( objects[x]->getowner( ) < 8 &&
+												x2 != objects[x]->getowner( ) )
 											fightswon[objects[x]->getowner( )]++;
 										checkwin = true;
 										//Calc X and Y position
-										xstarts[x2] = random( )%xsize;
-										ystarts[x2] = random( )%ysize;
-										objects[x2] = new robots( (char *)names[x2].data( ),*this,x2,config,botteams[x2],false );
-										QObject::connect( objects[x2],SIGNAL( armorchanged( int ) ),binfo[x2],SLOT( armorupdated( int ) ) );
-										QObject::connect( binfo[x2], SIGNAL( changeinset( bool ) ), objects[x2], SLOT( setextragfx( bool ) ) );
-										QObject::connect( objects[x2],SIGNAL( fuelchanged( int,int ) ),binfo[x2],SLOT( updatefuel( int,int ) ) );
-										QObject::connect( objects[x2],SIGNAL( messagechanged( char * ) ),binfo[x2],SLOT( newmessage( char * ) ) );
+										xstarts[x2] = rand( )%xsize;
+										ystarts[x2] = rand( )%ysize;
+										objects[x2] = new robots( (char *)names[x2].data( ),*this,
+											x2,config,botteams[x2],false );
+										QObject::connect( objects[x2],
+											SIGNAL( armorchanged( int ) ),binfo[x2],
+											SLOT( armorupdated( int ) ) );
+										QObject::connect( binfo[x2],
+											SIGNAL( changeinset( bool ) ), objects[x2],
+											SLOT( setextragfx( bool ) ) );
+										QObject::connect( objects[x2],
+											SIGNAL( fuelchanged( int,int ) ),binfo[x2],
+											SLOT( updatefuel( int,int ) ) );
+										QObject::connect( objects[x2],
+											SIGNAL( messagechanged( char * ) ),binfo[x2],
+											SLOT( newmessage( char * ) ) );
 										objects[x2]->objhit( 0,0 );
 									}
 									else
@@ -451,7 +524,7 @@ void battlearea::execute( )
 								break;
 							}
 						}
-						if( objects[x]->objhit( 9,str2 ) == 1 )  //If the damage killed him
+						if( objects[x]->objhit( 9,str2 ) == 1 )//If the damage killed him
 						{
 							switch( battlemode )
 							{
@@ -472,18 +545,28 @@ void battlearea::execute( )
 										if( fightswon[x] < maxpoints )
 										{
 											//Calc X and Y position
-											xstarts[x] = random( )%xsize;
-											ystarts[x] = random( )%ysize;
-											objects[x] = new robots( (char *)names[x].data( ),*this,x,config,botteams[x],false );
-											QObject::connect( objects[x],SIGNAL( armorchanged( int ) ),binfo[x],SLOT( armorupdated( int ) ) );
-											QObject::connect( binfo[x], SIGNAL( changeinset( bool ) ), objects[x], SLOT( setextragfx( bool ) ) );
-											QObject::connect( objects[x],SIGNAL( fuelchanged( int,int ) ),binfo[x],SLOT( updatefuel( int,int ) ) );
-											QObject::connect( objects[x],SIGNAL( messagechanged( char * ) ),binfo[x],SLOT( newmessage( char * ) ) );
+											xstarts[x] = rand( )%xsize;
+											ystarts[x] = rand( )%ysize;
+											objects[x] = new robots( (char *)names[x].data( ),*this,
+												x,config,botteams[x],false );
+											QObject::connect( objects[x],
+												SIGNAL( armorchanged( int ) ),binfo[x],
+												SLOT( armorupdated( int ) ) );
+											QObject::connect( binfo[x],
+												SIGNAL( changeinset( bool ) ), objects[x],
+												SLOT( setextragfx( bool ) ) );
+											QObject::connect( objects[x],
+												SIGNAL( fuelchanged( int,int ) ),binfo[x],
+												SLOT( updatefuel( int,int ) ) );
+											QObject::connect( objects[x],
+												SIGNAL( messagechanged( char * ) ),binfo[x],
+												SLOT( newmessage( char * ) ) );
 											objects[x]->objhit( 0,0 );
 										}
 										else
 										{
 											objects[x] = new screenobject( );
+											fightswon[x] = roundsrun;
 										}
 									}
 									else
@@ -504,13 +587,22 @@ void battlearea::execute( )
 										x2 = maxobjects;
 										checkwin = true;
 										//Calc X and Y position
-										xstarts[x] = random( )%xsize;
-										ystarts[x] = random( )%ysize;
-										objects[x] = new robots( (char *)names[x].data( ),*this,x,config,botteams[x],false );
-										QObject::connect( objects[x],SIGNAL( armorchanged( int ) ),binfo[x],SLOT( armorupdated( int ) ) );
-										QObject::connect( binfo[x], SIGNAL( changeinset( bool ) ), objects[x], SLOT( setextragfx( bool ) ) );
-										QObject::connect( objects[x],SIGNAL( fuelchanged( int,int ) ),binfo[x],SLOT( updatefuel( int,int ) ) );
-										QObject::connect( objects[x],SIGNAL( messagechanged( char * ) ),binfo[x],SLOT( newmessage( char * ) ) );
+										xstarts[x] = rand( )%xsize;
+										ystarts[x] = rand( )%ysize;
+										objects[x] = new robots( (char *)names[x].data( ),*this,x,
+											config,botteams[x],false );
+										QObject::connect( objects[x],
+											SIGNAL( armorchanged( int ) ),binfo[x],
+											SLOT( armorupdated( int ) ) );
+										QObject::connect( binfo[x],
+											SIGNAL( changeinset( bool ) ), objects[x],
+											SLOT( setextragfx( bool ) ) );
+										QObject::connect( objects[x],
+											SIGNAL( fuelchanged( int,int ) ),binfo[x],
+											SLOT( updatefuel( int,int ) ) );
+										QObject::connect( objects[x],
+											SIGNAL( messagechanged( char * ) ),binfo[x],
+											SLOT( newmessage( char * ) ) );
 										objects[x]->objhit( 0,0 );
 									}
 									else
@@ -523,17 +615,15 @@ void battlearea::execute( )
 								break;
 							}
 						}
-
-//						x2 = maxobjects;
 					}
   			}
 			}
 		}
-		if( ifdel == -1 )                    //If the object ordered it's own destruction
-		{                                    //Example: shot that gets outside of screen
+		if( ifdel == -1 )            //If the object ordered it's own destruction
+		{                            //Example: shot that gets outside of screen
 			objects[x]->eraseobject( mydrw );
 			delete objects[x];
-			objects[x] = new screenobject;
+			objects[x] = new screenobject( );
 		}
 	}
 
@@ -568,7 +658,7 @@ void battlearea::execute( )
 		if( numofbots <= 1 )  //If battle is over
 		{
 			eventH->stop( );
-			if( numofbots == 1 );
+			if( numofbots == 1 )
 				fightswon[botnum]++;
 			fightsfought++;
 			if( fightsfought >= numfights ) //If all rounds of battle is over
@@ -606,8 +696,8 @@ void battlearea::execute( )
 				ifdelete = true;
 			}
 			else
-				startonebattle( notfirstround ); //If we have rounds left, continue with a new round
-		}
+				startonebattle( notfirstround ); //If we have rounds left, continue
+		}                                    // with a new round
 	}
 
 	if( !isteams && (battlemode == 0 || battlemode == 1) )
@@ -626,8 +716,8 @@ void battlearea::execute( )
 			if( numofbots == 1 )       //If we have a winner ,count up his points
 				fightswon[botnum]++;
 			fightsfought++;
-			if( fightsfought >= numfights )  //If we have done all the rounds of fights we should have
-			{                                //Determine the overall winner
+			if( fightsfought >= numfights )  //If we have done all the rounds of
+			{                // fights we should have, Determine the overall winner
 				int winbot=0;
 				int curval=0;
 				int curval2=1000;
@@ -651,12 +741,11 @@ void battlearea::execute( )
 				QString msg;
 				if( !hideresmsg )
 				{
-//					ermsg = new QMessageBox( );
-//					ermsg->setCaption( "Fight ended" ); //Show the win message
+					int xx;
 					switch ( battlemode )
 					{
 						case 0 :
-					 	for( int xx = 0;xx<8;xx++ )
+					 	for( xx = 0;xx<8;xx++ )
 					 	{
 							if( names[xx] != "" )
 							{
@@ -673,13 +762,20 @@ void battlearea::execute( )
 							msg += names[botnum];
 							msg += " won with ";
 							msg += QString::number( maxpoints-fightswon[botnum] );
-							msg += " lives left!";
+							msg += " lives left!\n";
+						 	for( xx = 0;xx<8;xx++ )
+						 	{
+								if( names[xx] != "" && xx != botnum )
+								{
+									msg += " Bot ";
+									msg += names[xx];
+									msg += " survived ";
+									msg += QString::number( fightswon[xx] );
+									msg += " cycles.\n";
+								}
+							}
 						break;
 					}
-//					ermsg->setText( msg );
-//					ermsg->setButtonText( 0, "OK" );
-//					int ret = ermsg->exec( );
-//					delete ermsg;
 					QMessageBox::information( 0,"Fight ended",msg );
 				}
 				else
@@ -688,7 +784,7 @@ void battlearea::execute( )
 				ifdelete = true;
 			}
 			else
-				startonebattle( notfirstround ); //If we have rounds left, continue with a new round
+				startonebattle( notfirstround ); //If we have fights left,start a new
 		}
 	}
 
@@ -727,7 +823,17 @@ void battlearea::execute( )
 
 
 	if( debugenabled )  //If this is a "quick battle", update register content info and such
-		dbgwindow->updatedata( objects[debugbot]->returndbgcont( ) );
+    if (objects[debugbot]->returntype() == 1) // for robots only
+    {
+	  std::list<struct debugcontents> *dc = ((robots*)objects[debugbot])->returndbgcont2();
+      assert(dc->size() == dbgwindows.size());
+	  std::list<debugwindow*>::iterator i = dbgwindows.begin();
+	  std::list<debugcontents>::iterator j = dc->begin();
+      for (;i!=dbgwindows.end();i++,j++)
+        (*i)->updatedata(*j);
+      delete dc;
+    }
+//		dbgwindow->updatedata( objects[debugbot]->returndbgcont( ) );
 
 /*	if( runmode == 1 )
 	{
@@ -753,7 +859,8 @@ void battlearea::closeEvent( QCloseEvent *e )
 		* If a device wants to add a screenobject (as a shot) he calls
 		* this function (via his bot)
 		*/
-void battlearea::addscrobject( int owner,int X,int Y,int dir,int type,int arg1=0,int arg2=0, void *arg3=0 )
+void battlearea::addscrobject( int owner,int X,int Y,int dir,int type,
+															 int arg1,int arg2, void *arg3 )
 {
 	int x;
 	for( x=0;x<maxobjects;x++ )
@@ -777,7 +884,11 @@ void battlearea::addscrobject( int owner,int X,int Y,int dir,int type,int arg1=0
 					objects[x] = new mine( X,Y,*this,owner );
 				break;
 				case 4 :
-					objects[x] = new radarmissile( X,Y,dir,arg1,arg2,x,*this,temp3,owner );
+					objects[x]=new radarmissile(X,Y,dir,arg1,arg2,x,*this,temp3,owner);
+          ++missilesLaunched;
+          if (debugenabled && (owner==debugbot))
+            ((radarmissile*)objects[x])->createDbgWindow(missilesLaunched,
+                _dbedit, _dbl, _dbm);
 				break;
 				case 5 :
 					objects[x] = new beam( X,Y,dir,arg1,*this,owner );
@@ -828,7 +939,8 @@ int battlearea::devio( int bot,int dev,int choice,int arg1,int arg2 )
 			int x;
 			for( x=0;x<maxbots;x++ )
 			{
-				if( objects[x]->returntype( ) == doesexist && objects[x]->getteam( ) == bot && ( arg2 == 255 || objects[x]->getnum( ) == arg2 ))
+				if( objects[x]->returntype( ) == doesexist && objects[x]->getteam( )
+						== bot && ( arg2 == 255 || objects[x]->getnum( ) == arg2 ))
 					objects[x]->receiveradio( arg1 );
 			}
 		break;
@@ -877,7 +989,7 @@ int battlearea::getareainfo( int choice )
 		* This function issues special areal (noncollision) hits.
 		* The AS-rocket uses it
 		*/
-void battlearea::explosions( int x,int y,int rad,int strength,int whichobject )
+void battlearea::explosions( int x,int y,int rad,int strength,int whichobject)
 {
 	int X1,Y1,D1,S1,z;
 	for( z=0;z<maxbots;z++ )
@@ -906,17 +1018,23 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject )
 						if( fightswon[z] < maxpoints )
 						{
 							//Calc X and Y position
-							xstarts[z] = random( )%xsize;
-							ystarts[z] = random( )%ysize;
-							objects[z] = new robots( (char *)names[z].data( ),*this,z,config,botteams[z],false );
-							QObject::connect( objects[z],SIGNAL( armorchanged( int ) ),binfo[z],SLOT( armorupdated( int ) ) );
-							QObject::connect( binfo[z], SIGNAL( changeinset( bool ) ), objects[z], SLOT( setextragfx( bool ) ) );
-							QObject::connect( objects[z],SIGNAL( fuelchanged( int,int ) ),binfo[z],SLOT( updatefuel( int,int ) ) );
-							QObject::connect( objects[z],SIGNAL( messagechanged( char * ) ),binfo[z],SLOT( newmessage( char * ) ) );
+							xstarts[z] = rand( )%xsize;
+							ystarts[z] = rand( )%ysize;
+							objects[z] = new robots( (char *)names[z].data( ),*this,z,
+								config,botteams[z],false );
+							QObject::connect( objects[z],SIGNAL( armorchanged( int ) ),
+								binfo[z],SLOT( armorupdated( int ) ) );
+							QObject::connect( binfo[z], SIGNAL( changeinset( bool ) ),
+								objects[z], SLOT( setextragfx( bool ) ) );
+							QObject::connect( objects[z],SIGNAL( fuelchanged( int,int ) ),
+								binfo[z],SLOT( updatefuel( int,int ) ) );
+							QObject::connect( objects[z],SIGNAL( messagechanged( char * ) ),
+								binfo[z],SLOT( newmessage( char * ) ) );
 						}
 						else
 						{
 							objects[z] = new screenobject( );
+							fightswon[z] = roundsrun;
 						}
 					}
 					else
@@ -935,13 +1053,18 @@ void battlearea::explosions( int x,int y,int rad,int strength,int whichobject )
 							fightswon[objects[x]->getowner( )]++;
 						checkwin = true;
 						//Calc X and Y position
-						xstarts[x2] = random( )%xsize;
-						ystarts[x2] = random( )%ysize;
-						objects[x2] = new robots( (char *)names[x2].data( ),*this,x2,config,botteams[x2],false );
-						QObject::connect( objects[x2],SIGNAL( armorchanged( int ) ),binfo[x2],SLOT( armorupdated( int ) ) );
-						QObject::connect( binfo[x2], SIGNAL( changeinset( bool ) ), objects[x2], SLOT( setextragfx( bool ) ) );
-						QObject::connect( objects[x2],SIGNAL( fuelchanged( int,int ) ),binfo[x2],SLOT( updatefuel( int,int ) ) );
-						QObject::connect( objects[x2],SIGNAL( messagechanged( char * ) ),binfo[x2],SLOT( newmessage( char * ) ) );
+						xstarts[x2] = rand( )%xsize;
+						ystarts[x2] = rand( )%ysize;
+						objects[x2] = new robots( (char *)names[x2].data( ),*this,x2,
+							config,botteams[x2],false );
+						QObject::connect( objects[x2],SIGNAL( armorchanged( int ) ),
+							binfo[x2],SLOT( armorupdated( int ) ) );
+						QObject::connect( binfo[x2], SIGNAL( changeinset( bool ) ),
+							objects[x2], SLOT( setextragfx( bool ) ) );
+						QObject::connect( objects[x2],SIGNAL( fuelchanged( int,int ) ),
+							binfo[x2],SLOT( updatefuel( int,int ) ) );
+						QObject::connect( objects[x2],SIGNAL( messagechanged( char * ) ),
+							binfo[x2],SLOT( newmessage( char * ) ) );
 					}
 					else
 					{

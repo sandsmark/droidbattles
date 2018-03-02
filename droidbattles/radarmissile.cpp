@@ -20,14 +20,15 @@
 	/**
 		* Init positions, devices and load gfx
 		*/
-radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum, battlearea &area, RAM *mem,int owner )
+radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum,
+														battlearea &area, RAM *mem,int owner )
 {
 	myowner = owner;
 	ourarea = &area;
 	mynum = mnum;
-	strength = 20;
+	strength = 175;
 	direction = dir;
-	speed = 256;
+	speed = 150;
 	Xpos = X;
 	Ypos = Y;
 	noncollid = 256;
@@ -42,15 +43,18 @@ radarmissile::radarmissile( int X,int Y,int dir,int bootm,int stm,int mnum, batt
 	ramdevice = mem;	
 	ramdevice->addowner( );
 	devices[1] = new steering( *this,4 );
-	devices[2] = new scanner( *this,20000 );
-	devices[0] = new robCPU( *ramdevice,*this,2,bootm%256,bootm/256,stm%256,stm/256 );
+	devices[2] = new scanner( *this,20000,0 );
+	devices[0] = new robCPU( *ramdevice,*this,2,bootm%256,bootm/256,stm%256,
+														stm/256 );
 
 	fuelval = 300;
+  dbgWindow = NULL;
 }
 
 radarmissile::~radarmissile( )
 {
 //	delete graphics;
+  if (dbgWindow) delete dbgWindow;
 	delete erasegfx;
 	delete devices[0];
 	delete devices[1];
@@ -81,7 +85,7 @@ void radarmissile::eraseobject( QWidget *buffer )
 	/**
 		* Paint object gfx
 		*/
-void radarmissile::showobject( QWidget *buffer, int opt=0 )
+void radarmissile::showobject( QWidget *buffer, int opt )
 {
 	if( opt == 0 )
 		bitBlt( buffer,( getXpos( )>>6 )-4,( getYpos( )>>6 )-4,graphics );
@@ -100,9 +104,11 @@ int radarmissile::execute( )
 	int x;
 	for( x=0;x<3;x++ )             //Execute all devices
 		devices[x]->execute( );
+  if (dbgWindow)
+		dbgWindow->updatedata(devices[0]->returndbg());
 	double dir = getdir( ) * pi / 512;
 	if( --fuelval <= 0 )return -1;
-	return changepos( cos( dir ) * 150,sin( dir ) * 150 ); //Update position
+	return changepos( cos( dir ) * speed,sin( dir ) * speed ); //Update position
 }
 
 int radarmissile::changepos( double X,double Y )
@@ -169,3 +175,15 @@ int radarmissile::returnradar( )
 {
 	return 4;
 }
+
+void radarmissile::createDbgWindow(int id, QMultiLineEdit* e,int* l,int* m)
+{
+  if (dbgWindow) delete dbgWindow;
+  dbgWindow = new debugwindow( e,&l[0],&m[0]);
+  dbgWindow->resize(300,405);
+  dbgWindow->show();
+  QString title;
+  title.sprintf("Missile #%d",id);
+  dbgWindow->setCaption(title);  // set title
+}
+

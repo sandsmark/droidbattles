@@ -19,7 +19,7 @@
 #define ROBCPU_H
 
 #include "cpu.h"
-#include <screenobject.h>
+#include "screenobject.h"
 #include <qfile.h>
 
 /**CPU adapted for bot
@@ -30,7 +30,8 @@ class robCPU : public CPU
 {
 	public:
 		robCPU( );
-		robCPU( RAM &ramdev,screenobject &object,int arg1,int arg2,int arg3,int arg4,int arg5 );
+		robCPU( RAM &ramdev,screenobject &object,int arg1,int arg2,int arg3,
+						int arg4,int arg5 );
 		~robCPU( );
 		void execute( );
 		int returntype( );

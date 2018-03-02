@@ -17,11 +17,12 @@
 
 #include "radarmissilelauncher.h"
 
-radarmissilelauncher::radarmissilelauncher( screenobject &object, int level, RAM *memdevice )
+radarmissilelauncher::radarmissilelauncher( screenobject &object, int level,
+																					  RAM *memdevice, int offset )
 {
 	ourlevel = level;
 	memd = memdevice;
-	relang = 0;
+	relang = offset*4;
 	int count,count2;
 	ourbot = &object;
 	reloadtime=1;
@@ -62,7 +63,8 @@ void radarmissilelauncher::execute( )
 	{
 		if( reloadtime <= 0 )
 		{
-			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),ourbot->getdir( )+relang,4,bootmem,stackmem,memd );
+			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
+				ourbot->getdir( )+relang,4,bootmem,stackmem,memd );
 			moveportstack( 2 );
 			reloadtime = ourlevel;
 		}

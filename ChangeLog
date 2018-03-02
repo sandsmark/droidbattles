@@ -307,3 +307,50 @@ v 1.0.0
 	- Fixed resize of botcreator window
 	- Fixed bugs in respawn code in survival mode
 	- Various other cleanups and rebalancing
+
+v 1.0.1
+
+	- Survival mode now shows how long loosing bots survived
+	- You can now specify an offset in the textbox for non-turreted hardware
+The angle offset will be 4 times the value specified in the textbox
+It works on these devices:
+	* plasmagun
+	* scanner
+	* AS-rocket
+	* missile
+	- Fixed stupid scanner bug (had accidently commented one line out...)
+	- Fixed crashes when trying to use several "start battle" menus at once
+	- Fixed some resizing issues
+	- Fixed resultwindow for league tournament
+
+v 1.0.2
+
+	- Fixed some Solaris/Sparc crashes
+	- Fixed overflow in distance-checking for arenas larger than 32768*32768
+
+v 1.0.3
+
+	- Changed name to DroidBattles (because of this some files and directories changed)
+	- In singlestepmode in quickbattle bots now execute a single instruction per cycle (Peter Schmidt)
+	- You now get one CPU-window per CPU in debug-mode (Peter Schmidt)
+	- Radarmissiles CPU:s also get's debug-windows now (Peter Schmidt)
+	- Edit window and latency/adress window in botcreator now follow each other (Peter Schmidt)
+	- Added port to turret:
+		* 3rd outport is now : AdjustCurrentOffset
+
+v 1.0.4
+
+	- Fixed AdjustCurrentOffset in turret (Marco Krohn)
+	- Fixed sinfunc and cosfunc instructions (Helge Dennhardt)
+	- Fixed bugs in radiodevice (carl Kracker)
+	- Fixed typos in radarmissile (carl Kracker)
+	- Fixed mul and imul bugs (carl Kracker)
+	- Fixed cloaker fuel check (carl Kracker)
+	- Fixed bugs in engine (carl Kracker)
+	- Fixed doc errors (carl Kracker)
+	- Fixed error in checkconf (carl Kracker)
+	- Fixed bots with 64k RAM
+	- Fixed various bugs with if() cases which allways executed
+	- Fixed opcode 0x0A,0x1E,0x20,0x28,0x3B,0x77,0xA7,0xB7,0xC7 (carl Kracker)
+	- The cursor now don't scroll to the start at "assemble successful"
+

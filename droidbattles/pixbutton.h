@@ -40,7 +40,6 @@ class PixButton : public QPushButton
 	private:
 		QString tex;
 		int whichpix;
-//		QPixmap *bg;
 };
 
 #endif

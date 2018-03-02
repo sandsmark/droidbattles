@@ -18,7 +18,7 @@
 #ifndef CLOAKER_H
 #define CLOAKER_H
 
-#include <device.h>
+#include "device.h"
 #include "screenobject.h"
 
 /**

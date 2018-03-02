@@ -21,7 +21,8 @@
 		* the createbot dialog
 		*/
 
-devchoice::devchoice( createbot *cre,QWidget *parent,const char *name, int num = 0 ) : QWidget( parent,name )
+devchoice::devchoice( createbot *cre,QWidget *parent,const char *name,
+											int num ) : QWidget( parent,name )
 {
 	chosenlevel = 0;
 	dev = 0;
@@ -63,7 +64,8 @@ devchoice::devchoice( createbot *cre,QWidget *parent,const char *name, int num =
 	level->setGeometry( 0,25,120,20 );
 	arg1 = new QLineEdit( this );
 	arg1->setGeometry( 100,0,20,20 );
-	QObject::connect( level, SIGNAL( clicked( int ) ), this, SLOT( levelchosen( int ) ) );
+	QObject::connect( level, SIGNAL( clicked( int ) ), this,
+		SLOT( levelchosen( int ) ) );
 	valid = new QIntValidator( 0,31,this );
 	arg1->setValidator( valid );
 	showcost = new QLabel( "Cost",this );
@@ -74,7 +76,8 @@ devchoice::devchoice( createbot *cre,QWidget *parent,const char *name, int num =
 
 	QObject::connect( this,SIGNAL( change( ) ),this,SLOT( costchanged( ) ) );
 	QObject::connect( info,SIGNAL( clicked( ) ),this,SLOT( showinfo( ) ) );
-	QObject::connect( comb,SIGNAL( activated( int ) ),this,SLOT( costchanged( ) ) );
+	QObject::connect( comb,SIGNAL( activated( int ) ),this,
+		SLOT( costchanged( ) ) );
 
 	callb = cre;
 
@@ -141,7 +144,7 @@ void devchoice::costchanged( )
 {
 	struct confstruct curconfig;
 	QString tempname = QDir::homeDirPath( );
-	tempname += "/battlebots/current.cfg";
+	tempname += "/droidbattles/current.cfg";
 	QFile f( tempname );
 	if( !f.open( IO_ReadOnly ) )
 	{
@@ -217,7 +220,8 @@ void devchoice::showinfo( )
 			msg += QString::number( mynum*4+2 );
 			msg += " CPU";
 			msg += QString::number( dvn );
-			msg += "_GetBattleType: Get type of battle (0-normal,1-survival,2-deathmatch)\n";
+			msg += "_GetBattleType: Get type of battle (0-normal,1-survival,"
+						 "2-deathmatch)\n";
 
 			msg += "Inport ";
 			msg += QString::number( mynum*4+3 );
@@ -320,7 +324,8 @@ void devchoice::showinfo( )
 			msg += QString::number( mynum*4 );
 			msg += " Steering";
 			msg += QString::number( dvn );
-			msg += "_AdjustWantedDir: Adjust wanted direction (relative to wanted dir)\n";
+			msg += "_AdjustWantedDir: Adjust wanted direction (relative to wanted d"
+						 "ir)\n";
 
 			msg += "Outport ";
 			msg += QString::number( mynum*4+1 );
@@ -332,7 +337,8 @@ void devchoice::showinfo( )
 			msg += QString::number( mynum*4+2 );
 			msg += " Steering";
 			msg += QString::number( dvn );
-			msg += "_AdjustCurrentDir: Adjust wanted direction (relative to current dir)\n";
+			msg += "_AdjustCurrentDir: Adjust wanted direction (relative to current"
+						 " dir)\n";
 
 			msg += "Outport ";
 			msg += QString::number( mynum*4+3 );
@@ -412,7 +418,7 @@ void devchoice::showinfo( )
 			msg += QString::number( mynum*4+1 );
 			msg += " Armor";
 			msg += QString::number( dvn );
-			msg += "_SetArmorIntEnabled: Enable/disable armor below level interrupt\n";
+	msg += "_SetArmorIntEnabled: Enable/disable armor below level interrupt\n";
 
 			msg += "Outport ";
 			msg += QString::number( mynum*4+2 );
@@ -472,7 +478,7 @@ void devchoice::showinfo( )
 			msg += " Scanner";
 			msg += QString::number( dvn );
 			msg += "_SelectReturn: Select what fourth inport should return:\n";
-			msg += "0:Frequency,1:number,2:direction,3:speed of object last scanned\n";
+	msg += "0:Frequency,1:number,2:direction,3:speed of object last scanned\n";
 
 			msg += "Outport ";
 			msg += QString::number( mynum*4+3 );
@@ -599,11 +605,13 @@ void devchoice::showinfo( )
 			msg += QString::number( mynum*4+1 );
 			msg += " Turret";
 			msg += QString::number( dvn );
-			msg += "_AdjustOffset: Change offset relative to current\n";
+			msg += "_AdjustOffset: Change offset relative to wanted offset\n";
 
 			msg += "Outport ";
 			msg += QString::number( mynum*4+2 );
-			msg += ": empty\n";
+			msg += " Turret";
+			msg += QString::number( dvn );
+			msg += "_AdjustCurrentOffset: Change offset relative to current offset\n";
 
 			msg += "Outport ";
 			msg += QString::number( mynum*4+3 );

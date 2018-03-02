@@ -18,7 +18,7 @@
 #ifndef ROCKET_H
 #define ROCKET_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include <math.h>
 #include "battlearea.h"
 
@@ -30,11 +30,14 @@
 class rocket : public screenobject
 {
 
+	Q_OBJECT
+
 	public:
 
 		rocket( );
 		~rocket( );
-		rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area, int owner );
+		rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area,
+						int owner );
 		int objhit( int type,int strength );
 		int returntype( );
 		void eraseobject( QWidget *buffer );

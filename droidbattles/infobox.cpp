@@ -17,7 +17,8 @@
 
 #include "infobox.h"
 
-infobox::infobox( QString msg, QWidget *parent, const char *name ) : QWidget( parent,name )
+infobox::infobox( QString msg, QWidget *parent, const char *name )
+ : QWidget( parent,name )
 {
 	text = new QLabel( msg,this );
 	text->setGeometry( 0,0,0,0 );

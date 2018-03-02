@@ -17,14 +17,14 @@
 
 #include "plasma.h"
 
-plasma::plasma( screenobject &object, int arg1 )
+plasma::plasma( screenobject &object, int arg1, int offset )
 {
 	ourlevel = arg1;
 	ourbot = &object;
 	int count;
 	int count2;
 	readiness = 200;
-	relang = 0;
+	relang = offset*4;
 	for( count=0;count<3;count++ )
 	{
 		for( count2=0;count2<4;count2++ )
@@ -51,7 +51,8 @@ void plasma::execute( )
 	{
 		moveportstack( 0 );
 		//Fire plasma missile code
-		ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),ourbot->getdir( )+relang,2,ourbot->getnum( ) );
+		ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
+													ourbot->getdir( )+relang,2,ourbot->getnum( ) );
 		ourbot->changeheat( 45 );
 		readiness -= 80;
 	}

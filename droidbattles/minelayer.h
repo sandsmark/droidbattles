@@ -18,7 +18,7 @@
 #ifndef MINELAYER_H
 #define MINELAYER_H
 
-#include <device.h>
+#include "device.h"
 
 /**
 	* Device that lays the mines

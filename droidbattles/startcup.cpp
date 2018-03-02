@@ -32,6 +32,7 @@ void startcup::ocl( )
 		emit okclicked( );
 	else
 	{
-		QMessageBox::information( this,"Battlebots","Number of bots must be 4,8,16,32 or 64" );
+		QMessageBox::information( this,"Battlebots","Number of bots must be 4,8,"
+															"16,32 or 64" );
 	}
 }

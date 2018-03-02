@@ -49,7 +49,7 @@ void shield::execute( )
 		Isup = portstack[0][0];
 		moveportstack( 0 );
 	}
-	if( ourbot->getfuel( ) <= 1 )Isup = false;
+	if( ourbot->getfuel( ) <= 3 )Isup = false;
 	if( Isup == true )
 	{
 		ourbot->setfuel( -4 );

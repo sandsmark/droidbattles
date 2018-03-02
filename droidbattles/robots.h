@@ -51,13 +51,8 @@
 #include "rocketlauncher.h"
 #include "chafflauncher.h"
 
-#ifndef __USE_GNU
-#define __USE_GNU
-#include <unistd.h>
-#endif
-
 #include "confstruct.h"
-#include <installdir.h>
+#include "installdir.h"
 #include "radarmissilelauncher.h"
 #include "scandetect.h"
 #include "chiller.h"
@@ -74,7 +69,8 @@ class robots : public screenobject
 
 	public:
 
-		robots( char *name,battlearea &area,int mnum, confstruct,int tm,bool er=true );
+		robots( char *name,battlearea &area,int mnum, confstruct,int tm,
+						bool er=true );
 		~robots( );
 		int execute( );
 		void eraseobject( QWidget *buffer );
@@ -84,7 +80,8 @@ class robots : public screenobject
 		void putdevport( unsigned char port,unsigned short value );
 		int objhit( int type,int strength );
 		void objscanned( int intensity, int dir );
-		void addscrobject( int X,int Y,int dir,int type, int arg1=0,int arg2=0,void *arg3=0 );
+		void addscrobject( int X,int Y,int dir,int type, int arg1=0,int arg2=0,
+											 void *arg3=0 );
 		int iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 );
 		int iodevtodev( int dev, int action, int value );
 		int returntype( );
@@ -100,6 +97,9 @@ class robots : public screenobject
 		int getmem( );
 		void addinterrupt( int );
 		struct debugcontents returndbgcont( );
+    int numCPUs();
+    // the caller has to delete the returned pointer
+		std::list<struct debugcontents> * returndbgcont2( );
 		int returnradar( );
 		void setradar( int x );
 		void dumpRAM( );
@@ -109,7 +109,6 @@ class robots : public screenobject
 		int RAMamount;
 		RAM *ramdevice;
 		int radarsignature;
-//		int heatsignature;
 		device *devicelist[32];
 		char hitabsorborder[32];
 		battlearea *ourarea;

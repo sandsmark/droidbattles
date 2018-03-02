@@ -64,7 +64,6 @@ void armor::execute( )
 	if( ourbot->getheat( ) > heatintlevel )
 	{
 		ourbot->addinterrupt( 5 );
-//		QMessageBox::information( 0,"Heat", QString::number( ourbot->getheat( ) ) );
 	}
 	if( stacktaken[0][0] == true )
 	{
@@ -147,7 +146,7 @@ int armor::getfromport( unsigned char port )
 		* The repair unit uses this function in order to not issue an interrupt
 		* every time he repairs.
 		*/
-void armor::dospecial( int x,int y=0 )
+void armor::dospecial( int x,int y )
 {
 		ourbot->armorval -= x;
 		strength -= x;

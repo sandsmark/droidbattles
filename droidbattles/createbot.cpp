@@ -23,13 +23,15 @@
 createbot::createbot( )
 {
 	setMinimumSize( 600,500 );
-	edittxt = new QMultiLineEdit( this );
+	edittxt = new myQMultiLineEdit( this );
 	edittxt->setGeometry( 75,30,300,400 );
-	showlatency = new QMultiLineEdit( this );
+	showlatency = new myQMultiLineEdit( this );
+	connect(edittxt->myVerticalScrollBar(),SIGNAL(valueChanged(int)),
+					this,SLOT(setShowlatencyScrollValue(int)));
+	connect(showlatency->myVerticalScrollBar(),SIGNAL(valueChanged(int)),
+					this,SLOT(setEdittxtScrollValue(int)));
 	showlatency->setGeometry( 5,30,65,400 );
 	showlatency->setReadOnly( true );
-//	scroller = edittxt->verticalScrollBar( );
-//	QObject::connect( scroller, SIGNAL( valueChanged( int ) ), this, SLOT( scrollview( int ) ) );
 
 	File = new QPopupMenu( );
 	File->insertItem( "&New", this, SLOT( newb( ) ) );
@@ -63,20 +65,14 @@ createbot::createbot( )
 	boxarea->setGeometry( 0,0,184,1720 );
 	scrvw->addChild( boxarea );
 
-//	QString fname = returninstalldir( );
-//	fname += "/pixmaps/metal.png";
-//	backpm = new QPixmap( fname );
-//	setBackgroundPixmap( Pixmapholder::getpm( 2 ) );
-//	boxarea->setBackgroundPixmap( Pixmapholder::getpm( 2 ) );
-
 	int x;
 	for( x=0;x<32;x++ )
 	{
 		devices[x] = new devchoice( this,boxarea,"",x );
 		devices[x]->setGeometry( 10,60+x*50,170,50 );
 		devices[x]->show( );
-//		devices[x]->setBackgroundPixmap( Pixmapholder::getpm( 2 ) );
-		QObject::connect( devices[x],SIGNAL( change( ) ),this,SLOT( devchanged( ) ) );
+		QObject::connect( devices[x],SIGNAL( change( ) ),this,
+											SLOT( devchanged( ) ) );
 	}
 
 	amountRAM = new QComboBox( FALSE,boxarea );
@@ -95,13 +91,16 @@ createbot::createbot( )
 	amountRAM->show( );
 
 	dirname = new char[100];
-	botname = QDir::homeDirPath( );	
-	botname += "/battlebots/unnamed";
+//	botname = QDir::homeDirPath( );	
+//	botname += "/droidbattles/unnamed";
+
+	botname = "unnamed";
 
 	gfxbutton = new QPushButton( this );
 	gfxbutton->setGeometry( 10,450,520,36 );
 	gfxbutton->setPixmap( gfx );
-	QObject::connect( gfxbutton, SIGNAL( clicked( ) ), this, SLOT( choosepic( ) ) );
+	QObject::connect( gfxbutton, SIGNAL( clicked( ) ), this,
+										SLOT( choosepic( ) ) );
 	changed = false;
 
 	instrlatency[0] = 1;
@@ -431,8 +430,9 @@ void createbot::newb( )
 		devices[x]->setarg1( 0 );
 	}
 	amountRAM->setCurrentItem( 0 );
-	botname = QDir::homeDirPath( );	
-	botname += "/battlebots/unnamed";
+//	botname = QDir::homeDirPath( );	
+//	botname += "/droidbattles/unnamed";
+	botname = "unnamed";
 	gfx.resize( 0,0 );
 	changed = false;
 	edittxt->setEdited( false );
@@ -530,7 +530,8 @@ void createbot::save( )
 		s << "RAM: " << amountRAM->currentItem( ) << endl <<  endl;
 		int x;
 		for( x=0;x<32;x++ )
-			s << "DEVICE: " << devices[x]->getitem( ) << " " << devices[x]->getlevel( ) << " " << devices[x]->getarg1( ) << endl;
+			s << "DEVICE: " << devices[x]->getitem( ) << " " <<
+				devices[x]->getlevel( ) << " " << devices[x]->getarg1( ) << endl;
 		s << endl;
 		QString tempdata = edittxt->text( );
 		s << tempdata;
@@ -567,7 +568,8 @@ void createbot::saveas( )
 		s << "RAM: " << amountRAM->currentItem( ) << endl <<  endl;
 		int x;
 		for( x=0;x<32;x++ )
-			s << "DEVICE: " << devices[x]->getitem( ) << " " << devices[x]->getlevel( ) << " " << devices[x]->getarg1( ) << endl;
+			s << "DEVICE: " << devices[x]->getitem( ) << " " <<
+						devices[x]->getlevel( ) << " " << devices[x]->getarg1( ) << endl;
 		s << endl;
 		QString tempdata = edittxt->text( );
 		s << tempdata;
@@ -623,7 +625,7 @@ void createbot::assemble( )
 	int i;
 
 	//Memory where the file contents are stored during assemble
-	mem = new unsigned char[65536];
+	mem = new unsigned char[65536+256];
 	for( i=0;i<65536;i++ )
 		mem[i] = 0;
 
@@ -970,6 +972,12 @@ void createbot::assemble( )
 				names[i*8+5] += "_AdjustOffset";
 				nvalues[i*8+5] = i*4+1;
 				existn[i*8+5] = true;
+
+				names[i*8+6] = "Turret";
+				names[i*8+6] += QString::number( numsortdec[9] );
+				names[i*8+6] += "_AdjustCurrentOffset";
+				nvalues[i*8+6] = i*4+2;
+				existn[i*8+6] = true;
 
 				numsortdec[9]++;
 
@@ -1406,19 +1414,23 @@ void createbot::assemble( )
 	instr[136] = new instruktion( "ja", val, none, bit0, bit16, bit0, 0x86 );
 	instr[137] = new instruktion( "jb", val, none, bit0, bit16, bit0, 0x87 );
 
-	instr[138] = new instruktion( "atanfunc", none, none, bit0, bit0, bit0, 0x88 );
+	instr[138] = new instruktion( "atanfunc", none, none, bit0, bit0, bit0,
+																0x88 );
 	instr[139] = new instruktion( "sqr", none, none, bit0, bit0, bit0, 0x89 );
 	instr[140] = new instruktion( "icmp", reg, reg, bit16, bit8, bit8, 0x8A );
 	instr[141] = new instruktion( "icmp", reg, memc, bit16, bit8, bit16, 0x8B );
 	instr[142] = new instruktion( "icmp", reg, mreg, bit16, bit8, bit8, 0x8C );
 	instr[143] = new instruktion( "icmp", reg, val, bit16, bit8, bit16, 0x8D );
 	instr[144] = new instruktion( "icmp", mreg, val, bit16, bit8, bit16, 0x8E );
-	instr[145] = new instruktion( "icmp", memc, val, bit16, bit16, bit16, 0x8F );
+	instr[145] = new instruktion( "icmp", memc, val, bit16, bit16, bit16,
+																0x8F );
 	instr[146] = new instruktion( "msg", mreg, none, bit16, bit8, bit0, 0x90 );
 	instr[147] = new instruktion( "msg", memc, none, bit16, bit16, bit0, 0x91 );
 	instr[148] = new instruktion( "err", val, none, bit0, bit8, bit0, 0x92 );
-	instr[149] = new instruktion( "readfile", none, none, bit0, bit0, bit0, 0x93 );
-	instr[150] = new instruktion( "writefile", none, none, bit0, bit0, bit0, 0x94 );
+	instr[149] = new instruktion( "readfile", none, none, bit0, bit0, bit0,
+																0x93 );
+	instr[150] = new instruktion( "writefile", none, none, bit0, bit0, bit0,
+																0x94 );
 	instr[151] = new instruktion( "lz", reg, none, bit16, bit8, bit0, 0x95 );
 	instr[152] = new instruktion( "lnz", reg, none, bit16, bit8, bit0, 0x96 );
 	instr[153] = new instruktion( "la", reg, none, bit16, bit8, bit0, 0x97 );
@@ -1507,13 +1519,15 @@ void createbot::assemble( )
 	instr[229] = new instruktion( "ret", val, none, bit0, bit8, bit0, 0xE3 );
 	instr[230] = new instruktion( "lodsb", none, none, bit0, bit0, bit0, 0xE4 );
 	instr[231] = new instruktion( "lodsw", none, none, bit0, bit0, bit0, 0xE5 );
-	instr[232] = new instruktion( "sinfunc", none, none, bit0, bit0, bit0, 0xE6 );
-	instr[233] = new instruktion( "cosfunc", none, none, bit0, bit0, bit0, 0xE7 );
+	instr[232] = new instruktion( "sinfunc", none, none, bit0, bit0, bit0,
+																0xE6 );
+	instr[233] = new instruktion( "cosfunc", none, none, bit0, bit0, bit0,
+																0xE7 );
 	instr[234] = new instruktion( "sin", none, none, bit0, bit0, bit0, 0xE8 );
 	instr[235] = new instruktion( "cos", none, none, bit0, bit0, bit0, 0xE9 );
 
-	instr[245] = new instruktion( "mov", val, val, bit16, bit16, bit8, 0xEA );//mov reg,@reg+val some
-	instr[246] = new instruktion( "mov", val, val, bit16, bit16, bit8, 0xEB );//mov @reg+val,reg tricks
+	instr[245] = new instruktion( "mov", val, val, bit16, bit16, bit8, 0xEA );
+	instr[246] = new instruktion( "mov", val, val, bit16, bit16, bit8, 0xEB );
 	instr[236] = new instruktion( "rnd", none, none, bit0, bit0, bit0, 0xEC );
 	instr[237] = new instruktion( "hwait", none, none, bit0, bit0, bit0, 0xED );
 
@@ -1831,7 +1845,8 @@ void createbot::assemble( )
 										else
 										{
 											//Code for error in dev-value
-											error( "Value must be the number of a CPU device",linenum );
+											error( "Value must be the number of a CPU device",
+															linenum );
 											goto ende;
 										}
 									}
@@ -1888,7 +1903,8 @@ void createbot::assemble( )
 										else
 										{
 											//Code for error in dev-value
-											error( "Value must be the number of a CPU device",linenum );
+											error( "Value must be the number of a CPU device",
+															linenum );
 											goto ende;
 										}
 									}
@@ -1941,7 +1957,8 @@ void createbot::assemble( )
 										if( nvalues[x]<256 )
 										{
 											mem[(RAMAMOUNT+256-(nvalues[x]*2+2))] = posinmem%256;
-											mem[(RAMAMOUNT+256-(nvalues[x]*2+1))] = int(posinmem/256);
+											mem[(RAMAMOUNT+256-(nvalues[x]*2+1))] =
+												int(posinmem/256);
 										}
 										else
 										{
@@ -2325,26 +2342,30 @@ void createbot::assemble( )
 						}
 					}
 
-          if( (stricmp( curmnem.data( ),"mov" )==0) && (type[1] == 5) && (type[2] == 13) && (type[3] == 3) )
+          if( (stricmp( curmnem.data( ),"mov" )==0) && (type[1] == 5) &&
+							(type[2] == 13) && (type[3] == 3) )
 					{
 						value[1][1] = value[2][0];
 						value[2][0] = value[3][0];
 						i = 245;
 						if( tunres[3] == true )
 						{
-							error( "Sorry, this instruction can't use symbols not declared yet",linenum );
+						error("Sorry, this instruction can't use symbols not declared yet",
+									linenum );
 							goto ende;
 						}
 						goto found;
 					}
-          if( (stricmp( curmnem.data( ),"mov" )==0) && (type[1] == 13) && (type[2] == 3) && (type[3] == 5) )
+          if( (stricmp( curmnem.data( ),"mov" )==0) && (type[1] == 13) &&
+							(type[2] == 3) && (type[3] == 5) )
 					{
 						value[1][1] = value[2][0];
 						value[2][0] =	value[3][0];
 						i = 246;
 						if( tunres[2] == true )
 						{
-							error( "Sorry, this instruction can't use symbols not declared yet",linenum );
+						error("Sorry, this instruction can't use symbols not declared yet",
+									linenum );
 							goto ende;
 						}
 						goto found;
@@ -2353,7 +2374,8 @@ void createbot::assemble( )
 				  //Run through all available mnemonic-operand combinations available
 					for(i=0;i<245;i++)
 					{
-						if( instr[i]->checkmatch( curmnem, type[1], type[2], bits ) == true )goto found;
+						if( instr[i]->checkmatch( curmnem,type[1],type[2],bits )==true )
+							goto found;
 					}
 					//If not success return error
 					error( "Error: unknown mnemonic/operand combination",linenum);
@@ -2493,7 +2515,7 @@ newline:
 		goto ende;
 	}
 
-	error( "Assemble successful",0 );
+	error( "Assemble successful",-1 );
 ende:
 	delete mem;
 	for( i=0;i<247;i++ )
@@ -2507,7 +2529,7 @@ ende:
 void createbot::error( char *msg,int line )
 {
 	QMessageBox::information( 0,"Message from the almighty assembler", msg );
-	edittxt->setCursorPosition( line,0 );
+	if( line >= 0 )	edittxt->setCursorPosition( line,0 );
 }
 
 	/**
@@ -2525,7 +2547,7 @@ void createbot::startquick( )
 		return;
 	}
 	temp = QDir::homeDirPath( );
-	temp += "/battlebots/quick.conf";
+	temp += "/droidbattles/quick.conf";
 	QFile f2( temp );
 	QString names[8];
 	int xsize,ysize,numfights,lengthfights;
@@ -2561,9 +2583,13 @@ void createbot::startquick( )
 		error( "config file for quick battle not found",0 );
 		return;
 	}
-	batt = new battlearea( (char *)names[0].data( ),(char *)names[1].data( ),(char *)names[2].data( ),(char *)names[3].data( ),
-												 (char *)names[4].data( ),(char *)names[5].data( ),(char *)names[6].data( ),(char *)names[7].data( ),
-													numfights,lengthfights,xsize,ysize,ifteams,teams,false,false,0,0,true, edittxt,&debuglines[0],&debugmem[0] );
+	batt = new battlearea( (char *)names[0].data( ),(char *)names[1].data( ),
+													(char *)names[2].data( ),(char *)names[3].data( ),
+												 (char *)names[4].data( ),(char *)names[5].data( ),
+													(char *)names[6].data( ),(char *)names[7].data( ),
+													numfights,lengthfights,xsize,ysize,ifteams,teams,
+													false,false,0,0,true, edittxt,&debuglines[0],
+													&debugmem[0] );
 	batt->show( );
 }
 
@@ -2592,8 +2618,9 @@ void createbot::stopconf( )
 		*/
 void createbot::checkconf( )
 {
-	QString tempname = QDir::homeDirPath( );
-	tempname += "/battlebots/current.cfg";
+//	QString tempname = QDir::homeDirPath( );
+//	tempname += "/droidbattles/current.cfg";
+	QString tempname = "current.cfg";
 	QFile f( tempname );
 	if( !f.open( IO_ReadOnly ) )
 	{
@@ -2645,6 +2672,7 @@ void createbot::checkconf( )
 	int totalcost;
 	int numdev=0;
 	int devicesenabled[32];
+	for (int l=0; l<32; devicesenabled[l++]=0);
 
 	amountram = amountRAM->currentItem( );
 	totalcost = curconfig.ramcost[amountram];
@@ -2700,10 +2728,12 @@ void createbot::checkconf( )
 void createbot::addint( QString & str,int integ )
 {
 	bool ready=false;
-	QString temp;
+	QString temp,tm;
 	while( !ready )
 	{
-		temp = (integ%10+'0') + temp;
+		tm = (integ%10+'0');
+		tm += temp;
+		temp = tm;
 		integ /= 10;
 		if( !integ )ready=true;
 	}
@@ -2723,4 +2753,16 @@ int createbot::devnum( int sort,int num )
 		if( devices[x]->getitem( ) == sort )number++;
 	}
 	return number;
+}
+
+void createbot::setEdittxtScrollValue( int i )
+{
+	assert( edittxt );
+	edittxt->myVerticalScrollBar( )->setValue( i );
+}
+
+void createbot::setShowlatencyScrollValue( int i )
+{
+	assert( showlatency );
+	showlatency->myVerticalScrollBar( )->setValue( i );
 }

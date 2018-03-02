@@ -18,7 +18,7 @@
 #ifndef STARTDEATHBATT_H
 #define STARTDEATHBATT_H
 
-#include <startsurvbatt.h>
+#include "startsurvbatt.h"
 
 /**
   *@author Andreas Agorander
@@ -26,6 +26,9 @@
 
 class startdeathbatt : public startsurvbatt
 {
+
+	Q_OBJECT
+
 	public:
 		startdeathbatt( );
 		~startdeathbatt( );

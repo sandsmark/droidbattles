@@ -18,7 +18,7 @@
 #ifndef RADARMISSILELAUNCHER_H
 #define RADARMISSILELAUNCHER_H
 
-#include <device.h>
+#include "device.h"
 #include "screenobject.h"
 #include "ram.h"
 /**
@@ -31,7 +31,8 @@ class radarmissilelauncher : public device
 
 	public:
 
-		radarmissilelauncher( screenobject &object, int level, RAM *memdevice );
+		radarmissilelauncher( screenobject &object, int level, RAM *memdevice,
+													int offset );
 		~radarmissilelauncher( );
 	 	int getfromport( unsigned char port );
 		void execute( );

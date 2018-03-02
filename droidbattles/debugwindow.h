@@ -46,7 +46,6 @@ class debugwindow : public QWidget
 		void distsignal( );
 
 	private:
-
 		QLabel *registercontents[9]; //AX,BX,CX,DX,SP,BP,SI,DI,IP
 		QLabel *flagcontents[4];     //equal,above,below,intenabled
 		QLabel *memcontents[4];
@@ -58,7 +57,6 @@ class debugwindow : public QWidget
 		QMultiLineEdit *maineditor;
 
 	signals:
-
 		void dumpmem( );
 
 };

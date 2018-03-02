@@ -20,24 +20,25 @@
 
 #include <qapplication.h>
 #include <qfont.h>
+//If you want another look, change this include
 #include <qplatinumstyle.h>
-#include "battlebots.h"
+#include "droidbattles.h"
 
 int main( int argc, char *argv[] )
 {
-  QApplication a( argc, argv );
+	QApplication a( argc, argv );
 
 	//If you want another look change QPlatinumStyle to
 	//one of: QCDEStyle, QWindowsStyle, QMotifStyle
-  a.setStyle( new QPlatinumStyle );
-  a.setFont( QFont( "helvetica", 12 ) );
+	a.setStyle( new QPlatinumStyle );
+	a.setFont( QFont( "helvetica", 12 ) );
 
-  BattleBots *battlebots=new BattleBots( );
-  a.setMainWidget( battlebots );
+	DroidBattles *droidbattles=new DroidBattles( );
+	a.setMainWidget( droidbattles );
 
-  battlebots->show( );
+	droidbattles->show( );
 
-  return a.exec( );
+	return a.exec( ); //Enter event-loop
 }
 
 #endif

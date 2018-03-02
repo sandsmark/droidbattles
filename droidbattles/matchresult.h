@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+//Structure for holding results during tournaments
 struct matchresult
 {
 	int secbot;

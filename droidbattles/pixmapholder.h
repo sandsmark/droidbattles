@@ -21,6 +21,7 @@
 #include <qpixmap.h>
 
 /**
+	*This class adds functions for dealing with application global pixmaps
   *@author Andreas Agorander
   */
 

@@ -55,8 +55,6 @@ class kothtournament : public QWidget
 		int getysize( );
 		bool getiffast( );
 		int getseed( );
-//		bool getifteams( );
-//		int getbotteam( int bot );
 
 	private slots:
 
@@ -74,9 +72,6 @@ class kothtournament : public QWidget
 	private:
 
 		int numofbots;
-//		QString botfiles[8];
-//		QLabel *shownames[8];
-//		QComboBox *team[8];
 		QListBox *botfiles;
 		QLabel *tnumfights;
 		QLineEdit *wnumfights;

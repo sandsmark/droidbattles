@@ -18,7 +18,7 @@
 #ifndef SHIELD_H
 #define SHIELD_H
 
-#include <device.h>
+#include "device.h"
 #include <qpainter.h>
 #include "screenobject.h"
 #include <qwidget.h>

@@ -18,6 +18,8 @@
 #ifndef CONFSTRUCT_H
 #define CONFSTRUCT_H
 
+//Structure for holding the currently active configuration
+//(Generally read from current.cfg)
 struct confstruct
 {
 	int maxdev;

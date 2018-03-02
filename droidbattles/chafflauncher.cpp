@@ -58,7 +58,8 @@ void chafflauncher::execute( )
 		stacktaken[0][3] = false;
 		if( chaffleft > 0 )
 		{
-			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),ourbot->getdir( ),7,ourbot->getspeed( )/2 );
+			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
+														ourbot->getdir( ),7,ourbot->getspeed( )/2 );
 			chaffleft--;
 		}
 	}

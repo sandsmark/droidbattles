@@ -18,7 +18,7 @@
 #ifndef EXPLOSION_H
 #define EXPLOSION_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include <qpainter.h>
 #include <qwidget.h>
 #include "battlearea.h"
@@ -29,6 +29,8 @@
 
 class explosion : public screenobject
 {
+
+	Q_OBJECT
 
 	public:
 		explosion( int X, int Y, battlearea &area );

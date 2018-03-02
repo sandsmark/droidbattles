@@ -49,13 +49,14 @@ chaff::~chaff( )
 	/**
 		* Paint object
 		*/
-void chaff::showobject( QWidget *buffer,int opt=0 )
+void chaff::showobject( QWidget *buffer,int opt )
 {
 	int picpos = 84-(int( timeleft/20 )* 12);
 
 //	int x;
 	if( opt == 0 )
-		bitBlt( buffer,( getXpos( )>>6 )-6,( getYpos( )>>6 )-6,graphics,picpos,0,12,12 );
+		bitBlt( buffer,( getXpos( )>>6 )-6,( getYpos( )>>6 )-6,graphics,picpos,0,
+						12,12 );
 	oldX = getXpos( );
 	oldY = getYpos( );
 }

@@ -27,14 +27,14 @@ rocket::~rocket( )
 	/**
 		* Init position, gfx
 		*/
-rocket::rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area,int owner )
+rocket::rocket( int X,int Y,int dir,int leng,int mnum, battlearea &area,
+								int owner )
 {
 	myowner = owner;
 	ourarea = &area;
 	mynum = mnum;
-//	strength = 20;
 	direction = dir;
-	speed = 256;
+	speed = 220;
 	noncollid = 256;
 	Xpos = X;
 	Ypos = Y;
@@ -83,7 +83,7 @@ void rocket::eraseobject( QWidget *buffer )
 	/**
 		* Paint the flame from the rocket
 		*/
-void rocket::showobject( QWidget *buffer, int opt=0 )
+void rocket::showobject( QWidget *buffer, int opt )
 {
 	QPainter p( buffer );
 	p.setPen( QColor( 255,0,0 ) );
@@ -109,7 +109,7 @@ void rocket::showobject( QWidget *buffer, int opt=0 )
 int rocket::execute( )
 {
 	double dir = getdir( ) * pi / 512;
-	changepos( cos( dir ) * 220,sin( dir ) * 220 ); //Update position
+	changepos( cos( dir ) * speed,sin( dir ) * speed ); //Update position
 	int dist = int( sqrt( (Xpos-uX)*(Xpos-uX)+(Ypos-uY)*(Ypos-uY) ) );
 	if( dist > length )
 	{

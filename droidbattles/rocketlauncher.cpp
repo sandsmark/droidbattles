@@ -17,14 +17,14 @@
 
 #include "rocketlauncher.h"
 
-rocketlauncher::rocketlauncher( screenobject &object,int level )
+rocketlauncher::rocketlauncher( screenobject &object,int level, int offset )
 {
 	ourlevel = level;
 	ourbot = &object;
 	int count;
 	int count2;
 	readiness = 200;
-	relang = 0;
+	relang = offset*4;
 	for( count=0;count<3;count++ )
 	{
 		for( count2=0;count2<4;count2++ )
@@ -56,7 +56,8 @@ void rocketlauncher::execute( )
 	{
 		if( readiness > 100 )
 		{
-			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),ourbot->getdir( )+relang,6,distance );
+			ourbot->addscrobject( ourbot->getXpos( ),ourbot->getYpos( ),
+														ourbot->getdir( )+relang,6,distance );
 			moveportstack( 1 );
 			readiness -= ourlevel;
 		}

@@ -66,7 +66,7 @@ void missile::eraseobject( QWidget *buffer )
 	/**
 		* Paint the shot on the screen
 		*/
-void missile::showobject( QWidget *buffer,int opt = 0 )
+void missile::showobject( QWidget *buffer,int opt )
 {
 	if( opt == 0 )
 		bitBlt( buffer,( getXpos( )>>6 )-4,( getYpos( )>>6 )-4,graphics );

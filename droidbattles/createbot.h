@@ -22,7 +22,7 @@
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
 #include <qmenubar.h>
-#include <qmultilinedit.h>
+#include "myqmultilineedit.h"
 #include <qscrollview.h>
 #include <qstring.h>
 #include <qcombobox.h>
@@ -32,7 +32,7 @@
 #include <qtextstream.h>
 #include "instruktion.h"
 #include <qregexp.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include <qfiledialog.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
@@ -40,7 +40,8 @@
 #include "quickconf.h"
 #include "confstruct.h"
 #include "pixmapholder.h"
-/**The base widget for the bot editor, contains an editor, an assembler and more
+#include "assert.h"
+/**The base widget for the bot editor, contains an editor, an assembler
   *@author Andreas Agorander
   */
 
@@ -78,15 +79,17 @@ class createbot : public QWidget
 		void devchanged( );
 		void scrollview( int );
 		void resizeEvent( QResizeEvent *e );
+		void setEdittxtScrollValue( int i );
+		void setShowlatencyScrollValue( int i );
 
 	private:
 
 		unsigned int RAMAMOUNT;
 		QMessageBox *ermsg;
 		unsigned char *mem;
-		QMultiLineEdit *edittxt;
+		myQMultiLineEdit *edittxt;
 		QScrollView *scroller;
-		QMultiLineEdit *showlatency;
+		myQMultiLineEdit *showlatency;
 		devchoice* devices[32];
 		QPopupMenu *File;
 		QPopupMenu *Edit;

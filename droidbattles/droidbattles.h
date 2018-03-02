@@ -1,5 +1,5 @@
 /***************************************************************************
-                          battlebots.h  -  description
+                          droidbattles.h  -  description
                              -------------------
     begin                : Sat Apr  1 17:40:01 CEST 2000
     copyright            : (C) 2000 by Andreas Agorander
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef BATTLEBOTS_H
-#define BATTLEBOTS_H
+#ifndef DROIDBATTLES_H
+#define DROIDBATTLES_H
 
 // include files for QT
 #include <qstring.h>
@@ -47,7 +47,7 @@
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif
-#include <unistd.h>
+//#include <unistd.h>
 #include "createbot.h"
 #include "startsbatt.h"
 #include "startsurvbatt.h"
@@ -56,11 +56,11 @@
 #include "commonsymbols.h"
 #include "confedit.h"
 #include "starttournament.h"
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <installdir.h>
+#include <time.h>
+//#include <resource.h>
+#include "installdir.h"
 #include "kothtournament.h"
-#include <matchresult.h>
+#include "matchresult.h"
 #include "startcup.h"
 #include "docbrowser.h"
 #include "pixbutton.h"
@@ -71,17 +71,20 @@
   * This Class is the base class for the application. It sets up the main
   * window and providing buttons for starting other parts of the program
   */
-class BattleBots : public QWidget
+class DroidBattles : public QWidget
 {
   Q_OBJECT
-  
+
   public:
-    BattleBots( );
-    ~BattleBots( );
-		void enabletourneys( );
-		void disabletourneys( );
+    DroidBattles( );
+    ~DroidBattles( );
 
   private:
+
+		void enabletourneys( );
+		void disabletourneys( );
+		void enablebattles( );
+		void disablebattles( );
 
 		/** The buttons that are in the main widget */
 		PixButton *menubuttons[12];
@@ -110,6 +113,8 @@ class BattleBots : public QWidget
 		/** Status variables */
 		bool editrunning;
 		bool battlerunning;
+
+		// State variables for battle and tournament management
 		int teams[8];
 		int wingames[64];
 		int winmatches[64];
@@ -126,6 +131,7 @@ class BattleBots : public QWidget
 
 	private slots:
 
+		//Menu Item functions
 		void createb( );
 		void about( );
 		void showb( );

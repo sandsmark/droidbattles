@@ -20,8 +20,8 @@
 
 
 /**
-	* The memmodule for bots and others, mainly used by CPU
-	* ovised functions for reading/writing to memory
+	* The memmodule for bots and others, mainly used by CPU devices
+	* contains functions for reading/writing to memory
 	* @author Andreas Agorander
 	*/
 

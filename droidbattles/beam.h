@@ -18,7 +18,7 @@
 #ifndef BEAM_H
 #define BEAM_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include "battlearea.h"
 /**
 	* The "beam" screenobject, (lazerlike shot)
@@ -27,6 +27,8 @@
 
 class beam : public screenobject
 {
+
+	Q_OBJECT
 
 	public:
 		beam( int X,int Y,int dir,int l,battlearea &area, int owner );

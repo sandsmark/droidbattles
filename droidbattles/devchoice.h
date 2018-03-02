@@ -31,9 +31,9 @@
 #include "confstruct.h"
 #include <qtextstream.h>
 #include <qfile.h>
-#include <commonsymbols.h>
+#include "commonsymbols.h"
 #include <qdir.h>
-#include <createbot.h>
+#include "createbot.h"
 #include "infobox.h"
 
 /**
@@ -52,7 +52,8 @@ class devchoice : public QWidget
 
 	public:
 
-		devchoice( createbot *cre,QWidget *parent=0, const char *name=0, int num=0 );
+		devchoice( createbot *cre,QWidget *parent=0, const char *name=0,
+							 int num=0 );
 		~devchoice( );
 		unsigned short getitem( );
 		int getlevel( );

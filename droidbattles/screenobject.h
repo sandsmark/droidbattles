@@ -44,7 +44,8 @@ class screenobject : public QObject
 		const int getdir( );
 		const int getspeed( );
 		const int getnum( );
-		virtual void addscrobject( int X,int Y,int dir,int type,int arg1=0,int arg2=0, void *arg3=0 );
+		virtual void addscrobject( int X,int Y,int dir,int type,int arg1=0,
+															 int arg2=0, void *arg3=0 );
 		virtual int getdevport( unsigned char port );
 		virtual void putdevport( unsigned char port,unsigned short value );
 		virtual int execute( );

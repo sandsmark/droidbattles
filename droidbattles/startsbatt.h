@@ -19,13 +19,11 @@
 #define STARTSBATT_H
 
 #include <qwidget.h>
-//#include <qcloseevent.h>
 #include <qlabel.h>
 #include <qstring.h>
 #include "commonsymbols.h"
 #include <qlineedit.h>
 #include <qfiledialog.h>
-//#include "numvalid.h"
 #include <qvalidator.h>
 #include <qspinbox.h>
 #include <qcombobox.h>
@@ -72,6 +70,7 @@ class startsbatt : public QWidget
 	protected:
 
 		virtual void loadfilesettings( );
+		virtual void resizeEvent( QResizeEvent *e );
 		int numofbots;
 		QString botfiles[8];
 		QLabel *shownames[8];
@@ -84,9 +83,6 @@ class startsbatt : public QWidget
 		PixButton *press[2];
 		PixButton *readyb;
 		PixButton *cancelb;
-//		QPushButton *press[2];
-//		QPushButton *readyb;
-//		QPushButton *cancelb;
 		QLabel *maxxinfo;
 		QLabel *maxyinfo;
 		QSpinBox *maxx;

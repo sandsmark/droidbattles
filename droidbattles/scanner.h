@@ -29,20 +29,17 @@
 /**A radar device
   *@author Andreas Agorander
   */
-
 class scanner : public device
 {
-
 	public:
-
-		scanner( screenobject &object,int );
+		scanner( screenobject &object,int arg1,int offset );
 		~scanner( );
 		void execute( );
 		int getfromport( unsigned char port );
 		void erasegfx( QWidget *buffer );
 		void showgfx( QWidget *buffer );
-	private:
 
+	private:
 		int threshold;
 		int scanshow;
 		int lastpaintX;

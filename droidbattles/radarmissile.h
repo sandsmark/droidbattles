@@ -18,7 +18,7 @@
 #ifndef RADARMISSILE_H
 #define RADARMISSILE_H
 
-#include <screenobject.h>
+#include "screenobject.h"
 #include "battlearea.h"
 #include "ram.h"
 #include "robcpu.h"
@@ -32,6 +32,8 @@
 
 class radarmissile : public screenobject
 {
+
+	Q_OBJECT
 
 	public:
 
@@ -48,9 +50,9 @@ class radarmissile : public screenobject
 		int getsize( );
 		int getdevport( unsigned char port );
 		void putdevport( unsigned char port,unsigned short value );
-//iodevtodev( int dev,int action,int value );
 		int iodevtobatt( int bot,int dev,int choice,int arg1,int arg2 );
 		int returnradar( );
+    void createDbgWindow(int, QMultiLineEdit*, int*, int*);
 
 	private:
 
@@ -58,6 +60,7 @@ class radarmissile : public screenobject
 		int strength;
 		RAM *ramdevice;
 		device *devices[3];
+    debugwindow* dbgWindow;
 };
 
 #endif

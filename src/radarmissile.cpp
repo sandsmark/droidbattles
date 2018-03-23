@@ -43,7 +43,7 @@ RadarMissile::RadarMissile (int X,int Y,int dir,int bootm,int stm,int mnum,
     {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
-        graphics = PixmapHolder::getpmp (4);
+        graphics = PixmapHolder::getpmp (PixmapHolder::RadarMissile);
     }
     ramdevice = mem;
     ramdevice->addowner();

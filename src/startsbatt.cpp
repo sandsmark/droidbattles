@@ -43,9 +43,9 @@ StartsBatt::StartsBatt()
         team[x]->addItem ("3");
         team[x]->addItem ("4");
     }
-    press[0] = new PixButton ("load",1,this);
+    press[0] = new PixButton ("load", this);
     press[0]->setGeometry (0,0,80,40);
-    press[1] = new PixButton ("remove",1,this);
+    press[1] = new PixButton ("remove", this);
     press[1]->setGeometry (85,0,80,40);
 
     ifteams = new QCheckBox ("Teams",this);
@@ -56,9 +56,9 @@ StartsBatt::StartsBatt()
     QObject::connect (press[1],SIGNAL (clicked()),this,
                       SLOT (dechoosefile()));
 
-    readyb = new PixButton ("OK",1,this);
+    readyb = new PixButton ("OK", this);
     readyb->setGeometry (100,500,80,40);
-    cancelb = new PixButton ("cancel",1,this);
+    cancelb = new PixButton ("cancel", this);
     cancelb->setGeometry (200,500,80,40);
 
     QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
@@ -94,7 +94,7 @@ StartsBatt::StartsBatt()
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
-    setPixmap(PixmapHolder::getpm(3));
+    setPixmap(PixmapHolder::getpm(PixmapHolder::MetalBackground));
 //	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
     setMinimumSize (300,570);
     loadfilesettings();

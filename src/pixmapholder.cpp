@@ -30,7 +30,7 @@ PixmapHolder::~PixmapHolder()
 {
 }
 
-void PixmapHolder::addpm (QString name,int num)
+void PixmapHolder::addpm (QString name, PixmapId num)
 {
     pm[num] = new QPixmap (name);
     if (pm[num]->isNull()) {
@@ -38,7 +38,7 @@ void PixmapHolder::addpm (QString name,int num)
     }
 }
 
-QPixmap & PixmapHolder::getpm (int num)
+QPixmap & PixmapHolder::getpm (PixmapId num)
 {
     if (pm[num]->isNull()) {
         qWarning() << "Queried for invalid pixmap" << num;
@@ -46,7 +46,7 @@ QPixmap & PixmapHolder::getpm (int num)
     return *pm[num];
 }
 
-QPixmap * PixmapHolder::getpmp (int num)
+QPixmap * PixmapHolder::getpmp (PixmapId num)
 {
     if (pm[num]->isNull()) {
         qWarning() << "Queried for invalid pixmap point" << num;

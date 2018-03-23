@@ -20,10 +20,9 @@
 #include <QStylePainter>
 #include <QStyleOptionButton>
 
-PixButton::PixButton (QString text,int pix,QWidget *parent)
+PixButton::PixButton (QString text,QWidget *parent)
         : QPushButton (text, parent)
 {
-    whichpix = pix;
     tex = text;
 }
 
@@ -42,6 +41,6 @@ void PixButton::paintEvent (QPaintEvent *event)
 //    }
 //    QPushButton::paintEvent(event);
     QPainter paint(this);
-    paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(PixmapHolder::getpm(whichpix)));
+    paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(PixmapHolder::getpm(PixmapHolder::BackButton)));
     paint.drawText (isDown() ? 1 : 0, isDown() ? 1 : 0, width(), height(), Qt::AlignCenter, tex);
 }

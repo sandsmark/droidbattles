@@ -137,9 +137,9 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     mydrw->show();
 //    mydrw->setBackgroundMode (Qt::PaletteBase);
     mydrw->setPalette (QPalette (QColor (0,0,0)));
-    playb = new PixButton ("Play",1,this);
-    pauseb = new PixButton ("Pause",1,this);
-    singles = new PixButton ("Singlestep",1,this);
+    playb = new PixButton ("Play", this);
+    pauseb = new PixButton ("Pause", this);
+    singles = new PixButton ("Singlestep", this);
     playb->setGeometry (540,20,70,20);
     pauseb->setGeometry (540,40,70,20);
     singles->setGeometry (540,60,70,20);
@@ -168,7 +168,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     resize (640,570);
     startonebattle (firstrun);
 
-    setPixmap(PixmapHolder::getpm (3));
+    setPixmap(PixmapHolder::getpm (PixmapHolder::MetalBackground));
 }
 
 void BattleArea::resizeEvent (QResizeEvent*)

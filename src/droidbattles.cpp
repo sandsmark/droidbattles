@@ -81,24 +81,24 @@ DroidBattles::DroidBattles()
     setFixedSize (500,350);
 
     //Load all pixmaps used by the application
-    PixmapHolder::addpm (":/images/mainmenu.png", 0);
+    PixmapHolder::addpm (":/images/mainmenu.png", PixmapHolder::MainMenu);
 
-    PixmapHolder::addpm (":/images/backbutton.xpm", 1);
+    PixmapHolder::addpm (":/images/backbutton.xpm", PixmapHolder::BackButton);
 
-    PixmapHolder::addpm (":/images/metal.png", 2);
+    PixmapHolder::addpm (":/images/metal.png", PixmapHolder::Metal);
 
-    PixmapHolder::addpm (":/images/metalback2.png", 3);
+    PixmapHolder::addpm (":/images/metalback2.png", PixmapHolder::MetalBackground);
 
-    PixmapHolder::addpm (":/images/radarmissile.bmp", 4);
+    PixmapHolder::addpm (":/images/radarmissile.bmp", PixmapHolder::RadarMissile);
 
-    PixmapHolder::addpm (":/images/chaff.bmp", 5);
+    PixmapHolder::addpm (":/images/chaff.bmp", PixmapHolder::Chaff);
 
-    PixmapHolder::addpm (":/images/mine.xpm", 6);
+    PixmapHolder::addpm (":/images/mine.xpm", PixmapHolder::Mine);
 
-    PixmapHolder::addpm (":/images/missile.xpm", 7);
+    PixmapHolder::addpm (":/images/missile.xpm", PixmapHolder::Missile);
 
     QPalette palette;
-    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (0)));
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MainMenu)));
     setPalette(palette);
 
 //    menubuttons[0] =  new QPushButton ("Bot-creator", this);
@@ -113,17 +113,17 @@ DroidBattles::DroidBattles()
 //    menubuttons[9] =  new QPushButton ("Documentation", this);
 //    menubuttons[10] = new QPushButton ("Quit", this);
 
-    menubuttons[0] =  new PixButton ("Bot-creator",1, this);
-    menubuttons[1] =  new PixButton ("Config editor",1, this);
-    menubuttons[2] =  new PixButton ("Normal battle",1, this);
-    menubuttons[3] =  new PixButton ("Deathmatch battle",1, this);
-    menubuttons[4] =  new PixButton ("Survival battle",1, this);
-    menubuttons[5] =  new PixButton ("League tournament",1, this);
-    menubuttons[6] =  new PixButton ("KOTH tournament",1, this);
-    menubuttons[7] =  new PixButton ("Cup tournament",1, this);
-    menubuttons[8] =  new PixButton ("About DroidBattles",1, this);
-    menubuttons[9] =  new PixButton ("Documentation",1, this);
-    menubuttons[10] = new PixButton ("Quit",1, this);
+    menubuttons[0] =  new PixButton ("Bot-creator", this);
+    menubuttons[1] =  new PixButton ("Config editor", this);
+    menubuttons[2] =  new PixButton ("Normal battle", this);
+    menubuttons[3] =  new PixButton ("Deathmatch battle", this);
+    menubuttons[4] =  new PixButton ("Survival battle", this);
+    menubuttons[5] =  new PixButton ("League tournament", this);
+    menubuttons[6] =  new PixButton ("KOTH tournament", this);
+    menubuttons[7] =  new PixButton ("Cup tournament", this);
+    menubuttons[8] =  new PixButton ("About DroidBattles", this);
+    menubuttons[9] =  new PixButton ("Documentation", this);
+    menubuttons[10] = new PixButton ("Quit", this);
 
     menubuttons[0]->setGeometry (90,20,320,30);
     menubuttons[1]->setGeometry (70,60,360,30);

@@ -28,11 +28,22 @@
 class PixmapHolder
 {
 public:
+    enum PixmapId {
+        MainMenu = 0,
+        BackButton = 1,
+        Metal = 2,
+        MetalBackground = 3,
+        RadarMissile = 4,
+        Chaff = 5,
+        Mine = 6,
+        Missile = 7
+    };
+
     PixmapHolder();
     ~PixmapHolder();
-    static void addpm (QString name, int num);
-    static QPixmap & getpm (int num);
-    static QPixmap * getpmp (int num);
+    static void addpm (QString name, PixmapId num);
+    static QPixmap & getpm (PixmapId num);
+    static QPixmap * getpmp (PixmapId num);
 };
 
 #endif

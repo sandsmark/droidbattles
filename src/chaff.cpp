@@ -33,7 +33,7 @@ Chaff::Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui)
     {
         erasegfx = new QPixmap(12, 12);
         erasegfx->fill(Qt::black);
-        graphics = PixmapHolder::getpmp (5);
+        graphics = PixmapHolder::getpmp (PixmapHolder::Chaff);
     }
     timeleft = 159;
     ourarea = &area;

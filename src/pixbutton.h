@@ -33,13 +33,12 @@
 class PixButton : public QPushButton
 {
 public:
-    PixButton (QString text,int pix,QWidget *parent);
+    PixButton (QString text, QWidget *parent);
     ~PixButton();
 protected:
     void paintEvent (QPaintEvent *event) override;
 private:
     QString tex;
-    int whichpix;
 };
 
 #endif

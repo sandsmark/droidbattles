@@ -41,7 +41,7 @@ Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &ar
     {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
-        graphics = PixmapHolder::getpmp (7);
+        graphics = PixmapHolder::getpmp (PixmapHolder::Missile);
     }
 }
 

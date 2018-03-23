@@ -40,7 +40,7 @@
   *@author Andreas Agorander
   */
 
-class KothTournament : public QWidget
+class KothTournament : public QDialog
 {
 
     Q_OBJECT

@@ -27,6 +27,7 @@
 #include "textmodebattlearea.h"
 #include <string.h>
 #include <QDebug>
+#include <QStyleFactory>
 
 void startbattle (int argc, char *argv[])
 {
@@ -195,13 +196,13 @@ int main (int argc, char *argv[])
 //    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling, false);
 //    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 //    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    qputenv("QT_SCALE_FACTOR", "2");
+//    qputenv("QT_SCALE_FACTOR", "2");
     QApplication a (argc, argv, useGUI);
 
     if (useGUI)
     {
-        //If you want another look change QPlatinumStyle to
-        //one of: QCDEStyle, QWindowsStyle, QMotifStyle
+        QApplication::setStyle(QStyleFactory::create("Fusion"));
+
 //        a.setStyle( new QWindowsStyle );
 //        a.setFont (QFont ("helvetica", 8));
         QFont font(a.font());

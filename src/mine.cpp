@@ -36,7 +36,7 @@ Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
     {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill (Qt::black);
-        graphics = PixmapHolder::getpmp (6);
+        graphics = PixmapHolder::getpmp (PixmapHolder::Mine);
     }
 
 }

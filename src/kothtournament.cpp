@@ -32,11 +32,11 @@ KothTournament::KothTournament()
     botfiles = new QListWidget (this);
     botfiles->setGeometry (10,75,270,170);
 
-    press[0] = new PixButton ("load",1,this);
+    press[0] = new PixButton ("load", this);
     press[0]->setGeometry (0,0,80,40);
-    press[1] = new PixButton ("remove",1,this);
+    press[1] = new PixButton ("remove", this);
     press[1]->setGeometry (85,0,80,40);
-    loadlist = new PixButton ("load list",1,this);
+    loadlist = new PixButton ("load list", this);
     loadlist->setGeometry (170,0,80,40);
 
     iffast = new QCheckBox ("Fast (nodelay) battle",this);
@@ -49,9 +49,9 @@ KothTournament::KothTournament()
     QObject::connect (loadlist,SIGNAL (clicked()),this,
                       SLOT (chooselist()));
 
-    readyb = new PixButton ("OK",1,this);
+    readyb = new PixButton ("OK", this);
     readyb->setGeometry (100,500,80,40);
-    cancelb = new PixButton ("cancel",1,this);
+    cancelb = new PixButton ("cancel", this);
     cancelb->setGeometry (200,500,80,40);
 
     QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));

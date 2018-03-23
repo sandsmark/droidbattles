@@ -53,9 +53,9 @@ QuickConf::QuickConf()
     QObject::connect (press[1],SIGNAL (clicked()),this,
                       SLOT (dechoosefile()));
 
-    readyb = new PixButton ("write file",1,this);
+    readyb = new PixButton ("write file", this);
     readyb->setGeometry (100,500,80,40);
-    cancelb = new PixButton ("Exit",1,this);
+    cancelb = new PixButton ("Exit", this);
     cancelb->setGeometry (200,500,80,40);
 
     QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));

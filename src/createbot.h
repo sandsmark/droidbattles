@@ -81,6 +81,7 @@ private slots:
     void setShowlatencyScrollValue (int i);
 
 private:
+    bool loadFile(QString filename);
 
     unsigned int RAMAMOUNT;
     QMessageBox *ermsg;

@@ -40,7 +40,7 @@
 #include <sys/resource.h>
 #endif
 
-#define VERSION "1.0.7"
+#define VERSION "2.0.0"
 /**
 	* Constructor, creates the main menu, it's buttons
 	* and connects them
@@ -353,8 +353,8 @@ void DroidBattles::createb()
 void DroidBattles::about()
 {
     QMessageBox::information (this, "About DroidBattles",
-                              "DroidBattles " VERSION " 2005-10-07 by Andreas Agorander (Bluefire@bluefire.nu)\n"
-                              "get the latest version at http://www.bluefire.nu/droidbattles");
+                              "DroidBattles " VERSION " 2018 Martin Sandsmark, 2005-10-07 by Andreas Agorander (Bluefire@bluefire.nu)\n"
+                              "get the latest version at https://github.com/sandsmark/droidbattles");
 }
 
 void DroidBattles::showb()

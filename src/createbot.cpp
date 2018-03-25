@@ -28,6 +28,7 @@
 #include <qregexp.h>
 #include <QTextStream>
 #include <QTextBlock>
+#include <QSettings>
 #include <unistd.h>
 #include "battlearea.h"
 #include "quickconf.h"
@@ -361,6 +362,13 @@ CreateBot::CreateBot()
     instrlatency[240] = 1;
     instrlatency[241] = 1;
     instrlatency[242] = 1;
+
+    QSettings settings;
+    settings.beginGroup("editor");
+    QString filename = settings.value("lastfile").toString();
+    if (!filename.isEmpty()) {
+        loadFile(filename);
+    }
 }
 
 void CreateBot::resizeEvent (QResizeEvent *)
@@ -477,54 +485,77 @@ void CreateBot::open()
             break;
         }
     }
-    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot source file"), QDir::homePath(), "*.basm");
-    if (!tempname.isEmpty())
+
+    QSettings settings;
+    settings.beginGroup("editor");
+    QString filename = settings.value("lastfile").toString();
+    if (filename.isEmpty()) {
+        filename = QDir::homePath();
+    }
+
+    filename = QFileDialog::getOpenFileName (this, tr("Select bot source file"), filename, "*.basm");
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    if (loadFile(filename)) {
+        settings.setValue("lastfile", filename);
+    }
+}
+
+bool CreateBot::loadFile(QString tempname)
+{
+    if (tempname.isEmpty()) {
+        return false;
+    }
+
+    QFile f (tempname);
+    if (!f.open (QIODevice::ReadOnly))
     {
-        QFile f (tempname);
-        if (!f.open (QIODevice::ReadOnly))
-        {
-            error ("Couldn't open file!",0);
-            return;
-        }
-        QString tline;
-        QTextStream s (&f);
-        unsigned short i;
-//		char v;
+        error ("Couldn't open file!",0);
+        return false;
+    }
+    QString tline;
+    QTextStream s (&f);
+    unsigned short i;
+    //		char v;
+    s >> tline;
+    s >> i;
+    amountRAM->setCurrentIndex (i);
+    showlatency->clear();
+    int x;
+    for (x=0; x<32; x++)
+    {
         s >> tline;
         s >> i;
-        amountRAM->setCurrentIndex (i);
-        showlatency->clear();
-        int x;
-        for (x=0; x<32; x++)
-        {
-            s >> tline;
-            s >> i;
-            devices[x]->setitem (i);
-            s >> i;
-            devices[x]->levelchosen (i);
-            s >> tline;
-            devices[x]->setarg1 (tline);
-        }
-        tline = s.readLine();
-        tline = s.readLine();
-        edittxt->clear();
-        while (!s.atEnd())
-        {
-            tline = s.readLine();
-            edittxt->appendPlainText (tline);
-        }
-        f.close();
-        botname = tempname.left (tempname.length()-5);
-        tempname = botname;
-        tempname += ".bmp";
-        QFile f2 (tempname);
-        if (f2.exists())
-            gfx.load (tempname);
-        else
-            gfx = QPixmap();
+        devices[x]->setitem (i);
+        s >> i;
+        devices[x]->levelchosen (i);
+        s >> tline;
+        devices[x]->setarg1 (tline);
     }
+    tline = s.readLine();
+    tline = s.readLine();
+    edittxt->clear();
+    while (!s.atEnd())
+    {
+        tline = s.readLine();
+        edittxt->appendPlainText (tline);
+    }
+    f.close();
+    botname = tempname.left (tempname.length()-5);
+    tempname = botname;
+    tempname += ".bmp";
+    QFile f2 (tempname);
+    if (f2.exists())
+        gfx.load (tempname);
+    else
+        gfx = QPixmap();
+
     changed = false;
     edittxt->document()->setModified(false);
+
+    return true;
 }
 
 /**

@@ -1280,921 +1280,911 @@ void CreateBot::assemble()
     QFile f (tempname);
     while (end != true && linenum < edittxt->document()->lineCount())              //If we still have lines left to compile
     {
-        if (edittxt->document()->lineCount() > linenum)
+        curline = edittxt->document()->findBlockByLineNumber(linenum).text();   //Load one line
+        QString insertstr = "";
+        for (i=0; i<15; i++)
         {
-            curline = edittxt->document()->findBlockByLineNumber(linenum).text();   //Load one line
-            QString insertstr = "";
-            for (i=0; i<15; i++)
+            value[i][0]=0;
+            value[i][1]=0;
+            exist[i]=false;
+            tunres[i]=false;
+            token[i]="";
+            type[i]=Instruction::None;
+            unresnum[i]=0;
+        }
+        bits=0;
+        if (curline.length() > 1)
+        {
+            //Chop of line comments and such
+            tpos = curline.indexOf(QRegExp ("[;\\n\\r]"),0);
+            tempstring = curline.left (tpos);
+            curline = tempstring;
+            tpos = curline.indexOf (QRegExp ("[a-zA-Z0-9_#:%@$]"),0);
+            curline = curline.right (curline.length()-tpos);
+            if (curline.length() <= 1)
             {
-                value[i][0]=0;
-                value[i][1]=0;
-                exist[i]=false;
-                tunres[i]=false;
-                token[i]="";
-                type[i]=Instruction::None;
-                unresnum[i]=0;
+                showlatency->appendPlainText(" ");
+                linenum++;
+                continue;
             }
-            bits=0;
-            if (curline.length() > 1)
+
+            // divide into tokens
+            /////////////////////
+            // take the tokens
+            const QStringList tokens = curline.split(QRegExp ("[\\s,\\x0]"), QString::SkipEmptyParts);
+            for (i=0; i<tokens.length(); i++) {
+                token[i] = tokens[i];
+                exist[i] = true;
+            }
+
+            //Assign types and values to all tokens
+            //types: 0-none
+            //       1-label
+            //	   2-mnemonic
+            //	   3-value
+            //	   4-memadress (@value)
+            //	   5-register
+            //       6-const declaration
+            //	   7-org
+            //	   8-vardeclaration
+            //	   9-cpuboot
+            //	  10-cpustack
+            //	  11-db
+            //	  12-bit-identifier
+            //	  13-@register
+            ///////////////////////////////////////
+            //Check if the first token is a label
+            if (token[0].left (1) == QString (":"))
             {
-                //Chop of line comments and such
-                tpos = curline.indexOf(QRegExp ("[;\\n\\r]"),0);
-                tempstring = curline.left (tpos);
-                curline = tempstring;
-                tpos = curline.indexOf (QRegExp ("[a-zA-Z0-9_#:%@$]"),0);
-                curline = curline.right (curline.length()-tpos);
-                if (curline.length() <= 1)
+                if (token[0].length() > 1)
                 {
-                    showlatency->appendPlainText(" ");
-                    linenum++;
-                    continue;
-                }
-
-                // divide into tokens
-                /////////////////////
-                // take the tokens
-                const QStringList tokens = curline.split(QRegExp ("[\\s,\\x0]"), QString::SkipEmptyParts);
-                for (i=0; i<tokens.length(); i++) {
-                    token[i] = tokens[i];
-                    exist[i] = true;
-                }
-
-                //Assign types and values to all tokens
-                //types: 0-none
-                //       1-label
-                //	   2-mnemonic
-                //	   3-value
-                //	   4-memadress (@value)
-                //	   5-register
-                //       6-const declaration
-                //	   7-org
-                //	   8-vardeclaration
-                //	   9-cpuboot
-                //	  10-cpustack
-                //	  11-db
-                //	  12-bit-identifier
-                //	  13-@register
-                ///////////////////////////////////////
-                //Check if the first token is a label
-                if (token[0].left (1) == QString (":"))
-                {
-                    if (token[0].length() > 1)
+                    type[0] = Instruction::Label;
+                    int x;
+                    for (x=0; x<2047; x++)
                     {
-                        type[0] = Instruction::Label;
-                        int x;
-                        for (x=0; x<2047; x++)
-                        {
-                            if (existn[x] == false) break;
-                        }
-                        names[x] = token[0].right (token[0].length()-1);
-                        nvalues[x] = posinmem;
-                        existn[x] = true;
-                        if (exist[1]==true)
-                        {
-                            error ("Expected: only one token",linenum);
-                            return;
-                        }
+                        if (existn[x] == false) break;
                     }
-                    else
+                    names[x] = token[0].right (token[0].length()-1);
+                    nvalues[x] = posinmem;
+                    existn[x] = true;
+                    if (exist[1]==true)
                     {
-                        error ("Expected: name of label",linenum);
+                        error ("Expected: only one token",linenum);
                         return;
                     }
                 }
-                //Check for vardeclaration
-                if (type[0] == Instruction::None && token[0].left (1) == QString ("#"))
+                else
                 {
-                    if (token[0].length() > 1)
+                    error ("Expected: name of label",linenum);
+                    return;
+                }
+            }
+            //Check for vardeclaration
+            if (type[0] == Instruction::None && token[0].left (1) == QString ("#"))
+            {
+                if (token[0].length() > 1)
+                {
+                    type[0] = Instruction::ConstDecl;
+                    int x;
+                    for (x=0; x<2047; x++)
                     {
-                        type[0] = Instruction::ConstDecl;
-                        int x;
-                        for (x=0; x<2047; x++)
-                        {
-                            if (existn[x] == false) break;
-                        }
-                        names[x] = token[0].right (token[0].length()-1);
-                        nvalues[x] = posinmem;
-                        existn[x] = true;
-                        if (exist[1] == true)
-                        {
-                            error ("Expected: only one token",linenum);
-                            return;
-                        }
+                        if (existn[x] == false) break;
                     }
-                    else
+                    names[x] = token[0].right (token[0].length()-1);
+                    nvalues[x] = posinmem;
+                    existn[x] = true;
+                    if (exist[1] == true)
                     {
-                        error ("Expected: name of variable", linenum);
+                        error ("Expected: only one token",linenum);
                         return;
                     }
                 }
-
-                //Check for const declarations
-                if (type[0] == Instruction::None && token[0].left (1) == QString ("$"))
+                else
                 {
-                    if (token[0].length() > 1)
+                    error ("Expected: name of variable", linenum);
+                    return;
+                }
+            }
+
+            //Check for const declarations
+            if (type[0] == Instruction::None && token[0].left (1) == QString ("$"))
+            {
+                if (token[0].length() > 1)
+                {
+                    type[0] = Instruction::VarDecl;
+                    int x;
+                    for (x=0; x<2047; x++)
                     {
-                        type[0] = Instruction::VarDecl;
-                        int x;
-                        for (x=0; x<2047; x++)
+                        if (existn[x] == false) break;
+                    }
+                    names[x] = token[0].right (token[0].length()-1);
+                    existn[x] = true;
+                    if (exist[1]==true)
+                    {
+                        nvalues[x] = token[1].toInt();
+                        //							if( nvalues[x] < 0 )nvalues[x] += 65536;
+                    }
+                    else
+                    {
+                        error ("Expected: value of constant",linenum);
+                        return;
+                    }
+                    if (exist[2] == true)
+                    {
+                        error ("Expected: only two tokens",linenum);
+                        return;
+                    }
+                }
+                else
+                {
+                    error ("Expected: name of constant", linenum);
+                    return;
+                }
+            }
+            //Check for db
+            if (type[0] == Instruction::None && token[0] == QString ("db"))
+            {
+                type[0] = Instruction::Db;
+                for (i=1; i<15; i++)
+                {
+                    if (exist[i] == true)
+                    {
+                        tpos = token[i].toInt (&ok);
+                        if (ok == false)
                         {
-                            if (existn[x] == false) break;
-                        }
-                        names[x] = token[0].right (token[0].length()-1);
-                        existn[x] = true;
-                        if (exist[1]==true)
-                        {
-                            nvalues[x] = token[1].toInt();
-//							if( nvalues[x] < 0 )nvalues[x] += 65536;
+                            int x;
+                            for (x=0; x<2047; x++)
+                            {
+                                if (existn[x] == true)
+                                {
+                                    if (token[i] == names[x])
+                                    {
+                                        mem[posinmem+256] = nvalues[x];
+                                        posinmem++;
+                                    }
+                                }
+                            }
                         }
                         else
                         {
-                            error ("Expected: value of constant",linenum);
-                            return;
+                            //								if( tpos < 0 )tpos += 129;
+                            mem[posinmem+256] = tpos;
+                            posinmem++;
                         }
-                        if (exist[2] == true)
+                    }
+                }
+            }
+            //Check for dw
+            if (type[0] == Instruction::None && token[0] == QString ("dw"))
+            {
+                type[0] = Instruction::Db;
+                for (i=1; i<15; i++)
+                {
+                    if (exist[i] == true)
+                    {
+                        tpos = token[i].toInt (&ok);
+                        if (ok == false)
                         {
-                            error ("Expected: only two tokens",linenum);
-                            return;
+                            int x;
+                            for (x=0; x<2047; x++)
+                            {
+                                if (existn[x] == true)
+                                {
+                                    if (token[i] == names[x])
+                                    {
+                                        mem[posinmem+256] = nvalues[x]%256;
+                                        mem[posinmem+257] = int (nvalues[x]/256);
+                                        posinmem += 2;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (tpos < 0) tpos += 65536;
+                            mem[posinmem+256] = tpos%256;
+                            mem[posinmem+257] = int (tpos/256);
+                            posinmem += 2;
+                        }
+                    }
+                }
+            }
+
+
+            //Check for %org
+            if (type[0] == Instruction::None && token[0] == QString ("%org"))
+            {
+                type[0] = Instruction::Offset;
+                if (exist[1] == true)
+                {
+                    bool isplus = token[1].startsWith('+');
+                    QString comp = token[1];
+                    if (isplus) {
+                        comp.remove(0, 1);
+                    }
+                    tpos = token[1].toInt (&ok);
+                    if (ok == false)
+                    {
+                        //If it's a symbol
+                        int x;
+                        for (x=0; x<2047; x++)
+                        {
+                            if (existn[x] == true)
+                            {
+                                if (token[1] == names[x])
+                                {
+                                    posinmem = nvalues[x];
+                                }
+                            }
+                            else
+                            {
+                                error ("Unknown symbol",linenum);
+                                return;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        //If it's a direct value
+                        if (isplus)   //if( token[1].left( 1 )=="+" )
+                            posinmem += tpos;
+                        else
+                            posinmem = tpos;
+                    }
+                }
+                else
+                {
+                    error ("Expected: value for org" ,linenum);
+                    return;
+                }
+            }
+
+            //Check for %CPUboot
+            if (type[0] == Instruction::None && token[0] == QString ("%CPUboot"))
+            {
+                type[0] = Instruction::CpuBoot;
+                if (exist[1] == true)
+                {
+                    tpos = token[1].toInt (&ok);
+                    if (ok == false)
+                    {
+                        int x;
+                        for (x=0; x<2047; x++)
+                        {
+                            if (existn[x] == true)
+                            {
+                                if (token[1] == names[x])
+                                {
+                                    if (nvalues[x]<32 && mem[nvalues[x]*6+2] == 1)
+                                    {
+                                        mem[nvalues[x]*6+4] = posinmem%256;
+                                        mem[nvalues[x]*6+5] = int (posinmem/256);
+                                    }
+                                    else
+                                    {
+                                        //Code for error in dev-value
+                                        error ("Value must be the number of a CPU device",
+                                               linenum);
+                                        return;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                error ("Unknown symbol",linenum);
+                                return;
+                            }
                         }
                     }
                     else
                     {
-                        error ("Expected: name of constant", linenum);
-                        return;
+                        //Code for non-symbol value
+                        if (tpos < 32 && mem[tpos*6+2] == 1)
+                        {
+                            mem[tpos*6+4] = posinmem%256;
+                            mem[tpos*6+5] = int (posinmem/256);
+                        }
+                        else
+                        {
+                            error ("Value must be the number of a CPU device",linenum);
+                            return;
+                        }
                     }
                 }
-                //Check for db
-                if (type[0] == Instruction::None && token[0] == QString ("db"))
+                else
                 {
-                    type[0] = Instruction::Db;
-                    for (i=1; i<15; i++)
+                    error ("Expected: number of CPU device",linenum);
+                    return;
+                }
+            }
+            //Check for %CPUstack
+            if (type[0] == Instruction::None && token[0] == QString ("%CPUstack"))
+            {
+                type[0] = Instruction::CpuStack;
+                if (exist[1] == true)
+                {
+                    tpos = token[1].toInt (&ok);
+                    if (ok == false)
                     {
-                        if (exist[i] == true)
+                        int x;
+                        for (x=0; x<2047; x++)
                         {
-                            tpos = token[i].toInt (&ok);
-                            if (ok == false)
+                            if (existn[x] == true)
                             {
-                                int x;
-                                for (x=0; x<2047; x++)
+                                if (token[1] == names[x])
                                 {
-                                    if (existn[x] == true)
+                                    if (nvalues[x]<32 && mem[nvalues[x]*6+2] == 1)
                                     {
-                                        if (token[i] == names[x])
-                                        {
-                                            mem[posinmem+256] = nvalues[x];
-                                            posinmem++;
-                                        }
+                                        mem[nvalues[x]*6+6] = posinmem%256;
+                                        mem[nvalues[x]*6+7] = int (posinmem/256);
+                                    }
+                                    else
+                                    {
+                                        //Code for error in dev-value
+                                        error ("Value must be the number of a CPU device",
+                                               linenum);
+                                        return;
                                     }
                                 }
                             }
                             else
                             {
-//								if( tpos < 0 )tpos += 129;
-                                mem[posinmem+256] = tpos;
-                                posinmem++;
+                                error ("Unknown symbol",linenum);
+                                return;
                             }
                         }
                     }
-                }
-                //Check for dw
-                if (type[0] == Instruction::None && token[0] == QString ("dw"))
-                {
-                    type[0] = Instruction::Db;
-                    for (i=1; i<15; i++)
+                    else
                     {
-                        if (exist[i] == true)
+                        //Code for non-symbol value
+                        if (tpos < 32 && mem[tpos*6+2] == 1)
                         {
-                            tpos = token[i].toInt (&ok);
-                            if (ok == false)
+                            mem[tpos*6+6] = posinmem%256;
+                            mem[tpos*6+7] = int (posinmem/256);
+                        }
+                        else
+                        {
+                            error ("Value must be the number of a CPU device",linenum);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    error ("Expected: number of CPU device",linenum);
+                    return;
+                }
+            }
+
+            //Check for %interrupt
+            if (type[0] == Instruction::None && token[0] == QString ("%interrupt"))
+            {
+                type[0] = Instruction::Interrupt;
+                if (exist[1] == true)
+                {
+                    tpos = token[1].toInt (&ok);
+                    if (ok == false)
+                    {
+                        int x;
+                        for (x=0; x<2047; x++)
+                        {
+                            if (existn[x] == true)
                             {
-                                int x;
-                                for (x=0; x<2047; x++)
+                                if (token[1] == names[x])
                                 {
-                                    if (existn[x] == true)
+                                    if (nvalues[x]<256)
                                     {
-                                        if (token[i] == names[x])
-                                        {
-                                            mem[posinmem+256] = nvalues[x]%256;
-                                            mem[posinmem+257] = int (nvalues[x]/256);
-                                            posinmem += 2;
-                                        }
+                                        mem[ (RAMAMOUNT+256- (nvalues[x]*2+2)) ] = posinmem%256;
+                                        mem[ (RAMAMOUNT+256- (nvalues[x]*2+1)) ] =
+                                                int (posinmem/256);
+                                    }
+                                    else
+                                    {
+                                        //Code for error in dev-value
+                                        error ("Value must be lower than 256",linenum);
+                                        return;
                                     }
                                 }
                             }
                             else
                             {
-                                if (tpos < 0) tpos += 65536;
-                                mem[posinmem+256] = tpos%256;
-                                mem[posinmem+257] = int (tpos/256);
-                                posinmem += 2;
+                                error ("Unknown symbol",linenum);
+                                return;
                             }
+                        }
+                    }
+                    else
+                    {
+                        //Code for non-symbol value
+                        if (tpos < 256)
+                        {
+                            mem[ (RAMAMOUNT+256- (tpos*2+2)) ] = posinmem%256;
+                            mem[ (RAMAMOUNT+256- (tpos*2+1)) ] = int (posinmem/256);
+                        }
+                        else
+                        {
+                            error ("Value must be lower than 256",linenum);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    error ("Expected: number of interrupt",linenum);
+                    return;
+                }
+            }
+
+            //Assign as mnemonic
+            if (type[0] == Instruction::None)
+            {
+                type[0] = Instruction::Mnemonic;
+                curmnem = token[0];
+            }
+            //If mnemonic Assign types to all other tokens
+            if (type[0] == Instruction::Mnemonic)
+            {
+
+                //Check for register
+                for (i=1; i<4; i++)
+                {
+                    if (exist[i] == true && type[i] == Instruction::None)
+                    {
+                        if (token[i] == QString ("ax"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = ax;
+                            bits = 16;
+                        }
+                        if (token[i] == "bx")
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = bx;
+                            bits = 16;
+                        }
+                        if (token[i] == "cx")
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = cx;
+                            bits = 16;
+                        }
+                        if (token[i] == "dx")
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = dx;
+                            bits = 16;
+                        }
+                        if (token[i] == "sp")
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = sp;
+                            bits = 16;
+                        }
+                        if (token[i] == "bp")
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = bp;
+                            bits = 16;
+                        }
+                        if (token[i] == "si")
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = si;
+                            bits = 16;
+                        }
+                        if (token[i] == QString ("di"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = di;
+                            bits = 16;
+                        }
+                        if (token[i] == QString ("eip"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = eip;
+                            bits = 16;
+                        }
+                        if (token[i] == QString ("flags"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = 0;
+                            bits = 16;
+                        }
+                        if (token[i] == QString ("ah"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = ah;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("al"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = al;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("bh"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = bh;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("bl"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = bl;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("ch"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = ch;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("cl"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = cl;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("dh"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = dh;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("dl"))
+                        {
+                            type[i] = Instruction::Register;
+                            value[i][0] = dl;
+                            bits = 8;
+                        }
+                    }
+                }
+
+                //Check for @register
+                for (i=1; i<3; i++)
+                {
+                    if (exist[i] == true && type[i] == Instruction::None && token[i].left (1) == "@")
+                    {
+                        QString tempstring = token[i].right (token[i].length()-1);
+                        if (tempstring == QString ("ax"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = ax;
+                        }
+                        if (tempstring == QString ("bx"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = bx;
+                        }
+                        if (tempstring == QString ("cx"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = cx;
+                        }
+                        if (tempstring == QString ("dx"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = dx;
+                        }
+                        if (tempstring == QString ("sp"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = sp;
+                        }
+                        if (tempstring == QString ("bp"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = bp;
+                        }
+                        if (tempstring == QString ("si"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = si;
+                        }
+                        if (tempstring == QString ("di"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = di;
+                        }
+                        if (tempstring == QString ("eip"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = eip;
+                        }
+                        if (tempstring == QString ("flags"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = 0;
+                        }
+                        if (tempstring == QString ("ah"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = ah;
+                        }
+                        if (tempstring == QString ("al"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = al;
+                        }
+                        if (tempstring == QString ("bh"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = bh;
+                        }
+                        if (tempstring == QString ("bl"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = bl;
+                        }
+                        if (tempstring == QString ("ch"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = ch;
+                        }
+                        if (tempstring == QString ("cl"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = cl;
+                        }
+                        if (tempstring == QString ("dh"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = dh;
+                        }
+                        if (tempstring == QString ("dl"))
+                        {
+                            type[i] = Instruction::RegisterRef;
+                            value[i][0] = dl;
+                        }
+                    }
+                }
+
+                //Check for bit identifier
+                for (i=1; i<3; i++)
+                {
+                    if (exist[i] == true && type[i] == Instruction::None)
+                    {
+                        if (token[i] == QString ("byte"))
+                        {
+                            type[i] = Instruction::BitId;
+                            value[i][0] = 8;
+                            bits = 8;
+                        }
+                        if (token[i] == QString ("word"))
+                        {
+                            type[i] = Instruction::BitId;
+                            value[i][0] = 16;
+                            bits = 16;
                         }
                     }
                 }
 
 
-                //Check for %org
-                if (type[0] == Instruction::None && token[0] == QString ("%org"))
+                //Check for @value
+                for (i=1; i<3; i++)
                 {
-                    type[0] = Instruction::Offset;
-                    if (exist[1] == true)
+                    if (exist[i] == true && type[i] == Instruction::None && token[i].left (1) == "@")
                     {
-                        bool isplus = token[1].startsWith('+');
-                        QString comp = token[1];
-                        if (isplus) {
+                        QString tempstring = token[i].right (token[i].length()-1);
+                        tpos = tempstring.toInt (&ok);
+                        if (ok == false)
+                        {
+                            int x;
+                            for (x=0; x<2047; x++)
+                            {
+                                if (existn[x] == true)
+                                {
+                                    if (tempstring == names[x])
+                                    {
+                                        value[i][0] = nvalues[x]%256;
+                                        value[i][1] = nvalues[x]/256;
+                                        type[i] = Instruction::MemAddress;
+                                    }
+                                }
+                            }
+                            if (type[i] == Instruction::None)
+                            {
+                                type[i] = Instruction::MemAddress;
+                                tunres[i] = true;
+                                for (x=0; x<4095; x++)
+                                {
+                                    if (unresexist[x] == false)
+                                        break;
+                                }
+                                unresexist[x] = true;
+                                unresn[x] = tempstring.right (tempstring.length());
+                                unresline[x] = linenum;
+                                unresnum[i] = x;
+                            }
+                        }
+                        else
+                        {
+                            value[i][0] = tpos%256;
+                            value[i][1] = tpos/256;
+                            type[i] = Instruction::MemAddress;
+                        }
+                    }
+                }
+
+
+                //Check for value
+                for (i=1; i<4; i++)
+                {
+                    if (exist[i] == true && type[i] == Instruction::None)
+                    {
+                        QString comp = token[i];
+                        if (comp.startsWith('+')) {
                             comp.remove(0, 1);
                         }
-                        tpos = token[1].toInt (&ok);
-                        if (ok == false)
-                        {
-                            //If it's a symbol
-                            int x;
-                            for (x=0; x<2047; x++)
-                            {
-                                if (existn[x] == true)
-                                {
-                                    if (token[1] == names[x])
-                                    {
-                                        posinmem = nvalues[x];
-                                    }
-                                }
-                                else
-                                {
-                                    error ("Unknown symbol",linenum);
-                                    return;
-                                }
-                            }
-
-                        }
-                        else
-                        {
-                            //If it's a direct value
-                            if (isplus)   //if( token[1].left( 1 )=="+" )
-                                posinmem += tpos;
-                            else
-                                posinmem = tpos;
-                        }
-                    }
-                    else
-                    {
-                        error ("Expected: value for org" ,linenum);
-                        return;
-                    }
-                }
-
-                //Check for %CPUboot
-                if (type[0] == Instruction::None && token[0] == QString ("%CPUboot"))
-                {
-                    type[0] = Instruction::CpuBoot;
-                    if (exist[1] == true)
-                    {
-                        tpos = token[1].toInt (&ok);
-                        if (ok == false)
+                        tpos = comp.toInt (&ok);
+                        if (!ok)
                         {
                             int x;
                             for (x=0; x<2047; x++)
                             {
                                 if (existn[x] == true)
                                 {
-                                    if (token[1] == names[x])
+                                    if (comp == names[x])
                                     {
-                                        if (nvalues[x]<32 && mem[nvalues[x]*6+2] == 1)
-                                        {
-                                            mem[nvalues[x]*6+4] = posinmem%256;
-                                            mem[nvalues[x]*6+5] = int (posinmem/256);
-                                        }
-                                        else
-                                        {
-                                            //Code for error in dev-value
-                                            error ("Value must be the number of a CPU device",
-                                                   linenum);
-                                            return;
-                                        }
+                                        value[i][0] = nvalues[x]%256;
+                                        value[i][1] = nvalues[x]/256;
+                                        type[i] = Instruction::Value;
                                     }
                                 }
-                                else
-                                {
-                                    error ("Unknown symbol",linenum);
-                                    return;
-                                }
                             }
-                        }
-                        else
-                        {
-                            //Code for non-symbol value
-                            if (tpos < 32 && mem[tpos*6+2] == 1)
+                            if (type[i] == Instruction::None)
                             {
-                                mem[tpos*6+4] = posinmem%256;
-                                mem[tpos*6+5] = int (posinmem/256);
-                            }
-                            else
-                            {
-                                error ("Value must be the number of a CPU device",linenum);
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        error ("Expected: number of CPU device",linenum);
-                        return;
-                    }
-                }
-                //Check for %CPUstack
-                if (type[0] == Instruction::None && token[0] == QString ("%CPUstack"))
-                {
-                    type[0] = Instruction::CpuStack;
-                    if (exist[1] == true)
-                    {
-                        tpos = token[1].toInt (&ok);
-                        if (ok == false)
-                        {
-                            int x;
-                            for (x=0; x<2047; x++)
-                            {
-                                if (existn[x] == true)
-                                {
-                                    if (token[1] == names[x])
-                                    {
-                                        if (nvalues[x]<32 && mem[nvalues[x]*6+2] == 1)
-                                        {
-                                            mem[nvalues[x]*6+6] = posinmem%256;
-                                            mem[nvalues[x]*6+7] = int (posinmem/256);
-                                        }
-                                        else
-                                        {
-                                            //Code for error in dev-value
-                                            error ("Value must be the number of a CPU device",
-                                                   linenum);
-                                            return;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    error ("Unknown symbol",linenum);
-                                    return;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            //Code for non-symbol value
-                            if (tpos < 32 && mem[tpos*6+2] == 1)
-                            {
-                                mem[tpos*6+6] = posinmem%256;
-                                mem[tpos*6+7] = int (posinmem/256);
-                            }
-                            else
-                            {
-                                error ("Value must be the number of a CPU device",linenum);
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        error ("Expected: number of CPU device",linenum);
-                        return;
-                    }
-                }
-
-                //Check for %interrupt
-                if (type[0] == Instruction::None && token[0] == QString ("%interrupt"))
-                {
-                    type[0] = Instruction::Interrupt;
-                    if (exist[1] == true)
-                    {
-                        tpos = token[1].toInt (&ok);
-                        if (ok == false)
-                        {
-                            int x;
-                            for (x=0; x<2047; x++)
-                            {
-                                if (existn[x] == true)
-                                {
-                                    if (token[1] == names[x])
-                                    {
-                                        if (nvalues[x]<256)
-                                        {
-                                            mem[ (RAMAMOUNT+256- (nvalues[x]*2+2)) ] = posinmem%256;
-                                            mem[ (RAMAMOUNT+256- (nvalues[x]*2+1)) ] =
-                                                int (posinmem/256);
-                                        }
-                                        else
-                                        {
-                                            //Code for error in dev-value
-                                            error ("Value must be lower than 256",linenum);
-                                            return;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    error ("Unknown symbol",linenum);
-                                    return;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            //Code for non-symbol value
-                            if (tpos < 256)
-                            {
-                                mem[ (RAMAMOUNT+256- (tpos*2+2)) ] = posinmem%256;
-                                mem[ (RAMAMOUNT+256- (tpos*2+1)) ] = int (posinmem/256);
-                            }
-                            else
-                            {
-                                error ("Value must be lower than 256",linenum);
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        error ("Expected: number of interrupt",linenum);
-                        return;
-                    }
-                }
-
-                //Assign as mnemonic
-                if (type[0] == Instruction::None)
-                {
-                    type[0] = Instruction::Mnemonic;
-                    curmnem = token[0];
-                }
-                //If mnemonic Assign types to all other tokens
-                if (type[0] == Instruction::Mnemonic)
-                {
-
-                    //Check for register
-                    for (i=1; i<4; i++)
-                    {
-                        if (exist[i] == true && type[i] == Instruction::None)
-                        {
-                            if (token[i] == QString ("ax"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = ax;
-                                bits = 16;
-                            }
-                            if (token[i] == "bx")
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = bx;
-                                bits = 16;
-                            }
-                            if (token[i] == "cx")
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = cx;
-                                bits = 16;
-                            }
-                            if (token[i] == "dx")
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = dx;
-                                bits = 16;
-                            }
-                            if (token[i] == "sp")
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = sp;
-                                bits = 16;
-                            }
-                            if (token[i] == "bp")
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = bp;
-                                bits = 16;
-                            }
-                            if (token[i] == "si")
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = si;
-                                bits = 16;
-                            }
-                            if (token[i] == QString ("di"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = di;
-                                bits = 16;
-                            }
-                            if (token[i] == QString ("eip"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = eip;
-                                bits = 16;
-                            }
-                            if (token[i] == QString ("flags"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = 0;
-                                bits = 16;
-                            }
-                            if (token[i] == QString ("ah"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = ah;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("al"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = al;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("bh"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = bh;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("bl"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = bl;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("ch"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = ch;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("cl"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = cl;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("dh"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = dh;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("dl"))
-                            {
-                                type[i] = Instruction::Register;
-                                value[i][0] = dl;
-                                bits = 8;
-                            }
-                        }
-                    }
-
-                    //Check for @register
-                    for (i=1; i<3; i++)
-                    {
-                        if (exist[i] == true && type[i] == Instruction::None && token[i].left (1) == "@")
-                        {
-                            QString tempstring = token[i].right (token[i].length()-1);
-                            if (tempstring == QString ("ax"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = ax;
-                            }
-                            if (tempstring == QString ("bx"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = bx;
-                            }
-                            if (tempstring == QString ("cx"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = cx;
-                            }
-                            if (tempstring == QString ("dx"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = dx;
-                            }
-                            if (tempstring == QString ("sp"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = sp;
-                            }
-                            if (tempstring == QString ("bp"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = bp;
-                            }
-                            if (tempstring == QString ("si"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = si;
-                            }
-                            if (tempstring == QString ("di"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = di;
-                            }
-                            if (tempstring == QString ("eip"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = eip;
-                            }
-                            if (tempstring == QString ("flags"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = 0;
-                            }
-                            if (tempstring == QString ("ah"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = ah;
-                            }
-                            if (tempstring == QString ("al"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = al;
-                            }
-                            if (tempstring == QString ("bh"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = bh;
-                            }
-                            if (tempstring == QString ("bl"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = bl;
-                            }
-                            if (tempstring == QString ("ch"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = ch;
-                            }
-                            if (tempstring == QString ("cl"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = cl;
-                            }
-                            if (tempstring == QString ("dh"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = dh;
-                            }
-                            if (tempstring == QString ("dl"))
-                            {
-                                type[i] = Instruction::RegisterRef;
-                                value[i][0] = dl;
-                            }
-                        }
-                    }
-
-                    //Check for bit identifier
-                    for (i=1; i<3; i++)
-                    {
-                        if (exist[i] == true && type[i] == Instruction::None)
-                        {
-                            if (token[i] == QString ("byte"))
-                            {
-                                type[i] = Instruction::BitId;
-                                value[i][0] = 8;
-                                bits = 8;
-                            }
-                            if (token[i] == QString ("word"))
-                            {
-                                type[i] = Instruction::BitId;
-                                value[i][0] = 16;
-                                bits = 16;
-                            }
-                        }
-                    }
-
-
-                    //Check for @value
-                    for (i=1; i<3; i++)
-                    {
-                        if (exist[i] == true && type[i] == Instruction::None && token[i].left (1) == "@")
-                        {
-                            QString tempstring = token[i].right (token[i].length()-1);
-                            tpos = tempstring.toInt (&ok);
-                            if (ok == false)
-                            {
-                                int x;
-                                for (x=0; x<2047; x++)
-                                {
-                                    if (existn[x] == true)
-                                    {
-                                        if (tempstring == names[x])
-                                        {
-                                            value[i][0] = nvalues[x]%256;
-                                            value[i][1] = nvalues[x]/256;
-                                            type[i] = Instruction::MemAddress;
-                                        }
-                                    }
-                                }
-                                if (type[i] == Instruction::None)
-                                {
-                                    type[i] = Instruction::MemAddress;
-                                    tunres[i] = true;
-                                    for (x=0; x<4095; x++)
-                                    {
-                                        if (unresexist[x] == false)
-                                            break;
-                                    }
-                                    unresexist[x] = true;
-                                    unresn[x] = tempstring.right (tempstring.length());
-                                    unresline[x] = linenum;
-                                    unresnum[i] = x;
-                                }
-                            }
-                            else
-                            {
-                                value[i][0] = tpos%256;
-                                value[i][1] = tpos/256;
-                                type[i] = Instruction::MemAddress;
-                            }
-                        }
-                    }
-
-
-                    //Check for value
-                    for (i=1; i<4; i++)
-                    {
-                        if (exist[i] == true && type[i] == Instruction::None)
-                        {
-                            QString comp = token[i];
-                            if (comp.startsWith('+')) {
-                                comp.remove(0, 1);
-                            }
-                            tpos = comp.toInt (&ok);
-                            if (!ok)
-                            {
-                                int x;
-                                for (x=0; x<2047; x++)
-                                {
-                                    if (existn[x] == true)
-                                    {
-                                        if (comp == names[x])
-                                        {
-                                            value[i][0] = nvalues[x]%256;
-                                            value[i][1] = nvalues[x]/256;
-                                            type[i] = Instruction::Value;
-                                        }
-                                    }
-                                }
-                                if (type[i] == Instruction::None)
-                                {
-                                    type[i] = Instruction::Value;
-                                    tunres[i] = true;
-                                    for (x=0; x<4095; x++)
-                                    {
-                                        if (unresexist[x] == false)
-                                            break;
-                                    }
-                                    unresexist[x] = true;
-                                    unresn[x] = token[i].right (tempstring.length());
-                                    unresline[x] = linenum;
-                                    unresnum[i] = x;
-                                }
-                            }
-                            else
-                            {
-                                if (tpos<0) tpos += 65536;
-                                value[i][0] = tpos%256;
-                                value[i][1] = tpos/256;
                                 type[i] = Instruction::Value;
+                                tunres[i] = true;
+                                for (x=0; x<4095; x++)
+                                {
+                                    if (unresexist[x] == false)
+                                        break;
+                                }
+                                unresexist[x] = true;
+                                unresn[x] = token[i].right (tempstring.length());
+                                unresline[x] = linenum;
+                                unresnum[i] = x;
                             }
                         }
+                        else
+                        {
+                            if (tpos<0) tpos += 65536;
+                            value[i][0] = tpos%256;
+                            value[i][1] = tpos/256;
+                            type[i] = Instruction::Value;
+                        }
                     }
+                }
 
-                    if ( (curmnem == "mov") && (type[1] == Instruction::Register) &&
-                         (type[2] == Instruction::RegisterRef) && (type[3] == Instruction::Value))
+                if ( (curmnem == "mov") && (type[1] == Instruction::Register) &&
+                     (type[2] == Instruction::RegisterRef) && (type[3] == Instruction::Value))
+                {
+                    value[1][1] = value[2][0];
+                    value[2][0] = value[3][0];
+                    i = 245;
+                    if (tunres[3] == true)
                     {
-                        value[1][1] = value[2][0];
-                        value[2][0] = value[3][0];
-                        i = 245;
-                        if (tunres[3] == true)
-                        {
-                            error ("Sorry, this instruction can't use symbols not declared yet",
-                                   linenum);
-                            return;
-                        }
-                    } else if ( (curmnem == "mov") && (type[1] == Instruction::RegisterRef) &&
-                                (type[2] == Instruction::Value) && (type[3] == Instruction::Register))
-                    {
-                        value[1][1] = value[2][0];
-                        value[2][0] =	value[3][0];
-                        i = 246;
-                        if (tunres[2] == true)
-                        {
-                            error ("Sorry, this instruction can't use symbols not declared yet",
-                                   linenum);
-                            return;
-                        }
-                    } else {
-                        //Run through all available mnemonic-operand combinations available
-                        bool foundOp = false;
-                        for (i=0; i<245; i++) {
-                            if (Instruction::instructions[i].checkmatch (curmnem,type[1],type[2],bits)) {
-                                foundOp = true;
-                                break;
-                            }
-                        }
-                        if (!foundOp) {
-                            //If not success return error
-                            error ("Error: unknown mnemonic/operand combination",linenum);
-                            return;
-                        }
+                        error ("Sorry, this instruction can't use symbols not declared yet",
+                               linenum);
+                        return;
                     }
-
-                    //If success write result
-                    mem[posinmem+256] = Instruction::instructions[i].getopcode();
-                    debugmem[debugentry] = posinmem;
-                    debuglines[debugentry++] = linenum;
-                    ///////////////
-                    int q;
-                    q = instrlatency[Instruction::instructions[i].getopcode() ];
-                    insertstr = QString::number (posinmem);
-                    insertstr += " : ";
-                    if (q < 200)
-                    {
-                        insertstr += QString::number (q);
-                    }
-                    if (i == 237)
-                        insertstr += "+X";
-                    ///////////////
-                    posinmem++;
-
-                    if (tunres[1] == true)
-                    {
-                        unrespos[ unresnum[1] ] = posinmem;
-                        if (Instruction::instructions[i].getarg1bits() > 0)
-                        {
-                            unresbits[ unresnum[1] ] = 8;
-                            posinmem++;
-                        }
-                        if (Instruction::instructions[i].getarg1bits() > 8)
-                        {
-                            unresbits[ unresnum[1] ] = 16;
-                            posinmem++;
-                        }
-                    }
-                    else
-                    {
-                        if (Instruction::instructions[i].getarg1bits() > 0)
-                        {
-                            mem[posinmem+256] = value[1][0];
-                            posinmem++;
-                        }
-                        if (Instruction::instructions[i].getarg1bits() > 8)
-                        {
-                            mem[posinmem+256] = value[1][1];
-                            posinmem++;
-                        }
-                    }
-
+                } else if ( (curmnem == "mov") && (type[1] == Instruction::RegisterRef) &&
+                            (type[2] == Instruction::Value) && (type[3] == Instruction::Register))
+                {
+                    value[1][1] = value[2][0];
+                    value[2][0] =	value[3][0];
+                    i = 246;
                     if (tunres[2] == true)
                     {
-                        unrespos[ unresnum[2] ] = posinmem;
-                        if (Instruction::instructions[i].getarg2bits() > 0)
-                        {
-                            unresbits[ unresnum[2] ] = 8;
-                            posinmem++;
-                        }
-                        if (Instruction::instructions[i].getarg2bits() > 8)
-                        {
-                            unresbits[ unresnum[2] ] = 16;
-                            posinmem++;
+                        error ("Sorry, this instruction can't use symbols not declared yet",
+                               linenum);
+                        return;
+                    }
+                } else {
+                    //Run through all available mnemonic-operand combinations available
+                    bool foundOp = false;
+                    for (i=0; i<245; i++) {
+                        if (Instruction::instructions[i].checkmatch (curmnem,type[1],type[2],bits)) {
+                            foundOp = true;
+                            break;
                         }
                     }
-                    else
+                    if (!foundOp) {
+                        //If not success return error
+                        error ("Error: unknown mnemonic/operand combination",linenum);
+                        return;
+                    }
+                }
+
+                //If success write result
+                mem[posinmem+256] = Instruction::instructions[i].getopcode();
+                debugmem[debugentry] = posinmem;
+                debuglines[debugentry++] = linenum;
+                ///////////////
+                int q;
+                q = instrlatency[Instruction::instructions[i].getopcode() ];
+                insertstr = QString::number (posinmem);
+                insertstr += " : ";
+                if (q < 200)
+                {
+                    insertstr += QString::number (q);
+                }
+                if (i == 237)
+                    insertstr += "+X";
+                ///////////////
+                posinmem++;
+
+                if (tunres[1] == true)
+                {
+                    unrespos[ unresnum[1] ] = posinmem;
+                    if (Instruction::instructions[i].getarg1bits() > 0)
                     {
-                        if (Instruction::instructions[i].getarg2bits() > 0)
-                        {
-                            mem[posinmem+256] = value[2][0];
-                            posinmem++;
-                        }
-                        if (Instruction::instructions[i].getarg2bits() > 8)
-                        {
-                            mem[posinmem+256] = value[2][1];
-                            posinmem++;
-                        }
+                        unresbits[ unresnum[1] ] = 8;
+                        posinmem++;
+                    }
+                    if (Instruction::instructions[i].getarg1bits() > 8)
+                    {
+                        unresbits[ unresnum[1] ] = 16;
+                        posinmem++;
+                    }
+                }
+                else
+                {
+                    if (Instruction::instructions[i].getarg1bits() > 0)
+                    {
+                        mem[posinmem+256] = value[1][0];
+                        posinmem++;
+                    }
+                    if (Instruction::instructions[i].getarg1bits() > 8)
+                    {
+                        mem[posinmem+256] = value[1][1];
+                        posinmem++;
+                    }
+                }
+
+                if (tunres[2] == true)
+                {
+                    unrespos[ unresnum[2] ] = posinmem;
+                    if (Instruction::instructions[i].getarg2bits() > 0)
+                    {
+                        unresbits[ unresnum[2] ] = 8;
+                        posinmem++;
+                    }
+                    if (Instruction::instructions[i].getarg2bits() > 8)
+                    {
+                        unresbits[ unresnum[2] ] = 16;
+                        posinmem++;
+                    }
+                }
+                else
+                {
+                    if (Instruction::instructions[i].getarg2bits() > 0)
+                    {
+                        mem[posinmem+256] = value[2][0];
+                        posinmem++;
+                    }
+                    if (Instruction::instructions[i].getarg2bits() > 8)
+                    {
+                        mem[posinmem+256] = value[2][1];
+                        posinmem++;
                     }
                 }
             }
-
-            if (insertstr.isEmpty()) {
-                showlatency->appendPlainText(" ");
-            } else {
-                showlatency->appendPlainText(insertstr);
-            }
         }
-        else
-        {
-            end = true;
-            mem[RAMAMOUNT+256] = 255;
+
+        if (insertstr.isEmpty()) {
+            showlatency->appendPlainText(" ");
+        } else {
+            showlatency->appendPlainText(insertstr);
         }
 
         linenum++;
-        if (linenum > edittxt->document()->lineCount() - 1)
-        {
-            end=true;
-        }
     }
+    mem[RAMAMOUNT+256] = 255;
+
     int i2;
     bool resolved[4096];
 

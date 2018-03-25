@@ -29,6 +29,47 @@
 class Instruction
 {
 public:
+    //Assembler Instruction declaration constants
+    //Assign types and values to all tokens
+    //types: 0-none
+    //       1-label
+    //	   2-mnemonic
+    //	   3-value
+    //	   4-memadress (@value)
+    //	   5-register
+    //       6-const declaration
+    //	   7-org
+    //	   8-vardeclaration
+    //	   9-cpuboot
+    //	  10-cpustack
+    //	  11-db
+    //	  12-bit-identifier
+    //	  13-@register
+    //	  14-%interrupt
+    enum Types {
+        None = 0,
+        Label = 1,
+        Mnemonic = 2,
+        Value = 3,
+        MemAddress = 4,
+        Register = 5,
+        ConstDecl = 6,
+        Offset = 7,
+        VarDecl = 8,
+        CpuBoot = 9,
+        CpuStack = 10,
+        Db = 11,
+        BitId = 12,
+        RegisterRef = 13,
+        Interrupt = 14
+    };
+
+    enum Size {
+        Size0 = 0,
+        Size8 = 8,
+        Size16 = 16
+    };
+
     const static Instruction instructions[247];
 
     Instruction (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,

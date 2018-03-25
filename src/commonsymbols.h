@@ -94,15 +94,6 @@ const int doesexist = 1;
 const int doesnotexist = 0;
 const int debugbot = 7;
 
-//Assembler Instruction declaration constants
-const int none = 0;
-const int val = 3;
-const int memc = 4;
-const int reg = 5;
-const int mreg = 13;
-const int bit8 = 8;
-const int bit16 = 16;
-const int bit0 = 0;
 const int NUMDEV = 20;
 const int numdev = 20;
 

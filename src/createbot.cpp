@@ -1269,7 +1269,7 @@ void CreateBot::assemble()
         token[i] = "      ";
     bool exist[16];
     bool ok=false;
-    int type[16];
+    Instruction::Types type[16];
     unsigned char value[16][2];
     int tpos;
     int bits;
@@ -1291,7 +1291,7 @@ void CreateBot::assemble()
                 exist[i]=false;
                 tunres[i]=false;
                 token[i]="";
-                type[i]=0;
+                type[i]=Instruction::None;
                 unresnum[i]=0;
             }
             bits=0;
@@ -1339,7 +1339,7 @@ void CreateBot::assemble()
                 {
                     if (token[0].length() > 1)
                     {
-                        type[0] = 1;
+                        type[0] = Instruction::Label;
                         int x;
                         for (x=0; x<2047; x++)
                         {
@@ -1361,11 +1361,11 @@ void CreateBot::assemble()
                     }
                 }
                 //Check for vardeclaration
-                if (type[0] == 0 && token[0].left (1) == QString ("#"))
+                if (type[0] == Instruction::None && token[0].left (1) == QString ("#"))
                 {
                     if (token[0].length() > 1)
                     {
-                        type[0] = 6;
+                        type[0] = Instruction::ConstDecl;
                         int x;
                         for (x=0; x<2047; x++)
                         {
@@ -1388,11 +1388,11 @@ void CreateBot::assemble()
                 }
 
                 //Check for const declarations
-                if (type[0] == 0 && token[0].left (1) == QString ("$"))
+                if (type[0] == Instruction::None && token[0].left (1) == QString ("$"))
                 {
                     if (token[0].length() > 1)
                     {
-                        type[0] = 8;
+                        type[0] = Instruction::VarDecl;
                         int x;
                         for (x=0; x<2047; x++)
                         {
@@ -1423,9 +1423,9 @@ void CreateBot::assemble()
                     }
                 }
                 //Check for db
-                if (type[0]==0 && token[0] == QString ("db"))
+                if (type[0] == Instruction::None && token[0] == QString ("db"))
                 {
-                    type[0] = 11;
+                    type[0] = Instruction::Db;
                     for (i=1; i<15; i++)
                     {
                         if (exist[i] == true)
@@ -1456,9 +1456,9 @@ void CreateBot::assemble()
                     }
                 }
                 //Check for dw
-                if (type[0]==0 && token[0] == QString ("dw"))
+                if (type[0] == Instruction::None && token[0] == QString ("dw"))
                 {
-                    type[0] = 11;
+                    type[0] = Instruction::Db;
                     for (i=1; i<15; i++)
                     {
                         if (exist[i] == true)
@@ -1493,9 +1493,9 @@ void CreateBot::assemble()
 
 
                 //Check for %org
-                if (type[0] == 0 && token[0] == QString ("%org"))
+                if (type[0] == Instruction::None && token[0] == QString ("%org"))
                 {
-                    type[0] = 7;
+                    type[0] = Instruction::Offset;
                     if (exist[1] == true)
                     {
                         bool isplus = token[1].startsWith('+');
@@ -1542,9 +1542,9 @@ void CreateBot::assemble()
                 }
 
                 //Check for %CPUboot
-                if (type[0] == 0 && token[0] == QString ("%CPUboot"))
+                if (type[0] == Instruction::None && token[0] == QString ("%CPUboot"))
                 {
-                    type[0] = 9;
+                    type[0] = Instruction::CpuBoot;
                     if (exist[1] == true)
                     {
                         tpos = token[1].toInt (&ok);
@@ -1600,9 +1600,9 @@ void CreateBot::assemble()
                     }
                 }
                 //Check for %CPUstack
-                if (type[0] == 0 && token[0] == QString ("%CPUstack"))
+                if (type[0] == Instruction::None && token[0] == QString ("%CPUstack"))
                 {
-                    type[0] = 10;
+                    type[0] = Instruction::CpuStack;
                     if (exist[1] == true)
                     {
                         tpos = token[1].toInt (&ok);
@@ -1659,9 +1659,9 @@ void CreateBot::assemble()
                 }
 
                 //Check for %interrupt
-                if (type[0] == 0 && token[0] == QString ("%interrupt"))
+                if (type[0] == Instruction::None && token[0] == QString ("%interrupt"))
                 {
-                    type[0] = 14;
+                    type[0] = Instruction::Interrupt;
                     if (exist[1] == true)
                     {
                         tpos = token[1].toInt (&ok);
@@ -1718,125 +1718,125 @@ void CreateBot::assemble()
                 }
 
                 //Assign as mnemonic
-                if (type[0] == 0)
+                if (type[0] == Instruction::None)
                 {
-                    type[0] = 2;
+                    type[0] = Instruction::Mnemonic;
                     curmnem = token[0];
                 }
                 //If mnemonic Assign types to all other tokens
-                if (type[0] == 2)
+                if (type[0] == Instruction::Mnemonic)
                 {
 
                     //Check for register
                     for (i=1; i<4; i++)
                     {
-                        if (exist[i] == true && type[i] == 0)
+                        if (exist[i] == true && type[i] == Instruction::None)
                         {
                             if (token[i] == QString ("ax"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = ax;
                                 bits = 16;
                             }
                             if (token[i] == "bx")
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = bx;
                                 bits = 16;
                             }
                             if (token[i] == "cx")
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = cx;
                                 bits = 16;
                             }
                             if (token[i] == "dx")
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = dx;
                                 bits = 16;
                             }
                             if (token[i] == "sp")
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = sp;
                                 bits = 16;
                             }
                             if (token[i] == "bp")
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = bp;
                                 bits = 16;
                             }
                             if (token[i] == "si")
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = si;
                                 bits = 16;
                             }
                             if (token[i] == QString ("di"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = di;
                                 bits = 16;
                             }
                             if (token[i] == QString ("eip"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = eip;
                                 bits = 16;
                             }
                             if (token[i] == QString ("flags"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = 0;
                                 bits = 16;
                             }
                             if (token[i] == QString ("ah"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = ah;
                                 bits = 8;
                             }
                             if (token[i] == QString ("al"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = al;
                                 bits = 8;
                             }
                             if (token[i] == QString ("bh"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = bh;
                                 bits = 8;
                             }
                             if (token[i] == QString ("bl"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = bl;
                                 bits = 8;
                             }
                             if (token[i] == QString ("ch"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = ch;
                                 bits = 8;
                             }
                             if (token[i] == QString ("cl"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = cl;
                                 bits = 8;
                             }
                             if (token[i] == QString ("dh"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = dh;
                                 bits = 8;
                             }
                             if (token[i] == QString ("dl"))
                             {
-                                type[i] = 5;
+                                type[i] = Instruction::Register;
                                 value[i][0] = dl;
                                 bits = 8;
                             }
@@ -1846,97 +1846,97 @@ void CreateBot::assemble()
                     //Check for @register
                     for (i=1; i<3; i++)
                     {
-                        if (exist[i] == true && type[i] == 0 && token[i].left (1) == "@")
+                        if (exist[i] == true && type[i] == Instruction::None && token[i].left (1) == "@")
                         {
                             QString tempstring = token[i].right (token[i].length()-1);
                             if (tempstring == QString ("ax"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = ax;
                             }
                             if (tempstring == QString ("bx"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = bx;
                             }
                             if (tempstring == QString ("cx"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = cx;
                             }
                             if (tempstring == QString ("dx"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = dx;
                             }
                             if (tempstring == QString ("sp"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = sp;
                             }
                             if (tempstring == QString ("bp"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = bp;
                             }
                             if (tempstring == QString ("si"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = si;
                             }
                             if (tempstring == QString ("di"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = di;
                             }
                             if (tempstring == QString ("eip"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = eip;
                             }
                             if (tempstring == QString ("flags"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = 0;
                             }
                             if (tempstring == QString ("ah"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = ah;
                             }
                             if (tempstring == QString ("al"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = al;
                             }
                             if (tempstring == QString ("bh"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = bh;
                             }
                             if (tempstring == QString ("bl"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = bl;
                             }
                             if (tempstring == QString ("ch"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = ch;
                             }
                             if (tempstring == QString ("cl"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = cl;
                             }
                             if (tempstring == QString ("dh"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = dh;
                             }
                             if (tempstring == QString ("dl"))
                             {
-                                type[i] = 13;
+                                type[i] = Instruction::RegisterRef;
                                 value[i][0] = dl;
                             }
                         }
@@ -1945,17 +1945,17 @@ void CreateBot::assemble()
                     //Check for bit identifier
                     for (i=1; i<3; i++)
                     {
-                        if (exist[i] == true && type[i] == 0)
+                        if (exist[i] == true && type[i] == Instruction::None)
                         {
                             if (token[i] == QString ("byte"))
                             {
-                                type[i] = 12;
+                                type[i] = Instruction::BitId;
                                 value[i][0] = 8;
                                 bits = 8;
                             }
                             if (token[i] == QString ("word"))
                             {
-                                type[i] = 12;
+                                type[i] = Instruction::BitId;
                                 value[i][0] = 16;
                                 bits = 16;
                             }
@@ -1966,7 +1966,7 @@ void CreateBot::assemble()
                     //Check for @value
                     for (i=1; i<3; i++)
                     {
-                        if (exist[i] == true && type[i] == 0 && token[i].left (1) == "@")
+                        if (exist[i] == true && type[i] == Instruction::None && token[i].left (1) == "@")
                         {
                             QString tempstring = token[i].right (token[i].length()-1);
                             tpos = tempstring.toInt (&ok);
@@ -1981,13 +1981,13 @@ void CreateBot::assemble()
                                         {
                                             value[i][0] = nvalues[x]%256;
                                             value[i][1] = nvalues[x]/256;
-                                            type[i] = 4;
+                                            type[i] = Instruction::MemAddress;
                                         }
                                     }
                                 }
-                                if (type[i] == 0)
+                                if (type[i] == Instruction::None)
                                 {
-                                    type[i] = 4;
+                                    type[i] = Instruction::MemAddress;
                                     tunres[i] = true;
                                     for (x=0; x<4095; x++)
                                     {
@@ -2004,7 +2004,7 @@ void CreateBot::assemble()
                             {
                                 value[i][0] = tpos%256;
                                 value[i][1] = tpos/256;
-                                type[i] = 4;
+                                type[i] = Instruction::MemAddress;
                             }
                         }
                     }
@@ -2013,7 +2013,7 @@ void CreateBot::assemble()
                     //Check for value
                     for (i=1; i<4; i++)
                     {
-                        if (exist[i] == true && type[i] == 0)
+                        if (exist[i] == true && type[i] == Instruction::None)
                         {
                             QString comp = token[i];
                             if (comp.startsWith('+')) {
@@ -2031,13 +2031,13 @@ void CreateBot::assemble()
                                         {
                                             value[i][0] = nvalues[x]%256;
                                             value[i][1] = nvalues[x]/256;
-                                            type[i] = 3;
+                                            type[i] = Instruction::Value;
                                         }
                                     }
                                 }
-                                if (type[i] == 0)
+                                if (type[i] == Instruction::None)
                                 {
-                                    type[i] = 3;
+                                    type[i] = Instruction::Value;
                                     tunres[i] = true;
                                     for (x=0; x<4095; x++)
                                     {
@@ -2055,13 +2055,13 @@ void CreateBot::assemble()
                                 if (tpos<0) tpos += 65536;
                                 value[i][0] = tpos%256;
                                 value[i][1] = tpos/256;
-                                type[i] = 3;
+                                type[i] = Instruction::Value;
                             }
                         }
                     }
 
-                    if ( (curmnem == "mov") && (type[1] == 5) &&
-                            (type[2] == 13) && (type[3] == 3))
+                    if ( (curmnem == "mov") && (type[1] == Instruction::Register) &&
+                         (type[2] == Instruction::RegisterRef) && (type[3] == Instruction::Value))
                     {
                         value[1][1] = value[2][0];
                         value[2][0] = value[3][0];
@@ -2074,8 +2074,8 @@ void CreateBot::assemble()
                         }
                         goto found;
                     }
-                    if ( (curmnem == "mov") && (type[1] == 13) &&
-                            (type[2] == 3) && (type[3] == 5))
+                    if ( (curmnem == "mov") && (type[1] == Instruction::RegisterRef) &&
+                                (type[2] == Instruction::Value) && (type[3] == Instruction::Register))
                     {
                         value[1][1] = value[2][0];
                         value[2][0] =	value[3][0];

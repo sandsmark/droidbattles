@@ -31,7 +31,7 @@
 #include <QSettings>
 #include <unistd.h>
 #include "battlearea.h"
-#include "quickconf.h"
+#include "startsbatt.h"
 
 /**
 	* Constructor Inits GUI
@@ -2316,7 +2316,7 @@ void CreateBot::startquick()
 	*/
 void CreateBot::confquick()
 {
-    qc = new QuickConf();
+    qc = new StartsBatt("quick.save");
     QObject::connect (qc,SIGNAL (cancelclicked()),this,SLOT (stopconf()));
     qc->resize (300,570);
     qc->show();

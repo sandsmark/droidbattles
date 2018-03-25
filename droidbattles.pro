@@ -43,7 +43,6 @@ HEADERS += src/armor.h \
            src/pixbutton.h \
            src/pixmapholder.h \
            src/plasma.h \
-           src/quickconf.h \
            src/radarmissile.h \
            src/radarmissilelauncher.h \
            src/ram.h \
@@ -100,7 +99,6 @@ SOURCES += src/armor.cpp \
            src/pixbutton.cpp \
            src/pixmapholder.cpp \
            src/plasma.cpp \
-           src/quickconf.cpp \
            src/radarmissile.cpp \
            src/radarmissilelauncher.cpp \
            src/ram.cpp \

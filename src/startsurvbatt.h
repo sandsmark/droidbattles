@@ -30,13 +30,6 @@ class StartSurvBatt : public StartsBatt
     Q_OBJECT
 public:
     StartSurvBatt();
-    ~StartSurvBatt();
-private slots:
-    virtual void ocl();
-    //numfights is numlives
-    //ifteams is iffast
-protected:
-    virtual void loadfilesettings();
 };
 
 #endif

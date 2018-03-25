@@ -18,24 +18,17 @@
 #ifndef STARTDEATHBATT_H
 #define STARTDEATHBATT_H
 
-#include "startsurvbatt.h"
+#include "startsbatt.h"
 
 /**
   *@author Andreas Agorander
   */
 
-class StartDeathBatt : public StartSurvBatt
+class StartDeathBatt : public StartsBatt
 {
     Q_OBJECT
 public:
     StartDeathBatt();
-    ~StartDeathBatt();
-
-protected:
-    void loadfilesettings();
-
-private slots:
-    void ocl();
 };
 
 #endif

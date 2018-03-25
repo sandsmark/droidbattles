@@ -181,7 +181,7 @@ void DroidBattles::skirmish()
 {
     disablebattles();
     //Start the dialog where you can choose which bots should fight
-    ssb = new StartsBatt();
+    ssb = new StartsBatt("singlebattle.save");
     ssb->resize (300,570);
     ssb->show();
     QObject::connect (ssb,SIGNAL (okclicked()),this,

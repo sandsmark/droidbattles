@@ -25,7 +25,8 @@
 /**
 	* init GUI, load file from last battle
 	*/
-StartsBatt::StartsBatt()
+StartsBatt::StartsBatt(const QString &configFileName) :
+    m_configFileName(configFileName)
 {
     setWindowFlags(Qt::Dialog);
 
@@ -116,7 +117,7 @@ void StartsBatt::resizeEvent (QResizeEvent*)
 void StartsBatt::loadfilesettings()
 {
     QString temp = QDir::homePath();
-    temp += "/droidbattles/singlebattle.save";
+    temp += "/droidbattles/" + m_configFileName;
     QFile f (temp);
     if (f.exists() && f.open (QIODevice::ReadOnly))
     {
@@ -196,7 +197,7 @@ void StartsBatt::ocl()
 {
 // Save the current settings to file
     QString temp = QDir::homePath();
-    temp += "/droidbattles/singlebattle.save";
+    temp += "/droidbattles/" + m_configFileName;
     QFile f (temp);
     if (f.open (QIODevice::WriteOnly))
     {

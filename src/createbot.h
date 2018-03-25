@@ -43,7 +43,7 @@ class MyQMultiLineEdit;
 class QComboBox;
 class Instruction;
 class BattleArea;
-class QuickConf;
+class StartsBatt;
 
 class CreateBot : public QWidget
 {
@@ -104,7 +104,7 @@ private:
     QPixmap gfx;
 //		QPixmap *backpm;
     BattleArea *batt;
-    QuickConf *qc;
+    StartsBatt *qc;
     ConfStruct curconfig;
     bool changed;
     int instrlatency[256];

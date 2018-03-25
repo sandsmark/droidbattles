@@ -45,8 +45,7 @@ class StartsBatt : public QLabel
     Q_OBJECT
 
 public:
-
-    StartsBatt();
+    StartsBatt(const QString &configFileName);
     ~StartsBatt();
     int getnumofbots();
     QString getbotfile(int bot);
@@ -90,6 +89,7 @@ protected:
     QSpinBox *maxx;
     QSpinBox *maxy;
     QCheckBox *ifteams;
+    QString m_configFileName;
 };
 
 #endif

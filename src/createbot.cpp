@@ -641,7 +641,7 @@ void CreateBot::assemble()
     int i;
 
     //Memory where the file contents are stored during assemble
-    mem = new unsigned char[65536+256];
+    unsigned char mem[65536+256];
     for (i=0; i<65536; i++)
         mem[i] = 0;
 
@@ -1278,7 +1278,7 @@ void CreateBot::assemble()
     QString tempname = botname;
     tempname += ".bot";
     QFile f (tempname);
-    while (end != true)              //If we still have lines left to compile
+    while (end != true && linenum < edittxt->document()->lineCount())              //If we still have lines left to compile
     {
         if (edittxt->document()->lineCount() > linenum)
         {
@@ -1306,7 +1306,8 @@ void CreateBot::assemble()
                 if (curline.length() <= 1)
                 {
                     showlatency->appendPlainText(" ");
-                    goto newline;
+                    linenum++;
+                    continue;
                 }
 
                 // divide into tokens
@@ -1351,13 +1352,13 @@ void CreateBot::assemble()
                         if (exist[1]==true)
                         {
                             error ("Expected: only one token",linenum);
-                            goto ende;
+                            return;
                         }
                     }
                     else
                     {
                         error ("Expected: name of label",linenum);
-                        goto ende;
+                        return;
                     }
                 }
                 //Check for vardeclaration
@@ -1377,13 +1378,13 @@ void CreateBot::assemble()
                         if (exist[1] == true)
                         {
                             error ("Expected: only one token",linenum);
-                            goto ende;
+                            return;
                         }
                     }
                     else
                     {
                         error ("Expected: name of variable", linenum);
-                        goto ende;
+                        return;
                     }
                 }
 
@@ -1408,18 +1409,18 @@ void CreateBot::assemble()
                         else
                         {
                             error ("Expected: value of constant",linenum);
-                            goto ende;
+                            return;
                         }
                         if (exist[2] == true)
                         {
                             error ("Expected: only two tokens",linenum);
-                            goto ende;
+                            return;
                         }
                     }
                     else
                     {
                         error ("Expected: name of constant", linenum);
-                        goto ende;
+                        return;
                     }
                 }
                 //Check for db
@@ -1520,7 +1521,7 @@ void CreateBot::assemble()
                                 else
                                 {
                                     error ("Unknown symbol",linenum);
-                                    goto ende;
+                                    return;
                                 }
                             }
 
@@ -1537,7 +1538,7 @@ void CreateBot::assemble()
                     else
                     {
                         error ("Expected: value for org" ,linenum);
-                        goto ende;
+                        return;
                     }
                 }
 
@@ -1567,14 +1568,14 @@ void CreateBot::assemble()
                                             //Code for error in dev-value
                                             error ("Value must be the number of a CPU device",
                                                    linenum);
-                                            goto ende;
+                                            return;
                                         }
                                     }
                                 }
                                 else
                                 {
                                     error ("Unknown symbol",linenum);
-                                    goto ende;
+                                    return;
                                 }
                             }
                         }
@@ -1589,14 +1590,14 @@ void CreateBot::assemble()
                             else
                             {
                                 error ("Value must be the number of a CPU device",linenum);
-                                goto ende;
+                                return;
                             }
                         }
                     }
                     else
                     {
                         error ("Expected: number of CPU device",linenum);
-                        goto ende;
+                        return;
                     }
                 }
                 //Check for %CPUstack
@@ -1625,14 +1626,14 @@ void CreateBot::assemble()
                                             //Code for error in dev-value
                                             error ("Value must be the number of a CPU device",
                                                    linenum);
-                                            goto ende;
+                                            return;
                                         }
                                     }
                                 }
                                 else
                                 {
                                     error ("Unknown symbol",linenum);
-                                    goto ende;
+                                    return;
                                 }
                             }
                         }
@@ -1647,14 +1648,14 @@ void CreateBot::assemble()
                             else
                             {
                                 error ("Value must be the number of a CPU device",linenum);
-                                goto ende;
+                                return;
                             }
                         }
                     }
                     else
                     {
                         error ("Expected: number of CPU device",linenum);
-                        goto ende;
+                        return;
                     }
                 }
 
@@ -1684,14 +1685,14 @@ void CreateBot::assemble()
                                         {
                                             //Code for error in dev-value
                                             error ("Value must be lower than 256",linenum);
-                                            goto ende;
+                                            return;
                                         }
                                     }
                                 }
                                 else
                                 {
                                     error ("Unknown symbol",linenum);
-                                    goto ende;
+                                    return;
                                 }
                             }
                         }
@@ -1706,14 +1707,14 @@ void CreateBot::assemble()
                             else
                             {
                                 error ("Value must be lower than 256",linenum);
-                                goto ende;
+                                return;
                             }
                         }
                     }
                     else
                     {
                         error ("Expected: number of interrupt",linenum);
-                        goto ende;
+                        return;
                     }
                 }
 
@@ -2070,11 +2071,9 @@ void CreateBot::assemble()
                         {
                             error ("Sorry, this instruction can't use symbols not declared yet",
                                    linenum);
-                            goto ende;
+                            return;
                         }
-                        goto found;
-                    }
-                    if ( (curmnem == "mov") && (type[1] == Instruction::RegisterRef) &&
+                    } else if ( (curmnem == "mov") && (type[1] == Instruction::RegisterRef) &&
                                 (type[2] == Instruction::Value) && (type[3] == Instruction::Register))
                     {
                         value[1][1] = value[2][0];
@@ -2084,22 +2083,25 @@ void CreateBot::assemble()
                         {
                             error ("Sorry, this instruction can't use symbols not declared yet",
                                    linenum);
-                            goto ende;
+                            return;
                         }
-                        goto found;
+                    } else {
+                        //Run through all available mnemonic-operand combinations available
+                        bool foundOp = false;
+                        for (i=0; i<245; i++) {
+                            if (Instruction::instructions[i].checkmatch (curmnem,type[1],type[2],bits)) {
+                                foundOp = true;
+                                break;
+                            }
+                        }
+                        if (!foundOp) {
+                            //If not success return error
+                            error ("Error: unknown mnemonic/operand combination",linenum);
+                            return;
+                        }
                     }
 
-                    //Run through all available mnemonic-operand combinations available
-                    for (i=0; i<245; i++)
-                    {
-                        if (Instruction::instructions[i].checkmatch (curmnem,type[1],type[2],bits) ==true)
-                            goto found;
-                    }
-                    //If not success return error
-                    error ("Error: unknown mnemonic/operand combination",linenum);
-                    goto ende;
                     //If success write result
-found:
                     mem[posinmem+256] = Instruction::instructions[i].getopcode();
                     debugmem[debugentry] = posinmem;
                     debuglines[debugentry++] = linenum;
@@ -2186,7 +2188,7 @@ found:
             end = true;
             mem[RAMAMOUNT+256] = 255;
         }
-newline:
+
         linenum++;
         if (linenum > edittxt->document()->lineCount() - 1)
         {
@@ -2220,7 +2222,7 @@ newline:
             if (resolved[i] == false)
             {
                 error ("Undeclared symbol",unresline[i]);
-                goto ende;
+                return;
             }
         }
     }
@@ -2234,12 +2236,10 @@ newline:
     else
     {
         error ("couldn't open file",0);
-        goto ende;
+        return;
     }
 
     error ("Assemble successful",-1);
-ende:
-    delete mem;
 }
 
 /**

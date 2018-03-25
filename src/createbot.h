@@ -84,7 +84,6 @@ private:
 
     unsigned int RAMAMOUNT;
     QMessageBox *ermsg;
-    unsigned char *mem;
     MyQMultiLineEdit *edittxt;
     QScrollArea *scroller;
     MyQMultiLineEdit *showlatency;

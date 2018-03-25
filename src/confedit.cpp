@@ -20,16 +20,19 @@
 #include <QTextStream>
 #include <QLabel>
 #include <QDebug>
+#include <QVBoxLayout>
+#include <QGridLayout>
 
 /**
 	* Constructor: Init GUI
 	*/
 ConfEdit::ConfEdit()
 {
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+
     setAttribute(Qt::WA_DeleteOnClose);
 
-    this->setMinimumSize (500,400);
-    this->setMaximumSize (500,400);
     defaultbutton = new QPushButton ("Load default values" , this);
     openbutton = new QPushButton ("Open existing config" , this);
     savebutton = new QPushButton ("Save current config", this);
@@ -37,12 +40,14 @@ ConfEdit::ConfEdit()
     makecurrentbutton = new QPushButton ("Apply current config", this);
     helpbutton = new QPushButton ("HELP", this);
 
-    defaultbutton->setGeometry (0,0,166,30);
-    openbutton->setGeometry (167,0,166,30);
-    savebutton->setGeometry (333,0,166,30);
-    closebutton->setGeometry (0,30,166,30);
-    makecurrentbutton->setGeometry (167,30,166,30);
-    helpbutton->setGeometry (333,30,166,30);
+    QGridLayout *buttonsLayout = new QGridLayout;
+    buttonsLayout->addWidget(defaultbutton, 0, 0);
+    buttonsLayout->addWidget(openbutton, 0, 1);
+    buttonsLayout->addWidget(savebutton, 0, 2);
+    buttonsLayout->addWidget(closebutton, 1, 0);
+    buttonsLayout->addWidget(makecurrentbutton, 1, 1);
+    buttonsLayout->addWidget(helpbutton, 1, 2);
+    mainLayout->addLayout(buttonsLayout);
 
     helpbutton->setEnabled (false);
 
@@ -61,29 +66,26 @@ ConfEdit::ConfEdit()
     valid = new QIntValidator (this);
 
     scroll = new QScrollArea (this);
-    scroll->setGeometry (0,60,500,330);
+    mainLayout->addWidget(scroll);
+
     setarea = new QWidget();
-    setarea->setGeometry (0,0,480,1400);
+    QVBoxLayout *setareaLayout = new QVBoxLayout(setarea);
+    scroll->setWidgetResizable(true);
     scroll->setWidget(setarea);
 
     maxdevl = new QLabel ("Maximum number of devices: ", setarea);
-    maxdevl->setGeometry (10,10,190,15);
     maxdevv = new QSpinBox (setarea);
     maxdevv->setMinimum(1);
     maxdevv->setMaximum(32);
     maxdevv->setSingleStep(1);
-    maxdevv->setGeometry (200,7,50,20);
 
     maxcostl = new QLabel ("Maximum cost of bot: ", setarea);
-    maxcostl->setGeometry (10,30,190,15);
     maxcostv = new QSpinBox (setarea);
     maxcostv->setMinimum(100);
     maxcostv->setMaximum(65500);
     maxcostv->setSingleStep(100);
-    maxcostv->setGeometry (190,27,60,20);
 
     maxraml = new QLabel ("Maximum amount of RAM: ", setarea);
-    maxraml->setGeometry (10,60,190,15);
     maxramv = new QComboBox (setarea);
     maxramv->addItem ("1k");
     maxramv->addItem ("2k");
@@ -98,7 +100,6 @@ ConfEdit::ConfEdit()
     QComboBox::InsertPolicy pol = QComboBox::InsertAtCurrent;
 
     ramcostl = new QLabel ("Cost of RAM: ",setarea);
-    ramcostl->setGeometry (250,60,80,15);
     ramcostv = new QComboBox (setarea);
     ramcostv->setEditable(true);
     ramcostv->setValidator (valid);
@@ -113,13 +114,18 @@ ConfEdit::ConfEdit()
     ramcostv->addItem ("20000");
     ramcostv->addItem ("25000");
     ramcostv->setMaxCount (10);
-    ramcostv->move (0,0);
-    ramcostv->adjustSize();
-    ramcostv->move (330,57);
 
-    maxramv->move (0,0);
-    maxramv->adjustSize();
-    maxramv->move (170,57);
+    QGridLayout *optionsLayout = new QGridLayout;
+    optionsLayout->addWidget(maxdevl, 0, 0);
+    optionsLayout->addWidget(maxdevv, 0, 1);
+    optionsLayout->addWidget(maxcostl, 1, 0);
+    optionsLayout->addWidget(maxcostv, 1, 1);
+    optionsLayout->addWidget(maxraml, 2, 0);
+    optionsLayout->addWidget(maxramv, 2, 1);
+    optionsLayout->addWidget(ramcostl, 3, 0);
+    optionsLayout->addWidget(ramcostv, 3, 1);
+
+    setareaLayout->addLayout(optionsLayout);
 
     devicegroup[0] = new QGroupBox ("CPU", setarea);
     devicegroup[1] = new QGroupBox ("engine", setarea);
@@ -142,13 +148,17 @@ ConfEdit::ConfEdit()
     devicegroup[18] = new QGroupBox ("beam",setarea);
     devicegroup[19] = new QGroupBox ("AS-rocket",setarea);
 
-    int x;
-    for (x=0; x<numdev; x++)
+
+    QGridLayout *devicesLayout = new QGridLayout;
+    setareaLayout->addLayout(devicesLayout);
+
+    for (int x=0; x<numdev; x++)
     {
+        QGridLayout *deviceLayout = new QGridLayout(devicegroup[x]);
         devicesenabled[x] = new QCheckBox ("enabled",devicegroup[x]);
-        devicesenabled[x]->setGeometry (10,20,100,15);
+        deviceLayout->addWidget(devicesenabled[x], 0, 0);
         costs[x] = new QLabel ("Cost of device: ", devicegroup[x]);
-        costs[x]->setGeometry (10,40, 100,15);
+        deviceLayout->addWidget(costs[x], 1, 0);
 
         levelcosts[x] = new QComboBox (devicegroup[x]);
         levelcosts[x]->setEditable(true);
@@ -159,11 +169,11 @@ ConfEdit::ConfEdit()
         levelcosts[x]->addItem ("400");
         levelcosts[x]->addItem ("500");
         levelcosts[x]->setValidator (valid);
-        levelcosts[x]->setGeometry (110,37,60,25);
+        deviceLayout->addWidget(levelcosts[x], 1, 1);
         levelcosts[x]->setMaxCount (6);
 
         values[x] = new QLabel ("Values for dev: ", devicegroup[x]);
-        values[x]->setGeometry (10,70,100,15);
+        deviceLayout->addWidget(values[x], 2, 0);
 
         levelvalues[x] = new QComboBox (devicegroup[x]);
         levelvalues[x]->setEditable(true);
@@ -174,14 +184,16 @@ ConfEdit::ConfEdit()
         levelvalues[x]->addItem ("0");
         levelvalues[x]->addItem ("0");
         levelvalues[x]->setValidator (valid);
-        levelvalues[x]->setGeometry (110,67,60,25);
+        deviceLayout->addWidget(levelvalues[x], 2, 1);
         levelvalues[x]->setMaxCount (6);
 
 
-        if (x < 10) devicegroup[x]->setGeometry (5,95+x*115,200,110);
-        else
-            devicegroup[x]->setGeometry (210,95+ (x-10) *115,200,110);
+        if (x < 10) {
+            devicesLayout->addWidget(devicegroup[x], x, 0);
+        } else {
+            devicesLayout->addWidget(devicegroup[x], x-10, 1);
 
+        }
     }
     QString tempname = QDir::homePath();
     tempname += "/droidbattles/current.cfg";

@@ -43,7 +43,7 @@
 
 #define numdev 20
 
-class ConfEdit : public QWidget
+class ConfEdit : public QDialog
 {
 
     Q_OBJECT

@@ -717,288 +717,7 @@ void TextModeFileManip::assemble (char *filename)
     int type[16];
     unsigned char value[16][2];
     int tpos;
-    Instruction *instr[255];
     int bits;
-
-    // Declare all mnemonics available
-    // ( mnemonic,arg1type,arg2type,bits,arg1bits,arg2bits,opcode )
-    instr[0] = new Instruction ("nop", none, none, bit0, bit0, bit0, 0x0);
-
-    instr[1] = new Instruction ("mov", reg, reg, bit16, bit8, bit8, 0x1);
-    instr[2] = new Instruction ("mov", reg, reg, bit8, bit8, bit8, 0x2);
-    instr[3] = new Instruction ("mov", reg, memc, bit16, bit8, bit16, 0x3);
-    instr[4] = new Instruction ("mov", reg, memc, bit8, bit8, bit16, 0x4);
-    instr[5] = new Instruction ("mov", reg, mreg, bit16, bit8, bit8, 0x5);
-    instr[6] = new Instruction ("mov", reg, mreg, bit8, bit8, bit8, 0x6);
-    instr[7] = new Instruction ("mov", memc, reg, bit16, bit16, bit8, 0x7);
-    instr[8] = new Instruction ("mov", memc, reg, bit8, bit16, bit8, 0x8);
-    instr[9] = new Instruction ("mov", mreg, reg, bit16, bit8, bit8, 0x9);
-    instr[10] = new Instruction ("mov", mreg, reg, bit8, bit8, bit8, 0xA);
-    instr[11] = new Instruction ("mov", reg, val, bit16, bit8, bit16, 0xB);
-    instr[12] = new Instruction ("mov", reg, val, bit8, bit8, bit8, 0xC);
-    instr[13] = new Instruction ("mov", mreg, val, bit16, bit8, bit16, 0xD);
-    instr[14] = new Instruction ("mov", mreg, val, bit8, bit8, bit8, 0xE);
-    instr[15] = new Instruction ("mov", memc, val, bit16, bit16, bit16, 0xF);
-    instr[16] = new Instruction ("mov", memc, val, bit8, bit16, bit8, 0x10);
-
-    instr[17] = new Instruction ("movsb", none, none, bit0, bit0, bit0, 0x11);
-    instr[18] = new Instruction ("movsw", none, none, bit0, bit0, bit0, 0x12);
-    instr[19] = new Instruction ("stosb", none, none, bit0, bit0, bit0, 0x13);
-    instr[20] = new Instruction ("stosw", none, none, bit0, bit0, bit0, 0x14);
-
-    instr[21] = new Instruction ("push", reg, none, bit16, bit8, bit0, 0x15);
-    instr[22] = new Instruction ("push", reg, none, bit8, bit8, bit0, 0x16);
-    instr[23] = new Instruction ("push", memc, none, bit16, bit16, bit0, 0x17);
-    instr[24] = new Instruction ("push", memc, none, bit8, bit16, bit0, 0x18);
-    instr[25] = new Instruction ("push", mreg, none, bit16, bit8, bit0, 0x19);
-    instr[26] = new Instruction ("push", mreg, none, bit8, bit8, bit0, 0x1A);
-    instr[27] = new Instruction ("push", val, none, bit16, bit16, bit0, 0x1B);
-    instr[28] = new Instruction ("push", val, none, bit8, bit8, bit0, 0x1C);
-    instr[29] = new Instruction ("pop", reg, none, bit16, bit8, bit0, 0x1D);
-    instr[30] = new Instruction ("pop", reg, none, bit8, bit8, bit0, 0x1E);
-    instr[31] = new Instruction ("pop", memc, none, bit16, bit16, bit0, 0x1F);
-    instr[32] = new Instruction ("pop", memc, none, bit8, bit16, bit0, 0x20);
-    instr[33] = new Instruction ("pop", mreg, none, bit16, bit8, bit0, 0x21);
-    instr[34] = new Instruction ("pop", mreg, none, bit8, bit8, bit0, 0x22);
-
-    instr[35] = new Instruction ("xchg", reg, reg, bit16, bit8, bit8, 0x23);
-    instr[36] = new Instruction ("xchg", reg, reg, bit8, bit8, bit8, 0x24);
-    instr[37] = new Instruction ("xchg", reg, memc, bit16, bit8, bit16, 0x25);
-    instr[38] = new Instruction ("xchg", reg, memc, bit8, bit8, bit16, 0x26);
-    instr[39] = new Instruction ("xchg", reg, mreg, bit16, bit8, bit8, 0x27);
-    instr[40] = new Instruction ("xchg", reg, mreg, bit8, bit8, bit8, 0x28);
-
-    instr[41] = new Instruction ("test", reg, val, bit16, bit8, bit8, 0x29);
-    instr[42] = new Instruction ("test", memc, val, bit16, bit16, bit8, 0x2A);
-    instr[43] = new Instruction ("test", mreg, val, bit16, bit8, bit8, 0x2B);
-    instr[44] = new Instruction ("test", reg, none, bit16, bit8, bit0, 0x2C);
-    instr[45] = new Instruction ("test", memc, none, bit16, bit16, bit0, 0x2D);
-    instr[46] = new Instruction ("test", mreg, none, bit16, bit8, bit0, 0x2E);
-
-    instr[47] = new Instruction ("cmp", reg, reg, bit16, bit8, bit8, 0x2F);
-    instr[48] = new Instruction ("cmp", reg, reg, bit8, bit8, bit8, 0x30);
-    instr[49] = new Instruction ("cmp", reg, memc, bit16, bit8, bit16, 0x31);
-    instr[50] = new Instruction ("cmp", reg, memc, bit8, bit8, bit16, 0x32);
-    instr[51] = new Instruction ("cmp", reg, mreg, bit16, bit8, bit8, 0x33);
-    instr[52] = new Instruction ("cmp", reg, mreg, bit8, bit8, bit8, 0x34);
-    instr[53] = new Instruction ("cmp", reg, val, bit16, bit8, bit16, 0x35);
-    instr[54] = new Instruction ("cmp", reg, val, bit8, bit8, bit8, 0x36);
-    instr[55] = new Instruction ("cmp", mreg, val, bit16, bit8, bit16, 0x37);
-    instr[56] = new Instruction ("cmp", mreg, val, bit8, bit8, bit8, 0x38);
-    instr[57] = new Instruction ("cmp", memc, val, bit16, bit16, bit16, 0x39);
-    instr[58] = new Instruction ("cmp", memc, val, bit8, bit16, bit8, 0x3A);
-    instr[59] = new Instruction ("cmpsb", none, none, bit0, bit0, bit0, 0x3B);
-
-    instr[60] = new Instruction ("jmp", val, none, bit0, bit16, bit0, 0x3C);
-    instr[61] = new Instruction ("jz", val, none, bit0, bit16, bit0, 0x3D);
-    instr[62] = new Instruction ("jnz", val, none, bit0, bit16, bit0, 0x3E);
-    instr[63] = new Instruction ("jae", val, none, bit0, bit16, bit0, 0x3F);
-    instr[64] = new Instruction ("jnb", val, none, bit0, bit16, bit0, 0x3F);
-    instr[65] = new Instruction ("jbe", val, none, bit0, bit16, bit0, 0x40);
-    instr[66] = new Instruction ("jna", val, none, bit0, bit16, bit0, 0x40);
-    instr[67] = new Instruction ("jmp", reg, none, bit16, bit8, bit0, 0x41);
-    instr[68] = new Instruction ("loop", val, none, bit0, bit16, bit0, 0x42);
-    instr[69] = new Instruction ("call", val, none, bit0, bit16, bit0, 0x43);
-    instr[70] = new Instruction ("ret", none, none, bit0, bit16, bit0, 0x44);
-    instr[71] = new Instruction ("iret", none, none, bit0, bit16, bit0, 0x45);
-
-    instr[72] = new Instruction ("cli", none, none, bit0, bit0, bit0, 0x46);
-    instr[73] = new Instruction ("sti", none, none, bit0, bit0, bit0, 0x47);
-
-    instr[74] = new Instruction ("out", val, val, bit0, bit8, bit16, 0x48);
-    instr[75] = new Instruction ("out", val, reg, bit16, bit8, bit8, 0x49);
-    instr[76] = new Instruction ("out", val, mreg, bit16, bit8, bit8, 0x4A);
-    instr[77] = new Instruction ("in", reg, val, bit16, bit8, bit8, 0x4B);
-
-    instr[78] = new Instruction ("inc", reg, none, bit16, bit8, bit0, 0x4C);
-    instr[79] = new Instruction ("inc", reg, none, bit8, bit8, bit0, 0x4D);
-    instr[80] = new Instruction ("inc", memc, none, bit16, bit16, bit0, 0x4E);
-    instr[81] = new Instruction ("inc", memc, none, bit8, bit16, bit0, 0x4F);
-    instr[82] = new Instruction ("inc", mreg, none, bit16, bit8, bit0, 0x50);
-    instr[83] = new Instruction ("inc", mreg, none, bit8, bit8, bit0, 0x51);
-    instr[84] = new Instruction ("dec", reg, none, bit16, bit8, bit0, 0x52);
-    instr[85] = new Instruction ("dec", reg, none, bit8, bit8, bit0, 0x53);
-    instr[86] = new Instruction ("dec", memc, none, bit16, bit16, bit0, 0x54);
-    instr[87] = new Instruction ("dec", memc, none, bit8, bit16, bit0, 0x55);
-    instr[88] = new Instruction ("dec", mreg, none, bit16, bit8, bit0, 0x56);
-    instr[89] = new Instruction ("dec", mreg, none, bit8, bit8, bit0, 0x57);
-
-    instr[90] = new Instruction ("add", reg, reg, bit16, bit8, bit8, 0x58);
-    instr[91] = new Instruction ("add", reg, reg, bit8, bit8, bit8, 0x59);
-    instr[92] = new Instruction ("add", reg, val, bit16, bit8, bit16, 0x5A);
-    instr[93] = new Instruction ("add", reg, val, bit8, bit8, bit8, 0x5B);
-    instr[94] = new Instruction ("add", reg, mreg, bit16, bit8, bit8, 0x5C);
-    instr[95] = new Instruction ("add", reg, mreg, bit8, bit8, bit8, 0x5D);
-    instr[96] = new Instruction ("add", reg, memc, bit16, bit8, bit16, 0x5E);
-    instr[97] = new Instruction ("add", reg, memc, bit8, bit8, bit16, 0x5F);
-    instr[98] = new Instruction ("add", mreg, reg, bit16, bit8, bit8, 0x60);
-    instr[99] = new Instruction ("add", mreg, reg, bit8, bit8, bit8, 0x61);
-    instr[100] = new Instruction ("add", mreg, val, bit16, bit8, bit16, 0x62);
-    instr[101] = new Instruction ("add", mreg, val, bit8, bit8, bit8, 0x63);
-    instr[102] = new Instruction ("add", memc, reg, bit16, bit16, bit8, 0x64);
-    instr[103] = new Instruction ("add", memc, reg, bit8, bit16, bit8, 0x65);
-    instr[104] = new Instruction ("add", memc, val, bit16, bit16, bit16, 0x66);
-    instr[105] = new Instruction ("add", memc, val, bit8, bit16, bit8, 0x67);
-
-    instr[106] = new Instruction ("sub", reg, reg, bit16, bit8, bit8, 0x68);
-    instr[107] = new Instruction ("sub", reg, reg, bit8, bit8, bit8, 0x69);
-    instr[108] = new Instruction ("sub", reg, val, bit16, bit8, bit16, 0x6A);
-    instr[109] = new Instruction ("sub", reg, val, bit8, bit8, bit8, 0x6B);
-    instr[110] = new Instruction ("sub", reg, mreg, bit16, bit8, bit8, 0x6C);
-    instr[111] = new Instruction ("sub", reg, mreg, bit8, bit8, bit8, 0x6D);
-    instr[112] = new Instruction ("sub", reg, memc, bit16, bit8, bit16, 0x6E);
-    instr[113] = new Instruction ("sub", reg, memc, bit8, bit8, bit16, 0x6F);
-    instr[114] = new Instruction ("sub", mreg, reg, bit16, bit8, bit8, 0x70);
-    instr[115] = new Instruction ("sub", mreg, reg, bit8, bit8, bit8, 0x71);
-    instr[116] = new Instruction ("sub", mreg, val, bit16, bit8, bit16, 0x72);
-    instr[117] = new Instruction ("sub", mreg, val, bit8, bit8, bit8, 0x73);
-    instr[118] = new Instruction ("sub", memc, reg, bit16, bit16, bit8, 0x74);
-    instr[119] = new Instruction ("sub", memc, reg, bit8, bit16, bit8, 0x75);
-    instr[120] = new Instruction ("sub", memc, val, bit16, bit16, bit16, 0x76);
-    instr[121] = new Instruction ("sub", memc, val, bit8, bit16, bit8, 0x77);
-
-    instr[122] = new Instruction ("rol", reg, reg, bit16, bit8, bit8, 0x78);
-    instr[123] = new Instruction ("rol", reg, val, bit16, bit8, bit8, 0x79);
-    instr[124] = new Instruction ("rol", mreg, val, bit16, bit8, bit8, 0x7A);
-    instr[125] = new Instruction ("rol", mreg, reg, bit16, bit8, bit8, 0x7B);
-    instr[126] = new Instruction ("rol", memc, reg, bit16, bit16, bit8, 0x7C);
-    instr[127] = new Instruction ("rol", memc, val, bit16, bit16, bit8, 0x7D);
-    instr[128] = new Instruction ("ror", reg, reg, bit16, bit8, bit8, 0x7E);
-    instr[129] = new Instruction ("ror", reg, val, bit16, bit8, bit8, 0x7F);
-    instr[130] = new Instruction ("ror", mreg, val, bit16, bit8, bit8, 0x80);
-    instr[131] = new Instruction ("ror", mreg, reg, bit16, bit8, bit8, 0x81);
-    instr[132] = new Instruction ("ror", memc, reg, bit16, bit16, bit8, 0x82);
-    instr[133] = new Instruction ("ror", memc, val, bit16, bit16, bit8, 0x83);
-    instr[134] = new Instruction ("imul", none, none, bit0, bit0, bit0, 0x84);
-    instr[135] = new Instruction ("idiv", none, none, bit0, bit0, bit0, 0x85);
-    instr[136] = new Instruction ("ja", val, none, bit0, bit16, bit0, 0x86);
-    instr[137] = new Instruction ("jb", val, none, bit0, bit16, bit0, 0x87);
-
-    instr[138] = new Instruction ("atanfunc", none, none, bit0, bit0, bit0,
-                                  0x88);
-    instr[139] = new Instruction ("sqr", none, none, bit0, bit0, bit0, 0x89);
-    instr[140] = new Instruction ("icmp", reg, reg, bit16, bit8, bit8, 0x8A);
-    instr[141] = new Instruction ("icmp", reg, memc, bit16, bit8, bit16, 0x8B);
-    instr[142] = new Instruction ("icmp", reg, mreg, bit16, bit8, bit8, 0x8C);
-    instr[143] = new Instruction ("icmp", reg, val, bit16, bit8, bit16, 0x8D);
-    instr[144] = new Instruction ("icmp", mreg, val, bit16, bit8, bit16, 0x8E);
-    instr[145] = new Instruction ("icmp", memc, val, bit16, bit16, bit16,
-                                  0x8F);
-    instr[146] = new Instruction ("msg", mreg, none, bit16, bit8, bit0, 0x90);
-    instr[147] = new Instruction ("msg", memc, none, bit16, bit16, bit0, 0x91);
-    instr[148] = new Instruction ("err", val, none, bit0, bit8, bit0, 0x92);
-    instr[149] = new Instruction ("readfile", none, none, bit0, bit0, bit0,
-                                  0x93);
-    instr[150] = new Instruction ("writefile", none, none, bit0, bit0, bit0,
-                                  0x94);
-    instr[151] = new Instruction ("lz", reg, none, bit16, bit8, bit0, 0x95);
-    instr[152] = new Instruction ("lnz", reg, none, bit16, bit8, bit0, 0x96);
-    instr[153] = new Instruction ("la", reg, none, bit16, bit8, bit0, 0x97);
-
-    instr[154] = new Instruction ("and", reg, reg, bit16, bit8, bit8, 0x98);
-    instr[155] = new Instruction ("and", reg, reg, bit8, bit8, bit8, 0x99);
-    instr[156] = new Instruction ("and", reg, val, bit16, bit8, bit16, 0x9A);
-    instr[157] = new Instruction ("and", reg, val, bit8, bit8, bit8, 0x9B);
-    instr[158] = new Instruction ("and", reg, mreg, bit16, bit8, bit8, 0x9C);
-    instr[159] = new Instruction ("and", reg, mreg, bit8, bit8, bit8, 0x9D);
-    instr[160] = new Instruction ("and", reg, memc, bit16, bit8, bit16, 0x9E);
-    instr[161] = new Instruction ("and", reg, memc, bit8, bit8, bit16, 0x9F);
-    instr[162] = new Instruction ("and", mreg, reg, bit16, bit8, bit8, 0xA0);
-    instr[163] = new Instruction ("and", mreg, reg, bit8, bit8, bit8, 0xA1);
-    instr[164] = new Instruction ("and", mreg, val, bit16, bit8, bit16, 0xA2);
-    instr[165] = new Instruction ("and", mreg, val, bit8, bit8, bit8, 0xA3);
-    instr[166] = new Instruction ("and", memc, reg, bit16, bit16, bit8, 0xA4);
-    instr[167] = new Instruction ("and", memc, reg, bit8, bit16, bit8, 0xA5);
-    instr[168] = new Instruction ("and", memc, val, bit16, bit16, bit16, 0xA6);
-    instr[169] = new Instruction ("and", memc, val, bit8, bit16, bit8, 0xA7);
-
-    instr[170] = new Instruction ("or", reg, reg, bit16, bit8, bit8, 0xA8);
-    instr[171] = new Instruction ("or", reg, reg, bit8, bit8, bit8, 0xA9);
-    instr[172] = new Instruction ("or", reg, val, bit16, bit8, bit16, 0xAA);
-    instr[173] = new Instruction ("or", reg, val, bit8, bit8, bit8, 0xAB);
-    instr[174] = new Instruction ("or", reg, mreg, bit16, bit8, bit8, 0xAC);
-    instr[175] = new Instruction ("or", reg, mreg, bit8, bit8, bit8, 0xAD);
-    instr[176] = new Instruction ("or", reg, memc, bit16, bit8, bit16, 0xAE);
-    instr[177] = new Instruction ("or", reg, memc, bit8, bit8, bit16, 0xAF);
-    instr[178] = new Instruction ("or", mreg, reg, bit16, bit8, bit8, 0xB0);
-    instr[179] = new Instruction ("or", mreg, reg, bit8, bit8, bit8, 0xB1);
-    instr[180] = new Instruction ("or", mreg, val, bit16, bit8, bit16, 0xB2);
-    instr[181] = new Instruction ("or", mreg, val, bit8, bit8, bit8, 0xB3);
-    instr[182] = new Instruction ("or", memc, reg, bit16, bit16, bit8, 0xB4);
-    instr[183] = new Instruction ("or", memc, reg, bit8, bit16, bit8, 0xB5);
-    instr[184] = new Instruction ("or", memc, val, bit16, bit16, bit16, 0xB6);
-    instr[185] = new Instruction ("or", memc, val, bit8, bit16, bit8, 0xB7);
-
-    instr[186] = new Instruction ("xor", reg, reg, bit16, bit8, bit8, 0xB8);
-    instr[187] = new Instruction ("xor", reg, reg, bit8, bit8, bit8, 0xB9);
-    instr[188] = new Instruction ("xor", reg, val, bit16, bit8, bit16, 0xBA);
-    instr[189] = new Instruction ("xor", reg, val, bit8, bit8, bit8, 0xBB);
-    instr[190] = new Instruction ("xor", reg, mreg, bit16, bit8, bit8, 0xBC);
-    instr[191] = new Instruction ("xor", reg, mreg, bit8, bit8, bit8, 0xBD);
-    instr[192] = new Instruction ("xor", reg, memc, bit16, bit8, bit16, 0xBE);
-    instr[193] = new Instruction ("xor", reg, memc, bit8, bit8, bit16, 0xBF);
-    instr[194] = new Instruction ("xor", mreg, reg, bit16, bit8, bit8, 0xC0);
-    instr[195] = new Instruction ("xor", mreg, reg, bit8, bit8, bit8, 0xC1);
-    instr[196] = new Instruction ("xor", mreg, val, bit16, bit8, bit16, 0xC2);
-    instr[197] = new Instruction ("xor", mreg, val, bit8, bit8, bit8, 0xC3);
-    instr[198] = new Instruction ("xor", memc, reg, bit16, bit16, bit8, 0xC4);
-    instr[199] = new Instruction ("xor", memc, reg, bit8, bit16, bit8, 0xC5);
-    instr[200] = new Instruction ("xor", memc, val, bit16, bit16, bit16, 0xC6);
-    instr[201] = new Instruction ("xor", memc, val, bit8, bit16, bit8, 0xC7);
-
-    instr[202] = new Instruction ("shl", reg, val, bit16, bit8, bit8, 0xC8);
-    instr[203] = new Instruction ("shl", reg, reg, bit16, bit8, bit8, 0xC9);
-    instr[204] = new Instruction ("shl", mreg, val, bit16, bit8, bit8, 0xCA);
-    instr[205] = new Instruction ("shl", mreg, reg, bit16, bit8, bit8, 0xCB);
-    instr[206] = new Instruction ("shl", memc, val, bit16, bit16, bit8, 0xCC);
-    instr[207] = new Instruction ("shl", memc, reg, bit16, bit16, bit8, 0xCD);
-    instr[208] = new Instruction ("shr", reg, val, bit16, bit8, bit8, 0xCE);
-    instr[209] = new Instruction ("shr", reg, reg, bit16, bit8, bit8, 0xCF);
-    instr[210] = new Instruction ("shr", mreg, val, bit16, bit8, bit8, 0xD0);
-    instr[211] = new Instruction ("shr", mreg, reg, bit16, bit8, bit8, 0xD1);
-    instr[212] = new Instruction ("shr", memc, val, bit16, bit16, bit8, 0xD2);
-    instr[213] = new Instruction ("shr", memc, reg, bit16, bit16, bit8, 0xD3);
-
-    instr[214] = new Instruction ("ishl", reg, val, bit16, bit8, bit8, 0xD4);
-    instr[215] = new Instruction ("ishl", reg, reg, bit16, bit8, bit8, 0xD5);
-    instr[216] = new Instruction ("ishl", mreg, val, bit16, bit8, bit8, 0xD6);
-    instr[217] = new Instruction ("ishl", mreg, reg, bit16, bit8, bit8, 0xD7);
-    instr[218] = new Instruction ("ishl", memc, val, bit16, bit16, bit8, 0xD8);
-    instr[219] = new Instruction ("ishl", memc, reg, bit16, bit16, bit8, 0xD9);
-    instr[220] = new Instruction ("ishr", reg, val, bit16, bit8, bit8, 0xDA);
-    instr[221] = new Instruction ("ishr", reg, reg, bit16, bit8, bit8, 0xDB);
-    instr[222] = new Instruction ("ishr", mreg, val, bit16, bit8, bit8, 0xDC);
-    instr[223] = new Instruction ("ishr", mreg, reg, bit16, bit8, bit8, 0xDD);
-    instr[224] = new Instruction ("ishr", memc, val, bit16, bit16, bit8, 0xDE);
-    instr[225] = new Instruction ("ishr", memc, reg, bit16, bit16, bit8, 0xDF);
-
-    instr[226] = new Instruction ("int", val, none, bit0, bit16, bit0, 0xE0);
-    instr[227] = new Instruction ("mul", none, none, bit0, bit0, bit0, 0xE1);
-    instr[228] = new Instruction ("div", none, none, bit0, bit0, bit0, 0xE2);
-
-    instr[229] = new Instruction ("ret", val, none, bit0, bit8, bit0, 0xE3);
-    instr[230] = new Instruction ("lodsb", none, none, bit0, bit0, bit0, 0xE4);
-    instr[231] = new Instruction ("lodsw", none, none, bit0, bit0, bit0, 0xE5);
-    instr[232] = new Instruction ("sinfunc", none, none, bit0, bit0, bit0,
-                                  0xE6);
-    instr[233] = new Instruction ("cosfunc", none, none, bit0, bit0, bit0,
-                                  0xE7);
-    instr[234] = new Instruction ("sin", none, none, bit0, bit0, bit0, 0xE8);
-    instr[235] = new Instruction ("cos", none, none, bit0, bit0, bit0, 0xE9);
-
-    instr[245] = new Instruction ("mov", val, val, bit16, bit16, bit8, 0xEA);
-    instr[246] = new Instruction ("mov", val, val, bit16, bit16, bit8, 0xEB);
-    instr[236] = new Instruction ("rnd", none, none, bit0, bit0, bit0, 0xEC);
-    instr[237] = new Instruction ("hwait", none, none, bit0, bit0, bit0, 0xED);
-
-    instr[238] = new Instruction ("lb", reg, none, bit16, bit8, bit0, 0xEE);
-    instr[239] = new Instruction ("lae", reg, none, bit16, bit8, bit0, 0xEF);
-    instr[240] = new Instruction ("lnb", reg, none, bit16, bit8, bit0, 0xEF);
-    instr[241] = new Instruction ("lbe", reg, none, bit16, bit8, bit0, 0xF0);
-    instr[242] = new Instruction ("lna", reg, none, bit16, bit8, bit0, 0xF0);
-    instr[243] = new Instruction ("cj", reg, val, bit16, bit8, bit16, 0xF1);
-    instr[244] = new Instruction ("cjn", reg, val, bit16, bit8, bit16, 0xF2);
-
 
     QString tempname = filename;
     tempname += ".bot";
@@ -1814,7 +1533,7 @@ void TextModeFileManip::assemble (char *filename)
                     //Run through all available mnemonic-operand combinations available
                     for (i=0; i<245; i++)
                     {
-                        if (instr[i]->checkmatch (curmnem,type[1],type[2],bits) ==true)
+                        if (Instruction::instructions[i].checkmatch (curmnem,type[1],type[2],bits) ==true)
                             goto found;
                     }
                     //If not success return error
@@ -1822,19 +1541,19 @@ void TextModeFileManip::assemble (char *filename)
                     goto ende;
                     //If success write result
 found:
-                    mem[posinmem+256] = instr[i]->getopcode();
+                    mem[posinmem+256] = Instruction::instructions[i].getopcode();
                     ///////////////
                     posinmem++;
 
                     if (tunres[1] == true)
                     {
                         unrespos[ unresnum[1] ] = posinmem;
-                        if (instr[i]->getarg1bits() > 0)
+                        if (Instruction::instructions[i].getarg1bits() > 0)
                         {
                             unresbits[ unresnum[1] ] = 8;
                             posinmem++;
                         }
-                        if (instr[i]->getarg1bits() > 8)
+                        if (Instruction::instructions[i].getarg1bits() > 8)
                         {
                             unresbits[ unresnum[1] ] = 16;
                             posinmem++;
@@ -1842,12 +1561,12 @@ found:
                     }
                     else
                     {
-                        if (instr[i]->getarg1bits() > 0)
+                        if (Instruction::instructions[i].getarg1bits() > 0)
                         {
                             mem[posinmem+256] = value[1][0];
                             posinmem++;
                         }
-                        if (instr[i]->getarg1bits() > 8)
+                        if (Instruction::instructions[i].getarg1bits() > 8)
                         {
                             mem[posinmem+256] = value[1][1];
                             posinmem++;
@@ -1857,12 +1576,12 @@ found:
                     if (tunres[2] == true)
                     {
                         unrespos[ unresnum[2] ] = posinmem;
-                        if (instr[i]->getarg2bits() > 0)
+                        if (Instruction::instructions[i].getarg2bits() > 0)
                         {
                             unresbits[ unresnum[2] ] = 8;
                             posinmem++;
                         }
-                        if (instr[i]->getarg2bits() > 8)
+                        if (Instruction::instructions[i].getarg2bits() > 8)
                         {
                             unresbits[ unresnum[2] ] = 16;
                             posinmem++;
@@ -1870,12 +1589,12 @@ found:
                     }
                     else
                     {
-                        if (instr[i]->getarg2bits() > 0)
+                        if (Instruction::instructions[i].getarg2bits() > 0)
                         {
                             mem[posinmem+256] = value[2][0];
                             posinmem++;
                         }
-                        if (instr[i]->getarg2bits() > 8)
+                        if (Instruction::instructions[i].getarg2bits() > 8)
                         {
                             mem[posinmem+256] = value[2][1];
                             posinmem++;
@@ -1938,8 +1657,7 @@ newline:
 
     cout << "Assemble successful" << endl;
 ende:
-    for (i=0; i<247; i++)
-        delete instr[i];
+    return;
 }
 
 void TextModeFileManip::checkConfig (char *filename)

@@ -28,16 +28,16 @@
 
 class Instruction
 {
-
 public:
+    const static Instruction instructions[247];
 
     Instruction (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
                  int op);
     ~Instruction();
-    bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits);
-    unsigned char getopcode();
-    int getarg1bits();
-    int getarg2bits();
+    bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits) const;
+    unsigned char getopcode() const;
+    int getarg1bits() const;
+    int getarg2bits() const;
 
 private:
 

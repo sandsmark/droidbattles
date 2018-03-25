@@ -169,10 +169,17 @@ DroidBattles::~DroidBattles()
 
 void DroidBattles::showdoc()
 {
-    QString temp = returninstalldir();
-    temp += "/doc/index.html";
     browser = new DocBrowser ("qrc:/doc/index.html");
 }
+
+void DroidBattles::onHelpRequested(const QString &word)
+{
+    if (!browser) {
+        browser = new DocBrowser ("qrc:/doc/index.html");
+    }
+    browser->lookUp(word);
+}
+
 /**
 	* Executed when the user presses start single battle
 	* in the main menu
@@ -344,6 +351,8 @@ void DroidBattles::createb()
     cre = new CreateBot();
     cre->resize (520,500);
     cre->show();
+
+    connect(cre, &CreateBot::helpRequested, this, &DroidBattles::onHelpRequested);
 }
 
 /**

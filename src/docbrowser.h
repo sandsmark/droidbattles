@@ -35,6 +35,9 @@ public:
     DocBrowser (QString src);
     ~DocBrowser();
     void closeEvent (QCloseEvent *e);
+
+public slots:
+    void lookUp(const QString &keyword);
 };
 
 #endif

@@ -60,7 +60,6 @@ public:
     int devnum (int sort,int num);
 
 private slots:
-
     void assemble();
     void newb();
     void open();
@@ -80,6 +79,10 @@ private slots:
     void resizeEvent (QResizeEvent *e);
     void setEdittxtScrollValue (int i);
     void setShowlatencyScrollValue (int i);
+    void onHelpAction();
+
+signals:
+    void helpRequested(const QString &word);
 
 private:
     bool loadFile(const QString &filename);

@@ -41,6 +41,7 @@
 #include <qicon.h>
 #include <qdatetime.h>
 #include <qpixmapcache.h>
+#include <QPointer>
 
 // application specific includes
 //#include "resource.h"
@@ -86,7 +87,7 @@ private:
     QPixmap *bnpm;
     /** Pointers to the various types of objects the menu object can start */
     // Editor for creating the bots
-    CreateBot *cre;
+    QPointer<CreateBot> cre;
     // Base widget for battles
     BattleArea *batt;
     // Widget for showing info about bots
@@ -100,7 +101,7 @@ private:
     StartCup *cuptournament;
     StartTournament *stment;
 
-    DocBrowser *browser;
+    QPointer<DocBrowser> browser;
 
     ConfEdit *ccf;
     char *currentdir;
@@ -160,6 +161,7 @@ private slots:
     void mancuptourney (int wins1,int wins2);
 
     void showdoc();
+    void onHelpRequested(const QString &word);
 };
 
 #endif

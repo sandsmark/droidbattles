@@ -85,6 +85,8 @@ CreateBot::CreateBot()
 
     tests->addAction("&Config quick battle", this, SLOT (confquick()));
     tests->addAction("C&heck against config", this, SLOT (checkconf()));
+    action = tests->addAction("&Show help for keyword", this, SLOT (onHelpAction()));
+    action->setShortcut(QKeySequence::HelpContents);
 
 
     scrvw = new QScrollArea (this);
@@ -2488,4 +2490,23 @@ void CreateBot::setShowlatencyScrollValue (int i)
 {
     assert (showlatency);
     showlatency->verticalScrollBar()->setValue (i);
+}
+
+void CreateBot::onHelpAction()
+{
+    QTextCursor cursor = edittxt->textCursor();
+
+    cursor.select(QTextCursor::WordUnderCursor);
+    QString currentWord = cursor.selectedText();
+
+    // qtextcursor is dumb
+    int selectEnd = cursor.selectionEnd();
+    cursor.setPosition(cursor.selectionStart() - 1);
+    cursor.setPosition(selectEnd, QTextCursor::KeepAnchor);
+    QString maybe = cursor.selectedText();
+    if (maybe.startsWith(":") || maybe.startsWith("#") || maybe.startsWith("$") || maybe.startsWith("@")) {
+        emit helpRequested(maybe);
+    } else {
+        emit helpRequested(currentWord);
+    }
 }

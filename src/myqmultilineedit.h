@@ -28,10 +28,7 @@
 class MyQMultiLineEdit : public QPlainTextEdit
 {
 public:
-    MyQMultiLineEdit (QWidget * parent=0) : QPlainTextEdit (parent) {}
-    QScrollBar *myVerticalScrollBar () const {
-        return verticalScrollBar();
-    }
+    MyQMultiLineEdit (QWidget * parent=0);
 };
 
 #endif

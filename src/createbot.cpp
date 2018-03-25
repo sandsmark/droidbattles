@@ -45,9 +45,9 @@ CreateBot::CreateBot()
     edittxt->setGeometry (75,30,300,400);
     showlatency = new MyQMultiLineEdit (this);
     showlatency->setFont (QFont ("helvetica",9));
-    connect (edittxt->myVerticalScrollBar(),SIGNAL (valueChanged (int)),
+    connect (edittxt->verticalScrollBar(),SIGNAL (valueChanged (int)),
              this,SLOT (setShowlatencyScrollValue (int)));
-    connect (showlatency->myVerticalScrollBar(),SIGNAL (valueChanged (int)),
+    connect (showlatency->verticalScrollBar(),SIGNAL (valueChanged (int)),
              this,SLOT (setEdittxtScrollValue (int)));
     showlatency->setGeometry (5,30,300,400);
     showlatency->setReadOnly (true);
@@ -2468,11 +2468,11 @@ int CreateBot::devnum (int sort,int num)
 void CreateBot::setEdittxtScrollValue (int i)
 {
     assert (edittxt);
-    edittxt->myVerticalScrollBar()->setValue (i);
+    edittxt->verticalScrollBar()->setValue (i);
 }
 
 void CreateBot::setShowlatencyScrollValue (int i)
 {
     assert (showlatency);
-    showlatency->myVerticalScrollBar()->setValue (i);
+    showlatency->verticalScrollBar()->setValue (i);
 }

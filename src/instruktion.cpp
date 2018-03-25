@@ -347,3 +347,18 @@ int Instruction::getarg2bits() const
 {
     return arg2bits;
 }
+
+Instruction::Types Instruction::getarg1type() const
+{
+    return Types(arg1type);
+}
+
+Instruction::Types Instruction::getarg2type() const
+{
+    return Types(arg2type);
+}
+
+QString Instruction::token() const
+{
+    return QString::fromLatin1(mnemonic);
+}

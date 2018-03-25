@@ -77,12 +77,16 @@ public:
     ~Instruction();
     bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits) const;
     unsigned char getopcode() const;
+
     int getarg1bits() const;
     int getarg2bits() const;
+    Types getarg1type() const;
+    Types getarg2type() const;
+
+    QString token() const;
 
 private:
-
-    char *mnemonic;
+    char *mnemonic = nullptr;
     int arg1type;
     int arg2type;
     int arg1bits;

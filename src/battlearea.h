@@ -75,9 +75,6 @@ signals:
 
     void battledone (int,int);
 
-protected:
-    void resizeEvent (QResizeEvent *);
-
 private:
 
     QList<DebugWindow*> dbgwindows;
@@ -90,7 +87,6 @@ private:
 //		screenobject *objects[256];
     QPixmap m_pixmap;
     QLabel *mydrw;
-    QScrollArea *scrolling;
     QWidget *infowindow;
     QTimer *eventH;
     QLabel *debug1;

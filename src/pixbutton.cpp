@@ -24,22 +24,15 @@ PixButton::PixButton (QString text,QWidget *parent)
         : QPushButton (text, parent)
 {
     tex = text;
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 }
 
 PixButton::~PixButton()
 {
 }
 
-void PixButton::paintEvent (QPaintEvent *event)
+void PixButton::paintEvent (QPaintEvent *)
 {
-//    {
-//        QPushButton::paintEvent(event);
-//        QStylePainter p(this);
-//        QStyleOptionButton option;
-//        initStyleOption(&option);
-//        p.drawControl(QStyle::CE_PushButton, option);
-//    }
-//    QPushButton::paintEvent(event);
     QPainter paint(this);
     paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(PixmapHolder::getpm(PixmapHolder::BackButton)));
     paint.drawText (isDown() ? 1 : 0, isDown() ? 1 : 0, width(), height(), Qt::AlignCenter, tex);

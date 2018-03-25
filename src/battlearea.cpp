@@ -21,6 +21,9 @@
 #include <QResizeEvent>
 #include <QCloseEvent>
 #include <QDebug>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+
 bool SingleStepMode = false;
 
 /**
@@ -60,6 +63,9 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
         deleteLater();
         return;
     }
+
+    QHBoxLayout *mainLayout = new QHBoxLayout;
+    setLayout(mainLayout);
 
     QTextStream s (&f);
     int x,y;
@@ -117,30 +123,31 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     for (x=0; x<8; x++)
         fightswon[x] = 0;
 
-    scrolling = new QScrollArea (this);
-    scrolling->setGeometry (16,16,524,524);
     mydrw = new QLabel();
+    mainLayout->addWidget(mydrw);
     infowindow = new QDialog();
     infowindow->resize (550,420);
 
     debug1 = new QLabel ("a", infowindow);
-//	debug1->setGeometry( 0,0,150,20 );
     debug2 = new QLabel ("b", infowindow);
-//	debug2->setGeometry( 0,25,150,20 );
 
     debug1->hide();
     debug2->hide();
-    scrolling->setWidget(mydrw);
-    mydrw->setGeometry (0,0,xsize>>6,ysize>>6);
-    m_pixmap = QPixmap(mydrw->size());
+    m_pixmap = QPixmap(xsize>>6,ysize>>6 );
+    mydrw->setMinimumSize(m_pixmap.size());
     mydrw->show();
     mydrw->setPalette (QPalette (QColor (0,0,0)));
     playb = new PixButton ("Play", this);
     pauseb = new PixButton ("Pause", this);
     singles = new PixButton ("Singlestep", this);
-    playb->setGeometry (540,20,70,20);
-    pauseb->setGeometry (540,40,70,20);
-    singles->setGeometry (540,60,70,20);
+
+    QVBoxLayout *sideLayout = new QVBoxLayout;
+    sideLayout->addWidget(playb);
+    sideLayout->addWidget(pauseb);
+    sideLayout->addWidget(singles);
+    sideLayout->addStretch();
+    mainLayout->addLayout(sideLayout);
+
     QObject::connect (playb,SIGNAL (clicked()),this,SLOT (play()));
     QObject::connect (pauseb,SIGNAL (clicked()),this,SLOT (pause()));
     QObject::connect (singles,SIGNAL (clicked()),this,SLOT (singlestep()));
@@ -154,30 +161,15 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
         _dbedit = dbedit;
         _dbl    = dbl;
         _dbm    = dbm;
-
-//		dbgwindow = new debugwindow( dbedit,&dbl[0],&dbm[0] );
-//		dbgwindow->resize( 300,405 );
-//		dbgwindow->show( );
-//		QObject::connect( dbgwindow,SIGNAL( dumpmem( ) ),this,SLOT( dmem( ) ) );
     }
     missilesLaunched = 0;
 
-    setMinimumSize (150,150);
-    resize (640,570);
     startonebattle (firstrun);
 
     QPalette palette;
     palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MetalBackground)));
     palette.setColor(foregroundRole(), Qt::white);
     setPalette(palette);
-}
-
-void BattleArea::resizeEvent (QResizeEvent*)
-{
-    scrolling->setGeometry (16,16,width()-116,height()-46);
-    playb->setGeometry (width()-100,20,70,40);
-    pauseb->setGeometry (width()-100,60,70,40);
-    singles->setGeometry (width()-100,100,70,40);
 }
 
 /**
@@ -852,7 +844,7 @@ void BattleArea::execute()
     if (ifdelete == true)
         deleteLater();
 
-    mydrw->setPixmap(m_pixmap);
+    mydrw->setPixmap(m_pixmap.scaled(mydrw->size(), Qt::KeepAspectRatio));
 }
 
 /**

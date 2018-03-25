@@ -80,7 +80,7 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     numfix = new QIntValidator (this);
     wnumfights->setValidator (numfix);
 
-    lengthfight = new QLabel ("Max length of fight ( 50 ~ 1sec ):",this);
+    lengthfight = new QLabel ("Max length of fight (50 ~ 1sec):",this);
     optionsLayout->addWidget(lengthfight, 1, 0);
     length = new QLineEdit (this);
     optionsLayout->addWidget(length, 1, 1);
@@ -107,7 +107,7 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     l->addLayout(bottomLayout);
     readyb = new PixButton ("OK", this);
     bottomLayout->addWidget(readyb);
-    cancelb = new PixButton ("cancel", this);
+    cancelb = new PixButton ("Cancel", this);
     bottomLayout->addWidget(cancelb);
 
     QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
@@ -118,7 +118,6 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     palette.setColor(foregroundRole(), Qt::white);
     setPalette(palette);
 
-    setMinimumSize (300,570);
     loadfilesettings();
 
 }

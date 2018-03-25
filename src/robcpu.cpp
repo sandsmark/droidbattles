@@ -2655,7 +2655,7 @@ void RobCpu::execinstr()
 
             //RND
         case 0xEC :
-            registers[ax] = random();
+            registers[ax] = qrand();
             registers[eip]++;
             break;
 

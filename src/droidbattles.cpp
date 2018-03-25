@@ -25,7 +25,6 @@
 #include "confedit.h"
 #include "starttournament.h"
 #include <sys/time.h>
-#include <sys/resource.h>
 #include "installdir.h"
 #include "kothtournament.h"
 #include "startcup.h"
@@ -37,6 +36,10 @@
 //Added by qt3to4:
 #include <QTextStream>
 
+#ifdef Q_OS_LINUX
+#include <sys/resource.h>
+#endif
+
 #define VERSION "1.0.7"
 /**
 	* Constructor, creates the main menu, it's buttons
@@ -46,8 +49,10 @@ DroidBattles::DroidBattles()
 {
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("DroidBattles " VERSION);
+#ifdef Q_OS_LINUX
     setpriority (PRIO_PROCESS, 0, 5);  //Lower process execution priority
-    srandom (time (0));     //Initialize random seed
+#endif
+    qsrand(time (0));     //Initialize random seed
 
     /**
     	* If the dir homedir/droidbattles doesn't exist, create it
@@ -418,8 +423,8 @@ void DroidBattles::starttourney()
     xs = stment->getxsize();
     ys = stment->getysize();
     seed = stment->getseed();
-    if (!seed) seed = random();
-    srandom (seed);
+    if (!seed) seed = qrand();
+    qsrand (seed);
     teams[0] = 0;
     teams[1] = 1;
 
@@ -617,8 +622,8 @@ void DroidBattles::startkoth()
     xs = kotht->getxsize();
     ys = kotht->getysize();
     seed = kotht->getseed();
-    if (!seed) seed = random();
-    srandom (seed);
+    if (!seed) seed = qrand();
+    qsrand (seed);
 
     teams[0] = 0;
     teams[1] = 1;
@@ -860,8 +865,8 @@ void DroidBattles::startcupt()
     xs = cuptournament->getxsize();
     ys = cuptournament->getysize();
     seed = cuptournament->getseed();
-    if (!seed) seed = random();
-    srandom (seed);
+    if (!seed) seed = qrand();
+    qsrand (seed);
 
     teams[0] = 0;
     teams[1] = 1;

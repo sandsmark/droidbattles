@@ -41,7 +41,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
 
     Xpos = ourarea->getstartx (mnum);  //Get start position from battlearea
     Ypos = ourarea->getstarty (mnum);
-    m_direction = random() %1024;
+    m_direction = qrand() %1024;
 
     fuelval = 0;
     mynum = mnum;

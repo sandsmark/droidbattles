@@ -197,22 +197,29 @@ int main (int argc, char *argv[])
 //    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 //    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 //    qputenv("QT_SCALE_FACTOR", "2");
-    QApplication a (argc, argv, useGUI);
 
     if (useGUI)
     {
+        QApplication a (argc, argv);
+        a.setApplicationName("droidbattles");
+        a.setOrganizationName("martin");
+
         QApplication::setStyle(QStyleFactory::create("Fusion"));
 
 //        a.setStyle( new QWindowsStyle );
 //        a.setFont (QFont ("helvetica", 8));
         QFont font(a.font());
-        font.setPixelSize(5);
+        font.setPixelSize(12);
         a.setFont(font);
         DroidBattles *droidbattles=new DroidBattles();
 
         droidbattles->show();
         return a.exec();  //Enter event-loop
     } else {
+        QCoreApplication a (argc, argv);
+        a.setApplicationName("droidbattles");
+        a.setOrganizationName("martin");
+
         if (strcmp (argv[2] , "-assemble") == 0)
         {
             if (argc >= 4)

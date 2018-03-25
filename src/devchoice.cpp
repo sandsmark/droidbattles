@@ -22,13 +22,17 @@
 #include <QFrame>
 #include <QGroupBox>
 #include <QVBoxLayout>
+#include <QDebug>
 
 /** Holds one group of the device choosing group of combobox etc. in
 	* the createbot dialog
 	*/
 
-DevChoice::DevChoice (CreateBot *cre,QWidget *parent, int num) : QWidget (parent)
+DevChoice::DevChoice (CreateBot *cre,QWidget *parent, int num) : QGroupBox (parent)
 {
+    QGridLayout *mainLayout = new QGridLayout;
+    setLayout(mainLayout);
+
     chosenlevel = 0;
     dev = 0;
     int x;
@@ -56,33 +60,32 @@ DevChoice::DevChoice (CreateBot *cre,QWidget *parent, int num) : QWidget (parent
     comb->addItem ("missile");
     comb->addItem ("beam");
     comb->addItem ("AS-rocket");
-//	comb->move( 0,0 );
-//	comb->adjustSize( );
-    comb->setGeometry (0,0,80,20);
+    mainLayout->addWidget(comb, 0, 0);
 
     level = new QButtonGroup (this);
     QGroupBox *radioButtons = new QGroupBox;
-    QVBoxLayout *levelsLayout = new QVBoxLayout(radioButtons);
+    QHBoxLayout *levelsLayout = new QHBoxLayout(radioButtons);
+    levelsLayout->setMargin(0);
     radioButtons->setFlat(true);
     for (x=0; x<5; x++)
     {
         levels[x] = new QRadioButton (radioButtons);
-        levels[x]->setGeometry (x*20,6,x*20+19,15);
         levelsLayout->addWidget(levels[x]);
-        level->addButton(levels[x]);
+        level->addButton(levels[x], x);
     }
-    radioButtons->setGeometry (0,25,120,20);
+    mainLayout->addWidget(radioButtons, 1, 0);
+
     arg1 = new QLineEdit (this);
-    arg1->setGeometry (100,0,20,20);
-    QObject::connect (level, SIGNAL (buttonClicked (int)), this,
-                      SLOT (levelchosen (int)));
+    mainLayout->addWidget(arg1, 0, 1);
+    connect(level, QOverload<int>::of(&QButtonGroup::buttonClicked), this, &DevChoice::levelchosen);
+    arg1->setMaximumWidth(100);
     valid = new QIntValidator (0,31,this);
     arg1->setValidator (valid);
     showcost = new QLabel ("Cost",this);
-    showcost->setGeometry (105,25,70,20);
+    mainLayout->addWidget(showcost, 1, 1, 1, 2);
 
     info = new QPushButton ("info",this);
-    info->setGeometry (130,0,40,20);
+    mainLayout->addWidget(info, 0, 2);
 
     QObject::connect (this,SIGNAL (change()),this,SLOT (costchanged()));
     QObject::connect (info,SIGNAL (clicked()),this,SLOT (showinfo()));

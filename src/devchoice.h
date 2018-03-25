@@ -35,6 +35,7 @@
 #include <qdir.h>
 #include "createbot.h"
 #include "infobox.h"
+#include <QGroupBox>
 
 /**
 	* This class is the one making up the choice
@@ -45,7 +46,7 @@
   * @author Andreas Agorander
   */
 
-class DevChoice : public QWidget
+class DevChoice : public QGroupBox
 {
 
     Q_OBJECT

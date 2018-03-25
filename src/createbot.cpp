@@ -32,27 +32,32 @@
 #include <unistd.h>
 #include "battlearea.h"
 #include "startsbatt.h"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 /**
 	* Constructor Inits GUI
 	*/
 CreateBot::CreateBot()
 {
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->setMargin(0);
+    setLayout(mainLayout);
+
     setAttribute(Qt::WA_DeleteOnClose);
-    setMinimumSize (600,500);
     edittxt = new MyQMultiLineEdit (this);
     edittxt->setFont (QFont ("helvetica",9));
-    edittxt->setGeometry (75,30,300,400);
     showlatency = new QPlainTextEdit (this);
     showlatency->setFont (QFont ("helvetica",9));
     connect (edittxt->verticalScrollBar(),SIGNAL (valueChanged (int)),
              this,SLOT (setShowlatencyScrollValue (int)));
     connect (showlatency->verticalScrollBar(),SIGNAL (valueChanged (int)),
              this,SLOT (setEdittxtScrollValue (int)));
-    showlatency->setGeometry (5,30,300,400);
+    showlatency->setMaximumWidth(100);
     showlatency->setReadOnly (true);
 
     menb = new QMenuBar (this);
+    mainLayout->addWidget(menb);
 
     File = menb->addMenu("&File");
 
@@ -76,7 +81,7 @@ CreateBot::CreateBot()
     action->setShortcut(QKeySequence::Paste);
 
     Assemble = menb->addMenu("&Assemble");
-    action = Assemble->addAction ("&Assemble", this, SLOT (assemble()));
+    action = Assemble->addAction ("&Assemble", this, SLOT (onAssembleAction()));
     action->setShortcut(QKeySequence::Refresh);
 
     tests = menb->addMenu("&Tests");
@@ -95,20 +100,11 @@ CreateBot::CreateBot()
 
 
     scrvw = new QScrollArea (this);
-    scrvw->setGeometry (380,40,210,400);
     boxarea = new QWidget();
-    boxarea->setGeometry (0,0,184,1720);
+    boxarea->setLayout(new QVBoxLayout);
+    scrvw->setWidgetResizable(true);
     scrvw->setWidget(boxarea);
-
-    int x;
-    for (x=0; x<32; x++)
-    {
-        devices[x] = new DevChoice (this,boxarea,x);
-        devices[x]->setGeometry (10,60+x*50,170,50);
-        devices[x]->show();
-        QObject::connect (devices[x],SIGNAL (change()),this,
-                          SLOT (devchanged()));
-    }
+    scrvw->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
     amountRAM = new QComboBox (boxarea);
     amountRAM->setEditable(false);
@@ -121,18 +117,32 @@ CreateBot::CreateBot()
     amountRAM->addItem ("32k RAM");
     amountRAM->addItem ("48k RAM");
     amountRAM->addItem ("64k RAM");
-    amountRAM->move (0,0);
-    amountRAM->adjustSize();
-    amountRAM->move (10,10);
-    amountRAM->show();
+    boxarea->layout()->addWidget(amountRAM);
+    boxarea->layout()->setMargin(0);
+
+
+    int x;
+    for (x=0; x<32; x++)
+    {
+        devices[x] = new DevChoice (this,boxarea,x);
+        boxarea->layout()->addWidget(devices[x]);
+        QObject::connect (devices[x],SIGNAL (change()),this,
+                          SLOT (devchanged()));
+    }
+
+    QHBoxLayout *editorLayout = new QHBoxLayout;
+    editorLayout->addWidget(showlatency);
+    editorLayout->addWidget(edittxt);
+    editorLayout->addWidget(scrvw);
+    mainLayout->addLayout(editorLayout);
 
     dirname = new char[100];
     botname = QDir::homePath();
     botname += "/droidbattles/unnamed";
 
     gfxbutton = new QPushButton (this);
-    gfxbutton->setGeometry (10,450,520,36);
     gfxbutton->setIcon(QIcon(gfx));
+    mainLayout->addWidget(gfxbutton);
 
     QObject::connect (gfxbutton, SIGNAL (clicked()), this,
                       SLOT (choosepic()));
@@ -392,13 +402,13 @@ CreateBot::CreateBot()
 
 void CreateBot::resizeEvent (QResizeEvent *)
 {
-    int wid1 = width() /9;
-    if (wid1 > 150) wid1 = 150;
-    showlatency->resize (wid1, height()-100);
-    int wid2 = width()-wid1-235;
-    edittxt->setGeometry (wid1+10,30,wid2,height()-100);
-    scrvw->setGeometry (wid1+wid2+15,40,210,height()-100);
-    gfxbutton->setGeometry (10,height()-50,520,36);
+//    int wid1 = width() /9;
+//    if (wid1 > 150) wid1 = 150;
+//    showlatency->resize (wid1, height()-100);
+//    int wid2 = width()-wid1-235;
+//    edittxt->setGeometry (wid1+10,30,wid2,height()-100);
+//    scrvw->setGeometry (wid1+wid2+15,40,210,height()-100);
+//    gfxbutton->setGeometry (10,height()-50,520,36);
 }
 
 /**

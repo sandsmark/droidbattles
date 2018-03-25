@@ -1256,8 +1256,6 @@ void CreateBot::assemble()
         }
     }
 
-    bool end=false;
-    int linenum=0;
     int posinmem=0;
     QString tempstring;
     QString curline;
@@ -1278,8 +1276,7 @@ void CreateBot::assemble()
     QString tempname = botname;
     tempname += ".bot";
     QFile f (tempname);
-    while (end != true && linenum < edittxt->document()->lineCount())              //If we still have lines left to compile
-    {
+    for (int linenum = 0; linenum < edittxt->document()->lineCount(); linenum++) {
         curline = edittxt->document()->findBlockByLineNumber(linenum).text();   //Load one line
         QString insertstr = "";
         for (i=0; i<15; i++)
@@ -1304,7 +1301,6 @@ void CreateBot::assemble()
             if (curline.length() <= 1)
             {
                 showlatency->appendPlainText(" ");
-                linenum++;
                 continue;
             }
 
@@ -2180,8 +2176,6 @@ void CreateBot::assemble()
         } else {
             showlatency->appendPlainText(insertstr);
         }
-
-        linenum++;
     }
     mem[RAMAMOUNT+256] = 255;
 

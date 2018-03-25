@@ -283,6 +283,7 @@ void BattleArea::startonebattle (int y)
         int nCpus = ( (Robots*) objects[debugbot])->cpuCount();
         for (int x=0; x<nCpus; x++) {
             DebugWindow* dw = new DebugWindow (_dbedit,&_dbl[0],&_dbm[0]);
+            connect(dw, &DebugWindow::dumpmem, this, &BattleArea::dmem);
             dw->resize (300,405);
             dw->show();
             QString title;

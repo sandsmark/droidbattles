@@ -63,10 +63,12 @@ public:
     //int getstartx( int );
     //int getstarty( int );
 
+public slots:
+    void play();
+
 private slots:
 
     void execute();
-    void play();
     void pause();
     void singlestep();
     void dmem();

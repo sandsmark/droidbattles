@@ -21,11 +21,22 @@
 #include <QTextBlock>
 //Added by qt3to4:
 #include <QLabel>
+
+#include <QGridLayout>
+#include <QVBoxLayout>
 /**
 	* Constructor, create GUI elements
 	*/
 DebugWindow::DebugWindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
 {
+    QFont monoFont("Monospace");
+    monoFont.setStyleHint(QFont::Monospace);
+    setFont(monoFont);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+
+
 //	int x;
 
     registercontents[0] = new QLabel ("ax :",this);
@@ -52,28 +63,27 @@ DebugWindow::DebugWindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
 
     dumpmemb = new QPushButton ("Dump mem-map", this);
 
-    registercontents[0]->setGeometry (0,0,80,20);
-    registercontents[1]->setGeometry (100,0,80,20);
-    registercontents[2]->setGeometry (200,0,80,20);
-    registercontents[3]->setGeometry (0,30,80,20);
-    registercontents[4]->setGeometry (100,30,80,20);
-    registercontents[5]->setGeometry (200,30,80,20);
-    registercontents[6]->setGeometry (0,60,80,20);
-    registercontents[7]->setGeometry (100,60,80,20);
-    registercontents[8]->setGeometry (200,60,80,20);
+    QGridLayout *l = new QGridLayout;
+    for (int i=0; i<9; i++) {
+        l->addWidget(registercontents[i], i/3, i%3);
+    }
+    mainLayout->addLayout(l);
 
-    flagcontents[0]->setGeometry (0,90,80,20);
-    flagcontents[1]->setGeometry (100,90,80,20);
-    flagcontents[2]->setGeometry (0,120,80,20);
-    flagcontents[3]->setGeometry (100,120,110,20);
+    l = new QGridLayout;
+    l->addWidget(flagcontents[0], 0, 0);
+    l->addWidget(flagcontents[1], 0, 1);
+    l->addWidget(flagcontents[2], 1, 0);
+    l->addWidget(flagcontents[3], 1, 1);
+    mainLayout->addLayout(l);
 
-    memcontents[0]->setGeometry (0,150,280,20);
-    memcontents[1]->setGeometry (0,180,280,20);
-    memcontents[2]->setGeometry (0,210,280,20);
-    memcontents[3]->setGeometry (0,240,280,20);
+    l = new QGridLayout;
 
-    execlines->setGeometry (5,260,285,100);
-    dumpmemb->setGeometry (100,370,100,30);
+    mainLayout->addWidget(memcontents[0]);
+    mainLayout->addWidget(memcontents[1]);
+    mainLayout->addWidget(memcontents[2]);
+    mainLayout->addWidget(memcontents[3]);
+    mainLayout->addWidget(execlines);
+    mainLayout->addWidget(dumpmemb);
 
     maineditor = Medit;
     debuglines = &dbl[0];
@@ -228,7 +238,7 @@ void DebugWindow::updatedata (struct DebugContents contents)
         }
     }
 
-    repaint();
+    update();
 }
 
 /**

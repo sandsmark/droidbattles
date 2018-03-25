@@ -60,7 +60,6 @@ public:
     int devnum (int sort,int num);
 
 private slots:
-    void assemble();
     void newb();
     void open();
     void save();
@@ -70,7 +69,8 @@ private slots:
     void copy();
     void paste();
     void choosepic();
-    void startquick();
+    bool startquick();
+    void runquick();
     void confquick();
     void stopconf();
     void checkconf();
@@ -80,12 +80,14 @@ private slots:
     void setEdittxtScrollValue (int i);
     void setShowlatencyScrollValue (int i);
     void onHelpAction();
+    void onAssembleAction();
 
 signals:
     void helpRequested(const QString &word);
 
 private:
     bool loadFile(const QString &filename);
+    bool assemble();
 
     unsigned int RAMAMOUNT;
     QMessageBox *ermsg;

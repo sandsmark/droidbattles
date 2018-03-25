@@ -83,9 +83,14 @@ CreateBot::CreateBot()
     action = tests->addAction("&Quick battle", this, SLOT (startquick()));
     action->setShortcut(QKeySequence("Ctrl+R"));
 
+    action = tests->addAction("&Autolaunch battle", this, SLOT (runquick()));
+    action->setShortcut(QKeySequence("Ctrl+Shift+R"));
+
     tests->addAction("&Config quick battle", this, SLOT (confquick()));
     tests->addAction("C&heck against config", this, SLOT (checkconf()));
-    action = tests->addAction("&Show help for keyword", this, SLOT (onHelpAction()));
+
+    QMenu *helpMenu = menb->addMenu("&Help");
+    action = helpMenu->addAction("&Context help", this, SLOT (onHelpAction()));
     action->setShortcut(QKeySequence::HelpContents);
 
 
@@ -682,7 +687,7 @@ void CreateBot::devchanged()
 	* current bot.
 	* TODO: Document this beast (or rewrite it from scratch)
 	*/
-void CreateBot::assemble()
+bool CreateBot::assemble()
 {
     int i;
 
@@ -1385,7 +1390,7 @@ void CreateBot::assemble()
             if (token[0].length() <= 1)
             {
                 error ("Expected: name of label",linenum);
-                return;
+                return false;
             }
 
             type[0] = Instruction::Label;
@@ -1400,7 +1405,7 @@ void CreateBot::assemble()
             if (exist[1]==true)
             {
                 error ("Expected: only one token",linenum);
-                return;
+                return false;
             }
         }
         //Check for vardeclaration
@@ -1421,13 +1426,13 @@ void CreateBot::assemble()
                 if (exist[1] == true)
                 {
                     error ("Expected: only one token",linenum);
-                    return;
+                    return false;
                 }
             }
             else
             {
                 error ("Expected: name of variable", linenum);
-                return;
+                return false;
             }
         }
 
@@ -1452,18 +1457,18 @@ void CreateBot::assemble()
                 else
                 {
                     error ("Expected: value of constant",linenum);
-                    return;
+                    return false;
                 }
                 if (exist[2] == true)
                 {
                     error ("Expected: only two tokens",linenum);
-                    return;
+                    return false;
                 }
             }
             else
             {
                 error ("Expected: name of constant", linenum);
-                return;
+                return false;
             }
         }
         //Check for db
@@ -1564,7 +1569,7 @@ void CreateBot::assemble()
                         else
                         {
                             error ("Unknown symbol",linenum);
-                            return;
+                            return false;
                         }
                     }
 
@@ -1581,7 +1586,7 @@ void CreateBot::assemble()
             else
             {
                 error ("Expected: value for org" ,linenum);
-                return;
+                return false;
             }
         }
 
@@ -1591,7 +1596,7 @@ void CreateBot::assemble()
             type[0] = Instruction::CpuBoot;
             if (!exist[1]) {
                 error ("Expected: number of CPU device",linenum);
-                return;
+                return false;
             }
 
             tpos = token[1].toInt (&ok);
@@ -1603,7 +1608,7 @@ void CreateBot::assemble()
                     if (!existn[x])
                     {
                         error ("Unknown symbol",linenum);
-                        return;
+                        return false;
                     }
 
                     if (token[1] == names[x])
@@ -1618,7 +1623,7 @@ void CreateBot::assemble()
                             //Code for error in dev-value
                             error ("Value must be the number of a CPU device",
                                    linenum);
-                            return;
+                            return false;
                         }
                     }
                 }
@@ -1629,7 +1634,7 @@ void CreateBot::assemble()
                 if (tpos >= 32 || mem[tpos*6+2] != 1)
                 {
                     error ("Value must be the number of a CPU device",linenum);
-                    return;
+                    return false;
                 }
 
                 mem[tpos*6+4] = posinmem%256;
@@ -1643,7 +1648,7 @@ void CreateBot::assemble()
             if (!exist[1])
             {
                 error ("Expected: number of CPU device",linenum);
-                return;
+                return false;
             }
 
             tpos = token[1].toInt (&ok);
@@ -1655,7 +1660,7 @@ void CreateBot::assemble()
                     if (!existn[x])
                     {
                         error ("Unknown symbol",linenum);
-                        return;
+                        return false;
                     }
                     if (token[1] != names[x]) {
                         continue;
@@ -1666,7 +1671,7 @@ void CreateBot::assemble()
                         //Code for error in dev-value
                         error ("Value must be the number of a CPU device",
                                linenum);
-                        return;
+                        return false;
                     }
 
                     mem[nvalues[x]*6+6] = posinmem%256;
@@ -1679,7 +1684,7 @@ void CreateBot::assemble()
                 if (tpos >= 32 || mem[tpos*6+2] != 1)
                 {
                     error ("Value must be the number of a CPU device",linenum);
-                    return;
+                    return false;
                 }
 
                 mem[tpos*6+6] = posinmem%256;
@@ -1694,7 +1699,7 @@ void CreateBot::assemble()
             if (!exist[1])
             {
                 error ("Expected: number of interrupt",linenum);
-                return;
+                return false;
             }
 
             tpos = token[1].toInt (&ok);
@@ -1706,7 +1711,7 @@ void CreateBot::assemble()
                     if (!existn[x])
                     {
                         error ("Unknown symbol",linenum);
-                        return;
+                        return false;
                     }
 
                     if (token[1] == names[x])
@@ -1721,7 +1726,7 @@ void CreateBot::assemble()
                         {
                             //Code for error in dev-value
                             error ("Value must be lower than 256",linenum);
-                            return;
+                            return false;
                         }
                     }
                 }
@@ -1732,7 +1737,7 @@ void CreateBot::assemble()
                 if (tpos > 255)
                 {
                     error ("Value must be lower than 256",linenum);
-                    return;
+                    return false;
                 }
 
                 mem[ (RAMAMOUNT+256- (tpos*2+2)) ] = posinmem%256;
@@ -2093,7 +2098,7 @@ void CreateBot::assemble()
                 {
                     error ("Sorry, this instruction can't use symbols not declared yet",
                            linenum);
-                    return;
+                    return false;
                 }
             } else if ( (curmnem == "mov") && (type[1] == Instruction::RegisterRef) &&
                         (type[2] == Instruction::Value) && (type[3] == Instruction::Register))
@@ -2105,7 +2110,7 @@ void CreateBot::assemble()
                 {
                     error ("Sorry, this instruction can't use symbols not declared yet",
                            linenum);
-                    return;
+                    return false;
                 }
             } else {
                 //Run through all available mnemonic-operand combinations available
@@ -2119,7 +2124,7 @@ void CreateBot::assemble()
                 if (!foundOp) {
                     //If not success return error
                     error ("Error: unknown mnemonic/operand combination",linenum);
-                    return;
+                    return false;
                 }
             }
 
@@ -2233,7 +2238,7 @@ void CreateBot::assemble()
             if (resolved[i] == false)
             {
                 error ("Undeclared symbol",unresline[i]);
-                return;
+                return false;
             }
         }
     }
@@ -2248,10 +2253,10 @@ void CreateBot::assemble()
     else
     {
         error ("Couldn't open output file " + f.fileName(),0);
-        return;
+        return false;
     }
 
-    error ("Assemble successful",-1);
+    return true;
 }
 
 /**
@@ -2268,17 +2273,13 @@ void CreateBot::error (const QString &msg, int line)
 	* Starts a battle between the current edited bot and the bots specified
 	* in the quick battle config
 	*/
-void CreateBot::startquick()
+bool CreateBot::startquick()
 {
-    QString temp = botname;
-    temp += ".bot";
-    QFile f (temp);
-    if (!f.exists())
-    {
-        error ("You need to assemble the bot...", -1);
-        return;
+    if (!assemble()) {
+        return false;
     }
-    temp = QDir::homePath();
+
+    QString temp = QDir::homePath();
     temp += "/droidbattles/quick.conf";
     QFile f2 (temp);
     QString names[8];
@@ -2313,7 +2314,7 @@ void CreateBot::startquick()
     else
     {
         error ("config file for quick battle not found",0);
-        return;
+        return false;
     }
     batt = new BattleArea ( names[0], names[1],
                             names[2], names[3],
@@ -2323,6 +2324,14 @@ void CreateBot::startquick()
                             false,false,0,0,true, edittxt,&debuglines[0],
                             &debugmem[0]);
     batt->show();
+    return true;
+}
+
+void CreateBot::runquick()
+{
+    if (startquick()) {
+        batt->play();
+    }
 }
 
 /**
@@ -2508,5 +2517,12 @@ void CreateBot::onHelpAction()
         emit helpRequested(maybe);
     } else {
         emit helpRequested(currentWord);
+    }
+}
+
+void CreateBot::onAssembleAction()
+{
+    if (assemble()) {
+        error ("Assemble successful",-1);
     }
 }

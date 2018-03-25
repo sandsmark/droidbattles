@@ -503,18 +503,19 @@ void CreateBot::open()
     }
 }
 
-bool CreateBot::loadFile(QString tempname)
+bool CreateBot::loadFile(const QString &filename)
 {
-    if (tempname.isEmpty()) {
+    if (filename.isEmpty()) {
         return false;
     }
 
-    QFile f (tempname);
-    if (!f.open (QIODevice::ReadOnly))
-    {
+    QFile f (filename);
+    if (!f.open (QIODevice::ReadOnly)) {
         error ("Couldn't open file!",0);
         return false;
     }
+    m_fileName.clear();
+
     QString tline;
     QTextStream s (&f);
     unsigned short i;
@@ -537,23 +538,24 @@ bool CreateBot::loadFile(QString tempname)
     tline = s.readLine();
     tline = s.readLine();
     edittxt->clear();
-    while (!s.atEnd())
-    {
+    while (!s.atEnd()) {
         tline = s.readLine();
         edittxt->appendPlainText (tline);
     }
     f.close();
-    botname = tempname.left (tempname.length()-5);
-    tempname = botname;
-    tempname += ".bmp";
-    QFile f2 (tempname);
+    botname = QFileInfo(filename).baseName();
+
+    QString bmpName = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".bmp");
+    QFile f2 (bmpName);
     if (f2.exists())
-        gfx.load (tempname);
+        gfx.load (bmpName);
     else
         gfx = QPixmap();
 
     changed = false;
     edittxt->document()->setModified(false);
+
+    m_fileName = filename;
 
     return true;
 }
@@ -563,32 +565,32 @@ bool CreateBot::loadFile(QString tempname)
 	*/
 void CreateBot::save()
 {
-    QString tempname = botname;
-    tempname += ".basm";
-    if (!tempname.isEmpty())
-    {
-        QFile f (tempname);
-        if (!f.open (QIODevice::WriteOnly))
-        {
-            saveas();
-            return;
-        }
-        QTextStream s (&f);
-        s << "RAM: " << amountRAM->currentIndex() << endl <<  endl;
-        int x;
-        for (x=0; x<32; x++)
-            s << "DEVICE: " << devices[x]->getitem() << " " <<
-            devices[x]->getlevel() << " " << devices[x]->getarg1() << endl;
-        s << endl;
-        QString tempdata = edittxt->document()->toPlainText();
-        s << tempdata;
-        f.close();
+    if (m_fileName.isEmpty()) {
+        saveas();
+        return;
     }
+
+    QFile f (m_fileName);
+    if (!f.open (QIODevice::WriteOnly))
+    {
+        saveas();
+        return;
+    }
+    QTextStream s (&f);
+    s << "RAM: " << amountRAM->currentIndex() << endl <<  endl;
+    int x;
+    for (x=0; x<32; x++)
+        s << "DEVICE: " << devices[x]->getitem() << " " <<
+             devices[x]->getlevel() << " " << devices[x]->getarg1() << endl;
+    s << endl;
+    QString tempdata = edittxt->document()->toPlainText();
+    s << tempdata;
+    f.close();
+
     if (gfx.width() > 31 && gfx.height() > 31)
     {
-        tempname = botname;
-        tempname += ".bmp";
-        gfx.save (tempname, "BMP");
+        QString bmpPath = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".bmp");
+        gfx.save (bmpPath, "BMP");
     }
     changed = false;
     edittxt->document()->setModified(false);
@@ -602,10 +604,10 @@ void CreateBot::save()
 	*/
 void CreateBot::saveas()
 {
-    QString tempname = QFileDialog::getSaveFileName (this, tr("Save bot source file"), QDir::homePath(), "*.basm");
-    if (!tempname.isEmpty())
+    QString filename = QFileDialog::getSaveFileName (this, tr("Save bot source file"), QFileInfo(m_fileName).absolutePath(), "*.basm");
+    if (!filename.isEmpty())
     {
-        QFile f (tempname);
+        QFile f (filename);
         if (!f.open (QIODevice::WriteOnly))
         {
             error ("Couldn't open file!",0);
@@ -622,12 +624,11 @@ void CreateBot::saveas()
         s << tempdata;
         f.close();
     }
-    botname = tempname.left (tempname.length()-5);
+    botname = QFileInfo(filename).baseName();
     if (gfx.width() > 31 && gfx.height() > 31)
     {
-        tempname = botname;
-        tempname += ".bmp";
-        gfx.save (tempname, "BMP");
+        QString bmpPath = QFileInfo(filename).absoluteDir().filePath(botname + ".bmp");
+        gfx.save (bmpPath, "BMP");
     }
     changed = false;
     edittxt->document()->setModified(false);
@@ -1304,9 +1305,8 @@ void CreateBot::assemble()
     int bits;
     showlatency->clear();
 
-    QString tempname = botname;
-    tempname += ".bot";
-    QFile f (tempname);
+    QString outputName = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".bot");
+    QFile f (outputName);
     for (int linenum = 0; linenum < edittxt->document()->lineCount(); linenum++) {
         curline = edittxt->document()->findBlockByLineNumber(linenum).text();   //Load one line
         if (curline.isEmpty()) {
@@ -2223,6 +2223,7 @@ void CreateBot::assemble()
             }
         }
     }
+
     //Open the binary file and write data
     if (f.open (QIODevice::WriteOnly))
     {
@@ -2232,7 +2233,7 @@ void CreateBot::assemble()
     }
     else
     {
-        error ("couldn't open file",0);
+        error ("Couldn't open output file " + f.fileName(),0);
         return;
     }
 

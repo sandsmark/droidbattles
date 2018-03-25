@@ -81,7 +81,7 @@ private slots:
     void setShowlatencyScrollValue (int i);
 
 private:
-    bool loadFile(QString filename);
+    bool loadFile(const QString &filename);
 
     unsigned int RAMAMOUNT;
     QMessageBox *ermsg;
@@ -111,6 +111,7 @@ private:
     int debuglines[4096];
     int debugmem[4096];
     int debugentry;
+    QString m_fileName;
 };
 #include "devchoice.h"
 

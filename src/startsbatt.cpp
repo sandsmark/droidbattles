@@ -21,6 +21,9 @@
 #include <QTextStream>
 #include <QLabel>
 #include <QCloseEvent>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 
 /**
 	* init GUI, load file from last battle
@@ -28,72 +31,87 @@
 StartsBatt::StartsBatt(const QString &configFileName) :
     m_configFileName(configFileName)
 {
+    QVBoxLayout *l = new QVBoxLayout;
+    setLayout(l);
+
     setWindowFlags(Qt::Dialog);
+
+    QHBoxLayout *topButtonsLayout = new QHBoxLayout;
+    press[0] = new PixButton ("Add", this);
+    topButtonsLayout->addWidget(press[0]);
+    press[1] = new PixButton ("Clear", this);
+    topButtonsLayout->addWidget(press[1]);
+    l->addLayout(topButtonsLayout);
 
     int x;
     for (x=0; x<8; x++)
     {
+        QHBoxLayout *pl = new QHBoxLayout;
+
         botfiles[x] = "";
         shownames[x] = new QLabel (this);
-        shownames[x]->setGeometry (10,50+x*25,230,20);
         shownames[x]->show();
+        pl->addWidget(shownames[x]);
         team[x] = new QComboBox (this);
-        team[x]->setGeometry (255,50+x*25,40,20);
+        pl->addWidget(team[x]);
         team[x]->addItem ("1");
         team[x]->addItem ("2");
         team[x]->addItem ("3");
         team[x]->addItem ("4");
+
+        l->addLayout(pl);
     }
-    press[0] = new PixButton ("load", this);
-    press[0]->setGeometry (0,0,80,40);
-    press[1] = new PixButton ("remove", this);
-    press[1]->setGeometry (85,0,80,40);
 
     ifteams = new QCheckBox ("Teams",this);
-    ifteams->setGeometry (170,10,80,20);
+    l->addWidget(ifteams);
 
     QObject::connect (press[0],SIGNAL (clicked()),this,
                       SLOT (choosefile()));
     QObject::connect (press[1],SIGNAL (clicked()),this,
                       SLOT (dechoosefile()));
 
-    readyb = new PixButton ("OK", this);
-    readyb->setGeometry (100,500,80,40);
-    cancelb = new PixButton ("cancel", this);
-    cancelb->setGeometry (200,500,80,40);
-
-    QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
-    QObject::connect (cancelb,SIGNAL (clicked()),this,SLOT (ccl()));
+    QGridLayout *optionsLayout = new QGridLayout;
+    l->addLayout(optionsLayout);
 
     tnumfights = new QLabel ("Number of fights:",this);
-    tnumfights->setGeometry (10,300,100,20);
+    optionsLayout->addWidget(tnumfights, 0, 0);
     wnumfights = new QLineEdit (this);
-    wnumfights->setGeometry (120,300,40,20);
+    optionsLayout->addWidget(wnumfights, 0, 1);
     numfix = new QIntValidator (this);
     wnumfights->setValidator (numfix);
 
     lengthfight = new QLabel ("Max length of fight ( 50 ~ 1sec ):",this);
-    lengthfight->setGeometry (10,320,200,20);
+    optionsLayout->addWidget(lengthfight, 1, 0);
     length = new QLineEdit (this);
-    length->setGeometry (200,320,60,20);
+    optionsLayout->addWidget(length, 1, 1);
 
     maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
-    maxxinfo->setGeometry (10,350,200,20);
+    optionsLayout->addWidget(maxxinfo, 2, 0);
     maxx = new QSpinBox (this);
     maxx->setMinimum(8192);
     maxx->setMaximum(65535);
     maxx->setSingleStep(512);
-    maxx->setGeometry (210,350,80,30);
     maxx->setValue (32768);
+    optionsLayout->addWidget(maxx, 2, 1);
 
     maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
-    maxyinfo->setGeometry (10,380,200,20);
+    optionsLayout->addWidget(maxyinfo, 3, 0);
     maxy = new QSpinBox (this);
     maxy->setMinimum(8192);
     maxy->setMaximum(65535);
     maxy->setSingleStep(512);
-    maxy->setGeometry (210,380,80,30);
+    optionsLayout->addWidget(maxy, 3, 1);
     maxy->setValue (32768);
+
+    QHBoxLayout *bottomLayout = new QHBoxLayout;
+    l->addLayout(bottomLayout);
+    readyb = new PixButton ("OK", this);
+    bottomLayout->addWidget(readyb);
+    cancelb = new PixButton ("cancel", this);
+    bottomLayout->addWidget(cancelb);
+
+    QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
+    QObject::connect (cancelb,SIGNAL (clicked()),this,SLOT (ccl()));
 
     QPalette palette;
     palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MetalBackground)));
@@ -103,15 +121,6 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     setMinimumSize (300,570);
     loadfilesettings();
 
-}
-
-void StartsBatt::resizeEvent (QResizeEvent*)
-{
-    for (int x=0; x<8; x++)
-    {
-        shownames[x]->resize (width()-70,20);
-        team[x]->setGeometry (width()-45,50+x*25,40,20);
-    }
 }
 
 void StartsBatt::loadfilesettings()
@@ -129,7 +138,7 @@ void StartsBatt::loadfilesettings()
             if (botfiles[x] == QString ("fff"))
                 botfiles[x] = "";
             team[x]->setCurrentIndex (temp.toInt());
-            shownames[x]->setText (botfiles[x]);
+            shownames[x]->setText (QFileInfo(botfiles[x]).baseName());
         }
         s >> temp;
         ifteams->setChecked (temp.toInt());

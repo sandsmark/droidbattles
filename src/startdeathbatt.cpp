@@ -22,6 +22,6 @@
 StartDeathBatt::StartDeathBatt() :
     StartsBatt("deathbattle.save")
 {
-    ifteams->setText ("Death battle");
+    ifteams->setText ("Fast battle");
     tnumfights->setText ("Number of frags:");
 }

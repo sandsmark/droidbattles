@@ -69,9 +69,8 @@ signals:
     void cancelclicked();
 
 protected:
-
     virtual void loadfilesettings();
-    virtual void resizeEvent (QResizeEvent *e);
+
     int numofbots;
     QString botfiles[8];
     QLabel *shownames[8];

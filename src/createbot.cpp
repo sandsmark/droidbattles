@@ -43,7 +43,7 @@ CreateBot::CreateBot()
     edittxt = new MyQMultiLineEdit (this);
     edittxt->setFont (QFont ("helvetica",9));
     edittxt->setGeometry (75,30,300,400);
-    showlatency = new MyQMultiLineEdit (this);
+    showlatency = new QPlainTextEdit (this);
     showlatency->setFont (QFont ("helvetica",9));
     connect (edittxt->verticalScrollBar(),SIGNAL (valueChanged (int)),
              this,SLOT (setShowlatencyScrollValue (int)));
@@ -2273,7 +2273,7 @@ void CreateBot::startquick()
     QFile f (temp);
     if (!f.exists())
     {
-        error ("You need to assemble the bot...",0);
+        error ("You need to assemble the bot...", -1);
         return;
     }
     temp = QDir::homePath();
@@ -2328,8 +2328,9 @@ void CreateBot::startquick()
 	*/
 void CreateBot::confquick()
 {
-    qc = new StartsBatt("quick.save");
-    QObject::connect (qc,SIGNAL (cancelclicked()),this,SLOT (stopconf()));
+    qc = new StartsBatt("quick.conf");
+    connect (qc,&StartsBatt::cancelclicked,this,&CreateBot::stopconf);
+    connect (qc,&StartsBatt::okclicked,this,&CreateBot::stopconf);
     qc->resize (300,570);
     qc->show();
 }

@@ -20,7 +20,6 @@
 #include <QResizeEvent>
 #include <QTextStream>
 #include <QLabel>
-#include <QCloseEvent>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -229,11 +228,6 @@ void StartsBatt::ocl()
 void StartsBatt::ccl()
 {
     emit cancelclicked();
-}
-
-void StartsBatt::closeEvent (QCloseEvent *e)
-{
-    e->ignore();
 }
 
 /**

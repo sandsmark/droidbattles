@@ -40,6 +40,7 @@
 
 class DevChoice;
 class MyQMultiLineEdit;
+class QPlainTextEdit;
 class QComboBox;
 class Instruction;
 class BattleArea;
@@ -87,7 +88,7 @@ private:
     QMessageBox *ermsg;
     MyQMultiLineEdit *edittxt;
     QScrollArea *scroller;
-    MyQMultiLineEdit *showlatency;
+    QPlainTextEdit *showlatency;
     DevChoice* devices[32];
     QMenu *File;
     QMenu *Edit;

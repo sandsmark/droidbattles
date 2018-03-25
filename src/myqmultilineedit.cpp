@@ -82,7 +82,7 @@ Highlighter::Highlighter(QTextDocument *document) :
         prefixed.append("@" + reg);
     }
     m_argTypePatterns[Instruction::RegisterRef] = "(" + prefixed.join('|') + ")";
-    m_argTypePatterns[Instruction::Value] =  "(\\w+)";
+    m_argTypePatterns[Instruction::Value] =  "(-?\\w+)";
     m_argTypePatterns[Instruction::MemAddress] =  "(@\\w+)";
 
     m_commentFormat.setForeground(Qt::gray);
@@ -169,7 +169,7 @@ void Highlighter::highlightBlock(const QString &block)
 void Highlighter::createRule(const Instruction &instruction)
 {
     Rule rule;
-    QString pattern = "^ *(" + instruction.token() + ")";
+    QString pattern = "^ *(" + instruction.token();
 
     QTextCharFormat mainFormat;
     mainFormat.setForeground(Qt::darkGreen);
@@ -184,7 +184,7 @@ void Highlighter::createRule(const Instruction &instruction)
         pattern += " *, *" + argPattern(instruction.getarg2type());
         rule.formats.append(argFormat(instruction.getarg2type()));
     }
-//    pattern += " *$";
+    pattern += ")";
 
     rule.pattern = QRegularExpression(pattern);
     rule.pattern.optimize();

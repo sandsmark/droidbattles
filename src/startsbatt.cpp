@@ -94,8 +94,11 @@ StartsBatt::StartsBatt()
     maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
-    setPixmap(PixmapHolder::getpm(PixmapHolder::MetalBackground));
-//	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MetalBackground)));
+    palette.setColor(foregroundRole(), Qt::white);
+    setPalette(palette);
+
     setMinimumSize (300,570);
     loadfilesettings();
 

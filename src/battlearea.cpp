@@ -120,7 +120,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     scrolling = new QScrollArea (this);
     scrolling->setGeometry (16,16,524,524);
     mydrw = new QLabel();
-    infowindow = new QWidget();
+    infowindow = new QDialog();
     infowindow->resize (550,420);
 
     debug1 = new QLabel ("a", infowindow);
@@ -131,11 +131,9 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     debug1->hide();
     debug2->hide();
     scrolling->setWidget(mydrw);
-//    scrolling->addChild (mydrw);
     mydrw->setGeometry (0,0,xsize>>6,ysize>>6);
     m_pixmap = QPixmap(mydrw->size());
     mydrw->show();
-//    mydrw->setBackgroundMode (Qt::PaletteBase);
     mydrw->setPalette (QPalette (QColor (0,0,0)));
     playb = new PixButton ("Play", this);
     pauseb = new PixButton ("Pause", this);
@@ -168,7 +166,10 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     resize (640,570);
     startonebattle (firstrun);
 
-    setPixmap(PixmapHolder::getpm (PixmapHolder::MetalBackground));
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MetalBackground)));
+    palette.setColor(foregroundRole(), Qt::white);
+    setPalette(palette);
 }
 
 void BattleArea::resizeEvent (QResizeEvent*)

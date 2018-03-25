@@ -55,22 +55,34 @@ CreateBot::CreateBot()
     menb = new QMenuBar (this);
 
     File = menb->addMenu("&File");
-    File->addAction("&New", this, SLOT (newb()));
-    File->addAction("&Open", this, SLOT (open()));
-    File->addAction("&Save", this, SLOT (save()));
-    File->addAction("S&ave As", this, SLOT (saveas()));
-    File->addAction("&Close", this, SLOT (closec()));
+
+    QAction *action = File->addAction("&New", this, SLOT (newb()));
+    action->setShortcut(QKeySequence::New);
+    action = File->addAction("&Open", this, SLOT (open()));
+    action->setShortcut(QKeySequence::Open);
+    action = File->addAction("&Save", this, SLOT (save()));
+    action->setShortcut(QKeySequence::Save);
+    action = File->addAction("S&ave As", this, SLOT (saveas()));
+    action->setShortcut(QKeySequence::SaveAs);
+    action = File->addAction("&Close", this, SLOT (closec()));
+    action->setShortcut(QKeySequence::Close);
 
     Edit = menb->addMenu("&Edit");
-    Edit->addAction("&Copy", this, SLOT (copy()));
-    Edit->addAction("C&ut", this, SLOT (cut()));
-    Edit->addAction("&Paste", this, SLOT (paste()));
+    action = Edit->addAction("&Copy", this, SLOT (copy()));
+    action->setShortcut(QKeySequence::Copy);
+    action = Edit->addAction("C&ut", this, SLOT (cut()));
+    action->setShortcut(QKeySequence::Cut);
+    action = Edit->addAction("&Paste", this, SLOT (paste()));
+    action->setShortcut(QKeySequence::Paste);
 
     Assemble = menb->addMenu("&Assemble");
-    Assemble->addAction ("&Assemble", this, SLOT (assemble()));
+    action = Assemble->addAction ("&Assemble", this, SLOT (assemble()));
+    action->setShortcut(QKeySequence::Refresh);
 
     tests = menb->addMenu("&Tests");
-    tests->addAction("&Quick battle", this, SLOT (startquick()));
+    action = tests->addAction("&Quick battle", this, SLOT (startquick()));
+    action->setShortcut(QKeySequence("Ctrl+R"));
+
     tests->addAction("&Config quick battle", this, SLOT (confquick()));
     tests->addAction("C&heck against config", this, SLOT (checkconf()));
 

@@ -297,7 +297,7 @@ RobCpu::RobCpu (Ram &ramdev,ScreenObject &object,int arg1,int arg2,int arg3,
 
 RobCpu::~RobCpu()
 {
-    delete registers;
+    delete [] registers;
 }
 
 void RobCpu::execute()

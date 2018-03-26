@@ -567,9 +567,9 @@ bool CreateBot::loadFile(const QString &filename)
         edittxt->appendPlainText (tline);
     }
     f.close();
-    botname = QFileInfo(filename).baseName();
+    botname = filename;
 
-    QString pngName = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".png");
+    QString pngName = QFileInfo(m_fileName).absoluteDir().filePath(QFileInfo(botname).baseName() + ".png");
     QFile f2 (pngName);
     if (f2.exists())
         gfx.load (pngName);
@@ -648,10 +648,10 @@ void CreateBot::saveas()
         s << tempdata;
         f.close();
     }
-    botname = QFileInfo(filename).baseName();
+    botname = filename;
     if (gfx.width() > 31 && gfx.height() > 31)
     {
-        QString pngPath = QFileInfo(filename).absoluteDir().filePath(botname + ".png");
+        QString pngPath = QFileInfo(filename).absoluteDir().filePath(QFileInfo(botname).baseName() + ".png");
         gfx.save (pngPath);
     }
     changed = false;
@@ -1329,7 +1329,7 @@ bool CreateBot::assemble()
     int bits;
     showlatency->clear();
 
-    QString outputName = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".bot");
+    QString outputName = QFileInfo(m_fileName).absoluteDir().filePath(QFileInfo(botname).baseName() + ".bot");
     QFile f (outputName);
     for (int linenum = 0; linenum < edittxt->document()->lineCount(); linenum++) {
         curline = edittxt->document()->findBlockByLineNumber(linenum).text();   //Load one line
@@ -2302,8 +2302,7 @@ bool CreateBot::startquick()
                 names[x] = "";
             teams[x] = temp.toInt();
         }
-        names[7] = botname;
-        names[7] += ".bot";
+        names[7] = QFileInfo(m_fileName).absoluteDir().filePath(QFileInfo(botname).baseName() + ".bot");
         s >> temp;
         ifteams = temp.toInt();
         s >> temp;

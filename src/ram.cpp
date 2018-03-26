@@ -43,7 +43,7 @@ Ram::Ram (int amount,unsigned char *buf)
 	*/
 Ram::~Ram()
 {
-    delete mem;
+    delete [] mem;
 }
 
 /**
@@ -51,7 +51,7 @@ Ram::~Ram()
 	*/
 unsigned char Ram::getbyte (int adress)
 {
-    if (adress < RAMamount)
+    if (adress > 0 && adress < RAMamount)
         return mem[adress];
     else
         return 0xFF;

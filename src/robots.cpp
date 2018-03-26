@@ -217,7 +217,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
         if (cost > config.maxcost)
             showError ("Max cost of bot",name);
 
-        delete my;
+        delete [] my;
     }
     else
     {

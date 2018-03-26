@@ -1758,7 +1758,7 @@ void TextModeFileManip::checkConfig (char *filename)
         qDebug() << "ERROR!, Max number of devices" << endl;
     if (cost > config.maxcost)
         qDebug() << "ERROR!, Max cost fo bot" << endl;
-    delete my;
+    delete [] my;
 
     qDebug() << "Check finished" << endl;
 }

@@ -6,6 +6,7 @@ CONFIG += c++11
 windows {
     CONFIG += static exceptions_off rtti_off stl_off
 }
+#CONFIG += sanitizer sanitize_address
 
 # Input
 HEADERS += src/armor.h \

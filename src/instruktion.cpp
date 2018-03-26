@@ -311,7 +311,7 @@ Instruction::Instruction (const char mnem[],int arg1t,int arg2t,int bit,int arg1
 
 Instruction::~Instruction()
 {
-    delete mnemonic;
+    delete []mnemonic;
 }
 
 /**

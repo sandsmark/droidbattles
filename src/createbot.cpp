@@ -411,9 +411,10 @@ void CreateBot::choosepic()
     QSettings settings;
 
     QString filename = QFileDialog::getOpenFileName (this, tr("Select picture file"), settings.value("LastPicPath").toString(), "*.png");
-    if (!filename.isEmpty())
+    if (!filename.isEmpty()) {
         settings.setValue("LastPicPath", filename);
         gfx.load (filename);
+    }
 
     gfxbutton->setIcon(QIcon(gfx));
 

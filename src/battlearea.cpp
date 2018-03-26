@@ -126,13 +126,14 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     mydrw = new QLabel();
     mainLayout->addWidget(mydrw);
     infowindow = new QDialog();
+    infowindow->setLayout(new QVBoxLayout);
     infowindow->resize (550,420);
 
-    debug1 = new QLabel ("a", infowindow);
-    debug2 = new QLabel ("b", infowindow);
+//    debug1 = new QLabel ("a", infowindow);
+//    debug2 = new QLabel ("b", infowindow);
 
-    debug1->hide();
-    debug2->hide();
+//    debug1->hide();
+//    debug2->hide();
     m_pixmap = QPixmap(xsize>>6,ysize>>6 );
     mydrw->setMinimumSize(m_pixmap.size());
     mydrw->show();
@@ -265,13 +266,15 @@ void BattleArea::startonebattle (int y)
     for (x=0; x<maxbots; x++)
     {
         tn = names[x];
-        if (!tn.isEmpty())
+        if (!tn.isEmpty()) {
             objects[x] = new Robots (tn,*this,x,config,botteams[x]);
-        else
+        } else {
             objects[x] = new ScreenObject();
+        }
 
         binfo[x] = new BotInfo (names[x],objects[x],objects[x]->armorval,
                                 infowindow);
+        infowindow->layout()->addWidget(binfo[x]);
     }
 
     if (debugenabled) {
@@ -306,7 +309,6 @@ void BattleArea::startonebattle (int y)
     //Create the infoboxes for the bots
     for (x=0; x<maxbots; x++)
     {
-        binfo[x]->setGeometry (10,10+x*50,540,50);
         QObject::connect (objects[x],SIGNAL (armorchanged (int)),binfo[x],
                           SLOT (armorupdated (int)));
         QObject::connect (binfo[x], SIGNAL (changeinset (bool)), objects[x],
@@ -749,7 +751,7 @@ void BattleArea::execute()
                             if (names[xx] != "")
                             {
                                 msg += " Bot ";
-                                msg += names[xx];
+                                msg += QFileInfo(names[xx]).baseName();
                                 msg += " won ";
                                 msg += QString::number (fightswon[xx]);
                                 msg += " fights.\n";
@@ -758,7 +760,7 @@ void BattleArea::execute()
                         break;
                     case 1 :
                         msg += " Bot ";
-                        msg += names[botnum];
+                        msg += QFileInfo(names[botnum]).baseName();
                         msg += " won with ";
                         msg += QString::number (maxpoints-fightswon[botnum]);
                         msg += " lives left!\n";
@@ -767,7 +769,7 @@ void BattleArea::execute()
                             if (names[xx] != "" && xx != botnum)
                             {
                                 msg += " Bot ";
-                                msg += names[xx];
+                                msg += QFileInfo(names[xx]).baseName();
                                 msg += " survived ";
                                 msg += QString::number (fightswon[xx]);
                                 msg += " cycles.\n";
@@ -803,7 +805,7 @@ void BattleArea::execute()
                     if (names[xx] != "")
                     {
                         msg += " Bot ";
-                        msg += names[xx];
+                        msg += QFileInfo(names[xx]).baseName();
                         msg += " got ";
                         msg += QString::number (fightswon[xx]);
                         msg += " frags.\n";

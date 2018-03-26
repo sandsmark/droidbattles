@@ -19,54 +19,56 @@
 //Added by qt3to4:
 #include <QLabel>
 #include <QProgressBar>
+#include <QHBoxLayout>
 
 /**
 	* Constructor, create all GUI elements
 	*/
 BotInfo::BotInfo (const QString &botname, ScreenObject *rb, int armor, QWidget *parent) : QWidget (parent)
 {
+    QHBoxLayout *l = new QHBoxLayout;
+    setLayout(l);
+
     bot = rb;
-    if (!botname.isEmpty())
-    {
+    if (!botname.isEmpty()) {
         int pos = botname.lastIndexOf("/");
         QString temp = botname.right (botname.length()-pos-1);
         botnam = new QLabel (temp,this);
-        botnam->setGeometry (5,5,70,15);
+        l->addWidget(botnam);
+
+        armormsg = new QLabel ("A:",this);
+        l->addWidget(armormsg);
 
         armorlevel = new QProgressBar(this);
         armorlevel->setMaximum(armor);
-        armorlevel->setGeometry (95,5,100,25);
+        l->addWidget(armorlevel);
         armorlevel->setValue(armor);
 
-        armormsg = new QLabel ("A:",this);
-        armormsg->setGeometry (75,5,15,15);
+
+        heatmsg = new QLabel ("H:",this);
+        l->addWidget(heatmsg);
 
         heatlevel = new QProgressBar(this);
         heatlevel->setMaximum(850);
-        heatlevel->setGeometry (220,5,100,25);
+        l->addWidget(heatlevel);
         heatlevel->setValue(0);
 
-        heatmsg = new QLabel ("H:",this);
-        heatmsg->setGeometry (200,5,15,15);
-
-
         msgmsg = new QLabel ("F: ",this);
-        msgmsg->setGeometry (330,5,70,15);
+        l->addWidget(msgmsg);
 
         message = new QLabel ("M: ",this);
-        message->setGeometry (400,5,100,15);
+        l->addWidget(message);
 
         ifscanner = new QCheckBox ("Show device gfx",this);
-        ifscanner->setGeometry (5,35,120,15);
+        l->addWidget(ifscanner);
         ifscanner->setChecked (true);
         QObject::connect (ifscanner, SIGNAL (toggled (bool)), this,
                           SLOT (statch (bool)));
 
         showgfx = new QLabel (this);
-        showgfx->setGeometry (500,0,32,32);
+        l->addWidget(showgfx);
 
-
-        showgfx->setPixmap(rb->getgfx());
+        showgfx->setPixmap(rb->getgfx().copy(0, 0, rb->getgfx().height(), rb->getgfx().height()));
     }
     show();
 }

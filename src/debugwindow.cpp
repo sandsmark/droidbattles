@@ -76,8 +76,6 @@ DebugWindow::DebugWindow (QPlainTextEdit *Medit, int *dbl, int *dbm) : QDialog()
     l->addWidget(flagcontents[3], 1, 1);
     mainLayout->addLayout(l);
 
-    l = new QGridLayout;
-
     mainLayout->addWidget(memcontents[0]);
     mainLayout->addWidget(memcontents[1]);
     mainLayout->addWidget(memcontents[2]);

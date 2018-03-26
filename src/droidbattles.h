@@ -32,7 +32,6 @@
 #include <QWhatsThis>
 #include <qmessagebox.h>
 #include <QFileDialog>
-#include <QPrinter>
 #include <qpainter.h>
 #include <qpushbutton.h>
 #include <qdir.h>
@@ -45,10 +44,6 @@
 
 // application specific includes
 //#include "resource.h"
-#ifndef __USE_GNU
-#define __USE_GNU
-#endif
-//#include <unistd.h>
 
 class CreateBot;
 class StartsBatt;

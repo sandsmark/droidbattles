@@ -20,8 +20,6 @@
 #include <QTextStream>
 #include <QDebug>
 
-using namespace std;
-
 TextModeFileManip::TextModeFileManip()
 {
 }
@@ -37,7 +35,7 @@ void TextModeFileManip::assemble (char *filename)
     QFile fin (fname);
     if (!fin.open (QIODevice::ReadOnly))
     {
-        cout << "could not open file" << endl;
+        qDebug() << "could not open file" << endl;
         return;
     }
     QTextStream sin (&fin);
@@ -45,7 +43,7 @@ void TextModeFileManip::assemble (char *filename)
     sin >> curline;
     if (curline != QString ("RAM:"))
     {
-        cout << "Botfile corrupt, (error reading RAM size)";
+        qDebug() << "Botfile corrupt, (error reading RAM size)";
         return;
     }
 
@@ -83,7 +81,7 @@ void TextModeFileManip::assemble (char *filename)
     int tint = curline.toInt (&ok);
     if (!ok || tint > 8 || tint < 0)
     {
-        cout << "Botfile corrupt, (error reading RAM size)";
+        qDebug() << "Botfile corrupt, (error reading RAM size)";
         return;
     }
 
@@ -135,14 +133,14 @@ void TextModeFileManip::assemble (char *filename)
         sin >> curline;
         if (curline != QString ("DEVICE:"))
         {
-            cout << "Botfile corrupt, (error reading DEVICES)";
+            qDebug() << "Botfile corrupt, (error reading DEVICES)";
             return;
         }
         sin >> curline;
         tint = curline.toInt (&ok);
         if (!ok)
         {
-            cout << "Botfile corrupt, (error reading DEVICES)";
+            qDebug() << "Botfile corrupt, (error reading DEVICES)";
             return;
         }
 
@@ -151,7 +149,7 @@ void TextModeFileManip::assemble (char *filename)
         tint = curline.toInt (&ok);
         if (!ok)
         {
-            cout << "Botfile corrupt, (error reading DEVICES)";
+            qDebug() << "Botfile corrupt, (error reading DEVICES)";
             return;
         }
         mem[3+i*6] = tint;
@@ -159,7 +157,7 @@ void TextModeFileManip::assemble (char *filename)
         tint = curline.toInt (&ok);
         if (!ok)
         {
-            cout << "Botfile corrupt, (error reading DEVICES)";
+            qDebug() << "Botfile corrupt, (error reading DEVICES)";
             return;
         }
         mem[4+i*6] = tint;
@@ -798,13 +796,13 @@ void TextModeFileManip::assemble (char *filename)
                         existn[x] = true;
                         if (exist[1]==true)
                         {
-                            cout << "Expected: only one token on line " << linenum << endl;
+                            qDebug() << "Expected: only one token on line " << linenum << endl;
                             goto ende;
                         }
                     }
                     else
                     {
-                        cout << "Expected: name of label on line" << linenum << endl;
+                        qDebug() << "Expected: name of label on line" << linenum << endl;
                         goto ende;
                     }
                 }
@@ -824,13 +822,13 @@ void TextModeFileManip::assemble (char *filename)
                         existn[x] = true;
                         if (exist[1] == true)
                         {
-                            cout << "Expected: only one token, line " << linenum << endl;
+                            qDebug() << "Expected: only one token, line " << linenum << endl;
                             goto ende;
                         }
                     }
                     else
                     {
-                        cout << "Expected: name of variable on line " << linenum << endl;
+                        qDebug() << "Expected: name of variable on line " << linenum << endl;
                         goto ende;
                     }
                 }
@@ -854,18 +852,18 @@ void TextModeFileManip::assemble (char *filename)
                         }
                         else
                         {
-                            cout << "Expected: value of constant, line " << linenum << endl;
+                            qDebug() << "Expected: value of constant, line " << linenum << endl;
                             goto ende;
                         }
                         if (exist[2] == true)
                         {
-                            cout << "Expected: only two tokens, line " << linenum << endl;
+                            qDebug() << "Expected: only two tokens, line " << linenum << endl;
                             goto ende;
                         }
                     }
                     else
                     {
-                        cout << "Expected: name of constant on line " << linenum << endl;
+                        qDebug() << "Expected: name of constant on line " << linenum << endl;
                         goto ende;
                     }
                 }
@@ -962,7 +960,7 @@ void TextModeFileManip::assemble (char *filename)
                                 }
                                 else
                                 {
-                                    cout << "Unknown symbol on line " << linenum << endl;
+                                    qDebug() << "Unknown symbol on line " << linenum << endl;
                                     goto ende;
                                 }
                             }
@@ -979,7 +977,7 @@ void TextModeFileManip::assemble (char *filename)
                     }
                     else
                     {
-                        cout << "Expected: value for org on line" << linenum << endl;
+                        qDebug() << "Expected: value for org on line" << linenum << endl;
                         goto ende;
                     }
                 }
@@ -1008,14 +1006,14 @@ void TextModeFileManip::assemble (char *filename)
                                         else
                                         {
                                             //Code for error in dev-value
-                                            cout << "Value must be the number of a CPU device" << linenum << endl;
+                                            qDebug() << "Value must be the number of a CPU device" << linenum << endl;
                                             goto ende;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    cout << "Unknown symbol on line " << linenum << endl;
+                                    qDebug() << "Unknown symbol on line " << linenum << endl;
                                     goto ende;
                                 }
                             }
@@ -1030,14 +1028,14 @@ void TextModeFileManip::assemble (char *filename)
                             }
                             else
                             {
-                                cout << "Value must be the number of a CPU device, line " << linenum << endl;
+                                qDebug() << "Value must be the number of a CPU device, line " << linenum << endl;
                                 goto ende;
                             }
                         }
                     }
                     else
                     {
-                        cout << "Expected: number of CPU device on line " << linenum << endl;
+                        qDebug() << "Expected: number of CPU device on line " << linenum << endl;
                         goto ende;
                     }
                 }
@@ -1065,14 +1063,14 @@ void TextModeFileManip::assemble (char *filename)
                                         else
                                         {
                                             //Code for error in dev-value
-                                            cout << "Value must be the number of a CPU device, line " << linenum << endl;
+                                            qDebug() << "Value must be the number of a CPU device, line " << linenum << endl;
                                             goto ende;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    cout << "Unknown symbol on line " << linenum << endl;
+                                    qDebug() << "Unknown symbol on line " << linenum << endl;
                                     goto ende;
                                 }
                             }
@@ -1087,14 +1085,14 @@ void TextModeFileManip::assemble (char *filename)
                             }
                             else
                             {
-                                cout << "Value must be the number of a CPU device, line " << linenum << endl;
+                                qDebug() << "Value must be the number of a CPU device, line " << linenum << endl;
                                 goto ende;
                             }
                         }
                     }
                     else
                     {
-                        cout << "Expected: number of CPU device, line " << linenum << endl;
+                        qDebug() << "Expected: number of CPU device, line " << linenum << endl;
                         goto ende;
                     }
                 }
@@ -1124,14 +1122,14 @@ void TextModeFileManip::assemble (char *filename)
                                         else
                                         {
                                             //Code for error in dev-value
-                                            cout << "Value must be lower than 256" << linenum << endl;
+                                            qDebug() << "Value must be lower than 256" << linenum << endl;
                                             goto ende;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    cout << "Unknown symbol ,line" << linenum << endl;
+                                    qDebug() << "Unknown symbol ,line" << linenum << endl;
                                     goto ende;
                                 }
                             }
@@ -1146,14 +1144,14 @@ void TextModeFileManip::assemble (char *filename)
                             }
                             else
                             {
-                                cout << "Value must be lower than 256, line: " << linenum << endl;
+                                qDebug() << "Value must be lower than 256, line: " << linenum << endl;
                                 goto ende;
                             }
                         }
                     }
                     else
                     {
-                        cout << "Expected: number of interrupt, line: " << linenum << endl;
+                        qDebug() << "Expected: number of interrupt, line: " << linenum << endl;
                         goto ende;
                     }
                 }
@@ -1511,7 +1509,7 @@ void TextModeFileManip::assemble (char *filename)
                         i = 245;
                         if (tunres[3] == true)
                         {
-                            cout << "Sorry, this instruction cant use symbols not declared yet " <<	linenum << endl;
+                            qDebug() << "Sorry, this instruction cant use symbols not declared yet " <<	linenum << endl;
                             goto ende;
                         }
                         goto found;
@@ -1524,7 +1522,7 @@ void TextModeFileManip::assemble (char *filename)
                         i = 246;
                         if (tunres[2] == true)
                         {
-                            cout << "Sorry, this instruction cant use symbols not declared yet " <<	linenum << endl;
+                            qDebug() << "Sorry, this instruction cant use symbols not declared yet " <<	linenum << endl;
                             goto ende;
                         }
                         goto found;
@@ -1537,7 +1535,7 @@ void TextModeFileManip::assemble (char *filename)
                             goto found;
                     }
                     //If not success return error
-                    cout << "Error: unknown mnemonic/operand combination on line " << linenum << endl;
+                    qDebug() << "Error: unknown mnemonic/operand combination on line " << linenum << endl;
                     goto ende;
                     //If success write result
 found:
@@ -1651,11 +1649,11 @@ newline:
     }
     else
     {
-        cout << "couldnt open outputfile" << endl;
+        qDebug() << "couldnt open outputfile" << endl;
         goto ende;
     }
 
-    cout << "Assemble successful" << endl;
+    qDebug() << "Assemble successful" << endl;
 ende:
     return;
 }
@@ -1667,7 +1665,7 @@ void TextModeFileManip::checkConfig (char *filename)
     QFile f (tempname);
     if (!f.open (QIODevice::ReadOnly))
     {
-        cout << "Couldn't open config file" << endl;
+        qDebug() << "Couldn't open config file" << endl;
         return;
     }
 
@@ -1712,7 +1710,7 @@ void TextModeFileManip::checkConfig (char *filename)
     QFile b (filename);
     if (!b.open (QIODevice::ReadOnly))
     {
-        cout << "Couldn't open bot-file" << endl;
+        qDebug() << "Couldn't open bot-file" << endl;
         return;
     }
     QDataStream s2 (&b);
@@ -1722,14 +1720,14 @@ void TextModeFileManip::checkConfig (char *filename)
     s2.readBytes (tc,lng);
     unsigned char *my = (unsigned char *) &tc[0];
     if (my[1] > config.maxram)          //Read in all devices
-        cout << "ERROR!, Max amount of ram" << endl;
+        qDebug() << "ERROR!, Max amount of ram" << endl;
     if (my[1] <= 9)
     {
         cost += config.ramcost[my[1]];
     }
     else
     {
-        cout << "ERROR!, file format error" << endl;
+        qDebug() << "ERROR!, file format error" << endl;
     }
 
     int levelvalue = 0;
@@ -1738,7 +1736,7 @@ void TextModeFileManip::checkConfig (char *filename)
         if (my[x*6+2] <= NUMDEV)
         {
             if (config.enabled[my[x*6+2]-1] == false && my[x*6+2] != 0)
-                cout << "ERROR!, Using disabled device" << endl;
+                qDebug() << "ERROR!, Using disabled device" << endl;
             if (my[x*6+3] <= 4 && my[x*6+2] > 0)
             {
                 numdev++;
@@ -1747,22 +1745,22 @@ void TextModeFileManip::checkConfig (char *filename)
             }
             if (my[x*6+3] > 4)
             {
-                cout << "ERROR!, File format error" << endl;
+                qDebug() << "ERROR!, File format error" << endl;
                 levelvalue = 0;
             }
         }
         else
         {
-            cout << "ERROR!, File format error" << endl;
+            qDebug() << "ERROR!, File format error" << endl;
         }
     }
     if (numdev > config.maxdev)
-        cout << "ERROR!, Max number of devices" << endl;
+        qDebug() << "ERROR!, Max number of devices" << endl;
     if (cost > config.maxcost)
-        cout << "ERROR!, Max cost fo bot" << endl;
+        qDebug() << "ERROR!, Max cost fo bot" << endl;
     delete my;
 
-    cout << "Check finished" << endl;
+    qDebug() << "Check finished" << endl;
 }
 
 void TextModeFileManip::loadConfig (char *filename)
@@ -1772,14 +1770,14 @@ void TextModeFileManip::loadConfig (char *filename)
     QFile f (fname);
     if (!f.open (QIODevice::WriteOnly))
     {
-        cout << "Couldnt open current.cfg... check permissions" << endl;
+        qDebug() << "Couldnt open current.cfg... check permissions" << endl;
         return;
     }
     fname = filename;
     QFile f2 (fname);
     if (!f2.open (QIODevice::ReadOnly))
     {
-        cout << "Couldnt open file ,"<< filename << " not found" << endl;
+        qDebug() << "Couldnt open file ,"<< filename << " not found" << endl;
         return;
     }
 

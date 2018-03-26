@@ -18,6 +18,8 @@
 #include "textmodebattlearea.h"
 //Added by qt3to4:
 #include <QTextStream>
+#include <QDebug>
+#include <QtMath>
 
 using namespace std;
 
@@ -477,7 +479,7 @@ int TextmodeBattleArea::execround()
 //				int ret = ermsg->exec( );
 //				delete ermsg;
 //				QMessageBox::information( 0, "Fight Ended",msg );
-                cout << "Result: " << msg.data() << endl;
+                qDebug() << "Result: " << msg.data() << endl;
                 return 3;
             }
             else
@@ -502,19 +504,13 @@ int TextmodeBattleArea::execround()
             fightsfought++;
             if (fightsfought >= numfights)   //If we have done all the rounds of
             {                // fights we should have, Determine the overall winner
-                int winbot=0;
                 int curval=0;
                 int curval2=1000;
-                bool draw=false;
                 for (x=0; x<maxbots; x++)
                 {
-                    if (fightswon[x] == curval)
-                        draw = true;
                     if (fightswon[x] > curval)
                     {
                         curval = fightswon[x];
-                        winbot = x;
-                        draw = false;
                     }
                     if (fightswon[x] < curval2 && names[x] != "")
                     {
@@ -560,7 +556,7 @@ int TextmodeBattleArea::execround()
                         break;
                     }
 //					QMessageBox::information( 0,"Fight ended",msg );
-                    cout << "Result: " << msg.data() << endl;
+                    qDebug() << "Result: " << msg.data() << endl;
                     return 3;
                 }
             }
@@ -588,7 +584,7 @@ int TextmodeBattleArea::execround()
                         msg += " frags.\n";
                     }
                 }
-                cout << "Result: " << msg.data() << endl;
+                qDebug() << "Result: " << msg.data() << endl;
                 return 3;
             }
         }

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "beam.h"
+#include <QtMath>
 
 /**
 	* Constructor , initializing and positioning beam

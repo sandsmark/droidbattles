@@ -19,6 +19,7 @@
 //Added by qt3to4:
 #include <QDebug>
 #include <QPixmap>
+#include <QtMath>
 
 /**
 	* Init positions, devices and load gfx

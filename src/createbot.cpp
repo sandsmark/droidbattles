@@ -29,7 +29,6 @@
 #include <QTextStream>
 #include <QTextBlock>
 #include <QSettings>
-#include <unistd.h>
 #include "battlearea.h"
 #include "startsbatt.h"
 #include <QVBoxLayout>
@@ -400,23 +399,12 @@ CreateBot::CreateBot()
     }
 }
 
-void CreateBot::resizeEvent (QResizeEvent *)
-{
-//    int wid1 = width() /9;
-//    if (wid1 > 150) wid1 = 150;
-//    showlatency->resize (wid1, height()-100);
-//    int wid2 = width()-wid1-235;
-//    edittxt->setGeometry (wid1+10,30,wid2,height()-100);
-//    scrvw->setGeometry (wid1+wid2+15,40,210,height()-100);
-//    gfxbutton->setGeometry (10,height()-50,520,36);
-}
-
 /**
 	* Loads the bot graphics
 	*/
 void CreateBot::choosepic()
 {
-    QString filename = QFileDialog::getOpenFileName (this, tr("Select picture file"), QDir::homePath(), "*.bmp");
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select picture file"), QDir::homePath(), "*.png");
     if (!filename.isEmpty())
         gfx.load (filename);
 
@@ -574,10 +562,10 @@ bool CreateBot::loadFile(const QString &filename)
     f.close();
     botname = QFileInfo(filename).baseName();
 
-    QString bmpName = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".bmp");
-    QFile f2 (bmpName);
+    QString pngName = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".png");
+    QFile f2 (pngName);
     if (f2.exists())
-        gfx.load (bmpName);
+        gfx.load (pngName);
     else
         gfx = QPixmap();
 
@@ -618,8 +606,8 @@ void CreateBot::save()
 
     if (gfx.width() > 31 && gfx.height() > 31)
     {
-        QString bmpPath = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".bmp");
-        gfx.save (bmpPath, "BMP");
+        QString pngPath = QFileInfo(m_fileName).absoluteDir().filePath(botname + ".png");
+        gfx.save (pngPath);
     }
     changed = false;
     edittxt->document()->setModified(false);
@@ -656,8 +644,8 @@ void CreateBot::saveas()
     botname = QFileInfo(filename).baseName();
     if (gfx.width() > 31 && gfx.height() > 31)
     {
-        QString bmpPath = QFileInfo(filename).absoluteDir().filePath(botname + ".bmp");
-        gfx.save (bmpPath, "BMP");
+        QString pngPath = QFileInfo(filename).absoluteDir().filePath(botname + ".png");
+        gfx.save (pngPath);
     }
     changed = false;
     edittxt->document()->setModified(false);
@@ -2501,13 +2489,20 @@ int CreateBot::devnum (int sort,int num)
 
 void CreateBot::setEdittxtScrollValue (int i)
 {
-    assert (edittxt);
+    if (!edittxt) {
+        QMessageBox::critical(this, "Internal error", "Internal error.\nNo editor available!", QMessageBox::Ok);
+        return;
+    }
     edittxt->verticalScrollBar()->setValue (i);
 }
 
 void CreateBot::setShowlatencyScrollValue (int i)
 {
-    assert (showlatency);
+    if (!showlatency) {
+        QMessageBox::critical(this, "Internal error", "Internal error.\nNo latency view available!", QMessageBox::Ok);
+        return;
+    }
+
     showlatency->verticalScrollBar()->setValue (i);
 }
 

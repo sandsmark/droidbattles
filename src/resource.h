@@ -17,11 +17,6 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-
 ///////////////////////////////////////////////////////////////////
 // resource.h  -- contains macros used for commands
 

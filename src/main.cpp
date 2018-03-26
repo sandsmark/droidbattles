@@ -25,7 +25,6 @@
 #include "droidbattles.h"
 #include "textmodefilemanip.h"
 #include "textmodebattlearea.h"
-#include <string.h>
 #include <QDebug>
 #include <QStyleFactory>
 

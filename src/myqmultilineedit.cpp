@@ -226,7 +226,14 @@ QTextCharFormat Highlighter::argFormat(const Instruction::Types type)
 
 void Highlighter::addRule(const QString &pattern, const QVector<QColor> &color, const QVector<QFont::Weight> &weight)
 {
+#ifdef QT_DEBUG
     Q_ASSERT(color.size() == weight.size());
+#else
+    if(color.size() != weight.size()) {
+        qWarning() << "invalid rule?";
+        return;
+    }
+#endif
 
     Rule rule;
     rule.pattern = QRegularExpression(pattern);

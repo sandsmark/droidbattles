@@ -29,11 +29,9 @@
 #include <qpushbutton.h>
 #include <qpixmap.h>
 //Added by qt3to4:
-#include <QResizeEvent>
 #include <QCloseEvent>
 #include "confstruct.h"
 #include "pixmapholder.h"
-#include "assert.h"
 /**The base widget for the bot editor, contains an editor, an assembler
   *@author Andreas Agorander
   */
@@ -76,7 +74,6 @@ private slots:
     void checkconf();
     void devchanged();
     void scrollview (int);
-    void resizeEvent (QResizeEvent *e);
     void setEdittxtScrollValue (int i);
     void setShowlatencyScrollValue (int i);
     void onHelpAction();

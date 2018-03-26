@@ -18,6 +18,7 @@
 #include "missile.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include <QtMath>
 
 /**
 	* Init position, graphics and such
@@ -35,7 +36,7 @@ Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &ar
     Xpos = X;
     Ypos = Y;
     double dira = direction() * pi / 512;
-    setPosition (cos (dira) * 1500,sin (dira) * 1500);
+    setPosition (cos (dira) * 1500, sin(dira) * 1500);
     m_size = 1<<6;
     if (useUI)
     {

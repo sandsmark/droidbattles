@@ -20,7 +20,6 @@
 
 #include "device.h"
 #include "screenobject.h"
-#include <math.h>
 /**
 	* shoots the plasmashots
   *@author Andreas Agorander

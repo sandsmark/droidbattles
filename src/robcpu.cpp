@@ -18,7 +18,8 @@
 #include "robcpu.h"
 extern bool SingleStepMode;  // defined in battlearea.h
 
-//#include <qmessagebox.h>
+#include <QtMath>
+
 RobCpu::RobCpu()
 {
 }

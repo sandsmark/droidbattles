@@ -24,21 +24,16 @@
 #include "commonsymbols.h"
 #include "confedit.h"
 #include "starttournament.h"
-#include <sys/time.h>
 #include "installdir.h"
 #include "kothtournament.h"
 #include "startcup.h"
 #include "docbrowser.h"
 #include "pixbutton.h"
 #include "pixmapholder.h"
-#include <time.h>
 #include <QDebug>
+#include <time.h>
 //Added by qt3to4:
 #include <QTextStream>
-
-#ifdef Q_OS_LINUX
-#include <sys/resource.h>
-#endif
 
 #define VERSION "2.0.0"
 /**
@@ -88,7 +83,7 @@ DroidBattles::DroidBattles()
     //Load all pixmaps used by the application
     PixmapHolder::addpm (":/images/mainmenu.png", PixmapHolder::MainMenu);
 
-    PixmapHolder::addpm (":/images/backbutton.xpm", PixmapHolder::BackButton);
+    PixmapHolder::addpm (":/images/backbutton.png", PixmapHolder::BackButton);
 
     PixmapHolder::addpm (":/images/metal.png", PixmapHolder::Metal);
 

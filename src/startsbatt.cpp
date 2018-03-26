@@ -113,7 +113,7 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     QObject::connect (cancelb,SIGNAL (clicked()),this,SLOT (ccl()));
 
     QPalette palette;
-    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MetalBackground)));
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::Metal)));
     palette.setColor(foregroundRole(), Qt::white);
     setPalette(palette);
 

@@ -22,7 +22,6 @@
 #include "debugcontents.h"
 #include <QLabel>
 #include <QString>
-#include <stdlib.h>
 #include <QPlainTextEdit>
 #include <QPushButton>
 /**

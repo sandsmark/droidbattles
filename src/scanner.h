@@ -20,8 +20,6 @@
 
 #include "device.h"
 #include "screenobject.h"
-#include <math.h>
-#include <stdlib.h>
 #include "commonsymbols.h"
 #include <qpainter.h>
 #include <qwidget.h>

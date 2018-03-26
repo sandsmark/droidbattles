@@ -24,10 +24,8 @@
 #include <qdir.h>
 #include <QTextStream>
 #include <qdatastream.h>
-#include <iostream>
 #include <qfile.h>
 #include <qregexp.h>
-#include <string.h>
 /**
   *@author Andreas Agorander
   */

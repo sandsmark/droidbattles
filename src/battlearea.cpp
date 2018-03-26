@@ -18,11 +18,11 @@
 #include "battlearea.h"
 //Added by qt3to4:
 #include <QLabel>
-#include <QResizeEvent>
 #include <QCloseEvent>
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QtMath>
 
 bool SingleStepMode = false;
 
@@ -278,8 +278,14 @@ void BattleArea::startonebattle (int y)
         qDeleteAll(dbgwindows);
         dbgwindows.clear();
         // the bot to be debugged is objects[debugbot]
-        assert (objects[debugbot] != NULL);
-        assert (objects[debugbot]->type() == 1);
+        if (objects[debugbot] == nullptr) {
+            QMessageBox::critical(this, "Internal error", "Internal error.\nBot object not created!", QMessageBox::Ok);
+            return;
+        }
+        if (objects[debugbot]->type() != 1) {
+            QMessageBox::critical(this, "Internal error", "Internal error.\nBot object wrong type!", QMessageBox::Ok);
+            return;
+        }
         int nCpus = ( (Robots*) objects[debugbot])->cpuCount();
         for (int x=0; x<nCpus; x++) {
             DebugWindow* dw = new DebugWindow (_dbedit,&_dbl[0],&_dbm[0]);
@@ -630,7 +636,7 @@ void BattleArea::execute()
     //Here, check if the battle has ended (eg. <= 1 bot or <= 1 team is left)
 
     int numofbots = 0;
-    int botnum;
+    int botnum = 0;
     if (isteams)     //If teams
     {
         alive[0] = 0;
@@ -718,19 +724,13 @@ void BattleArea::execute()
             fightsfought++;
             if (fightsfought >= numfights)   //If we have done all the rounds of
             {                // fights we should have, Determine the overall winner
-                int winbot=0;
                 int curval=0;
                 int curval2=1000;
-                bool draw=false;
                 for (x=0; x<maxbots; x++)
                 {
-                    if (fightswon[x] == curval)
-                        draw = true;
                     if (fightswon[x] > curval)
                     {
                         curval = fightswon[x];
-                        winbot = x;
-                        draw = false;
                     }
                     if (fightswon[x] < curval2 && names[x] != "")
                     {
@@ -824,10 +824,13 @@ void BattleArea::execute()
     if (debugenabled)   //If this is a "quick battle", update register content info and such
         if (objects[debugbot]->type() == 1) // for robots only
         {
-            std::list<struct DebugContents> *dc = ( (Robots*) objects[debugbot])->allDebugContents();
-            assert (dc->size() == dbgwindows.size());
+            QVector<DebugContents> *dc = ( (Robots*) objects[debugbot])->allDebugContents();
+            if (dc->size() != dbgwindows.size()) {
+                QMessageBox::critical(this, "Internal error", "Internal error.\nWrong number of debug windows!", QMessageBox::Ok);
+                return;
+            }
             QList<DebugWindow*>::iterator i = dbgwindows.begin();
-            std::list<DebugContents>::iterator j = dc->begin();
+            QVector<DebugContents>::iterator j = dc->begin();
             for (; i!=dbgwindows.end(); i++,j++)
                 (*i)->updatedata (*j);
             delete dc;

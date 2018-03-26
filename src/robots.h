@@ -26,7 +26,6 @@
 #include "textmodebattlearea.h"
 #include "ram.h"
 #include "device.h"
-#include <math.h>
 #include <QFile>
 #include "commonsymbols.h"
 #include "robcpu.h"
@@ -38,8 +37,6 @@
 #include "fuel.h"
 #include "turret.h"
 #include <QBitmap>
-#include <math.h>
-#include <stdlib.h>
 #include <QMessageBox>
 #include "timedev.h"
 #include "shield.h"
@@ -51,11 +48,6 @@
 #include "rocketlauncher.h"
 #include "chafflauncher.h"
 
-#ifndef __USE_GNU
-#define __USE_GNU
-#include <unistd.h>
-#endif
-
 #include "confstruct.h"
 #include "installdir.h"
 #include "radarmissilelauncher.h"
@@ -64,7 +56,6 @@
 #include "cloaker.h"
 
 #include "debugcontents.h"
-#include <list>
 /**The bot that is programmed...
   *@author Andreas Agorander
   */
@@ -105,7 +96,7 @@ public:
     struct DebugContents debugContents() override;
     int cpuCount();
     // the caller has to delete the returned pointer
-    std::list<struct DebugContents> *allDebugContents();
+    QVector<DebugContents> *allDebugContents();
     int returnRadar() override;
     void setRadar (int x) override;
     void dumpRam() override;

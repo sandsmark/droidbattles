@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "scanner.h"
+#include <QtMath>
 
 Scanner::Scanner (ScreenObject &object, int arg1, int offset)
 {

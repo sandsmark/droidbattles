@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QPixmap>
 #include <QDebug>
+#include <QtMath>
 
 /**
 	* Init bot position, load program file and graphics
@@ -234,11 +235,11 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
         QString temp;
         temp = name;
         temp = temp.left (temp.length()-3);
-        temp += "bmp";
+        temp += "png";
         QFile f2 (temp);
         if (f2.exists() == false)
         {
-            temp = ":/images/ship" + QString::number (mynum) + ".bmp";
+            temp = ":/images/ship" + QString::number (mynum) + ".png";
         }
         if (graphics->load (temp) == false) {
             *graphics = QPixmap(32, 32);
@@ -592,9 +593,9 @@ int Robots::cpuCount()
  * Returns debugstructure from all CPUs
  */
 
-std::list<struct DebugContents>* Robots::allDebugContents()
+QVector<struct DebugContents>* Robots::allDebugContents()
 {
-    std::list<DebugContents> *dc = new std::list<DebugContents>;
+    QVector<DebugContents> *dc = new QVector<DebugContents>;
     for (int x=0; x<32; x++)
         if (devicelist[x] && (devicelist[x]->type() == 9))
             dc->push_back (devicelist[x]->debugContents());

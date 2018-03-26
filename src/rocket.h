@@ -19,7 +19,6 @@
 #define ROCKET_H
 
 #include "screenobject.h"
-#include <math.h>
 #include "textmodebattlearea.h"
 
 /**

@@ -30,7 +30,6 @@
 #include <QFile>
 #include "confstruct.h"
 #include "screenobject.h"
-#include <iostream>
 
 class TextmodeBattleArea
 {

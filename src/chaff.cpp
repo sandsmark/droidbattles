@@ -18,6 +18,7 @@
 #include "chaff.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include <QtMath>
 
 /**
 	* Constructor, Init object

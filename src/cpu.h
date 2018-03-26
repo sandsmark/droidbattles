@@ -22,8 +22,6 @@
 #include "screenobject.h"
 #include "commonsymbols.h"
 #include "debugcontents.h"
-#include <stdlib.h>
-#include <math.h>
 #include "device.h"
 #include "qfile.h"
 

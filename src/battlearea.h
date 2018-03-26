@@ -22,7 +22,6 @@
 #include <QTimer>
 #include <QLabel>
 #include <QMessageBox>
-#include <QResizeEvent>
 #include "botinfo.h"
 #include <QScrollArea>
 #include "pixbutton.h"
@@ -34,7 +33,6 @@
 #include "textmodebattlearea.h"
 
 #include <QList>
-#include <assert.h>
 
 /**
 	* The class that takes care of showing and computing the actual fight

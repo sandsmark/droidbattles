@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QtMath>
+#include <QStandardPaths>
 
 using namespace std;
 
@@ -47,9 +48,8 @@ TextmodeBattleArea::TextmodeBattleArea (const QString &nam1, const QString &nam2
 
     // OPen the current config file
     maxrounds = mx;
-    QString tempname = QDir::homePath();
-    tempname += "/droidbattles/current.cfg";
-    QFile f (tempname);
+    QString confFileName = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
+    QFile f (confFileName);
     if (!f.open (QIODevice::ReadOnly))
     {
         //TODO: add error message

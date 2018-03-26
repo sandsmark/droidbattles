@@ -23,6 +23,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QtMath>
+#include <QStandardPaths>
 
 bool SingleStepMode = false;
 
@@ -51,11 +52,10 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     ysize = ys;
     ifdelete = false;
 
-    // OPen the current config file
     maxrounds = mx;
-    QString tempname = QDir::homePath();
-    tempname += "/droidbattles/current.cfg";
-    QFile f (tempname);
+
+    // OPen the current config file
+    QFile f (QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
     if (!f.open (QIODevice::ReadOnly))
     {
         //TODO: add error message

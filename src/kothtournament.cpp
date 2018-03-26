@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QLabel>
 #include <QCloseEvent>
+#include <QSettings>
 
 /**
 	* Init GUI elements
@@ -117,13 +118,14 @@ QString KothTournament::getbotfile (int x)
 	*/
 void KothTournament::choosefile()
 {
-    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
-//	int x;
-
-    if (!tempname.isEmpty())
-    {
-        botfiles->addItem(tempname);
+    QSettings settings;
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
+    if (filename.isEmpty()) {
+        return;
     }
+    settings.setValue("LastBotPath", filename);
+
+    botfiles->addItem(filename);
 }
 
 /**
@@ -131,7 +133,6 @@ void KothTournament::choosefile()
 	*/
 void KothTournament::dechoosefile()
 {
-//	int x;
     delete botfiles->takeItem(botfiles->currentRow());
 }
 
@@ -195,49 +196,53 @@ bool KothTournament::getiffast()
 	*/
 void KothTournament::chooselist()
 {
-    QString tempname = QFileDialog::getOpenFileName (this, tr("Select tournament table file"), QDir::homePath(), "*.table");
+    QSettings settings;
+
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select tournament table file"), settings.value("LastTablePath").toString(), "*.table");
+    if (filename.isEmpty()) {
+        return;
+    }
+    settings.setValue("LastTablePath", filename);
+
     int x;
 
-    if (!tempname.isEmpty())
-    {
-        //Empty list of bots
-        botfiles->clear();
-        //Load new bots
-        QFile f (tempname);
-        f.open (QIODevice::ReadOnly);
-        QTextStream s (&f);
+    //Empty list of bots
+    botfiles->clear();
+    //Load new bots
+    QFile f (filename);
+    f.open (QIODevice::ReadOnly);
+    QTextStream s (&f);
 
-        QString temp;
+    QString temp;
+    s >> temp;
+    s >> temp;
+    int numbots = temp.toInt();
+    for (x=0; x<numbots; x++)
+    {
         s >> temp;
         s >> temp;
-        int numbots = temp.toInt();
-        for (x=0; x<numbots; x++)
-        {
-            s >> temp;
-            s >> temp;
-            botfiles->addItem (temp);
-        }
-        //numfights
-        s >> temp;
-        s >> temp;
-        wnumfights->setText (temp);
-        //lengthfights
-        s >> temp;
-        s >> temp;
-        length->setText (temp);
-        //Xsize
-        s >> temp;
-        s >> temp;
-        maxx->setValue (temp.toInt());
-        //Ysize
-        s >> temp;
-        s >> temp;
-        maxy->setValue (temp.toInt());
-        //Iffast
-        s >> temp;
-        s >> temp;
-        iffast->setChecked (temp.toInt());
+        botfiles->addItem (temp);
     }
+    //numfights
+    s >> temp;
+    s >> temp;
+    wnumfights->setText (temp);
+    //lengthfights
+    s >> temp;
+    s >> temp;
+    length->setText (temp);
+    //Xsize
+    s >> temp;
+    s >> temp;
+    maxx->setValue (temp.toInt());
+    //Ysize
+    s >> temp;
+    s >> temp;
+    maxy->setValue (temp.toInt());
+    //Iffast
+    s >> temp;
+    s >> temp;
+    iffast->setChecked (temp.toInt());
 }
 
 /**

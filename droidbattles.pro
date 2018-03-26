@@ -33,7 +33,6 @@ HEADERS += src/armor.h \
            src/explosion.h \
            src/fuel.h \
            src/infobox.h \
-           src/installdir.h \
            src/instruktion.h \
            src/kothtournament.h \
            src/matchresult.h \
@@ -89,7 +88,6 @@ SOURCES += src/armor.cpp \
            src/explosion.cpp \
            src/fuel.cpp \
            src/infobox.cpp \
-           src/installdir.cpp \
            src/instruktion.cpp \
            src/kothtournament.cpp \
            src/main.cpp \

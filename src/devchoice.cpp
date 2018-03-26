@@ -23,6 +23,7 @@
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QStandardPaths>
 
 /** Holds one group of the device choosing group of combobox etc. in
 	* the createbot dialog
@@ -155,11 +156,14 @@ void DevChoice::setarg1 (const QString &value)
 void DevChoice::costchanged()
 {
     struct ConfStruct curconfig;
-    QString tempname = QDir::homePath();
-    tempname += "/droidbattles/current.cfg";
+    QString tempname = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
+    if (!QFile::exists(tempname)) {
+        tempname = ":/misc/current.cfg";
+    }
+
     QFile f (tempname);
-    if (!f.open (QIODevice::ReadOnly))
-    {
+    if (!f.open (QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, "Unable to load config", "Unable to open " + f.fileName() + " for reading");
         //TODO: add error message
         return;
     }

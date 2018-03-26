@@ -22,6 +22,9 @@
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include <QStandardPaths>
+#include <QMessageBox>
+#include <QSettings>
 
 /**
 	* Constructor: Init GUI
@@ -195,9 +198,8 @@ ConfEdit::ConfEdit()
 
         }
     }
-    QString tempname = QDir::homePath();
-    tempname += "/droidbattles/current.cfg";
-    openfile (tempname);
+
+    openfile (QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
     show();
 }
 
@@ -213,10 +215,7 @@ ConfEdit::~ConfEdit()
 	*/
 void ConfEdit::defaultc()
 {
-    QString tempname = returninstalldir();
-    tempname += "misc/current.cfg";
-    qDebug() << tempname;
-    openfile (tempname);
+    openfile (":/misc/current.cfg");
 }
 
 /**
@@ -224,21 +223,30 @@ void ConfEdit::defaultc()
 	*/
 void ConfEdit::openc()
 {
-    QString tempname = QFileDialog::getOpenFileName (this, tr("Select config file"), QDir::homePath(), "*.cfg");
-    openfile (tempname);
+    QSettings settings;
+
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select config file"), settings.value("LastConfFile").toString(), "*.cfg");
+    if (filename.isEmpty()) {
+        return;
+    }
+
+    settings.setValue("LastConfFile", filename);
+    openfile (filename);
 }
 /**
 	* Saves current setings to a config file
 	*/
 void ConfEdit::savec()
 {
-    QString tempname = QFileDialog::getSaveFileName (this, tr("Save config file"), QDir::homePath(), "*.cfg");
-    if (tempname.isEmpty())
+    QSettings settings;
+    QString filename = QFileDialog::getSaveFileName (this, tr("Select config file"), settings.value("LastConfFile").toString(), "*.cfg");
+    if (filename.isEmpty())
     {
         return;
     }
+    settings.setValue("LastConfFile", filename);
 
-    QFile f (tempname);
+    QFile f (filename);
     if (!f.open (QIODevice::WriteOnly))
     {
         //TODO: Add error mesage
@@ -273,12 +281,15 @@ void ConfEdit::savec()
 	*/
 void ConfEdit::makecurrc()
 {
-    QString filename = QDir::homePath();
-    filename += "/droidbattles/current.cfg";
+    QDir baseDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    if (!baseDir.exists()) {
+        baseDir.mkpath(baseDir.absolutePath());
+    }
+
+    QString filename = baseDir.absoluteFilePath("current.cfg");
     QFile f (filename);
-    if (!f.open (QIODevice::WriteOnly))
-    {
-        //TODO: add error message
+    if (!f.open (QIODevice::WriteOnly)) {
+        QMessageBox::warning(this, "Failed to write config", "Unable to open " + filename + " for writing.");
         return;
     }
 
@@ -312,16 +323,15 @@ void ConfEdit::helpc()
 {
 }
 
-void ConfEdit::openfile (QString &tempname)
+void ConfEdit::openfile (const QString &filename)
 {
-    if (tempname.isEmpty())
-    {
+    if (filename.isEmpty()) {
         return;
     }
-    QFile f (tempname);
+    QFile f (filename);
     if (!f.open (QIODevice::ReadOnly))
     {
-        qWarning() << "Failed to open" << tempname;
+        qWarning() << "Failed to open" << filename;
         //TODO: Add error message
         return;
     }

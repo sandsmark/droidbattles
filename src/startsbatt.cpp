@@ -23,6 +23,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QStandardPaths>
+#include <QSettings>
 
 /**
 	* init GUI, load file from last battle
@@ -123,12 +125,11 @@ StartsBatt::StartsBatt(const QString &configFileName) :
 
 void StartsBatt::loadfilesettings()
 {
-    QString temp = QDir::homePath();
-    temp += "/droidbattles/" + m_configFileName;
-    QFile f (temp);
-    if (f.exists() && f.open (QIODevice::ReadOnly))
-    {
+    QString confPath = QStandardPaths::locate(QStandardPaths::AppConfigLocation, m_configFileName);
+    QFile f (confPath);
+    if (f.exists() && f.open (QIODevice::ReadOnly)) {
         QTextStream s (&f);
+        QString temp;
         for (int x=0; x<8; x++)
         {
             s >> botfiles[x];
@@ -171,7 +172,12 @@ QString StartsBatt::getbotfile (int x)
 	*/
 void StartsBatt::choosefile()
 {
-    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
+    QSettings settings;
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
+    if (!filename.isEmpty()) {
+        settings.setValue("LastBotPath", filename);
+    }
+
     int x;
 
     for (x=0; x<8; x++)
@@ -179,10 +185,10 @@ void StartsBatt::choosefile()
         if (botfiles[x].isEmpty())
             break;
     }
-    if (!tempname.isEmpty() && x < 8)
+    if (!filename.isEmpty() && x < 8)
     {
-        shownames[x]->setText (tempname);
-        botfiles[x] = tempname;
+        shownames[x]->setText (filename);
+        botfiles[x] = filename;
     }
 }
 
@@ -202,10 +208,11 @@ void StartsBatt::dechoosefile()
 	*/
 void StartsBatt::ocl()
 {
-// Save the current settings to file
-    QString temp = QDir::homePath();
-    temp += "/droidbattles/" + m_configFileName;
-    QFile f (temp);
+    QDir baseDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    QString filename = baseDir.absoluteFilePath(m_configFileName);
+
+    // Save the current settings to file
+    QFile f (filename);
     if (f.open (QIODevice::WriteOnly))
     {
         QTextStream s (&f);

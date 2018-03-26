@@ -22,7 +22,6 @@
 #include "textmodebattlearea.h"
 #include <qwidget.h>
 #include "commonsymbols.h"
-#include "installdir.h"
 #include "pixmapholder.h"
 
 /**

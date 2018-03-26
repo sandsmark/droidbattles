@@ -40,8 +40,6 @@ public:
     int collisionType();
 private:
     int length;
-    int lastpaintX;
-    int lastpaintY;
     int effect;
     bool ispainted;
     TextmodeBattleArea *ourarea;

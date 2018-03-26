@@ -21,7 +21,6 @@
 #include "screenobject.h"
 #include "textmodebattlearea.h"
 #include <qwidget.h>
-#include "installdir.h"
 #include "pixmapholder.h"
 /**
 	* The small explosive devices that lays on the ground

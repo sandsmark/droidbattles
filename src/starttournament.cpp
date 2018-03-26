@@ -19,6 +19,7 @@
 //Added by qt3to4:
 #include <QLabel>
 #include <QCloseEvent>
+#include <QSettings>
 
 StartTournament::StartTournament()
 {
@@ -107,13 +108,13 @@ QString StartTournament::getbotfile (int x)
 	*/
 void StartTournament::choosefile()
 {
-    QString tempname = QFileDialog::getOpenFileName (this, tr("Select bot file"), QDir::homePath(), "*.bot");
-//	int x;
-
-    if (!tempname.isEmpty())
-    {
-        botfiles->addItem (tempname);
+    QSettings settings;
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
+    if (filename.isEmpty()) {
+        return;
     }
+    settings.setValue("LastBotPath", filename);
+    botfiles->addItem (filename);
 }
 
 /**

@@ -19,6 +19,7 @@
 //Added by qt3to4:
 #include <QTextStream>
 #include <QDebug>
+#include <QStandardPaths>
 
 TextModeFileManip::TextModeFileManip()
 {
@@ -1660,9 +1661,8 @@ ende:
 
 void TextModeFileManip::checkConfig (char *filename)
 {
-    QString tempname = QDir::homePath();
-    tempname += "/droidbattles/current.cfg";
-    QFile f (tempname);
+    QString configFileName = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
+    QFile f (configFileName);
     if (!f.open (QIODevice::ReadOnly))
     {
         qDebug() << "Couldn't open config file" << endl;
@@ -1765,8 +1765,7 @@ void TextModeFileManip::checkConfig (char *filename)
 
 void TextModeFileManip::loadConfig (char *filename)
 {
-    QString fname = QDir::homePath();
-    fname += "/droidbattles/current.cfg";
+    QString fname = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
     QFile f (fname);
     if (!f.open (QIODevice::WriteOnly))
     {

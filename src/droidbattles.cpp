@@ -24,7 +24,6 @@
 #include "commonsymbols.h"
 #include "confedit.h"
 #include "starttournament.h"
-#include "installdir.h"
 #include "kothtournament.h"
 #include "startcup.h"
 #include "docbrowser.h"
@@ -34,6 +33,7 @@
 #include <time.h>
 //Added by qt3to4:
 #include <QTextStream>
+#include <QStandardPaths>
 
 #define VERSION "2.0.0"
 /**
@@ -48,31 +48,17 @@ DroidBattles::DroidBattles()
     qsrand(time (0));     //Initialize random seed
 
     /**
-    	* If the dir homedir/droidbattles doesn't exist, create it
-    	* Same with the file homedir/droidbattles/current.cfg
+        * If the base dir doesn't exist, create it
+        * Same with the file current.cfg
     	*/
-    QDir d = QDir::home();
-    if (!d.cd ("droidbattles"))
-    {
-        d.mkdir ("droidbattles");
-        d.cd ("droidbattles");
+    QDir baseDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    if (!baseDir.exists()) {
+        baseDir.mkpath(baseDir.absolutePath());
     }
-    QString temp = QDir::homePath();
-    temp += "/droidbattles/current.cfg";
-    QFile f (temp);
-    if (!f.exists())
-    {
-        temp = returninstalldir();
-        temp += "misc/current.cfg";
-        QFile f2 (temp);
-        f2.open (QIODevice::ReadOnly);
-        f.open (QIODevice::WriteOnly);
-        char *buf = new char[2000];
-        int num = f2.read(buf,2000);
-        f.write(buf,num);
-        f.close();
-        f2.close();
-        delete []buf;
+
+    QString defaultConfPath = baseDir.absoluteFilePath("current.cfg");
+    if (!QFileInfo::exists(defaultConfPath)) {
+        QFile::copy(":/misc/current.cfg", defaultConfPath);
     }
 
     resize (500,350);	//Set size of window
@@ -98,18 +84,6 @@ DroidBattles::DroidBattles()
     QPalette palette;
     palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MainMenu)));
     setPalette(palette);
-
-//    menubuttons[0] =  new QPushButton ("Bot-creator", this);
-//    menubuttons[1] =  new QPushButton ("Config editor", this);
-//    menubuttons[2] =  new QPushButton ("Normal battle", this);
-//    menubuttons[3] =  new QPushButton ("Deathmatch battle", this);
-//    menubuttons[4] =  new QPushButton ("Survival battle", this);
-//    menubuttons[5] =  new QPushButton ("League tournament", this);
-//    menubuttons[6] =  new QPushButton ("KOTH tournament", this);
-//    menubuttons[7] =  new QPushButton ("Cup tournament", this);
-//    menubuttons[8] =  new QPushButton ("About DroidBattles", this);
-//    menubuttons[9] =  new QPushButton ("Documentation", this);
-//    menubuttons[10] = new QPushButton ("Quit", this);
 
     menubuttons[0] =  new PixButton ("Bot-creator", this);
     menubuttons[1] =  new PixButton ("Config editor", this);

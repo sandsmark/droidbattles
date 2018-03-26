@@ -33,6 +33,7 @@
 #include "startsbatt.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QStandardPaths>
 
 /**
 	* Constructor Inits GUI
@@ -136,8 +137,11 @@ CreateBot::CreateBot()
     mainLayout->addLayout(editorLayout);
 
     dirname = new char[100];
-    botname = QDir::homePath();
-    botname += "/droidbattles/unnamed";
+    QDir botsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/droidbattles/";
+    if (!botsPath.exists()) {
+        botsPath.mkpath(botsPath.absolutePath());
+    }
+    botname = botsPath.absoluteFilePath("unnamed");
 
     gfxbutton = new QPushButton (this);
     gfxbutton->setIcon(QIcon(gfx));
@@ -404,8 +408,11 @@ CreateBot::CreateBot()
 	*/
 void CreateBot::choosepic()
 {
-    QString filename = QFileDialog::getOpenFileName (this, tr("Select picture file"), QDir::homePath(), "*.png");
+    QSettings settings;
+
+    QString filename = QFileDialog::getOpenFileName (this, tr("Select picture file"), settings.value("LastPicPath").toString(), "*.png");
     if (!filename.isEmpty())
+        settings.setValue("LastPicPath", filename);
         gfx.load (filename);
 
     gfxbutton->setIcon(QIcon(gfx));
@@ -471,8 +478,8 @@ void CreateBot::newb()
         devices[x]->setarg1 (0);
     }
     amountRAM->setCurrentIndex(0);
-    botname = QDir::homePath();
-    botname += "/droidbattles/unnamed";
+
+    botname = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/droidbattles/unnamed";
     gfx = QPixmap(0,0);
     changed = false;
     edittxt->document()->setModified(false);
@@ -507,7 +514,7 @@ void CreateBot::open()
     settings.beginGroup("editor");
     QString filename = settings.value("lastfile").toString();
     if (filename.isEmpty()) {
-        filename = QDir::homePath();
+        filename = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/droidbattles/";
     }
 
     filename = QFileDialog::getOpenFileName (this, tr("Select bot source file"), filename, "*.basm");
@@ -2277,9 +2284,8 @@ bool CreateBot::startquick()
         return false;
     }
 
-    QString temp = QDir::homePath();
-    temp += "/droidbattles/quick.conf";
-    QFile f2 (temp);
+    QString quickconf = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "quick.conf");
+    QFile f2 (quickconf);
     QString names[8];
     int xsize,ysize,numfights,lengthfights;
     bool ifteams;
@@ -2287,6 +2293,7 @@ bool CreateBot::startquick()
     if (f2.exists() && f2.open (QIODevice::ReadOnly))
     {
         QTextStream s (&f2);
+        QString temp;
         for (int x=0; x<8; x++)
         {
             s >> names[x];
@@ -2358,12 +2365,11 @@ void CreateBot::stopconf()
 	*/
 void CreateBot::checkconf()
 {
-    QString tempname = QDir::homePath();
-    tempname += "/droidbattles/current.cfg";
-    QFile f (tempname);
+    QString confFileName = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
+    QFile f (confFileName);
     if (!f.open (QIODevice::ReadOnly))
     {
-        //TODO: add error message
+        QMessageBox::warning(this, "Unable to find config", "No current configuration file found");
         return;
     }
 

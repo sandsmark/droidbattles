@@ -31,10 +31,6 @@
 #include <qfile.h>
 #include <QFileDialog>
 #include <QTextStream>
-#ifndef __USE_GNU
-#define __USE_GNU
-#endif
-#include "installdir.h"
 
 /**edits and sets current config file
   *@author Andreas Agorander
@@ -94,7 +90,7 @@ private slots:
     void makecurrc();
     void savec();
     void defaultc();
-    void openfile (QString &tempname);
+    void openfile (const QString &tempname);
 
 };
 

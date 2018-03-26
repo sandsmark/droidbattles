@@ -44,9 +44,7 @@ DroidBattles::DroidBattles()
 {
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("DroidBattles " VERSION);
-#ifdef Q_OS_LINUX
-    setpriority (PRIO_PROCESS, 0, 5);  //Lower process execution priority
-#endif
+
     qsrand(time (0));     //Initialize random seed
 
     /**

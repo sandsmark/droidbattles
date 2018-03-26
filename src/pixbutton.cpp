@@ -33,6 +33,14 @@ PixButton::~PixButton()
 
 void PixButton::paintEvent (QPaintEvent *)
 {
+    { // Draw bevel etc.
+        QStylePainter p(this);
+        QStyleOptionButton option;
+        initStyleOption(&option);
+        p.drawControl(QStyle::CE_PushButtonBevel, option);
+    }
+
+    // Draw our own background and text
     QPainter paint(this);
     paint.fillRect(rect().marginsRemoved(QMargins(2, 2, 2, 2)), QBrush(PixmapHolder::getpm(PixmapHolder::BackButton)));
     paint.drawText (isDown() ? 1 : 0, isDown() ? 1 : 0, width(), height(), Qt::AlignCenter, tex);

@@ -332,17 +332,16 @@ void BattleArea::execute()
             continue;                     //is a "collidable" object
         }
 
-        for (x2= (x+1); x2<maxobjects; x2++)	//Loop through all possible objects
-        {																	//(to check for collisions)
+        for (x2= (x+1); x2<maxobjects; x2++) {	//Loop through all possible objects
+                                                                            //(to check for collisions)
             if (objects[x2]->type() <= 0) {
                 continue;
             }
 
-            // Also, if the objects has the same collid (and it's != 256)
-            // (Eg, bullets fired by the same bot)  don't issue a collision
-            if (!(((objects[x]->collisionId() == collenabled ||
-                       objects[x2]->collisionId() == collenabled) ||
-                      (objects[x]->collisionId() != objects[x2]->collisionId())))) {
+            if (objects[x]->owner() == objects[x2]->owner()) {
+                continue;
+            }
+            if (objects[x]->collisionId() != collenabled && objects[x2]->collisionId() != collenabled) {
                 continue;
             }
 

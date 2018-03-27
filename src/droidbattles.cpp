@@ -393,6 +393,7 @@ void DroidBattles::quit()
 void DroidBattles::editconf()
 {
     ccf = new ConfEdit();
+    connect(ccf, &ConfEdit::helpRequested, this, &DroidBattles::onConfHelpRequested);
 }
 
 /**
@@ -1029,4 +1030,14 @@ void DroidBattles::disablebattles()
     menubuttons[2]->setEnabled (false);
     menubuttons[3]->setEnabled (false);
     menubuttons[4]->setEnabled (false);
+}
+
+void DroidBattles::onConfHelpRequested()
+{
+    if (!browser) {
+        browser = new DocBrowser ("qrc:/doc/index-8.html");
+    } else {
+        browser->setSource (QUrl("qrc:/doc/index-8.html"));
+
+    }
 }

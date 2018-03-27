@@ -153,6 +153,7 @@ private slots:
 
     void showdoc();
     void onHelpRequested(const QString &word);
+    void onConfHelpRequested();
 };
 
 #endif

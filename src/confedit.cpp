@@ -55,19 +55,13 @@ ConfEdit::ConfEdit()
     buttonsLayout->addWidget(helpbutton, 1, 2);
     mainLayout->addLayout(buttonsLayout);
 
-    helpbutton->setEnabled (false);
-
-    QObject::connect (defaultbutton, SIGNAL (clicked()), this,
-                      SLOT (defaultc()));
-    QObject::connect (openbutton, SIGNAL (clicked()), this,
-                      SLOT (openc()));
-    QObject::connect (savebutton, SIGNAL (clicked()), this,
-                      SLOT (savec()));
+    connect (defaultbutton, &QAbstractButton::clicked, this, &ConfEdit::defaultc);
+    connect (openbutton, &QAbstractButton::clicked, this, &ConfEdit::openc);
+    connect (savebutton, &QAbstractButton::clicked, this, &ConfEdit::savec);
     connect(closebutton, &QPushButton::clicked, this, &ConfEdit::close);
-    QObject::connect (makecurrentbutton, SIGNAL (clicked()), this,
-                      SLOT (makecurrc()));
-    QObject::connect (helpbutton, SIGNAL (clicked()), this,
-                      SLOT (helpc()));
+    connect (makecurrentbutton, &QAbstractButton::clicked, this, &ConfEdit::makecurrc);
+    connect (helpbutton, &QAbstractButton::clicked, this,
+                      &ConfEdit::helpRequested);
 
     valid = new QIntValidator (this);
 
@@ -263,13 +257,6 @@ void ConfEdit::makecurrc()
 
     QString filename = baseDir.absoluteFilePath("current.cfg");
     save(filename);
-}
-
-/**
-	* TODO: load basic config help
-	*/
-void ConfEdit::helpc()
-{
 }
 
 void ConfEdit::openfile (const QString &filename)

@@ -47,8 +47,10 @@ public:
     ConfEdit();
     ~ConfEdit();
 
-private:
+signals:
+    void helpRequested();
 
+private:
     // The "menu" buttons
     QPushButton *closebutton;
     QPushButton *helpbutton;
@@ -84,7 +86,6 @@ private:
     QComboBox *levelvalues[numdev];
 
 private slots:
-    void helpc();
     void openc();
     void makecurrc();
     void savec();

@@ -98,6 +98,16 @@ BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name
 void BotInfo::armorupdated (int x)
 {
     armorlevel.setValue(x);
+
+    if (x <= 0) {
+        botnam.setEnabled(false);
+        armormsg.setEnabled(false);
+        armorlevel.setEnabled(false);
+        heatmsg.setEnabled(false);
+        heatlevel.setEnabled(false);
+        msgmsg.setEnabled(false);
+        message.setEnabled(false);
+    }
 }
 
 /**

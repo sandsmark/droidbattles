@@ -16,5 +16,6 @@
         <file>images/ship6.png</file>
         <file>images/ship7.png</file>
         <file>images/metal.png</file>
+        <file>images/rocket.xpm</file>
     </qresource>
 </RCC>

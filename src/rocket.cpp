@@ -55,6 +55,9 @@ Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
             pointY[x] = int (Ypos);
             pointD[x] = direction() +512 + (rand() %128)-64;
         }
+        erasegfx = new QPixmap(8, 8);
+        erasegfx->fill (Qt::black);
+        graphics = PixmapHolder::getpmp (PixmapHolder::Rocket);
     }
 }
 
@@ -83,6 +86,8 @@ void Rocket::eraseObject(QPixmap *buffer)
     {
         p.drawPoint (pointX[x]>>6,pointY[x]>>6);
     }
+
+    p.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
 }
 
 /**
@@ -105,6 +110,7 @@ void Rocket::drawObject(QPixmap *buffer, int /*opt*/)
         pointY[x] += int (sin (dira) * 64);
         p.drawPoint (pointX[x]>>6,pointY[x]>>6);
     }
+    p.drawPixmap((int(Xpos) >> 6) - 4, (int(Ypos) >> 6) - 4, *graphics);
 }
 
 /**

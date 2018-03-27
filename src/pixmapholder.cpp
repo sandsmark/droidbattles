@@ -74,6 +74,7 @@ void PixmapHolder::load()
     addpm (":/images/chaff.bmp", PixmapHolder::Chaff);
     addpm (":/images/mine.xpm", PixmapHolder::Mine);
     addpm (":/images/missile.xpm", PixmapHolder::Missile);
+    addpm (":/images/rocket.xpm", PixmapHolder::Rocket);
 
     initialized = true;
 }

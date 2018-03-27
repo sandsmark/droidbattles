@@ -36,7 +36,8 @@ public:
         RadarMissile = 4,
         Chaff = 5,
         Mine = 6,
-        Missile = 7
+        Missile = 7,
+        Rocket = 8
     };
 
     PixmapHolder();

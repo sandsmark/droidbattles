@@ -20,7 +20,6 @@
 
 #include "screenobject.h"
 #include <QDataStream>
-#include <QTextStream>
 #include <QString>
 #include <QWidget>
 #include "textmodebattlearea.h"

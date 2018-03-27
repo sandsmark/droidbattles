@@ -29,7 +29,6 @@
 #include <qpushbutton.h>
 #include <qmessagebox.h>
 #include "confstruct.h"
-#include <QTextStream>
 #include <qfile.h>
 #include "commonsymbols.h"
 #include <qdir.h>

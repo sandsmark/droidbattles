@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "startsurvbatt.h"
-#include <QTextStream>
 #include <QLabel>
 
 StartSurvBatt::StartSurvBatt() :

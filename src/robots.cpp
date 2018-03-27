@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #include "robots.h"
-//Added by qt3to4:
-#include <QTextStream>
 #include <QPixmap>
 #include <QDebug>
 #include <QtMath>
@@ -502,14 +500,12 @@ QString Robots::getDebugMessage2()
 
 void Robots::setDebugVariable1 (int msg)
 {
-    QTextStream ts (&debug1);
-    ts << "Angle is: " << msg << "  ";
+    debug1 = QString::asprintf("Angle is: %d", msg);
 }
 
 void Robots::setDebugVariable2 (int msg)
 {
-    QTextStream ts (&debug2);
-    ts << "distance is: " << msg << "  ";
+    debug2 = QString::asprintf("Distance is: %d", msg);
 }
 
 /**

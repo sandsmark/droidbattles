@@ -17,7 +17,6 @@
 
 #include "devchoice.h"
 //Added by qt3to4:
-#include <QTextStream>
 #include <QLabel>
 #include <QFrame>
 #include <QGroupBox>
@@ -156,41 +155,7 @@ void DevChoice::setarg1 (const QString &value)
 void DevChoice::costchanged()
 {
     struct ConfStruct curconfig;
-    QString tempname = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
-    if (!QFile::exists(tempname)) {
-        tempname = ":/misc/current.cfg";
-    }
-
-    QFile f (tempname);
-    if (!f.open (QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, "Unable to load config", "Unable to open " + f.fileName() + " for reading");
-        //TODO: add error message
-        return;
-    }
-
-    QTextStream s (&f);
-    int x,y;
-
-    QString dummy;
-
-    int i;
-//	bool ch;
-
-    for (x=0; x<16; x++)
-    {
-        s >> dummy;
-    }
-    for (x=0; x<NUMDEV; x++)
-    {
-        s >> dummy;
-        s >> i;
-        for (y=0; y<5; y++)
-        {
-            s >> i;
-            curconfig.cost[y][x] = i;
-            s >> dummy;
-        }
-    }
+    curconfig.load(QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
 
     int dev = getitem();
     if (dev == 0) return;
@@ -200,7 +165,6 @@ void DevChoice::costchanged()
     resulttext = "Cost:";
     resulttext += QString::number (curconfig.cost[devlev][dev-1]);
     showcost->setText (resulttext);
-    f.close();
 }
 
 void DevChoice::showinfo()

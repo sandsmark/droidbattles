@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "startdeathbatt.h"
-#include <QTextStream>
 #include <QLabel>
 
 StartDeathBatt::StartDeathBatt() :

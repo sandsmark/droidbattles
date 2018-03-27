@@ -33,29 +33,24 @@ bool SingleStepMode = false;
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
-                        const QString &nam5, const QString &nam6, const QString &nam7, const QString &nam8, int numf,
-                        int mx, int xs, int ys, bool ifteams, int *bteams,
-                        bool tourney, bool fast, int mode, int maxp,
-                        bool ifdebug, QPlainTextEdit *dbedit,
-                        int *dbl, int *dbm)
+BattleArea::BattleArea (const BattleConfig &battleConfig, bool ifdebug, QPlainTextEdit *dbedit, int *dbl, int *dbm)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::Dialog);
 
-    debugenabled = ifdebug;
-    iffast = fast;
-    battlemode = mode;
-    maxpoints = maxp;
+    m_debugEnabled = ifdebug;
+    m_fastMode = battleConfig.fastMode;
+    m_battleMode = battleConfig.mode;
+    m_maxPoints = battleConfig.maxPoints;
 
-    hideresmsg = tourney;
+    m_showResults = !battleConfig.isTournament;
 
-    isteams = ifteams;
-    xsize = xs;
-    ysize = ys;
+    m_isTeams = battleConfig.isTeams;
+    m_xSize = battleConfig.xSize;
+    m_ySize = battleConfig.ySize;
     ifdelete = false;
 
-    maxrounds = mx;
+    m_maxRounds = battleConfig.maxRounds;
 
     // OPen the current config file
     QFile f (QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
@@ -77,7 +72,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     int x,y;
     for (x=0; x<maxbots; x++)
     {
-        botteams[x] = bteams[x];
+        botteams[x] = battleConfig.teams[x];
     }
     QString dummy;
     int i;
@@ -116,18 +111,12 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     qDebug() << "max devices" << config.maxdev;
 
     //Initialize vars
-    numfights = numf;
+    numfights = battleConfig.numFights;
     fightsfought = 0;
-    names[0] = nam1;
-    names[1] = nam2;
-    names[2] = nam3;
-    names[3] = nam4;
-    names[4] = nam5;
-    names[5] = nam6;
-    names[6] = nam7;
-    names[7] = nam8;
-    for (x=0; x<8; x++)
+    for (x=0; x<8; x++) {
+        names[x] = battleConfig.names[x];
         fightswon[x] = 0;
+    }
 
     mydrw = new QLabel();
     horizontalLayout->addWidget(mydrw);
@@ -135,7 +124,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     infowindow->setLayout(new QGridLayout);
     mainLayout->addWidget(infowindow);
 
-    m_pixmap = QPixmap(xsize>>6,ysize>>6 );
+    m_pixmap = QPixmap(m_xSize>>6,m_ySize>>6 );
     mydrw->setMinimumSize(m_pixmap.size());
     mydrw->show();
     mydrw->setPalette (QPalette (QColor (0,0,0)));
@@ -182,7 +171,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
 	*/
 void BattleArea::play()
 {
-    if (iffast == true)
+    if (m_fastMode == true)
         eventH->start (0);   //As fast as possible
     else
         eventH->start (20);  //20 ms between ticks (50 times/second)
@@ -203,9 +192,9 @@ void BattleArea::pause()
 	*/
 void BattleArea::singlestep()
 {
-    if (debugenabled) SingleStepMode = true;
+    if (m_debugEnabled) SingleStepMode = true;
     this->execute();
-    if (debugenabled) SingleStepMode = false;
+    if (m_debugEnabled) SingleStepMode = false;
 }
 
 /**
@@ -243,8 +232,8 @@ void BattleArea::startonebattle (int y)
 
     //Randomize start positions and make sure the bots don't start to
     //close to each other
-    xstarts[0] = qrand() %xsize;
-    ystarts[0] = qrand() %ysize;
+    xstarts[0] = qrand() %m_xSize;
+    ystarts[0] = qrand() %m_ySize;
     for (x =1; x<maxbots; x++)
     {
         int dst=minstartdistance-1;
@@ -252,8 +241,8 @@ void BattleArea::startonebattle (int y)
         while (dst < minstartdistance && tries < 128)
         {
             dst = minstartdistance;
-            xstarts[x] = qrand() %xsize;
-            ystarts[x] = qrand() %ysize;
+            xstarts[x] = qrand() %m_xSize;
+            ystarts[x] = qrand() %m_ySize;
             for (y=0; y<x; y++)
             {
                 int xdiff = abs (xstarts[y] - xstarts[x]);
@@ -281,7 +270,7 @@ void BattleArea::startonebattle (int y)
         binfo[x] = BotInfo::addBotInfo(gl, x, names[x], objects[x]);
     }
 
-    if (debugenabled) {
+    if (m_debugEnabled) {
         qDeleteAll(dbgwindows);
         dbgwindows.clear();
         // the bot to be debugged is objects[debugbot]
@@ -327,14 +316,14 @@ void BattleArea::startonebattle (int y)
     m_pixmap.fill(Qt::black);
     mydrw->setPixmap(m_pixmap);
 
-    if (iffast == true)
+    if (m_fastMode == true)
     {
         eventH->start (0);
         runmode = 1;
     }
     else
     {
-        if (!debugenabled)
+        if (!m_debugEnabled)
         {
             eventH->start (20);
             runmode = 1;
@@ -352,9 +341,9 @@ void BattleArea::execute()
 //	eventH->stop( );
     int x;
     roundsrun++;
-    if (roundsrun > maxrounds)         //If the times up...
+    if (roundsrun > m_maxRounds)         //If the times up...
     {
-        if (battlemode == 1 || battlemode == 0)
+        if (m_battleMode == 1 || m_battleMode == 0)
         {
             for (x=0; x<maxbots; x++)
             {
@@ -363,10 +352,10 @@ void BattleArea::execute()
                 objects[x] = new ScreenObject();
             }
         }
-        if (battlemode == 2)
+        if (m_battleMode == 2)
         {
             checkwin = true;
-            maxpoints = 0;
+            m_maxPoints = 0;
         }
     }
     for (x=0; x<maxobjects; x++)              //Remove the gfx from last round
@@ -455,7 +444,7 @@ void BattleArea::execute()
                         int x2owner = objects[x2]->owner();
                         if (objects[x2]->objectHit (9,str1) == 1)
                         {
-                            switch (battlemode)
+                            switch (m_battleMode)
                             {
                             case 0 :
                                 objects[x2]->eraseObject (&m_pixmap);
@@ -468,11 +457,11 @@ void BattleArea::execute()
                                 {
                                     fightswon[x2]++;
                                     delete objects[x2];
-                                    if (fightswon[x2] < maxpoints)
+                                    if (fightswon[x2] < m_maxPoints)
                                     {
                                         //Calc X and Y position
-                                        xstarts[x2] = qrand() %xsize;
-                                        ystarts[x2] = qrand() %ysize;
+                                        xstarts[x2] = qrand() %m_xSize;
+                                        ystarts[x2] = qrand() %m_ySize;
                                         objects[x2] = new Robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false);
                                         QObject::connect (objects[x2],
@@ -510,8 +499,8 @@ void BattleArea::execute()
                                         fightswon[objects[x]->owner() ]++;
                                     checkwin = true;
                                     //Calc X and Y position
-                                    xstarts[x2] = qrand() %xsize;
-                                    ystarts[x2] = qrand() %ysize;
+                                    xstarts[x2] = qrand() %m_xSize;
+                                    ystarts[x2] = qrand() %m_ySize;
                                     objects[x2] = new Robots ( names[x2],*this,
                                                                x2,config,botteams[x2],false);
                                     QObject::connect (objects[x2],
@@ -538,7 +527,7 @@ void BattleArea::execute()
                         }
                         if (objects[x]->objectHit (9,str2) == 1)     //If the damage killed him
                         {
-                            switch (battlemode)
+                            switch (m_battleMode)
                             {
                             case 0 :  //If it's a normal battle
                                 objects[x]->eraseObject (&m_pixmap);       //Erase him
@@ -554,11 +543,11 @@ void BattleArea::execute()
                                     fightswon[x]++;
                                     delete objects[x];
                                     x2 = maxobjects;
-                                    if (fightswon[x] < maxpoints)
+                                    if (fightswon[x] < m_maxPoints)
                                     {
                                         //Calc X and Y position
-                                        xstarts[x] = qrand() %xsize;
-                                        ystarts[x] = qrand() %ysize;
+                                        xstarts[x] = qrand() %m_xSize;
+                                        ystarts[x] = qrand() %m_ySize;
                                         objects[x] = new Robots ( names[x],*this,
                                                                   x,config,botteams[x],false);
                                         QObject::connect (objects[x],
@@ -599,8 +588,8 @@ void BattleArea::execute()
                                     x2 = maxobjects;
                                     checkwin = true;
                                     //Calc X and Y position
-                                    xstarts[x] = qrand() %xsize;
-                                    ystarts[x] = qrand() %ysize;
+                                    xstarts[x] = qrand() %m_xSize;
+                                    ystarts[x] = qrand() %m_ySize;
                                     objects[x] = new Robots ( names[x],*this,x,
                                                               config,botteams[x],false);
                                     QObject::connect (objects[x],
@@ -643,7 +632,7 @@ void BattleArea::execute()
 
     int numofbots = 0;
     int botnum = 0;
-    if (isteams)     //If teams
+    if (m_isTeams)     //If teams
     {
         alive[0] = 0;
         alive[1] = 0;
@@ -712,7 +701,7 @@ void BattleArea::execute()
         }                                    // with a new round
     }
 
-    if (!isteams && (battlemode == 0 || battlemode == 1))
+    if (!m_isTeams && (m_battleMode == 0 || m_battleMode == 1))
     {
         for (x=0; x<maxbots; x++)
         {
@@ -745,9 +734,9 @@ void BattleArea::execute()
                     }
                 }
                 QString msg;
-                if (!hideresmsg)
+                if (m_showResults)
                 {
-                    switch (battlemode)
+                    switch (m_battleMode)
                     {
                     case 0 :
                         for (int xx = 0; xx<8; xx++)
@@ -766,7 +755,7 @@ void BattleArea::execute()
                         msg += " Bot ";
                         msg += QFileInfo(names[botnum]).baseName();
                         msg += " won with ";
-                        msg += QString::number (maxpoints-fightswon[botnum]);
+                        msg += QString::number (m_maxPoints-fightswon[botnum]);
                         msg += " lives left!\n";
                         for (int xx = 0; xx<8; xx++)
                         {
@@ -793,12 +782,12 @@ void BattleArea::execute()
         }
     }
 
-    if (battlemode == 2 && checkwin)
+    if (m_battleMode == 2 && checkwin)
     {
         checkwin = false;
         for (x=0; x<8; x++)
         {
-            if (fightswon[x] >= maxpoints)
+            if (fightswon[x] >= m_maxPoints)
             {
                 eventH->stop();
 //				ermsg = new QMessageBox( );
@@ -827,7 +816,7 @@ void BattleArea::execute()
     }
 
 
-    if (debugenabled)   //If this is a "quick battle", update register content info and such
+    if (m_debugEnabled)   //If this is a "quick battle", update register content info and such
         if (objects[debugbot]->type() == 1) // for robots only
         {
             QVector<DebugContents> *dc = ( (Robots*) objects[debugbot])->allDebugContents();
@@ -888,7 +877,7 @@ void BattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
             case 4 :
                 objects[x]=new RadarMissile (X,Y,dir,arg1,arg2,x,*this,temp3,owner);
                 ++missilesLaunched;
-                if (debugenabled && (owner==debugbot))
+                if (m_debugEnabled && (owner==debugbot))
                     ( (RadarMissile*) objects[x])->createDbgWindow (missilesLaunched,
                             _dbedit, _dbl, _dbm);
                 break;
@@ -1006,7 +995,7 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
         if (objects[z]->objectHit (9,S1) == 1)     //If the damage killed him
         {
             objects[z]->eraseObject (&m_pixmap);       //Erase him
-            switch (battlemode)
+            switch (m_battleMode)
             {
             case 0 :
                 delete objects[z];
@@ -1017,11 +1006,11 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
                 {
                     fightswon[z]++;
                     delete objects[z];
-                    if (fightswon[z] < maxpoints)
+                    if (fightswon[z] < m_maxPoints)
                     {
                         //Calc X and Y position
-                        xstarts[z] = qrand() %xsize;
-                        ystarts[z] = qrand() %ysize;
+                        xstarts[z] = qrand() %m_xSize;
+                        ystarts[z] = qrand() %m_ySize;
                         objects[z] = new Robots ( names[z],*this,z,
                                                   config,botteams[z],false);
                         QObject::connect (objects[z],SIGNAL (armorchanged (int)),
@@ -1055,8 +1044,8 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
                         fightswon[objects[x]->owner() ]++;
                     checkwin = true;
                     //Calc X and Y position
-                    xstarts[x2] = qrand() %xsize;
-                    ystarts[x2] = qrand() %ysize;
+                    xstarts[x2] = qrand() %m_xSize;
+                    ystarts[x2] = qrand() %m_ySize;
                     objects[x2] = new Robots ( names[x2],*this,x2,
                                                config,botteams[x2],false);
                     QObject::connect (objects[x2],SIGNAL (armorchanged (int)),

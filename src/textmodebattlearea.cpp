@@ -30,24 +30,19 @@ TextmodeBattleArea::TextmodeBattleArea()
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-TextmodeBattleArea::TextmodeBattleArea (const QString &nam1, const QString &nam2, const QString &nam3, const QString &nam4,
-                                        const QString &nam5, const QString &nam6, const QString &nam7, const QString &nam8, int numf,
-                                        int mx, int xs, int ys, bool ifteams, int *bteams,
-                                        bool tourney, int mode)
+TextmodeBattleArea::TextmodeBattleArea (const BattleConfig &battleConfig)
 {
-    Q_UNUSED(tourney);
-
-    battlemode = mode;
-    maxpoints = numf;
+    m_battleMode = battleConfig.mode;
+    m_maxPoints = battleConfig.numFights;
     qsrand (time (0));     //Initialize random seed
 
-    isteams = ifteams;
-    xsize = xs;
-    ysize = ys;
+    m_isTeams = battleConfig.isTeams;
+    m_xSize = battleConfig.xSize;
+    m_ySize = battleConfig.ySize;
     ifdelete = false;
 
     // OPen the current config file
-    maxrounds = mx;
+    m_maxRounds = battleConfig.maxRounds;
     QString confFileName = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
     QFile f (confFileName);
     if (!f.open (QIODevice::ReadOnly))
@@ -61,11 +56,11 @@ TextmodeBattleArea::TextmodeBattleArea (const QString &nam1, const QString &nam2
     int x,y;
     for (x=0; x<maxbots; x++)
     {
-        botteams[x] = bteams[x];
+        botteams[x] = battleConfig.teams[x];
     }
     QString dummy;
     int i;
-//	bool ch;
+
     s >> dummy;
     s >> i;
     config.maxdev = i;
@@ -76,8 +71,7 @@ TextmodeBattleArea::TextmodeBattleArea (const QString &nam1, const QString &nam2
     s >> i;
     config.maxram = i;
     s >> dummy;
-    for (x=0; x<9; x++)
-    {
+    for (x=0; x<9; x++) {
         s >> i;
         config.ramcost[x] = i;
     }
@@ -99,18 +93,12 @@ TextmodeBattleArea::TextmodeBattleArea (const QString &nam1, const QString &nam2
     }
 
     //Initialize vars
-    numfights = numf;
+    numfights = battleConfig.numFights;
     fightsfought = 0;
-    names[0] = nam1;
-    names[1] = nam2;
-    names[2] = nam3;
-    names[3] = nam4;
-    names[4] = nam5;
-    names[5] = nam6;
-    names[6] = nam7;
-    names[7] = nam8;
-    for (x=0; x<8; x++)
+    names = battleConfig.names;
+    for (x=0; x<8; x++) {
         fightswon[x] = 0;
+    }
 
     startonebattle (firstrun);
 
@@ -145,8 +133,8 @@ void TextmodeBattleArea::startonebattle (int y)
 
     //Randomize start positions and make sure the bots don't start to
     //close to each other
-    xstarts[0] = qrand() %xsize;
-    ystarts[0] = qrand() %ysize;
+    xstarts[0] = qrand() %m_xSize;
+    ystarts[0] = qrand() %m_ySize;
     for (x =1; x<maxbots; x++)
     {
         int dst=minstartdistance-1;
@@ -154,8 +142,8 @@ void TextmodeBattleArea::startonebattle (int y)
         while (dst < minstartdistance && tries < 128)
         {
             dst = minstartdistance;
-            xstarts[x] = qrand() %xsize;
-            ystarts[x] = qrand() %ysize;
+            xstarts[x] = qrand() %m_xSize;
+            ystarts[x] = qrand() %m_ySize;
             for (y=0; y<x; y++)
             {
                 int xdiff = abs (xstarts[y] - xstarts[x]);
@@ -196,9 +184,9 @@ int TextmodeBattleArea::execround()
 //	eventH->stop( );
     int x;
     roundsrun++;
-    if (roundsrun > maxrounds)         //If the times up...
+    if (roundsrun > m_maxRounds)         //If the times up...
     {
-        if (battlemode == 1 || battlemode == 0)
+        if (m_battleMode == 1 || m_battleMode == 0)
         {
             for (x=0; x<maxbots; x++)
             {
@@ -206,10 +194,10 @@ int TextmodeBattleArea::execround()
                 objects[x] = new ScreenObject();
             }
         }
-        if (battlemode == 2)
+        if (m_battleMode == 2)
         {
             checkwin = true;
-            maxpoints = 0;
+            m_maxPoints = 0;
         }
     }
 
@@ -287,7 +275,7 @@ int TextmodeBattleArea::execround()
                         int x2owner = objects[x2]->owner();
                         if (objects[x2]->objectHit (9,str1) == 1)
                         {
-                            switch (battlemode)
+                            switch (m_battleMode)
                             {
                             case 0 :
                                 delete objects[x2];
@@ -298,11 +286,11 @@ int TextmodeBattleArea::execround()
                                 {
                                     fightswon[x2]++;
                                     delete objects[x2];
-                                    if (fightswon[x2] < maxpoints)
+                                    if (fightswon[x2] < m_maxPoints)
                                     {
                                         //Calc X and Y position
-                                        xstarts[x2] = qrand() %xsize;
-                                        ystarts[x2] = qrand() %ysize;
+                                        xstarts[x2] = qrand() %m_xSize;
+                                        ystarts[x2] = qrand() %m_ySize;
                                         objects[x2] = new Robots ( names[x2],
                                                                    *this,x2,config,botteams[x2],false,false);
                                         objects[x2]->objectHit (0,0);
@@ -327,8 +315,8 @@ int TextmodeBattleArea::execround()
                                         fightswon[objects[x]->owner() ]++;
                                     checkwin = true;
                                     //Calc X and Y position
-                                    xstarts[x2] = qrand() %xsize;
-                                    ystarts[x2] = qrand() %ysize;
+                                    xstarts[x2] = qrand() %m_xSize;
+                                    ystarts[x2] = qrand() %m_ySize;
                                     objects[x2] = new Robots (names[x2],*this,
                                                                x2,config,botteams[x2],false,false);
                                     objects[x2]->objectHit (0,0);
@@ -343,7 +331,7 @@ int TextmodeBattleArea::execround()
                         }
                         if (objects[x]->objectHit (9,str2) == 1)     //If the damage killed him
                         {
-                            switch (battlemode)
+                            switch (m_battleMode)
                             {
                             case 0 :  //If it's a normal battle
                                 delete objects[x];
@@ -357,11 +345,11 @@ int TextmodeBattleArea::execround()
                                     fightswon[x]++;
                                     delete objects[x];
                                     x2 = maxobjects;
-                                    if (fightswon[x] < maxpoints)
+                                    if (fightswon[x] < m_maxPoints)
                                     {
                                         //Calc X and Y position
-                                        xstarts[x] = qrand() %xsize;
-                                        ystarts[x] = qrand() %ysize;
+                                        xstarts[x] = qrand() %m_xSize;
+                                        ystarts[x] = qrand() %m_ySize;
                                         objects[x] = new Robots ( names[x],*this,
                                                                   x,config,botteams[x],false,false);
                                         objects[x]->objectHit (0,0);
@@ -389,8 +377,8 @@ int TextmodeBattleArea::execround()
                                     x2 = maxobjects;
                                     checkwin = true;
                                     //Calc X and Y position
-                                    xstarts[x] = qrand() %xsize;
-                                    ystarts[x] = qrand() %ysize;
+                                    xstarts[x] = qrand() %m_xSize;
+                                    ystarts[x] = qrand() %m_ySize;
                                     objects[x] = new Robots ( names[x],*this,x,
                                                               config,botteams[x],false,false);
                                     objects[x]->objectHit (0,0);
@@ -420,7 +408,7 @@ int TextmodeBattleArea::execround()
 
     int numofbots = 0;
     int botnum;
-    if (isteams)     //If teams
+    if (m_isTeams)     //If teams
     {
         alive[0] = 0;
         alive[1] = 0;
@@ -487,7 +475,7 @@ int TextmodeBattleArea::execround()
         }                                    // with a new round
     }
 
-    if (!isteams && (battlemode == 0 || battlemode == 1))
+    if (!m_isTeams && (m_battleMode == 0 || m_battleMode == 1))
     {
         for (x=0; x<maxbots; x++)
         {
@@ -521,7 +509,7 @@ int TextmodeBattleArea::execround()
                 QString msg;
                 if (true)
                 {
-                    switch (battlemode)
+                    switch (m_battleMode)
                     {
                     case 0 :
                         for (int xx = 0; xx<8; xx++)
@@ -540,7 +528,7 @@ int TextmodeBattleArea::execround()
                         msg += " Bot ";
                         msg += names[botnum];
                         msg += " won with ";
-                        msg += QString::number (maxpoints-fightswon[botnum]);
+                        msg += QString::number (m_maxPoints-fightswon[botnum]);
                         msg += " lives left!\n";
                         for (int xx = 0; xx<8; xx++)
                         {
@@ -565,12 +553,12 @@ int TextmodeBattleArea::execround()
         }
     }
 
-    if (battlemode == 2 && checkwin)
+    if (m_battleMode == 2 && checkwin)
     {
         checkwin = false;
         for (x=0; x<8; x++)
         {
-            if (fightswon[x] >= maxpoints)
+            if (fightswon[x] >= m_maxPoints)
             {
                 QString msg;
                 for (int xx = 0; xx<8; xx++)
@@ -712,13 +700,13 @@ int TextmodeBattleArea::getareainfo (int choice)
     switch (choice)
     {
     case 0 :
-        return xsize;
+        return m_xSize;
         break;
     case 1 :
-        return ysize;
+        return m_ySize;
         break;
     case 2 :
-        return battlemode;
+        return m_battleMode;
         break;
     }
     return 0;
@@ -743,7 +731,7 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
         S1 = strength- (D1*strength/rad);
         if (objects[z]->objectHit (9,S1) == 1)     //If the damage killed him
         {
-            switch (battlemode)
+            switch (m_battleMode)
             {
             case 0 :
                 delete objects[z];
@@ -754,11 +742,11 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                 {
                     fightswon[z]++;
                     delete objects[z];
-                    if (fightswon[z] < maxpoints)
+                    if (fightswon[z] < m_maxPoints)
                     {
                         //Calc X and Y position
-                        xstarts[z] = qrand() %xsize;
-                        ystarts[z] = qrand() %ysize;
+                        xstarts[z] = qrand() %m_xSize;
+                        ystarts[z] = qrand() %m_ySize;
                         objects[z] = new Robots ( names[z],*this,z,
                                                   config,botteams[z],false,false);
                     }
@@ -783,8 +771,8 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                         fightswon[objects[x]->owner() ]++;
                     checkwin = true;
                     //Calc X and Y position
-                    xstarts[x2] = qrand() %xsize;
-                    ystarts[x2] = qrand() %ysize;
+                    xstarts[x2] = qrand() %m_xSize;
+                    ystarts[x2] = qrand() %m_ySize;
                     objects[x2] = new Robots ( names[x2],*this,x2,
                                                config,botteams[x2],false,false);
                 }

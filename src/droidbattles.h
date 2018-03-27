@@ -100,7 +100,7 @@ private:
     bool battlerunning;
 
     // State variables for battle and tournament management
-    int teams[8];
+    std::array<int, 8> teams;
     int wingames[64];
     int winmatches[64];
     QString newlist[64];

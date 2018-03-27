@@ -46,10 +46,7 @@ class BattleArea : public QDialog, public TextmodeBattleArea
 
 public:
 
-    BattleArea (const QString &name1, const QString &name2, const QString &name3, const QString &name4, const QString &name5,
-                const QString &name6, const QString &name7, const QString &name8, int numf, int , int xs,
-                int ys, bool ifteams, int *bteams, bool tourney, bool iffast,
-                int mode = 0, int maxp=10, bool ifdebug=false,
+    BattleArea (const BattleConfig &battleConfig, bool ifdebug=false,
                 QPlainTextEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
     ~BattleArea();
     void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,

@@ -30,16 +30,11 @@
 
 void startbattle (int argc, char *argv[])
 {
-    QString bots[8];
+    std::array<QString, 8> bots;
     int numbots = 0;
     int battletype = 0;
     bool teamfight = false;
-    int teams[8];
-    for (int i =0; i<8; i++)
-    {
-        teams[i] = 1;
-        bots[i] = "";
-    }
+    std::array<int, 8> teams = {1};
     int numfights = 1;
 //	int randomseed = random( );
     int xsize = 32768;
@@ -172,9 +167,17 @@ void startbattle (int argc, char *argv[])
     }
     if (numbots > 1)
     {
-        TextmodeBattleArea *area = new TextmodeBattleArea (bots[0] ,bots[1],
-                bots[2], bots[3], bots[4], bots[5], bots[6], bots[7], numfights, maxrounds,
-                xsize,ysize,teamfight,teams,false,battletype);
+        BattleConfig battleConfig;
+        battleConfig.names = bots;
+        battleConfig.numFights = numfights;
+        battleConfig.maxRounds = maxrounds;
+        battleConfig.xSize = xsize;
+        battleConfig.ySize = ysize;
+        battleConfig.isTeams = teamfight;
+        battleConfig.teams = teams;
+        battleConfig.fastMode = false;
+        battleConfig.mode = battletype;
+        TextmodeBattleArea *area = new TextmodeBattleArea (battleConfig);
         while (true)
         {
             if (area->execround() == 3)

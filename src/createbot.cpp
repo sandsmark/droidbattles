@@ -2287,10 +2287,10 @@ bool CreateBot::startquick()
 
     QString quickconf = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "quick.conf");
     QFile f2 (quickconf);
-    QString names[8];
+    std::array<QString, 8> names;
     int xsize,ysize,numfights,lengthfights;
     bool ifteams;
-    int teams[8];
+    std::array<int, 8> teams;
     if (f2.exists() && f2.open (QIODevice::ReadOnly))
     {
         QTextStream s (&f2);
@@ -2322,13 +2322,19 @@ bool CreateBot::startquick()
         return false;
     }
 
-    batt = new BattleArea ( names[0], names[1],
-                            names[2], names[3],
-                            names[4], names[5],
-                            names[6], names[7],
-                            numfights,lengthfights,xsize,ysize,ifteams,teams,
-                            false,false,0,0,true, edittxt,&debuglines[0],
-                            &debugmem[0]);
+    BattleConfig battleConfig;
+    battleConfig.names = names;
+    battleConfig.numFights = numfights;
+    battleConfig.maxRounds = lengthfights;
+    battleConfig.xSize = xsize;
+    battleConfig.ySize = ysize;
+    battleConfig.isTeams = ifteams;
+    battleConfig.teams = teams;
+    battleConfig.isTournament = false;
+    battleConfig.fastMode = false;
+    battleConfig.mode = 0;
+    battleConfig.maxPoints = 0;
+    batt = new BattleArea (battleConfig, true, edittxt, &debuglines[0], &debugmem[0]);
     batt->show();
     return true;
 }

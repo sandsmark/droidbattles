@@ -28,18 +28,35 @@
 #include <QString>
 #include <QTextStream>
 #include <QFile>
+#include <array>
 #include "confstruct.h"
 #include "screenobject.h"
+
+struct BattleConfig {
+    enum FightMode {
+        Normal = 0,
+        Survival = 1,
+        Deathmatch = 2
+    };
+
+    std::array<QString, 8> names;
+    int xSize = 32768, ySize = 32768;
+    bool isTeams = false;
+    bool isTournament = false;
+    int mode = 0;
+    int maxRounds = 6000;
+    int maxPoints = 10;
+    int numFights = 1;
+    std::array<int, 8> teams = {0};
+    bool fastMode = false;
+};
 
 class TextmodeBattleArea
 {
 public:
     TextmodeBattleArea();
     virtual ~TextmodeBattleArea();
-    TextmodeBattleArea (const QString &name1,const QString &name2,const QString &name3,const QString &name4,const QString &name5,
-                        const QString &name6,const QString &name7,const QString &name8,int numf,int ,int xs,
-                        int ys,bool ifteams,int *bteams, bool tourney,
-                        int mode = 0);
+    TextmodeBattleArea (const BattleConfig &battleConfig);
     virtual void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
                                int arg2=0, void *arg3=0);
     int devio (int bot,int dev,int choice,int arg1,int arg2);
@@ -52,57 +69,31 @@ public:
     int execround();
 
 protected:
-
-    /*		list<debugwindow*> dbgwindows;
-        QMultiLineEdit *_dbedit;
-        int *_dbl;
-        int *_dbm;
-
-        int missilesLaunched;*/
-
     ScreenObject *objects[256];
-//		QWidget *mydrw;
-//		QScrollView *scrolling;
-//		QWidget *infowindow;
-//		QTimer *eventH;
-//		QLabel *debug1;
-//		QLabel *debug2;
-//		QMessageBox *ermsg;
-
-//		PixButton *playb;
-//		PixButton *pauseb;
-//		PixButton *singles;
-
-//		debugwindow *dbgwindow;
-//		QPixmap *dumm;
-
-//		int updatescreen;
-//		botinfo *binfo[8];
-    QString names[8];
-//		QPixmap *backpm;
+    std::array<QString, 8> names;
     int numfights;
     int fightswon[8];
     int fightsfought;
     ConfStruct config;
     int roundsrun;
-    int maxrounds;
-    int xsize;
-    int ysize;
-    bool isteams;
+    int m_maxRounds;
+    int m_xSize;
+    int m_ySize;
+    bool m_isTeams;
     bool checkwin;
     int botteams[8];
     int alive[4];
     bool ifdelete;
     int radiosignals[4][8];
     bool radsigexist[4][8];
-    bool hideresmsg;
-    bool iffast;
+    bool m_showResults;
+    bool m_fastMode;
     int xstarts[8];
     int ystarts[8];
-    bool debugenabled;
-    int battlemode; //0 - normal, 1 - survival, 2 - Deathmatch
+    bool m_debugEnabled;
+    int m_battleMode; //0 - normal, 1 - survival, 2 - Deathmatch
     int runmode; //0 - not running, 1 - running
-    int maxpoints;
+    int m_maxPoints;
 };
 #include "robots.h"
 #include "mine.h"

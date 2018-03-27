@@ -187,7 +187,7 @@ void DroidBattles::skirmish()
 	*/
 void DroidBattles::startskirmish()
 {
-    QString names[8];	//Array for the filenames
+    std::array<QString, 8> names;	//Array for the filenames
     int x,numf,ln,xs,ys;
     int numbo=0;      //Counter for the number of them who are filled in
     bool ifteamfight;
@@ -206,11 +206,18 @@ void DroidBattles::startskirmish()
         ln = ssb->getlength();			//Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
-        batt = new BattleArea ( names[0], names[1],
-                                names[2], names[3],
-                                names[4], names[5],
-                                names[6], names[7],
-                                numf,ln,xs,ys,ifteamfight,teams,false,false);
+
+        BattleConfig battleConfig;
+        battleConfig.names = names;
+        battleConfig.numFights = numf;
+        battleConfig.maxRounds = ln;
+        battleConfig.xSize = xs;
+        battleConfig.ySize = ys;
+        battleConfig.isTeams = ifteamfight;
+        battleConfig.teams = teams;
+        battleConfig.isTournament = false;
+
+        batt = new BattleArea (battleConfig, false);
         batt->show();
     }
     delete ssb;
@@ -240,7 +247,7 @@ void DroidBattles::survival()
 
 void DroidBattles::startsurvival()
 {
-    QString names[8];	//Array for the filenames
+    std::array<QString, 8> names;	//Array for the filenames
     int x,numf,ln,xs,ys;
     int numbo=0;      //Counter for the number of them who are filled in
     bool ifteamfight;
@@ -259,11 +266,19 @@ void DroidBattles::startsurvival()
         ln = ssb->getlength();			//Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
-        batt = new BattleArea ( names[0], names[1],
-                                names[2], names[3],
-                                names[4], names[5],
-                                names[6], names[7],
-                                1,ln,xs,ys,false,teams,false,ifteamfight,1,numf);
+
+        BattleConfig battleConfig;
+        battleConfig.names = names;
+        battleConfig.numFights = numf;
+        battleConfig.maxRounds = ln;
+        battleConfig.xSize = xs;
+        battleConfig.ySize = ys;
+        battleConfig.isTeams = ifteamfight;
+        battleConfig.teams = teams;
+        battleConfig.isTournament = false;
+        battleConfig.mode = 1;
+
+        batt = new BattleArea (battleConfig);
         batt->show();
     }
     delete ssb;
@@ -288,7 +303,7 @@ void DroidBattles::death()
 
 void DroidBattles::startdeath()
 {
-    QString names[8];	//Array for the filenames
+    std::array<QString, 8> names;	//Array for the filenames
     int x,numf,ln,xs,ys;
     int numbo=0;      //Counter for the number of them who are filled in
     bool ifteamfight;
@@ -307,11 +322,19 @@ void DroidBattles::startdeath()
         ln = ssb->getlength();			//Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
-        batt = new BattleArea ( names[0], names[1],
-                                names[2], names[3],
-                                names[4], names[5],
-                                names[6], names[7],
-                                1,ln,xs,ys,false,teams,false,ifteamfight,2,numf);
+
+        BattleConfig battleConfig;
+        battleConfig.names = names;
+        battleConfig.numFights = numf;
+        battleConfig.maxRounds = ln;
+        battleConfig.xSize = xs;
+        battleConfig.ySize = ys;
+        battleConfig.isTeams = ifteamfight;
+        battleConfig.teams = teams;
+        battleConfig.isTournament = false;
+        battleConfig.mode = BattleConfig::Deathmatch;
+
+        batt = new BattleArea (battleConfig);
         batt->show();
     }
     delete ssb;
@@ -419,8 +442,21 @@ void DroidBattles::starttourney()
     teams[0] = 0;
     teams[1] = 1;
 
-    batt = new BattleArea ( names[0], names[1],
-                            "","","","","","",numf,ln,xs,ys,false,teams,true,stment->getiffast());
+    BattleConfig battleConfig;
+    battleConfig.names = {""};
+    battleConfig.names[0] = names[0];
+    battleConfig.names[1] = names[1];
+    battleConfig.numFights = numf;
+    battleConfig.maxRounds = ln;
+    battleConfig.xSize = xs;
+    battleConfig.ySize = ys;
+    battleConfig.isTeams = false;
+    battleConfig.teams = teams;
+    battleConfig.isTournament = true;
+    battleConfig.fastMode = stment->getiffast();
+
+    batt = new BattleArea (battleConfig);
+
     connect (batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
     connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
@@ -564,9 +600,20 @@ void DroidBattles::managetourney (int wins1, int wins2)
         teams[0] = 0;
         teams[1] = 1;
 
-        batt = new BattleArea ( names[curmainbot],
-                                names[cursecbot],"","","","","","",numf,
-                                ln,xs,ys,false,teams,true,stment->getiffast());
+        BattleConfig battleConfig;
+        battleConfig.names[0] = names[curmainbot];
+        battleConfig.names[1] = names[cursecbot];
+        battleConfig.numFights = numf;
+        battleConfig.maxRounds = ln;
+        battleConfig.xSize = xs;
+        battleConfig.ySize = ys;
+        battleConfig.isTeams = false;
+        battleConfig.teams = teams;
+        battleConfig.isTournament = true;
+        battleConfig.fastMode = stment->getiffast();
+
+        batt = new BattleArea (battleConfig);
+
         connect (batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
         connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
         batt->show();
@@ -618,9 +665,19 @@ void DroidBattles::startkoth()
     teams[0] = 0;
     teams[1] = 1;
 
-    batt = new BattleArea ( names[numofbots-2],
-                            names[numofbots-1],"","","","","","",numf,
-                            ln,xs,ys,false,teams,true,kotht->getiffast());
+    BattleConfig battleConfig;
+    battleConfig.names[0] = names[numofbots-2];
+    battleConfig.names[1] = names[numofbots-1];
+    battleConfig.numFights = numf;
+    battleConfig.maxRounds = ln;
+    battleConfig.xSize = xs;
+    battleConfig.ySize = ys;
+    battleConfig.isTeams = false;
+    battleConfig.teams = teams;
+    battleConfig.isTournament = true;
+    battleConfig.fastMode = kotht->getiffast();
+
+    batt = new BattleArea (battleConfig);
     connect (batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
     connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
@@ -806,9 +863,19 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         teams[0] = 0;
         teams[1] = 1;
 
-        batt = new BattleArea ( names[curmainbot],
-                                names[cursecbot],"","","","","","",numf,
-                                ln,xs,ys,false,teams,true,kotht->getiffast());
+        BattleConfig battleConfig;
+        battleConfig.names[0] = names[curmainbot];
+        battleConfig.names[1] = names[cursecbot];
+        battleConfig.numFights = numf;
+        battleConfig.maxRounds = ln;
+        battleConfig.xSize = xs;
+        battleConfig.ySize = ys;
+        battleConfig.isTeams = false;
+        battleConfig.teams = teams;
+        battleConfig.isTournament = true;
+        battleConfig.fastMode = kotht->getiffast();
+
+        batt = new BattleArea (battleConfig);
 
         connect (batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
         connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
@@ -865,9 +932,18 @@ void DroidBattles::startcupt()
     curmainbot = 0;
     cursecbot = 1;
 
-    batt = new BattleArea ( names[0], names[1],"",
-                            "","","","","",numf,ln,xs,ys,false,teams,true,
-                            cuptournament->getiffast());
+    BattleConfig battleConfig;
+    battleConfig.names[0] = names[0];
+    battleConfig.names[1] = names[1];
+    battleConfig.numFights = numf;
+    battleConfig.maxRounds = ln;
+    battleConfig.xSize = xs;
+    battleConfig.ySize = ys;
+    battleConfig.isTeams = false;
+    battleConfig.teams = teams;
+    battleConfig.isTournament = true;
+    battleConfig.fastMode = cuptournament->getiffast();
+    batt = new BattleArea (battleConfig);
     connect (batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
     connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
@@ -884,7 +960,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
 {
     QString names[64];
     int numofbots = cuptournament->getnumofbots();
-    int numf,ln,xs,ys,x;
+    int xs,ys,x;
     if (numofbots == 0)
     {
         delete kotht;
@@ -972,17 +1048,25 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
         enabletourneys();
         return;
     }
-    numf = cuptournament->getnumfights(); //Get the number of fights
-    ln = cuptournament->getlength();			//Get the max length of fight
     xs = cuptournament->getxsize();
     ys = cuptournament->getysize();
 
     teams[0] = 0;
     teams[1] = 1;
 
-    batt = new BattleArea ( names[nextround[curmainbot]],
-                            names[nextround[cursecbot]],"","","","","","",numf,
-                            ln,xs,ys,false,teams,true,cuptournament->getiffast());
+    BattleConfig battleConfig;
+    battleConfig.names[0] = names[nextround[curmainbot]];
+    battleConfig.names[1] = names[nextround[cursecbot]];
+    battleConfig.numFights = cuptournament->getnumfights();
+    battleConfig.maxRounds = cuptournament->getlength();
+    battleConfig.xSize = xs;
+    battleConfig.ySize = ys;
+    battleConfig.isTeams = false;
+    battleConfig.teams = teams;
+    battleConfig.isTournament = true;
+    battleConfig.fastMode = cuptournament->getiffast();
+
+    batt = new BattleArea (battleConfig);
     connect (batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
     connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();

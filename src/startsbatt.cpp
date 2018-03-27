@@ -153,6 +153,11 @@ void StartsBatt::loadfilesettings()
     }
 }
 
+void StartsBatt::closeEvent(QCloseEvent *)
+{
+    emit cancelclicked();
+}
+
 StartsBatt::~StartsBatt()
 {
 }

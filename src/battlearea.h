@@ -20,7 +20,7 @@
 
 #include <QWidget>
 #include <QTimer>
-#include <QLabel>
+#include <QDialog>
 #include <QMessageBox>
 #include "botinfo.h"
 #include <QScrollArea>
@@ -39,7 +39,7 @@
   * @author Andreas Agorander
   */
 
-class BattleArea : public QLabel, public TextmodeBattleArea
+class BattleArea : public QDialog, public TextmodeBattleArea
 {
 
     Q_OBJECT
@@ -74,6 +74,9 @@ private slots:
 signals:
 
     void battledone (int,int);
+
+protected:
+    void closeEvent(QCloseEvent*);
 
 private:
 

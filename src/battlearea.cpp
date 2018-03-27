@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QtMath>
 #include <QStandardPaths>
+#include <QSettings>
 
 bool SingleStepMode = false;
 
@@ -35,7 +36,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
                         int mx, int xs, int ys, bool ifteams, int *bteams,
                         bool tourney, bool fast, int mode, int maxp,
                         bool ifdebug, QPlainTextEdit *dbedit,
-                        int *dbl, int *dbm) : QLabel()
+                        int *dbl, int *dbm)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::Dialog);
@@ -169,6 +170,9 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MetalBackground)));
     palette.setColor(foregroundRole(), Qt::white);
     setPalette(palette);
+
+    QSettings settings;
+    restoreGeometry(settings.value("BattleAreaGeometry").toByteArray());
 }
 
 /**
@@ -1105,4 +1109,10 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
 void BattleArea::dmem()
 {
     objects[7]->dumpRam();
+}
+
+void BattleArea::closeEvent(QCloseEvent *)
+{
+    QSettings settings;
+    settings.setValue("BattleAreaGeometry", saveGeometry());
 }

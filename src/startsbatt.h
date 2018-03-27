@@ -19,7 +19,7 @@
 #define STARTSBATT_H
 
 #include <qwidget.h>
-#include <qlabel.h>
+#include <QDialog>
 #include <qstring.h>
 //Added by qt3to4:
 #include <QResizeEvent>
@@ -39,7 +39,9 @@
   *@author Andreas Agorander
   */
 
-class StartsBatt : public QLabel
+class QLabel;
+
+class StartsBatt : public QDialog
 {
 
     Q_OBJECT
@@ -69,6 +71,7 @@ signals:
 
 protected:
     virtual void loadfilesettings();
+    void closeEvent(QCloseEvent*);
 
     int numofbots;
     QString botfiles[8];

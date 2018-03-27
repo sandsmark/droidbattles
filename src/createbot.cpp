@@ -396,6 +396,8 @@ CreateBot::CreateBot()
     instrlatency[242] = 1;
 
     QSettings settings;
+    restoreGeometry(settings.value("CreateBotGeometry").toByteArray());
+
     settings.beginGroup("editor");
     QString filename = settings.value("lastfile").toString();
     if (!filename.isEmpty()) {
@@ -449,6 +451,8 @@ void CreateBot::closeEvent (QCloseEvent*)
             break;
         }
     }
+    QSettings settings;
+    settings.setValue("CreateBotGeometry", saveGeometry());
 }
 
 /**

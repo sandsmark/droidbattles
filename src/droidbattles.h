@@ -73,8 +73,6 @@ private:
 
     void enabletourneys();
     void disabletourneys();
-    void enablebattles();
-    void disablebattles();
 
     /** The buttons that are in the main widget */
     QPushButton *menubuttons[12];
@@ -119,6 +117,8 @@ private:
     int cursecbot;
 
 private slots:
+    void enablebattles();
+    void disablebattles();
 
     //Menu Item functions
     void createb();

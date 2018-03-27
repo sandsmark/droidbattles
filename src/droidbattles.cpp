@@ -420,8 +420,8 @@ void DroidBattles::starttourney()
 
     batt = new BattleArea ( names[0], names[1],
                             "","","","","","",numf,ln,xs,ys,false,teams,true,stment->getiffast());
-    QObject::connect (batt, SIGNAL (battledone (int,int)),
-                      this, SLOT (managetourney (int,int)));
+    connect (batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
+    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
     stment->hide();
     curmainbot = 0;
@@ -566,8 +566,8 @@ void DroidBattles::managetourney (int wins1, int wins2)
         batt = new BattleArea ( names[curmainbot],
                                 names[cursecbot],"","","","","","",numf,
                                 ln,xs,ys,false,teams,true,stment->getiffast());
-        QObject::connect (batt, SIGNAL (battledone (int,int)),
-                          this, SLOT (managetourney (int,int)));
+        connect (batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
+        connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
         batt->show();
     }
 }
@@ -620,8 +620,8 @@ void DroidBattles::startkoth()
     batt = new BattleArea ( names[numofbots-2],
                             names[numofbots-1],"","","","","","",numf,
                             ln,xs,ys,false,teams,true,kotht->getiffast());
-    QObject::connect (batt, SIGNAL (battledone (int,int)), this,
-                      SLOT (mankothtourney (int,int)));
+    connect (batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
+    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
     kotht->hide();
     curmainbot = numofbots-2;
@@ -808,8 +808,10 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         batt = new BattleArea ( names[curmainbot],
                                 names[cursecbot],"","","","","","",numf,
                                 ln,xs,ys,false,teams,true,kotht->getiffast());
-        QObject::connect (batt, SIGNAL (battledone (int,int)), this,
-                          SLOT (mankothtourney (int,int)));
+
+        connect (batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
+        connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+
         batt->show();
     }
 
@@ -865,8 +867,8 @@ void DroidBattles::startcupt()
     batt = new BattleArea ( names[0], names[1],"",
                             "","","","","",numf,ln,xs,ys,false,teams,true,
                             cuptournament->getiffast());
-    QObject::connect (batt, SIGNAL (battledone (int,int)), this,
-                      SLOT (mancuptourney (int,int)));
+    connect (batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
+    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
     cuptournament->hide();
 }
@@ -980,8 +982,8 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
     batt = new BattleArea ( names[nextround[curmainbot]],
                             names[nextround[cursecbot]],"","","","","","",numf,
                             ln,xs,ys,false,teams,true,cuptournament->getiffast());
-    QObject::connect (batt, SIGNAL (battledone (int,int)), this,
-                      SLOT (mancuptourney (int,int)));
+    connect (batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
+    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
 
 }

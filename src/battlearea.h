@@ -72,8 +72,8 @@ private slots:
     void dmem();
 
 signals:
-
     void battledone (int,int);
+    void closed();
 
 protected:
     void closeEvent(QCloseEvent*);
@@ -132,15 +132,5 @@ private:
     // and will be used by robCPU::execinstr()
 };
 extern bool SingleStepMode;
-
-//#include "robots.h"
-//#include "mine.h"
-//#include "radarmissile.h"
-//#include "missile.h"
-//#include "radarmissile.h"
-//#include "beam.h"
-//#include "rocket.h"
-//#include "chaff.h"
-#include "explosion.h"
 
 #endif

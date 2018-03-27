@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include "battlearea.h"
-//Added by qt3to4:
+
+#include "explosion.h"
+
 #include <QLabel>
 #include <QCloseEvent>
 #include <QDebug>
@@ -1115,4 +1117,5 @@ void BattleArea::closeEvent(QCloseEvent *)
 {
     QSettings settings;
     settings.setValue("BattleAreaGeometry", saveGeometry());
+    emit closed();
 }

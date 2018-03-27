@@ -53,14 +53,7 @@ BattleArea::BattleArea (const BattleConfig &battleConfig, bool ifdebug, QPlainTe
     m_maxRounds = battleConfig.maxRounds;
 
     // OPen the current config file
-    QFile f (QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
-    if (!f.open (QIODevice::ReadOnly))
-    {
-        //TODO: add error message
-        QMessageBox::warning(this, "Fail", "Failed to load current.cfg");
-        deleteLater();
-        return;
-    }
+    config.load(QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     setLayout(mainLayout);
@@ -68,52 +61,15 @@ BattleArea::BattleArea (const BattleConfig &battleConfig, bool ifdebug, QPlainTe
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     mainLayout->addLayout(horizontalLayout);
 
-    QTextStream s (&f);
-    int x,y;
-    for (x=0; x<maxbots; x++)
+    for (int i=0; i<maxbots; i++)
     {
-        botteams[x] = battleConfig.teams[x];
+        botteams[i] = battleConfig.teams[i];
     }
-    QString dummy;
-    int i;
-//	bool ch;
-    s >> dummy;
-    s >> i;
-    config.maxdev = i;
-    s >> dummy;
-    s >> i;
-    config.maxcost = i;
-    s >> dummy;
-    s >> i;
-    config.maxram = i;
-    s >> dummy;
-    for (x=0; x<9; x++)
-    {
-        s >> i;
-        config.ramcost[x] = i;
-    }
-    for (x=0; x<NUMDEV; x++)
-    {
-        s >> dummy;
-        s >> i;
-        if (i == 1)
-            config.enabled[x] = true;
-        else
-            config.enabled[x] = false;
-        for (y=0; y<5; y++)
-        {
-            s >> i;
-            config.cost[y][x] = i;
-            s >> i;
-            config.values[y][x] = i;
-        }
-    }
-    qDebug() << "max devices" << config.maxdev;
 
     //Initialize vars
     numfights = battleConfig.numFights;
     fightsfought = 0;
-    for (x=0; x<8; x++) {
+    for (int x=0; x<8; x++) {
         names[x] = battleConfig.names[x];
         fightswon[x] = 0;
     }

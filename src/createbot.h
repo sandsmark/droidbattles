@@ -30,6 +30,7 @@
 #include <qpixmap.h>
 //Added by qt3to4:
 #include <QCloseEvent>
+#include <QScopedPointer>
 #include "confstruct.h"
 #include "pixmapholder.h"
 /**The base widget for the bot editor, contains an editor, an assembler
@@ -106,7 +107,7 @@ private:
     QPushButton *gfxbutton;
     QPixmap gfx;
 //		QPixmap *backpm;
-    BattleArea *batt;
+    QScopedPointer<BattleArea> batt;
     StartsBatt *qc;
     ConfStruct curconfig;
     bool changed;

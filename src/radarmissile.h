@@ -46,7 +46,6 @@ public:
     int collisionStrength();
     int setPosition (double X,double Y);
     int objectHit (int type,int strength);
-    int size();
     int readDevicePort (unsigned char port);
     void writeDevicePort (unsigned char port,unsigned short value);
     int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2);

@@ -44,7 +44,6 @@ public:
     int collisionStrength();
     int setPosition (double X,double Y);
     int objectHit (int type,int strength);
-    int size();
     int returnRadar();
 
 private:

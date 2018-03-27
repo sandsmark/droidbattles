@@ -39,7 +39,7 @@ RadarMissile::RadarMissile (int X,int Y,int dir,int bootm,int stm,int mnum,
     noncollid = 256;
     double dira = direction() * pi / 512;
     setPosition (cos (dira) * 1500,sin (dira) * 1500);
-    m_size = 1<<6;
+    m_size = 8;
     if (useUI)
     {
         erasegfx = new QPixmap(8, 8);
@@ -140,11 +140,6 @@ int RadarMissile::collisionType()
 int RadarMissile::collisionStrength()
 {
     return 175;
-}
-
-int RadarMissile::size()
-{
-    return 1;
 }
 
 /**

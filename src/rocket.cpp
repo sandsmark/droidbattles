@@ -44,7 +44,7 @@ Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
     uY = Y;
     double dira = direction() * pi / 512;
     setPosition (cos (dira) * 1500,sin (dira) * 1500);
-    m_size = 1<<6;
+    m_size = 16;
     countpoint = 0;
     length = leng;
     if (useUI)
@@ -148,11 +148,6 @@ int Rocket::collisionType()
 int Rocket::collisionStrength()
 {
     return 0;
-}
-
-int Rocket::size()
-{
-    return 2;
 }
 
 /**

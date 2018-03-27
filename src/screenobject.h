@@ -102,7 +102,7 @@ protected:
     QPixmap *erasegfx;
     bool canbehit;
     int mynum;
-    int m_size;
+    int m_size = 1;
     QString debug1;
     QString debug2;
     bool showextragfx;

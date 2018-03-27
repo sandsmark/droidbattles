@@ -43,7 +43,6 @@ public:
     int setPosition (double X,double Y);
     int collisionType();
     int collisionStrength();
-    int size();
     bool areaExplosionAffects();
     int returnRadar();
 

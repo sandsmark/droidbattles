@@ -37,7 +37,6 @@ Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &ar
     Ypos = Y;
     double dira = direction() * pi / 512;
     setPosition (cos (dira) * 1500, sin(dira) * 1500);
-    m_size = 1<<6;
     if (useUI)
     {
         erasegfx = new QPixmap(8, 8);
@@ -120,11 +119,6 @@ int Missile::setPosition (double X,double Y)
     if (Ypos < 0) return destroyself;
     if (Ypos > ourarea->getareainfo (1)) return destroyself;
     return 0;
-}
-
-int Missile::size()
-{
-    return 2;
 }
 
 int Missile::returnRadar()

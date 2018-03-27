@@ -137,7 +137,7 @@ int ScreenObject::writeToDevice (int /*dev*/, int /*action*/, int /*value*/)
 
 int ScreenObject::size()
 {
-    return 1;
+    return m_size;
 }
 
 int ScreenObject::collisionType()

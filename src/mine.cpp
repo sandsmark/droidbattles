@@ -30,7 +30,7 @@ Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
     ourarea = &area;
     Xpos = x;
     Ypos = y;
-    m_size = 1<<6;
+    m_size = 8;
     noncollid = 256;
     if (useUI)
     {

@@ -95,13 +95,11 @@ BattleArea::BattleArea (const BattleConfig &battleConfig, bool ifdebug, QPlainTe
     sideLayout->addStretch();
     horizontalLayout->addLayout(sideLayout);
 
-    QObject::connect (playb,SIGNAL (clicked()),this,SLOT (play()));
-    QObject::connect (pauseb,SIGNAL (clicked()),this,SLOT (pause()));
-    QObject::connect (singles,SIGNAL (clicked()),this,SLOT (singlestep()));
+    connect(playb,&QAbstractButton::clicked,this,&BattleArea::play);
+    connect(pauseb,&QAbstractButton::clicked,this,&BattleArea::pause);
+    connect(singles,&QAbstractButton::clicked,this,&BattleArea::singlestep);
 
-    eventH = new QTimer();
-    QObject::connect (eventH, SIGNAL (timeout()),
-                      this, SLOT (execute()));
+    connect (&eventH, &QTimer::timeout, this, &BattleArea::execute);
     if (ifdebug)
     {
         // keep parameters
@@ -128,9 +126,9 @@ BattleArea::BattleArea (const BattleConfig &battleConfig, bool ifdebug, QPlainTe
 void BattleArea::play()
 {
     if (m_fastMode == true)
-        eventH->start (0);   //As fast as possible
+        eventH.start (0);   //As fast as possible
     else
-        eventH->start (20);  //20 ms between ticks (50 times/second)
+        eventH.start (20);  //20 ms between ticks (50 times/second)
     runmode = 1;
 }
 
@@ -139,7 +137,7 @@ void BattleArea::play()
 	*/
 void BattleArea::pause()
 {
-    eventH->stop();
+    eventH.stop();
     runmode = 0;
 }
 
@@ -158,9 +156,7 @@ void BattleArea::singlestep()
 	*/
 BattleArea::~BattleArea()
 {
-    eventH->stop();
-    delete eventH;
-    delete infowindow;
+    eventH.stop();
     qDeleteAll(dbgwindows);
     dbgwindows.clear();
 //	if( debugenabled )delete dbgwindow;
@@ -274,14 +270,14 @@ void BattleArea::startonebattle (int y)
 
     if (m_fastMode == true)
     {
-        eventH->start (0);
+        eventH.start (0);
         runmode = 1;
     }
     else
     {
         if (!m_debugEnabled)
         {
-            eventH->start (20);
+            eventH.start (20);
             runmode = 1;
         }
     }
@@ -614,7 +610,7 @@ void BattleArea::execute()
         }
         if (numofbots <= 1)   //If battle is over
         {
-            eventH->stop();
+            eventH.stop();
             if (numofbots == 1)
                 fightswon[botnum]++;
             fightsfought++;
@@ -669,7 +665,7 @@ void BattleArea::execute()
         }
         if (numofbots <= 1)          //If the current fight has ended
         {
-            eventH->stop();            //Stop doing rounds of fight
+            eventH.stop();            //Stop doing rounds of fight
             if (numofbots == 1)        //If we have a winner ,count up his points
                 fightswon[botnum]++;
             fightsfought++;
@@ -745,7 +741,7 @@ void BattleArea::execute()
         {
             if (fightswon[x] >= m_maxPoints)
             {
-                eventH->stop();
+                eventH.stop();
 //				ermsg = new QMessageBox( );
 //				ermsg->setCaption( "Fight ended" ); //Show the win message
                 QString msg;

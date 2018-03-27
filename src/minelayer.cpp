@@ -16,9 +16,11 @@
  ***************************************************************************/
 
 #include "minelayer.h"
+#include <QDebug>
 
 MineLayer::MineLayer (ScreenObject &object, int ourlevel)
 {
+    qDebug() << "Mine layer has" << ourlevel << "mines";
     minesleft = ourlevel;
     ourbot = &object;
     int count,count2;
@@ -46,6 +48,7 @@ void MineLayer::execute()
             ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
                                   ourbot->direction(),3);
             minesleft--;
+            qDebug() << minesleft;
         }
     }
 }

@@ -27,6 +27,9 @@
 #include "textmodebattlearea.h"
 #include <QDebug>
 #include <QStyleFactory>
+#include <QCommandLineParser>
+#include "battlearea.h"
+#include <QMessageBox>
 
 void startbattle (int argc, char *argv[])
 {
@@ -36,7 +39,7 @@ void startbattle (int argc, char *argv[])
     bool teamfight = false;
     std::array<int, 8> teams = {1};
     int numfights = 1;
-//	int randomseed = random( );
+
     int xsize = 32768;
     int ysize = 32768;
     int maxrounds = 6000;
@@ -190,40 +193,85 @@ void startbattle (int argc, char *argv[])
 
 int main (int argc, char *argv[])
 {
+    QCoreApplication *app;
+
     bool useGUI = true;
     if (argc > 1) {
-        if (strcmp (argv[1] , "-textmode") == 0)
+        if (strcmp (argv[1] , "-textmode") == 0) {
             useGUI = false;
+        }
     }
-//    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling, false);
-//    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-//    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-//    qputenv("QT_SCALE_FACTOR", "2");
-
-    if (useGUI)
-    {
-        QApplication a (argc, argv);
-        a.setApplicationName("droidbattles");
-        a.setOrganizationName("martin");
-
-        QApplication::setStyle(QStyleFactory::create("Fusion"));
-
-//        a.setStyle( new QWindowsStyle );
-//        a.setFont (QFont ("helvetica", 8));
-        QFont font(a.font());
+    if (useGUI) {
+        QGuiApplication *guiApp = new QApplication(argc, argv);
+        app = guiApp;
+        QFont font(guiApp->font());
         font.setPixelSize(12);
-        a.setFont(font);
-        DroidBattles *droidbattles=new DroidBattles();
+        guiApp->setFont(font);
+    } else {
+        app = new QCoreApplication(argc, argv);
+    }
+    app->setApplicationName("droidbattles");
+    app->setOrganizationName("martin");
+
+    QCommandLineParser parser;
+    QCommandLineOption botOption("bot",
+                                 "Pass a path to a .bot file to use",
+                                 "path");
+    QCommandLineOption ticksOption("max-rounds",
+                                 "Max rounds per battle (~50 rounds per second by default)",
+                                 "number");
+    QCommandLineOption battlesOption("num-battles",
+                                 "Number of battles to run",
+                                 "number");
+
+    parser.addHelpOption();
+    parser.addOption(botOption);
+    parser.addOption(ticksOption);
+    parser.addOption(battlesOption);
+    parser.process(*app);
+
+    QStringList bots = parser.values(botOption);
+
+    if (!bots.isEmpty()) {
+        BattleConfig battleConf;
+
+        if (bots.count() >= int(battleConf.names.size())) {
+            QMessageBox::critical(nullptr, "Invalid options", "Too many bots passed");
+            return 1;
+        }
+        if (bots.count() < 2) {
+            QMessageBox::critical(nullptr, "Invalid options", "Not enough bots passed");
+            return 1;
+        }
+
+        for (int i=0; i<bots.count(); i++) {
+            battleConf.names[i] = bots[i];
+        }
+
+        int maxRounds = parser.value(ticksOption).toInt();
+        if (maxRounds > 100) {
+            battleConf.maxRounds = maxRounds;
+        }
+        int numFights = parser.value(battlesOption).toInt();
+        if (numFights > 1) {
+            battleConf.numFights = numFights;
+        }
+
+        BattleArea *battleArea = new BattleArea(battleConf);
+        QObject::connect(battleArea, &BattleArea::destroyed, app, &QCoreApplication::quit);
+        battleArea->show();
+
+        return app->exec();
+    }
+
+    if (useGUI) {
+        QApplication::setStyle(QStyleFactory::create("Fusion"));
+        DroidBattles *droidbattles = new DroidBattles();
 
         droidbattles->show();
-        return a.exec();  //Enter event-loop
+        return app->exec();
     } else {
-        QCoreApplication a (argc, argv);
-        a.setApplicationName("droidbattles");
-        a.setOrganizationName("martin");
-
-        if (strcmp (argv[2] , "-assemble") == 0)
-        {
+        if (strcmp (argv[2] , "-assemble") == 0) {
             if (argc >= 4)
                 TextModeFileManip::assemble (argv[3]);
         }
@@ -242,7 +290,6 @@ int main (int argc, char *argv[])
             startbattle (argc,argv);
         }
     }
-    return 0;
 }
 
 

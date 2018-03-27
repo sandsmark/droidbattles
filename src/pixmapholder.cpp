@@ -21,6 +21,7 @@
 #include <QDebug>
 
 static QPixmap *pm[20];
+bool PixmapHolder::initialized = false;
 
 PixmapHolder::PixmapHolder()
 {
@@ -40,6 +41,10 @@ void PixmapHolder::addpm (QString name, PixmapId num)
 
 QPixmap & PixmapHolder::getpm (PixmapId num)
 {
+    if (!initialized) {
+        load();
+    }
+
     if (pm[num]->isNull()) {
         qWarning() << "Queried for invalid pixmap" << num;
     }
@@ -48,8 +53,27 @@ QPixmap & PixmapHolder::getpm (PixmapId num)
 
 QPixmap * PixmapHolder::getpmp (PixmapId num)
 {
+    if (!initialized) {
+        load();
+    }
+
     if (pm[num]->isNull()) {
         qWarning() << "Queried for invalid pixmap point" << num;
     }
     return pm[num];
+}
+
+void PixmapHolder::load()
+{
+    //Load all pixmaps used by the application
+    addpm (":/images/mainmenu.png", PixmapHolder::MainMenu);
+    addpm (":/images/backbutton.png", PixmapHolder::BackButton);
+    addpm (":/images/metal.png", PixmapHolder::Metal);
+    addpm (":/images/metalback2.png", PixmapHolder::MetalBackground);
+    addpm (":/images/radarmissile.bmp", PixmapHolder::RadarMissile);
+    addpm (":/images/chaff.bmp", PixmapHolder::Chaff);
+    addpm (":/images/mine.xpm", PixmapHolder::Mine);
+    addpm (":/images/missile.xpm", PixmapHolder::Missile);
+
+    initialized = true;
 }

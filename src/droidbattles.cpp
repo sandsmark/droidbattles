@@ -65,23 +65,6 @@ DroidBattles::DroidBattles()
     resize (500,350);	//Set size of window
     setFixedSize (500,350);
 
-    //Load all pixmaps used by the application
-    PixmapHolder::addpm (":/images/mainmenu.png", PixmapHolder::MainMenu);
-
-    PixmapHolder::addpm (":/images/backbutton.png", PixmapHolder::BackButton);
-
-    PixmapHolder::addpm (":/images/metal.png", PixmapHolder::Metal);
-
-    PixmapHolder::addpm (":/images/metalback2.png", PixmapHolder::MetalBackground);
-
-    PixmapHolder::addpm (":/images/radarmissile.bmp", PixmapHolder::RadarMissile);
-
-    PixmapHolder::addpm (":/images/chaff.bmp", PixmapHolder::Chaff);
-
-    PixmapHolder::addpm (":/images/mine.xpm", PixmapHolder::Mine);
-
-    PixmapHolder::addpm (":/images/missile.xpm", PixmapHolder::Missile);
-
     QPalette palette;
     palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MainMenu)));
     setPalette(palette);

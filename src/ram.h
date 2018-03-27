@@ -59,9 +59,7 @@ public:
 private:
 
     unsigned char *mem;
-    unsigned char *ucret;
     char *cret;
-    unsigned short *usret;
     short *sret;
     unsigned short RAMamount;
     int numowners;

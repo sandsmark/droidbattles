@@ -88,7 +88,7 @@ private:
     QPixmap m_pixmap;
     QLabel *mydrw;
     QWidget *infowindow;
-    QTimer *eventH;
+    QTimer eventH;
     QMessageBox *ermsg;
 
     PixButton *playb;

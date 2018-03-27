@@ -126,7 +126,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     mydrw = new QLabel();
     mainLayout->addWidget(mydrw);
     infowindow = new QDialog();
-    infowindow->setLayout(new QVBoxLayout);
+    infowindow->setLayout(new QGridLayout);
     infowindow->resize (550,420);
 
 //    debug1 = new QLabel ("a", infowindow);
@@ -272,9 +272,11 @@ void BattleArea::startonebattle (int y)
             objects[x] = new ScreenObject();
         }
 
-        binfo[x] = new BotInfo (names[x],objects[x],objects[x]->armorval,
-                                infowindow);
-        infowindow->layout()->addWidget(binfo[x]);
+        QGridLayout *gl = qobject_cast<QGridLayout*>(infowindow->layout());
+        Q_ASSERT(gl);
+        binfo[x] = BotInfo::addBotInfo(gl, x, names[x], objects[x]); // new BotInfo (names[x],objects[x],objects[x]->armorval,
+//                                infowindow);
+//        infowindow->layout()->addWidget(binfo[x]);
     }
 
     if (debugenabled) {

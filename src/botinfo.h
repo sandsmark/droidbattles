@@ -24,21 +24,23 @@
 #include <QProgressBar>
 #include "screenobject.h"
 
+class QGridLayout;
+
 /** Holds the info about one bot
-	* and shows it in the infowindow
+    * and shows it in the infowindow
   *@author Andreas Agorander
-	*/
-class BotInfo : public QWidget
+    */
+class BotInfo : public QObject
 {
     Q_OBJECT
 
 public:
-    BotInfo (const QString &botname, ScreenObject *rb, int armor, QWidget *parent);
     ~BotInfo();
+    static BotInfo *addBotInfo(QGridLayout *layout, int index, const QString &name, ScreenObject *screenObject);
 
 private slots:
     void armorupdated (int x);
-    void updatefuel (int x,int y);
+    void updatefuel (int fuel, int heat);
     void statch (bool x);
     void newmessage (char *msg);
 
@@ -46,15 +48,17 @@ signals:
     void changeinset (bool x);
 
 private:
-    QLabel *botnam;
-    QProgressBar *armorlevel;
-    QProgressBar *heatlevel;
-    QLabel *armormsg;
-    QLabel *heatmsg;
-    QLabel *msgmsg;
-    QLabel *message;
-    QCheckBox *ifscanner;
-    QLabel *showgfx;
+    BotInfo (const QString &botname, ScreenObject *rb, int armor);
+
+    QLabel botnam;
+    QProgressBar armorlevel;
+    QProgressBar heatlevel;
+    QLabel armormsg;
+    QLabel heatmsg;
+    QLabel msgmsg;
+    QLabel message;
+    QCheckBox ifscanner;
+    QLabel showgfx;
     ScreenObject *bot;
 };
 

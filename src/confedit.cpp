@@ -289,7 +289,7 @@ void ConfEdit::makecurrc()
     QString filename = baseDir.absoluteFilePath("current.cfg");
     QFile f (filename);
     if (!f.open (QIODevice::WriteOnly)) {
-        QMessageBox::warning(this, "Failed to write config", "Unable to open " + filename + " for writing.");
+        QMessageBox::warning(this, "Failed to write config", "Unable to open " + filename + " for writing (" + f.errorString() + ").");
         return;
     }
 

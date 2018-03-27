@@ -59,6 +59,7 @@ DroidBattles::DroidBattles()
     QString defaultConfPath = baseDir.absoluteFilePath("current.cfg");
     if (!QFileInfo::exists(defaultConfPath)) {
         QFile::copy(":/misc/current.cfg", defaultConfPath);
+        QFile::setPermissions(defaultConfPath, QFileDevice::WriteOwner | QFileDevice::ReadOwner);
     }
 
     resize (500,350);	//Set size of window

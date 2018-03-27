@@ -76,23 +76,20 @@ private:
 
     /** The buttons that are in the main widget */
     QPushButton *menubuttons[12];
-//		QPixmap *menupm;
     QPixmap *bnpm;
     /** Pointers to the various types of objects the menu object can start */
     // Editor for creating the bots
     QPointer<CreateBot> cre;
     // Base widget for battles
-    BattleArea *batt;
-    // Widget for showing info about bots
-    QWidget *infobox;
+    QPointer<BattleArea> batt;
     // Widget for startup of battle (ie determine which bots should fight)
-    StartsBatt *ssb;
+    QPointer<StartsBatt> ssb;
     // Message box showing some 'about' info about the application
     QMessageBox *aboutb;
 
-    KothTournament *kotht;
-    StartCup *cuptournament;
-    StartTournament *stment;
+    QPointer<KothTournament> kotht;
+    QPointer<StartCup> cuptournament;
+    QPointer<StartTournament> stment;
 
     QPointer<DocBrowser> browser;
 

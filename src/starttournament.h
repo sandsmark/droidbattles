@@ -43,7 +43,7 @@ class StartTournament : public QDialog
 
 public:
 
-    StartTournament();
+    StartTournament(const QString &type);
     ~StartTournament();
     int getnumofbots();
     QString getbotfile(int bot);
@@ -54,9 +54,9 @@ public:
     int getysize();
     bool getiffast();
     int getseed();
+    void setseed(int s);
 
 private slots:
-
     void choosefile();
     void dechoosefile();
     void ocl();
@@ -67,7 +67,6 @@ signals:
     void cancelclicked();
 
 protected:
-
     int numofbots;
     QListWidget *botfiles;
     QLabel *tnumfights;
@@ -84,6 +83,11 @@ protected:
     QLabel *seedinfo;
     QLineEdit *seed;
     QCheckBox *iffast;
+
+private:
+    void save();
+    void load();
+    QString m_type;
 };
 
 #endif

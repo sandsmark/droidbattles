@@ -28,7 +28,7 @@
 	* Init GUI elements
 	*/
 KothTournament::KothTournament() :
-    StartTournament()
+    StartTournament("KOTH")
 {
     loadlist = new PixButton ("Load list", this);
 
@@ -67,8 +67,7 @@ void KothTournament::chooselist()
     s >> temp;
     s >> temp;
     int numbots = temp.toInt();
-    for (x=0; x<numbots; x++)
-    {
+    for (x=0; x<numbots; x++) {
         s >> temp;
         s >> temp;
         botfiles->addItem (temp);

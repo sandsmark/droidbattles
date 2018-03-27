@@ -377,7 +377,7 @@ void DroidBattles::editconf()
 void DroidBattles::tournament()
 {
     disabletourneys();
-    stment = new StartTournament();
+    stment = new StartTournament("League");
     stment->resize (300,570);
     stment->show();
     QObject::connect (stment,SIGNAL (okclicked()),this,
@@ -413,9 +413,8 @@ void DroidBattles::starttourney()
     ln = stment->getlength();			//Get the max length of fight
     xs = stment->getxsize();
     ys = stment->getysize();
-    seed = stment->getseed();
-    if (!seed) seed = qrand();
-    qsrand (seed);
+    if (!stment->getseed()) stment->setseed(qrand());
+    qsrand (stment->getseed());
     teams[0] = 0;
     teams[1] = 1;
 
@@ -522,9 +521,9 @@ void DroidBattles::managetourney (int wins1, int wins2)
         s << "<TITLE>Tournament results</TITLE>\n";
         s << "</HEAD>\n";
         s << "<BODY>\n";
-        s << "<TABLE>\n";
+        s << "<TABLE border=1>\n";
         s << "<TR>\n";
-        s << "<TD>Pos</TD>\n";
+        s << "<TD>Placement</TD>\n";
         s << "<TD>Bot name</TD>\n";
         s << "<TD>Bots defeated</TD>\n";
         s << "<TD>Single fights won</TD>\n";
@@ -537,14 +536,14 @@ void DroidBattles::managetourney (int wins1, int wins2)
             temp = names[resorder[x]];
             int pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
-            s << temp.data();
+            s << temp;
             s << "</TD>\n";
             s << "<TD>" << wingames[resorder[x]] << "</TD>\n";
             s << "<TD>" << winmatches[resorder[x]] << "</TD>\n";
             s << "</TR>\n";
         }
         s << "</TABLE>\n";
-        s << "Random seed used: " << seed;
+        s << "Random seed used: " << stment->getseed();
         s << "</BODY>";
         s << "</HTML>";
         delete stment;
@@ -612,9 +611,8 @@ void DroidBattles::startkoth()
     ln = kotht->getlength();			//Get the max length of fight
     xs = kotht->getxsize();
     ys = kotht->getysize();
-    seed = kotht->getseed();
-    if (!seed) seed = qrand();
-    qsrand (seed);
+    if (!kotht->getseed()) kotht->setseed(qrand());
+    qsrand (kotht->getseed());
 
     teams[0] = 0;
     teams[1] = 1;
@@ -735,7 +733,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         s2 << "<TITLE>KOTH results</TITLE>\n";
         s2 << "</HEAD>\n";
         s2 << "<BODY>\n";
-        s2 << "<TABLE>\n";
+        s2 << "<TABLE border=1>\n";
         s2 << "<TR>\n";
         s2 << "<TD>Pos</TD>\n";
         s2 << "<TD>Bot name</TD>\n";
@@ -748,13 +746,13 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             temp = newlist[x];
             int pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
-            s2 << temp.data();
+            s2 << temp;
             s2 << "</TD>\n";
             s2 << "</TR>\n";
         }
         s2 << "</TABLE>\n";
         s2 << "<P>" << "Single match results: " << "</P>\n";
-        s2 << "<TABLE>\n";
+        s2 << "<TABLE border=1>\n";
         s2 << "<TR>\n";
         s2 << "<TD>Match nr</TD>\n";
         s2 << "<TD>Defender</TD>\n";
@@ -770,14 +768,14 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             temp = names[x];
             int pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
-            s2 << temp.data();
+            s2 << temp;
             s2 << "</TD>\n";
 
             s2 << "<TD>\n";
             temp = names[results[x].secbot];
             pos = temp.lastIndexOf("/");
             temp = temp.right (temp.length()-pos-1);
-            s2 << temp.data();
+            s2 << temp;
             s2 << "</TD>\n";
 
             s2 << "<TD> " << results[x].mainbotwins << " - " <<
@@ -786,7 +784,7 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
             s2 << "</TR>\n";
         }
         s2 << "</TABLE>";
-        s2 << "Random seed used: " << seed;
+        s2 << "Random seed used: " << kotht->getseed();
         s2 << "</BODY>";
         s2 << "</HTML>";
 
@@ -855,9 +853,8 @@ void DroidBattles::startcupt()
     ln = cuptournament->getlength();			//Get the max length of fight
     xs = cuptournament->getxsize();
     ys = cuptournament->getysize();
-    seed = cuptournament->getseed();
-    if (!seed) seed = qrand();
-    qsrand (seed);
+    if (!cuptournament->getseed()) cuptournament->setseed(qrand());
+    qsrand (cuptournament->getseed());
 
     teams[0] = 0;
     teams[1] = 1;
@@ -941,7 +938,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
         s2 << "<TITLE>Cup results</TITLE>\n";
         s2 << "</HEAD>\n";
         s2 << "<BODY>\n";
-        s2 << "<TABLE>\n";
+        s2 << "<TABLE border=1>\n";
         s2 << "<TR>\n";
         s2 << "<TD>Bot1</TD><TD>Bot2</TD><TD>Result</TD></TR>\n";
 
@@ -962,7 +959,7 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
             xxx /= 2;
         }
         s2 << "</TABLE>\n" << "Winner: " << names[nextround[0]] << "\n<BR>";
-        s2 << "Random seed used: " << seed;
+        s2 << "Random seed used: " << cuptournament->getseed();
         s2 << "\n</BODY>\n</HTML>";
         f2.close();
         QString tempdc = QDir::currentPath();

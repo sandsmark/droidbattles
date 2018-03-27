@@ -117,7 +117,6 @@ private:
     int botsleft;
     int curmainbot;
     int cursecbot;
-    int seed;
 
 private slots:
 

@@ -23,10 +23,19 @@
 #include "pixbutton.h"
 #include <QGridLayout>
 
+#define SETTINGS_BOTFILES "BotFiles"
+#define SETTINGS_NUMFIGHTS "NumFights"
+#define SETTINGS_LENGTHFIGHTS "LengthFights"
+#define SETTINGS_MAX_X "MaxX"
+#define SETTINGS_MAX_Y "MaxY"
+#define SETTINGS_FAST "Fast"
+#define SETTINGS_SEED "Seed"
+
 /**
 	* Init GUI elements
 	*/
-StartTournament::StartTournament()
+StartTournament::StartTournament(const QString &type) :
+    m_type(type)
 {
     botfiles = new QListWidget (this);
 
@@ -55,6 +64,7 @@ StartTournament::StartTournament()
 
     length = new QSpinBox (this);
     length->setMinimum(50);
+    length->setMaximum(180000);
 
     maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
     maxx = new QSpinBox (this);
@@ -101,6 +111,8 @@ StartTournament::StartTournament()
     l->addWidget(cancelb, 8, 2);
 
     setLayout(l);
+
+    load();
 }
 
 StartTournament::~StartTournament()
@@ -145,12 +157,49 @@ void StartTournament::dechoosefile()
 
 void StartTournament::ocl()
 {
+    save();
     emit okclicked();
 }
 
 void StartTournament::ccl()
 {
     emit cancelclicked();
+}
+
+void StartTournament::save()
+{
+    QSettings settings;
+    settings.beginGroup(m_type);
+
+    QStringList files;
+    for (int i=0; i<botfiles->count(); i++) {
+        files.append(botfiles->item(i)->text());
+    }
+
+    settings.setValue(SETTINGS_BOTFILES, files);
+    settings.setValue(SETTINGS_NUMFIGHTS, wnumfights->value());
+    settings.setValue(SETTINGS_LENGTHFIGHTS, length->value());
+    settings.setValue(SETTINGS_MAX_X, maxx->value());
+    settings.setValue(SETTINGS_MAX_Y, maxy->value());
+    settings.setValue(SETTINGS_FAST, iffast->isChecked());
+    settings.setValue(SETTINGS_SEED, seed->text());
+
+}
+
+void StartTournament::load()
+{
+    QSettings settings;
+    settings.beginGroup(m_type);
+
+    botfiles->clear();
+    botfiles->addItems(settings.value(SETTINGS_BOTFILES).toStringList());
+
+    wnumfights->setValue(settings.value(SETTINGS_NUMFIGHTS).toInt());
+    length->setValue(settings.value(SETTINGS_LENGTHFIGHTS, 3000).toInt());
+    maxx->setValue(settings.value(SETTINGS_MAX_X, 32768).toInt());
+    maxy->setValue(settings.value(SETTINGS_MAX_Y, 32768).toInt());
+    iffast->setChecked(settings.value(SETTINGS_FAST).toBool());
+    seed->setText(settings.value(SETTINGS_SEED).toString());
 }
 
 /**
@@ -193,15 +242,17 @@ bool StartTournament::getiffast()
     return iffast->isChecked();
 }
 
-
 /**
 	* Returns the random seed
 	*/
 int StartTournament::getseed()
 {
-    QString s = seed->text();
-    if (s.length() == 0)
-        return 0;
+    return seed->text().toInt();
+}
 
-    return s.toInt();
+void StartTournament::setseed(int s)
+{
+    seed->setText(QString::number(s));
+
+    save();
 }

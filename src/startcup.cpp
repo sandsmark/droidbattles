@@ -17,7 +17,8 @@
 
 #include "startcup.h"
 
-StartCup::StartCup()
+StartCup::StartCup() :
+    StartTournament("Cup")
 {
 }
 

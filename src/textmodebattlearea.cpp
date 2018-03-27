@@ -17,7 +17,6 @@
 
 #include "textmodebattlearea.h"
 //Added by qt3to4:
-#include <QTextStream>
 #include <QDebug>
 #include <QtMath>
 #include <QStandardPaths>
@@ -44,59 +43,18 @@ TextmodeBattleArea::TextmodeBattleArea (const BattleConfig &battleConfig)
     // OPen the current config file
     m_maxRounds = battleConfig.maxRounds;
     QString confFileName = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
-    QFile f (confFileName);
-    if (!f.open (QIODevice::ReadOnly))
-    {
-        //TODO: add error message
-        delete this;
-        return;
-    }
 
-    QTextStream s (&f);
-    int x,y;
-    for (x=0; x<maxbots; x++)
-    {
-        botteams[x] = battleConfig.teams[x];
-    }
-    QString dummy;
-    int i;
+    config.load(confFileName);
 
-    s >> dummy;
-    s >> i;
-    config.maxdev = i;
-    s >> dummy;
-    s >> i;
-    config.maxcost = i;
-    s >> dummy;
-    s >> i;
-    config.maxram = i;
-    s >> dummy;
-    for (x=0; x<9; x++) {
-        s >> i;
-        config.ramcost[x] = i;
-    }
-    for (x=0; x<NUMDEV; x++)
-    {
-        s >> dummy;
-        s >> i;
-        if (i == 1)
-            config.enabled[x] = true;
-        else
-            config.enabled[x] = false;
-        for (y=0; y<5; y++)
-        {
-            s >> i;
-            config.cost[y][x] = i;
-            s >> i;
-            config.values[y][x] = i;
-        }
+    for (int i=0; i<maxbots; i++) {
+        botteams[i] = battleConfig.teams[i];
     }
 
     //Initialize vars
     numfights = battleConfig.numFights;
     fightsfought = 0;
     names = battleConfig.names;
-    for (x=0; x<8; x++) {
+    for (int x=0; x<8; x++) {
         fightswon[x] = 0;
     }
 

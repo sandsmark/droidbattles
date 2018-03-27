@@ -2372,53 +2372,7 @@ void CreateBot::stopconf()
 	*/
 void CreateBot::checkconf()
 {
-    QString confFileName = QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg");
-    QFile f (confFileName);
-    if (!f.open (QIODevice::ReadOnly))
-    {
-        QMessageBox::warning(this, "Unable to find config", "No current configuration file found");
-        return;
-    }
-
-    QTextStream s (&f);
-    int x,y;
-
-    QString dummy;
-
-    int i;
-//	bool ch;
-
-    s >> dummy;
-    s >> i;
-    curconfig.maxdev = i;
-    s >> dummy;
-    s >> i;
-    curconfig.maxcost = i;
-    s >> dummy;
-    s >> i;
-    curconfig.maxram = i;
-    s >> dummy;
-    for (x=0; x<9; x++)
-    {
-        s >> i;
-        curconfig.ramcost[x] = i;
-    }
-    for (x=0; x<NUMDEV; x++)
-    {
-        s >> dummy;
-        s >> i;
-        if (i == 1)
-            curconfig.enabled[x] = true;
-        else
-            curconfig.enabled[x] = false;
-        for (y=0; y<5; y++)
-        {
-            s >> i;
-            curconfig.cost[y][x] = i;
-            s >> dummy;
-        }
-    }
-    f.close();
+    curconfig.load(QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
 
     int amountram;
     int totalcost;
@@ -2429,16 +2383,15 @@ void CreateBot::checkconf()
     amountram = amountRAM->currentIndex();
     totalcost = curconfig.ramcost[amountram];
 
-    for (x=0; x<32; x++)
-    {
+    for (int x=0; x<32; x++) {
         int dev = devices[x]->getitem();
         int devlev = devices[x]->getlevel();
-        if (dev > 0)
-        {
-            if (curconfig.enabled[dev-1])
+        if (dev > 0) {
+            if (curconfig.enabled[dev-1]) {
                 devicesenabled[x] = 0;
-            else
+            } else {
                 devicesenabled[x] = 1;
+            }
             totalcost += curconfig.cost[devlev][dev-1];
             numdev++;
         }
@@ -2456,11 +2409,9 @@ void CreateBot::checkconf()
     resulttext += "\nTotal cost: " + QString::number(totalcost);
     resulttext += "  cost allowed: " + QString::number(curconfig.maxcost);
 
-    for (x=0; x<32; x++)
-    {
-        if (devicesenabled[x] == 1)
-        {
-            resulttext += "\n\n device " + QString::number(x);
+    for (int x=0; x<32; x++) {
+        if (devicesenabled[x] == 1) {
+            resulttext += "\n\n device " + Device::deviceName(x);
             resulttext += " is a disabled device";
         }
     }

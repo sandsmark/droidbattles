@@ -24,7 +24,7 @@ class QString;
 //(Generally read from current.cfg)
 struct ConfStruct
 {
-    void load(const QString &filename);
+    void load(QString filename);
     void save(const QString &filename);
 
     int maxdev;

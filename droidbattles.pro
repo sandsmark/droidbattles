@@ -66,7 +66,8 @@ HEADERS += src/armor.h \
            src/textmodefilemanip.h \
            src/timedev.h \
            src/turret.h \
-    src/battleconfig.h
+           src/battleconfig.h
+
 SOURCES += src/armor.cpp \
            src/battlearea.cpp \
            src/beam.cpp \
@@ -121,7 +122,8 @@ SOURCES += src/armor.cpp \
            src/textmodefilemanip.cpp \
            src/timedev.cpp \
            src/turret.cpp \
-    src/confstruct.cpp
+           src/confstruct.cpp
+
 RESOURCES += images.qrc \
     configs.qrc \
     doc.qrc

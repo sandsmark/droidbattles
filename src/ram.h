@@ -27,8 +27,18 @@
 
 class Ram
 {
-
 public:
+    const int s_amounts[9] = {
+        1024,
+        2048,
+        4096,
+        8192,
+        16384,
+        24576,
+        32768,
+        49152,
+        65536,
+    };
 
     Ram();
     Ram (int amount,unsigned char *buf);

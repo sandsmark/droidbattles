@@ -1,6 +1,7 @@
 #include "confstruct.h"
 #include <QString>
 #include <QSettings>
+#include <QFile>
 #include "device.h"
 
 #define KEY_MAXDEVICES "MaxDevices"
@@ -12,8 +13,12 @@
 #define KEY_COST "Cost"
 #define KEY_VALUE "Value"
 
-void ConfStruct::load(const QString &filename)
+void ConfStruct::load(QString filename)
 {
+    if (!QFile::exists(filename)) {
+        filename = ":/misc/current.cfg";
+    }
+
     QSettings conf(filename, QSettings::IniFormat);
     maxdev = conf.value(KEY_MAXDEVICES, 12).toInt();
     maxcost = conf.value(KEY_MAXCOST, 3300).toInt();

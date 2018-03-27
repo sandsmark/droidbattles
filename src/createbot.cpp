@@ -2321,13 +2321,14 @@ bool CreateBot::startquick()
         error ("config file for quick battle not found",0);
         return false;
     }
-    batt.reset(new BattleArea ( names[0], names[1],
+
+    batt = new BattleArea ( names[0], names[1],
                             names[2], names[3],
                             names[4], names[5],
                             names[6], names[7],
                             numfights,lengthfights,xsize,ysize,ifteams,teams,
                             false,false,0,0,true, edittxt,&debuglines[0],
-                            &debugmem[0]));
+                            &debugmem[0]);
     batt->show();
     return true;
 }

@@ -218,19 +218,21 @@ void DebugWindow::updatedata (struct DebugContents contents)
         tmp += "0";
     flagcontents[3]->setText (tmp);
 
-    execlines->clear();
-    for (x=0; x<30; x++)
-    {
-        int z = contents.execmem[x];
-        if (z >= 0)
+    if (maineditor) {
+        execlines->clear();
+        for (x=0; x<30; x++)
         {
-            int x2;
-            for (x2=0; x2<4095; x2++)
+            int z = contents.execmem[x];
+            if (z >= 0)
             {
-                if (debugmem[x2] == z)
+                int x2;
+                for (x2=0; x2<4095; x2++)
                 {
-                    execlines->appendPlainText(maineditor->document()->findBlockByLineNumber(debuglines[x2]).text());
-                    break;
+                    if (debugmem[x2] == z)
+                    {
+                        execlines->appendPlainText(maineditor->document()->findBlockByLineNumber(debuglines[x2]).text());
+                        break;
+                    }
                 }
             }
         }

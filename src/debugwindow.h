@@ -24,6 +24,7 @@
 #include <QString>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QPointer>
 /**
 	* Shows some debug info (register contents, some mem contents) for the
 	* first CPU in the bot
@@ -53,7 +54,7 @@ private:
 
     int *debuglines;
     int *debugmem;
-    QPlainTextEdit *maineditor;
+    QPointer<QPlainTextEdit> maineditor;
 
 signals:
     void dumpmem();

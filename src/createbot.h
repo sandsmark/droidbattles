@@ -107,7 +107,7 @@ private:
     QPushButton *gfxbutton;
     QPixmap gfx;
 //		QPixmap *backpm;
-    QScopedPointer<BattleArea> batt;
+    BattleArea *batt;
     StartsBatt *qc;
     ConfStruct curconfig;
     bool changed;

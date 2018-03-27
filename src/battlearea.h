@@ -89,8 +89,6 @@ private:
     QLabel *mydrw;
     QWidget *infowindow;
     QTimer *eventH;
-    QLabel *debug1;
-    QLabel *debug2;
     QMessageBox *ermsg;
 
     PixButton *playb;

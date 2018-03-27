@@ -27,8 +27,11 @@
 
 class Device
 {
+    static const QStringList s_deviceNames;
 
 public:
+    static const QString deviceName(int index);
+    static int deviceId(const QString &name);
 
     Device();
     virtual ~Device();

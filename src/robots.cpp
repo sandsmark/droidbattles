@@ -116,7 +116,7 @@ Robots::Robots (const QString &name,TextmodeBattleArea &object,int mnum, ConfStr
             if (my[x*6+2] <= NUMDEV)
             {
                 if (config.enabled[my[x*6+2]-1] == false && my[x*6+2] != 0)
-                    showError (QString("Using disabled device %1").arg(my[x*6+2]), name);
+                    showError (QString("Using disabled device %1").arg(Device::deviceName(my[x*6+2])), name);
                 if (my[x*6+3] <= 4 && my[x*6+2] > 0)
                 {
                     numdev++;

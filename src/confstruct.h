@@ -18,10 +18,15 @@
 #ifndef CONFSTRUCT_H
 #define CONFSTRUCT_H
 
+class QString;
+
 //Structure for holding the currently active configuration
 //(Generally read from current.cfg)
 struct ConfStruct
 {
+    void load(const QString &filename);
+    void save(const QString &filename);
+
     int maxdev;
     int maxcost;
     int maxram;

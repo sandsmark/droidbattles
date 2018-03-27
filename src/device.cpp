@@ -16,10 +16,52 @@
  ***************************************************************************/
 
 #include "device.h"
+#include <QMap>
+const QStringList Device::s_deviceNames = {
+        "CPU",
+        "engine",
+        "steering",
+        "plasmagun",
+        "armor",
+        "scanner",
+        "fuel",
+        "chaff",
+        "turret",
+        "scanwarner",
+        "timedev",
+        "shield",
+        "repair",
+        "radio",
+        "chiller",
+        "cloaker",
+        "minelayer",
+        "missile",
+        "beam",
+        "AS-rocket"
+};
 
 Device::Device (ScreenObject &object)
 {
     ourbot = &object;
+}
+
+const QString Device::deviceName(int index)
+{
+    if (index >= 0 && index < s_deviceNames.size()) {
+        return s_deviceNames[index];
+    } else {
+        return QString::asprintf("Unknown device %d", index);
+    }
+}
+
+int Device::deviceId(const QString &name)
+{
+    int ret = s_deviceNames.indexOf(name);
+    if (ret == -1) {
+        return 0;
+    } else {
+        return ret;
+    }
 }
 
 Device::Device()

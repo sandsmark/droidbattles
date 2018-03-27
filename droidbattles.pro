@@ -120,7 +120,8 @@ SOURCES += src/armor.cpp \
            src/textmodebattlearea.cpp \
            src/textmodefilemanip.cpp \
            src/timedev.cpp \
-           src/turret.cpp
+           src/turret.cpp \
+    src/confstruct.cpp
 RESOURCES += images.qrc \
     configs.qrc \
     doc.qrc

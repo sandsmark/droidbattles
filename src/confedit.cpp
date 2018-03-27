@@ -26,6 +26,9 @@
 #include <QMessageBox>
 #include <QSettings>
 
+#include "confstruct.h"
+#include "commonsymbols.h"
+
 /**
 	* Constructor: Init GUI
 	*/
@@ -245,35 +248,7 @@ void ConfEdit::savec()
         return;
     }
     settings.setValue("LastConfFile", filename);
-
-    QFile f (filename);
-    if (!f.open (QIODevice::WriteOnly))
-    {
-        //TODO: Add error mesage
-        return;
-    }
-
-    int x,y;
-
-    QTextStream s (&f);
-    s << "MAXDEVICES: " << maxdevv->cleanText() << endl;
-    s << "MAXCOSTS: " << maxcostv->cleanText() << endl;
-    s << "MAXRAM: " << maxramv->currentIndex() << endl;
-    s << "RAMCOSTS:";
-    for (x=0; x<9; x++)
-        s << " " << ramcostv->itemText(x);
-    s << endl;
-    for (x=0; x<numdev; x++)
-    {
-        s << "DEVICE: " << devicesenabled[x]->isChecked();
-        for (y=0; y<5; y++)
-        {
-            s << " " << levelcosts[x]->itemText(y);
-            s << " " << levelvalues[x]->itemText(y);
-        }
-        s << endl;
-    }
-    f.close();
+    save(filename);
 }
 
 /**
@@ -287,33 +262,7 @@ void ConfEdit::makecurrc()
     }
 
     QString filename = baseDir.absoluteFilePath("current.cfg");
-    QFile f (filename);
-    if (!f.open (QIODevice::WriteOnly)) {
-        QMessageBox::warning(this, "Failed to write config", "Unable to open " + filename + " for writing (" + f.errorString() + ").");
-        return;
-    }
-
-    int x,y;
-
-    QTextStream s (&f);
-    s << "MAXDEVICES: " << maxdevv->cleanText() << endl;
-    s << "MAXCOSTS: " << maxcostv->cleanText() << endl;
-    s << "MAXRAM: " << maxramv->currentIndex() << endl;
-    s << "RAMCOSTS:";
-    for (x=0; x<9; x++)
-        s << " " << ramcostv->itemText(x);
-    s << endl;
-    for (x=0; x<numdev; x++)
-    {
-        s << "DEVICE: " << devicesenabled[x]->isChecked();
-        for (y=0; y<5; y++)
-        {
-            s << " " << levelcosts[x]->itemText(y);
-            s << " " << levelvalues[x]->itemText(y);
-        }
-        s << endl;
-    }
-    f.close();
+    save(filename);
 }
 
 /**
@@ -328,51 +277,43 @@ void ConfEdit::openfile (const QString &filename)
     if (filename.isEmpty()) {
         return;
     }
-    QFile f (filename);
-    if (!f.open (QIODevice::ReadOnly))
-    {
-        qWarning() << "Failed to open" << filename;
-        //TODO: Add error message
-        return;
+    ConfStruct conf;
+    conf.load(filename);
+    maxdevv->setValue(conf.maxdev);
+    maxcostv->setValue(conf.maxcost);
+    maxramv->setCurrentIndex(conf.maxram);
+
+    int x, y;
+    for (x=0; x<9; x++) {
+        ramcostv->setItemText(x, QString::number(conf.ramcost[x]));
     }
 
-    int x,y;
-    QString dummy;
-    int i;
-//	bool ch;
-    QTextStream s (&f);
-
-
-    s >> dummy;
-    s >> i;
-    maxdevv->setValue (i);
-    s >> dummy;
-    s >> i;
-    maxcostv->setValue (i);
-    s >> dummy;
-    s >> i;
-    maxramv->setCurrentIndex(i);
-    s >> dummy;
-    for (x=0; x<9; x++)
-    {
-        s >> dummy;
-        ramcostv->setItemText(x, dummy);
-    }
-    for (x=0; x<numdev; x++)
-    {
-        s >> dummy;
-        s >> i;
-        if (i == 1) {
-            devicesenabled[x]->setChecked (true);
-        } else {
-            devicesenabled[x]->setChecked (false);
-        }
-        for (y=0; y<5; y++)
-        {
-            s >> dummy;
-            levelcosts[x]->setItemText (y, dummy);
-            s >> dummy;
-            levelvalues[x]->setItemText (y, dummy);
+    for (x=0; x<numdev; x++) {
+        devicesenabled[x]->setChecked(conf.enabled[x]);
+        for (y=0; y<5; y++) {
+            levelcosts[x]->setItemText (y, QString::number(conf.cost[y][x]));
+            levelvalues[x]->setItemText (y, QString::number(conf.values[y][x]));
         }
     }
+}
+
+void ConfEdit::save(const QString &filename)
+{
+    ConfStruct conf;
+    conf.maxdev = maxdevv->cleanText().toInt();
+    conf.maxcost = maxcostv->cleanText().toInt();
+    conf.maxram = maxramv->currentIndex();
+    int x, y;
+    for (x=0; x<9; x++) {
+        conf.ramcost[x] = ramcostv->itemText(x).toInt();
+    }
+
+    for (x=0; x<numdev; x++) {
+        conf.enabled[x] = devicesenabled[x]->isChecked();
+        for (y=0; y<5; y++) {
+            conf.cost[y][x] = levelcosts[x]->itemText(y).toInt();
+            conf.values[y][x] = levelvalues[x]->itemText(y).toInt();;
+        }
+    }
+    conf.save(filename);
 }

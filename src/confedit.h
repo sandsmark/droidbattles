@@ -18,6 +18,7 @@
 #ifndef CONFEDIT_H
 #define CONFEDIT_H
 
+#include "commonsymbols.h"
 #include <qwidget.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
@@ -35,8 +36,6 @@
 /**edits and sets current config file
   *@author Andreas Agorander
   */
-
-#define numdev 20
 
 class ConfEdit : public QDialog
 {
@@ -91,6 +90,8 @@ private slots:
     void savec();
     void defaultc();
     void openfile (const QString &tempname);
+
+    void save(const QString &filename);
 
 };
 

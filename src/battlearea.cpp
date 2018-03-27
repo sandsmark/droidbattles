@@ -64,8 +64,11 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
         return;
     }
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout;
     setLayout(mainLayout);
+
+    QHBoxLayout *horizontalLayout = new QHBoxLayout;
+    mainLayout->addLayout(horizontalLayout);
 
     QTextStream s (&f);
     int x,y;
@@ -124,9 +127,10 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
         fightswon[x] = 0;
 
     mydrw = new QLabel();
-    mainLayout->addWidget(mydrw);
-    infowindow = new QDialog();
+    horizontalLayout->addWidget(mydrw);
+    infowindow = new QWidget();
     infowindow->setLayout(new QGridLayout);
+    mainLayout->addWidget(infowindow);
 
     m_pixmap = QPixmap(xsize>>6,ysize>>6 );
     mydrw->setMinimumSize(m_pixmap.size());
@@ -141,7 +145,7 @@ BattleArea::BattleArea (const QString &nam1, const QString &nam2, const QString 
     sideLayout->addWidget(pauseb);
     sideLayout->addWidget(singles);
     sideLayout->addStretch();
-    mainLayout->addLayout(sideLayout);
+    horizontalLayout->addLayout(sideLayout);
 
     QObject::connect (playb,SIGNAL (clicked()),this,SLOT (play()));
     QObject::connect (pauseb,SIGNAL (clicked()),this,SLOT (pause()));

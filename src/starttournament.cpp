@@ -256,3 +256,15 @@ void StartTournament::setseed(int s)
 
     save();
 }
+
+BattleConfig StartTournament::getBattleConfig()
+{
+    BattleConfig battleConfig;
+    battleConfig.xSize = maxx->value();
+    battleConfig.ySize = maxy->value();
+    battleConfig.numFights = wnumfights->value();
+    battleConfig.maxRounds = length->value();
+    battleConfig.fastMode = iffast->isChecked();
+    battleConfig.isTournament = true;
+    return battleConfig;
+}

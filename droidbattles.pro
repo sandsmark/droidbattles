@@ -65,7 +65,8 @@ HEADERS += src/armor.h \
            src/textmodebattlearea.h \
            src/textmodefilemanip.h \
            src/timedev.h \
-           src/turret.h
+           src/turret.h \
+    src/battleconfig.h
 SOURCES += src/armor.cpp \
            src/battlearea.cpp \
            src/beam.cpp \

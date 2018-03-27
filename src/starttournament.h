@@ -27,6 +27,7 @@
 #include <qlineedit.h>
 #include <QFileDialog>
 #include <qcheckbox.h>
+#include "battleconfig.h"
 //Added by qt3to4:
 #include <QCloseEvent>
 /**
@@ -42,7 +43,6 @@ class StartTournament : public QDialog
     Q_OBJECT
 
 public:
-
     StartTournament(const QString &type);
     ~StartTournament();
     int getnumofbots();
@@ -55,6 +55,8 @@ public:
     bool getiffast();
     int getseed();
     void setseed(int s);
+
+    BattleConfig getBattleConfig();
 
 private slots:
     void choosefile();

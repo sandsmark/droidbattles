@@ -1,0 +1,2 @@
+To build on Linux, run qmake && make after installing the relevant Qt packages and a C++ compiler.
+

@@ -19,7 +19,7 @@
 </H2>
 
 <P>DroidBattles is available at this adress:
-http://www.bluefire.nu/droidbattles/
+https://github.com/sandsmark/droidbattles
 <P>
 <H2><A NAME="ss2.2">2.2 Requirements</A>
 </H2>
@@ -27,12 +27,8 @@ http://www.bluefire.nu/droidbattles/
 <P>The following is needed for DroidBattles to compile and run:
 <BLOCKQUOTE><CODE>
 <PRE>
-qt 3.x (tested on 3.0.5) devel version
-X-windows (tested on 4.2.0) with headers installed
-A unix system (tested on Linux modeled after LFS)
-A c++ compiler (tested with gcc 3.2)
-make
-autoconf
+Qt
+A C++ compiler
 </PRE>
 </CODE></BLOCKQUOTE>
 <P>
@@ -40,29 +36,16 @@ autoconf
 </H2>
 
 <P>
-<P>In order to compile and install DroidBattles on your system, type the following in
+<P>In order to compile and run DroidBattles on your system, type the following in
 the base directory of the DroidBattles distribution:
 <P>
 <BLOCKQUOTE><CODE>
 <PRE>
-% ./configure
+% qmake
 % make
-% make install
+% ./droidbattles
 </PRE>
 </CODE></BLOCKQUOTE>
-<P>
-<P>If you want to have droidbattles installed somewhere else than /usr/local ...
-you should run the install as above, then copy all folders to the new
-location and then edit line 2 of /etc/droidbattles.conf
-<P>
-<P>Since DroidBattles uses 
-<PRE>
-autoconf
-</PRE>
- you should have no trouble
-compiling it.
-Should you run into problems please report them to the the author
-<A HREF="mailto:Bluefire@bluefire.nu">Andreas Agorander</A><P>
 <P>
 <P>
 <HR>

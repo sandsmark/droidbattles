@@ -30,8 +30,8 @@
 #include <QTextStream>
 //Added by qt3to4:
 #include <QCloseEvent>
-#include "pixbutton.h"
-#include "pixmapholder.h"
+#include "starttournament.h"
+
 /**
 	* The dialog for starting a KOTH tournament
 	* Lays resident in memory during the hole tournament
@@ -40,57 +40,20 @@
   *@author Andreas Agorander
   */
 
-class KothTournament : public QDialog
-{
+class PixButton;
 
+class KothTournament : public StartTournament
+{
     Q_OBJECT
 
 public:
     KothTournament();
-    ~KothTournament();
-    int getnumofbots();
-    QString getbotfile(int bot);
-    void closeEvent (QCloseEvent *e);
-    int getnumfights();
-    int getlength();
-    int getxsize();
-    int getysize();
-    bool getiffast();
-    int getseed();
 
 private slots:
-
-    void choosefile();
-    void dechoosefile();
-    void ocl();
-    void ccl();
     void chooselist();
 
-signals:
-
-    void okclicked();
-    void cancelclicked();
-
 private:
-
-    int numofbots;
-    QListWidget *botfiles;
-    QLabel *tnumfights;
-    QSpinBox *wnumfights;
-    QLabel *lengthfight;
-    QSpinBox *length;
-    PixButton *press[2];
-    PixButton *readyb;
-    PixButton *cancelb;
     PixButton *loadlist;
-    QLabel *maxxinfo;
-    QLabel *maxyinfo;
-    QSpinBox *maxx;
-    QSpinBox *maxy;
-    QLabel *seedinfo;
-    QLineEdit *seed;
-    QCheckBox *iffast;
-
 };
 
 #endif

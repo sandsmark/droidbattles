@@ -20,75 +20,87 @@
 #include <QLabel>
 #include <QCloseEvent>
 #include <QSettings>
+#include "pixbutton.h"
+#include <QGridLayout>
 
 /**
 	* Init GUI elements
 	*/
 StartTournament::StartTournament()
 {
-
-//	int x;
-
     botfiles = new QListWidget (this);
-    botfiles->setGeometry (10,75,270,170);
 
-    press[0] = new PixButton ("load", this);
-    press[0]->setGeometry (0,0,80,40);
-    press[1] = new PixButton ("remove", this);
-    press[1]->setGeometry (85,0,80,40);
+    press[0] = new PixButton ("Add bot", this);
+
+    press[1] = new PixButton ("Remove selected", this);
 
     iffast = new QCheckBox ("Fast (nodelay) battle",this);
-    iffast->setGeometry (20,50,170,20);
 
-    QObject::connect (press[0],SIGNAL (clicked()),this,
-                      SLOT (choosefile()));
-    QObject::connect (press[1],SIGNAL (clicked()),this,
-                      SLOT (dechoosefile()));
+    connect (press[0],&QAbstractButton::clicked,this,
+                      &StartTournament::choosefile);
+    connect (press[1],&QAbstractButton::clicked,this,
+                      &StartTournament::dechoosefile);
 
     readyb = new PixButton ("OK", this);
-    readyb->setGeometry (100,500,80,40);
     cancelb = new PixButton ("cancel", this);
-    cancelb->setGeometry (200,500,80,40);
 
-    QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
-    QObject::connect (cancelb,SIGNAL (clicked()),this,SLOT (ccl()));
+    connect (readyb,&QAbstractButton::clicked,this,&StartTournament::ocl);
+    connect (cancelb,&QAbstractButton::clicked,this,&StartTournament::ccl);
 
     tnumfights = new QLabel ("Number of fights:",this);
-    tnumfights->setGeometry (10,300,100,20);
-    wnumfights = new QLineEdit (this);
-    wnumfights->setGeometry (120,300,40,20);
-    numfix = new QIntValidator (this);
-    wnumfights->setValidator (numfix);
+    wnumfights = new QSpinBox (this);
+    wnumfights->setMinimum(1);
 
-    lengthfight = new QLabel ("Max length of fight ( 50 ~ 1sec ):",this);
-    lengthfight->setGeometry (10,320,200,20);
-    length = new QLineEdit (this);
-    length->setGeometry (200,320,60,20);
+    lengthfight = new QLabel ("Max length of fight (approximately 50 ticks per 1 sec):",this);
+
+    length = new QSpinBox (this);
+    length->setMinimum(50);
 
     maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
-    maxxinfo->setGeometry (10,350,200,20);
     maxx = new QSpinBox (this);
     maxx->setMinimum(8192);
     maxx->setMaximum(65535);
     maxx->setSingleStep(512);
-    maxx->setGeometry (210,350,80,30);
     maxx->setValue (32768);
 
     maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
-    maxyinfo->setGeometry (10,380,200,20);
     maxy = new QSpinBox (this);
     maxy->setMinimum(8192);
     maxy->setMaximum(65535);
     maxy->setSingleStep(512);
-    maxy->setGeometry (210,380,80,30);
     maxy->setValue (32768);
 
     seedinfo = new QLabel ("Random seed used (0 for random): ",this);
-    seedinfo->setGeometry (10,420,250,20);
     seed = new QLineEdit (this);
-    seed->setGeometry (220,420,60,20);
 
-//	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
+    QGridLayout *l = new QGridLayout;
+    l->addWidget(press[0], 0, 1);
+    l->addWidget(press[1], 0, 2);
+
+    l->addWidget(botfiles, 1, 0, 1, 3);
+
+
+    l->addWidget(iffast, 2, 0);
+
+    l->addWidget(tnumfights, 3, 0);
+    l->addWidget(wnumfights, 3, 2);
+
+    l->addWidget(lengthfight, 4, 0);
+    l->addWidget(length, 4, 2);
+
+    l->addWidget(maxxinfo, 5, 0);
+    l->addWidget(maxx, 5, 2);
+
+    l->addWidget(maxyinfo, 6, 0);
+    l->addWidget(maxy, 6, 2);
+
+    l->addWidget(seedinfo, 7, 0);
+    l->addWidget(seed, 7, 2);
+
+    l->addWidget(readyb, 8, 1);
+    l->addWidget(cancelb, 8, 2);
+
+    setLayout(l);
 }
 
 StartTournament::~StartTournament()
@@ -163,11 +175,7 @@ int StartTournament::getnumfights()
 
 int StartTournament::getlength()
 {
-    QString s = length->text();
-    if (s.length() == 0)
-        return 3000;
-
-    return s.toInt();
+    return length->value();
 }
 
 int StartTournament::getxsize()

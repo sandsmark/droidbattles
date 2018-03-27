@@ -34,6 +34,8 @@
   *@author Andreas Agorander
   */
 
+class PixButton;
+
 class StartTournament : public QDialog
 {
 
@@ -61,19 +63,17 @@ private slots:
     void ccl();
 
 signals:
-
     void okclicked();
     void cancelclicked();
 
-private:
+protected:
 
     int numofbots;
     QListWidget *botfiles;
     QLabel *tnumfights;
-    QLineEdit *wnumfights;
+    QSpinBox *wnumfights;
     QLabel *lengthfight;
-    QLineEdit *length;
-    QIntValidator *numfix;
+    QSpinBox *length;
     PixButton *press[2];
     PixButton *readyb;
     PixButton *cancelb;

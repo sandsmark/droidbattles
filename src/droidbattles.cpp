@@ -582,9 +582,9 @@ void DroidBattles::koth()
     kotht = new KothTournament();
     kotht->resize (300,570);
     kotht->show();
-    QObject::connect (kotht,SIGNAL (okclicked()),this,SLOT (startkoth()));
-    QObject::connect (kotht,SIGNAL (cancelclicked()),this,
-                      SLOT (stopkoth()));
+    connect (kotht,&KothTournament::okclicked,this,&DroidBattles::startkoth);
+    connect (kotht,&KothTournament::cancelclicked,this,
+                      &DroidBattles::stopkoth);
 }
 
 /**

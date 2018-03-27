@@ -317,266 +317,274 @@ void BattleArea::execute()
     {
         int ifdel = objects[x]->execute();  //Let each object execute,
         //move around and things like that
-        objects[x]->drawObject (&m_pixmap);     //Let each object paint itself
-        int x2;
-        if (objects[x]->type() > 0)    //Check If the object exists and
-        {                                  //is a "collidable" object
-            for (x2= (x+1); x2<maxobjects; x2++)	//Loop through all possible objects
-            {																	//(to check for collisions)
-
-                // Also, if the objects has the same collid (and it's != 256)
-                // (Eg, bullets fired by the same bot)  don't issue a collision
-                if (objects[x2]->type() > 0 &&
-                        ( (objects[x]->collisionId() == collenabled ||
-                           objects[x2]->collisionId() == collenabled) ||
-                          (objects[x]->collisionId() != objects[x2]->collisionId())))
-                {                              //If object exists
-                    int xx1,xx2,yy1,yy2,dist,dx,dy;
-
-                    xx1 = objects[x]->xPos();           //
-                    xx2 = objects[x2]->xPos();          // Get positions
-                    dx = (xx1 - xx2) /2;                       // and distances
-                    yy1 = objects[x]->yPos();           // between each object
-                    yy2 = objects[x2]->yPos();          //
-                    dy = (yy1 - yy2) /2;                       //
-                    dist = int (sqrt ( (dx*dx) + (dy*dy)));    //
-                    dist *= 2;
-
-                    if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6)))
-                    {   //If they're bigger than their distance they have collided
-                        int xxx;
-                        for (xxx=254; xxx > 128; xxx--)
-                        {
-                            if (objects[xxx]->type() == 0)
-                            {
-                                delete objects[xxx];
-                                objects[xxx] = new Explosion ( (xx1+xx2) /2, (yy1+yy2) /2,*this);
-                                break;
-                            }
-                        }
-                        int type1,type2,str1,str2;
-                        type1 = objects[x]->collisionType();
-                        type2 = objects[x2]->collisionType();
-                        str1 = objects[x]->collisionStrength(); // Get the damage they will
-                        str2 = objects[x2]->collisionStrength(); // inflict on each other
-                        if (type1 == 1)     // If he collided with a bot
-                        {
-                            objects[x2]->setSpeed (- (objects[x2]->speed() /2));
-                            double dir = objects[x2]->direction() * toradians;  //Change dir
-                            objects[x2]->setPosition (cos (dir) * objects[x2]->speed(),
-                                                    sin (dir) * objects[x2]->speed());
-                        }
-                        if (type2 == 1)
-                        {
-                            objects[x]->setSpeed (- (objects[x]->speed() /2));
-                            double dir = objects[x]->direction() * toradians;
-                            objects[x]->setPosition (cos (dir) * objects[x]->speed(),
-                                                   sin (dir) * objects[x]->speed());
-                        }
-                        xx1 = objects[x]->xPos();           //
-                        xx2 = objects[x2]->xPos();          // Get positions
-                        dx = xx1 - xx2;                        // and distances between
-                        yy1 = objects[x]->yPos();           // each object
-                        yy2 = objects[x2]->yPos();          //
-                        dy = yy1 - yy2;                        //
-                        dist = int (sqrt (dx*dx + dy*dy));     //
-
-                        if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))
-                                && objects[x]->type() ==1 && objects[x2]->type()
-                                ==1)   //If they're bigger than their distance, move them apart
-                        {
-                            double angl = atan2 (dy,dx);
-                            int dst = (objects[x]->size() <<6) +
-                                      (objects[x2]->size() <<6)-dist;
-                            objects[x]->setPosition (cos (angl) * ( (dst+16) /2),sin (angl) *
-                                                   ( (dst+16) /2));
-                            objects[x2]->setPosition (cos (angl+pi) * ( (dst+16) /2),
-                                                    sin (angl+pi) * ( (dst+16) /2));
-                        }
-                        int x2owner = objects[x2]->owner();
-                        if (objects[x2]->objectHit (9,str1) == 1)
-                        {
-                            switch (m_battleMode)
-                            {
-                            case 0 :
-                                objects[x2]->eraseObject (&m_pixmap);
-                                delete objects[x2];
-                                objects[x2] = new ScreenObject();
-                                break;
-                            case 1 :
-                                objects[x2]->eraseObject (&m_pixmap);
-                                if (x < 8 && objects[x2]->type() == 1)
-                                {
-                                    fightswon[x2]++;
-                                    delete objects[x2];
-                                    if (fightswon[x2] < m_maxPoints)
-                                    {
-                                        //Calc X and Y position
-                                        xstarts[x2] = qrand() %m_xSize;
-                                        ystarts[x2] = qrand() %m_ySize;
-                                        objects[x2] = new Robots ( names[x2],
-                                                                   *this,x2,config,botteams[x2],false);
-                                        QObject::connect (objects[x2],
-                                                          SIGNAL (armorchanged (int)),binfo[x2],
-                                                          SLOT (armorupdated (int)));
-                                        QObject::connect (binfo[x2],
-                                                          SIGNAL (changeinset (bool)), objects[x2],
-                                                          SLOT (setextragfx (bool)));
-                                        QObject::connect (objects[x2],
-                                                          SIGNAL (fuelchanged (int,int)),binfo[x2],
-                                                          SLOT (updatefuel (int,int)));
-                                        QObject::connect (objects[x2],
-                                                          SIGNAL (messagechanged (char *)),binfo[x2],
-                                                          SLOT (newmessage (char *)));
-                                        objects[x2]->objectHit (0,0);
-                                    }
-                                    else
-                                    {
-                                        objects[x2] = new ScreenObject();
-                                        fightswon[x2] = roundsrun;
-                                    }
-                                }
-                                else
-                                {
-                                    delete objects[x2];
-                                    objects[x2] = new ScreenObject();
-                                }
-                                break;
-                            case 2 :  //If it's a deathmatch battle
-                                objects[x2]->eraseObject (&m_pixmap);
-                                if (objects[x2]->type() == 1)
-                                {
-                                    if (objects[x]->owner() < 8 &&
-                                            x2 != objects[x]->owner())
-                                        fightswon[objects[x]->owner() ]++;
-                                    checkwin = true;
-                                    //Calc X and Y position
-                                    xstarts[x2] = qrand() %m_xSize;
-                                    ystarts[x2] = qrand() %m_ySize;
-                                    objects[x2] = new Robots ( names[x2],*this,
-                                                               x2,config,botteams[x2],false);
-                                    QObject::connect (objects[x2],
-                                                      SIGNAL (armorchanged (int)),binfo[x2],
-                                                      SLOT (armorupdated (int)));
-                                    QObject::connect (binfo[x2],
-                                                      SIGNAL (changeinset (bool)), objects[x2],
-                                                      SLOT (setextragfx (bool)));
-                                    QObject::connect (objects[x2],
-                                                      SIGNAL (fuelchanged (int,int)),binfo[x2],
-                                                      SLOT (updatefuel (int,int)));
-                                    QObject::connect (objects[x2],
-                                                      SIGNAL (messagechanged (char *)),binfo[x2],
-                                                      SLOT (newmessage (char *)));
-                                    objects[x2]->objectHit (0,0);
-                                }
-                                else
-                                {
-                                    delete objects[x2];
-                                    objects[x2] = new ScreenObject();
-                                }
-                                break;
-                            }
-                        }
-                        if (objects[x]->objectHit (9,str2) == 1)     //If the damage killed him
-                        {
-                            switch (m_battleMode)
-                            {
-                            case 0 :  //If it's a normal battle
-                                objects[x]->eraseObject (&m_pixmap);       //Erase him
-                                delete objects[x];
-                                objects[x] = new ScreenObject();
-                                x2 = maxobjects;
-                                continue;
-                                break;
-                            case 1 :  //If it's a survival battle
-                                objects[x]->eraseObject (&m_pixmap);
-                                if (x < 8 && objects[x]->type() == 1)
-                                {
-                                    fightswon[x]++;
-                                    delete objects[x];
-                                    x2 = maxobjects;
-                                    if (fightswon[x] < m_maxPoints)
-                                    {
-                                        //Calc X and Y position
-                                        xstarts[x] = qrand() %m_xSize;
-                                        ystarts[x] = qrand() %m_ySize;
-                                        objects[x] = new Robots ( names[x],*this,
-                                                                  x,config,botteams[x],false);
-                                        QObject::connect (objects[x],
-                                                          SIGNAL (armorchanged (int)),binfo[x],
-                                                          SLOT (armorupdated (int)));
-                                        QObject::connect (binfo[x],
-                                                          SIGNAL (changeinset (bool)), objects[x],
-                                                          SLOT (setextragfx (bool)));
-                                        QObject::connect (objects[x],
-                                                          SIGNAL (fuelchanged (int,int)),binfo[x],
-                                                          SLOT (updatefuel (int,int)));
-                                        QObject::connect (objects[x],
-                                                          SIGNAL (messagechanged (char *)),binfo[x],
-                                                          SLOT (newmessage (char *)));
-                                        objects[x]->objectHit (0,0);
-                                    }
-                                    else
-                                    {
-                                        objects[x] = new ScreenObject();
-                                        fightswon[x] = roundsrun;
-                                    }
-                                }
-                                else
-                                {
-                                    delete objects[x];
-                                    objects[x] = new ScreenObject();
-                                    x2 = maxobjects;
-                                    continue;
-                                }
-                                break;
-                            case 2 :  //If it's a deathmatch battle
-                                objects[x]->eraseObject (&m_pixmap);
-                                if (objects[x]->type() == 1)
-                                {
-                                    if (x2owner < 8 && x != x2owner)
-                                        fightswon[x2owner]++;
-                                    delete objects[x];
-                                    x2 = maxobjects;
-                                    checkwin = true;
-                                    //Calc X and Y position
-                                    xstarts[x] = qrand() %m_xSize;
-                                    ystarts[x] = qrand() %m_ySize;
-                                    objects[x] = new Robots ( names[x],*this,x,
-                                                              config,botteams[x],false);
-                                    QObject::connect (objects[x],
-                                                      SIGNAL (armorchanged (int)),binfo[x],
-                                                      SLOT (armorupdated (int)));
-                                    QObject::connect (binfo[x],
-                                                      SIGNAL (changeinset (bool)), objects[x],
-                                                      SLOT (setextragfx (bool)));
-                                    QObject::connect (objects[x],
-                                                      SIGNAL (fuelchanged (int,int)),binfo[x],
-                                                      SLOT (updatefuel (int,int)));
-                                    QObject::connect (objects[x],
-                                                      SIGNAL (messagechanged (char *)),binfo[x],
-                                                      SLOT (newmessage (char *)));
-                                    objects[x]->objectHit (0,0);
-                                }
-                                else
-                                {
-                                    delete objects[x];
-                                    objects[x] = new ScreenObject();
-                                    x2 = maxobjects;
-                                    continue;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         if (ifdel == -1)             //If the object ordered it's own destruction
         {                            //Example: shot that gets outside of screen
             objects[x]->eraseObject (&m_pixmap);
             delete objects[x];
             objects[x] = new ScreenObject();
+            continue;
+        }
+
+        objects[x]->drawObject (&m_pixmap);     //Let each object paint itself
+        int x2;
+
+        if (objects[x]->type() <= 0) {    //Check If the object exists and
+            continue;                     //is a "collidable" object
+        }
+
+        for (x2= (x+1); x2<maxobjects; x2++)	//Loop through all possible objects
+        {																	//(to check for collisions)
+            if (objects[x2]->type() <= 0) {
+                continue;
+            }
+
+            // Also, if the objects has the same collid (and it's != 256)
+            // (Eg, bullets fired by the same bot)  don't issue a collision
+            if (!(((objects[x]->collisionId() == collenabled ||
+                       objects[x2]->collisionId() == collenabled) ||
+                      (objects[x]->collisionId() != objects[x2]->collisionId())))) {
+                continue;
+            }
+
+            int xx1,xx2,yy1,yy2,dist,dx,dy;
+
+            xx1 = objects[x]->xPos();           //
+            xx2 = objects[x2]->xPos();          // Get positions
+            dx = (xx1 - xx2) /2;                       // and distances
+            yy1 = objects[x]->yPos();           // between each object
+            yy2 = objects[x2]->yPos();          //
+            dy = (yy1 - yy2) /2;                       //
+            dist = int (sqrt ( (dx*dx) + (dy*dy)));    //
+            dist *= 2;
+
+            if (dist > ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))) { //If they're bigger than their distance they have collided
+                continue;
+            }
+
+            int xxx;
+            for (xxx=254; xxx > 128; xxx--)
+            {
+                if (objects[xxx]->type() == 0)
+                {
+                    delete objects[xxx];
+                    objects[xxx] = new Explosion ( (xx1+xx2) /2, (yy1+yy2) /2,*this);
+                    break;
+                }
+            }
+            int type1,type2,str1,str2;
+            type1 = objects[x]->collisionType();
+            type2 = objects[x2]->collisionType();
+            str1 = objects[x]->collisionStrength(); // Get the damage they will
+            str2 = objects[x2]->collisionStrength(); // inflict on each other
+            if (type1 == 1)     // If he collided with a bot
+            {
+                objects[x2]->setSpeed (- (objects[x2]->speed() /2));
+                double dir = objects[x2]->direction() * toradians;  //Change dir
+                objects[x2]->setPosition (cos (dir) * objects[x2]->speed(),
+                                          sin (dir) * objects[x2]->speed());
+            }
+            if (type2 == 1)
+            {
+                objects[x]->setSpeed (- (objects[x]->speed() /2));
+                double dir = objects[x]->direction() * toradians;
+                objects[x]->setPosition (cos (dir) * objects[x]->speed(),
+                                         sin (dir) * objects[x]->speed());
+            }
+            xx1 = objects[x]->xPos();           //
+            xx2 = objects[x2]->xPos();          // Get positions
+            dx = xx1 - xx2;                        // and distances between
+            yy1 = objects[x]->yPos();           // each object
+            yy2 = objects[x2]->yPos();          //
+            dy = yy1 - yy2;                        //
+            dist = int (sqrt (dx*dx + dy*dy));     //
+
+            if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))
+                    && objects[x]->type() ==1 && objects[x2]->type()
+                    ==1)   //If they're bigger than their distance, move them apart
+            {
+                double angl = atan2 (dy,dx);
+                int dst = (objects[x]->size() <<6) +
+                        (objects[x2]->size() <<6)-dist;
+                objects[x]->setPosition (cos (angl) * ( (dst+16) /2),sin (angl) *
+                                         ( (dst+16) /2));
+                objects[x2]->setPosition (cos (angl+pi) * ( (dst+16) /2),
+                                          sin (angl+pi) * ( (dst+16) /2));
+            }
+            int x2owner = objects[x2]->owner();
+            if (objects[x2]->objectHit (9,str1) == 1)
+            {
+                switch (m_battleMode)
+                {
+                case 0 :
+                    objects[x2]->eraseObject (&m_pixmap);
+                    delete objects[x2];
+                    objects[x2] = new ScreenObject();
+                    break;
+                case 1 :
+                    objects[x2]->eraseObject (&m_pixmap);
+                    if (x < 8 && objects[x2]->type() == 1)
+                    {
+                        fightswon[x2]++;
+                        delete objects[x2];
+                        if (fightswon[x2] < m_maxPoints)
+                        {
+                            //Calc X and Y position
+                            xstarts[x2] = qrand() %m_xSize;
+                            ystarts[x2] = qrand() %m_ySize;
+                            objects[x2] = new Robots ( names[x2],
+                                                       *this,x2,config,botteams[x2],false);
+                            QObject::connect (objects[x2],
+                                              SIGNAL (armorchanged (int)),binfo[x2],
+                                              SLOT (armorupdated (int)));
+                            QObject::connect (binfo[x2],
+                                              SIGNAL (changeinset (bool)), objects[x2],
+                                              SLOT (setextragfx (bool)));
+                            QObject::connect (objects[x2],
+                                              SIGNAL (fuelchanged (int,int)),binfo[x2],
+                                              SLOT (updatefuel (int,int)));
+                            QObject::connect (objects[x2],
+                                              SIGNAL (messagechanged (char *)),binfo[x2],
+                                              SLOT (newmessage (char *)));
+                            objects[x2]->objectHit (0,0);
+                        }
+                        else
+                        {
+                            objects[x2] = new ScreenObject();
+                            fightswon[x2] = roundsrun;
+                        }
+                    }
+                    else
+                    {
+                        delete objects[x2];
+                        objects[x2] = new ScreenObject();
+                    }
+                    break;
+                case 2 :  //If it's a deathmatch battle
+                    objects[x2]->eraseObject (&m_pixmap);
+                    if (objects[x2]->type() == 1)
+                    {
+                        if (objects[x]->owner() < 8 &&
+                                x2 != objects[x]->owner())
+                            fightswon[objects[x]->owner() ]++;
+                        checkwin = true;
+                        //Calc X and Y position
+                        xstarts[x2] = qrand() %m_xSize;
+                        ystarts[x2] = qrand() %m_ySize;
+                        objects[x2] = new Robots ( names[x2],*this,
+                                                   x2,config,botteams[x2],false);
+                        QObject::connect (objects[x2],
+                                          SIGNAL (armorchanged (int)),binfo[x2],
+                                          SLOT (armorupdated (int)));
+                        QObject::connect (binfo[x2],
+                                          SIGNAL (changeinset (bool)), objects[x2],
+                                          SLOT (setextragfx (bool)));
+                        QObject::connect (objects[x2],
+                                          SIGNAL (fuelchanged (int,int)),binfo[x2],
+                                          SLOT (updatefuel (int,int)));
+                        QObject::connect (objects[x2],
+                                          SIGNAL (messagechanged (char *)),binfo[x2],
+                                          SLOT (newmessage (char *)));
+                        objects[x2]->objectHit (0,0);
+                    }
+                    else
+                    {
+                        delete objects[x2];
+                        objects[x2] = new ScreenObject();
+                    }
+                    break;
+                }
+            }
+            if (objects[x]->objectHit (9,str2) == 1)     //If the damage killed him
+            {
+                switch (m_battleMode)
+                {
+                case 0 :  //If it's a normal battle
+                    objects[x]->eraseObject (&m_pixmap);       //Erase him
+                    delete objects[x];
+                    objects[x] = new ScreenObject();
+                    x2 = maxobjects;
+                    continue;
+                    break;
+                case 1 :  //If it's a survival battle
+                    objects[x]->eraseObject (&m_pixmap);
+                    if (x < 8 && objects[x]->type() == 1)
+                    {
+                        fightswon[x]++;
+                        delete objects[x];
+                        x2 = maxobjects;
+                        if (fightswon[x] < m_maxPoints)
+                        {
+                            //Calc X and Y position
+                            xstarts[x] = qrand() %m_xSize;
+                            ystarts[x] = qrand() %m_ySize;
+                            objects[x] = new Robots ( names[x],*this,
+                                                      x,config,botteams[x],false);
+                            QObject::connect (objects[x],
+                                              SIGNAL (armorchanged (int)),binfo[x],
+                                              SLOT (armorupdated (int)));
+                            QObject::connect (binfo[x],
+                                              SIGNAL (changeinset (bool)), objects[x],
+                                              SLOT (setextragfx (bool)));
+                            QObject::connect (objects[x],
+                                              SIGNAL (fuelchanged (int,int)),binfo[x],
+                                              SLOT (updatefuel (int,int)));
+                            QObject::connect (objects[x],
+                                              SIGNAL (messagechanged (char *)),binfo[x],
+                                              SLOT (newmessage (char *)));
+                            objects[x]->objectHit (0,0);
+                        }
+                        else
+                        {
+                            objects[x] = new ScreenObject();
+                            fightswon[x] = roundsrun;
+                        }
+                    }
+                    else
+                    {
+                        delete objects[x];
+                        objects[x] = new ScreenObject();
+                        x2 = maxobjects;
+                        continue;
+                    }
+                    break;
+                case 2 :  //If it's a deathmatch battle
+                    objects[x]->eraseObject (&m_pixmap);
+                    if (objects[x]->type() == 1)
+                    {
+                        if (x2owner < 8 && x != x2owner)
+                            fightswon[x2owner]++;
+                        delete objects[x];
+                        x2 = maxobjects;
+                        checkwin = true;
+                        //Calc X and Y position
+                        xstarts[x] = qrand() %m_xSize;
+                        ystarts[x] = qrand() %m_ySize;
+                        objects[x] = new Robots ( names[x],*this,x,
+                                                  config,botteams[x],false);
+                        QObject::connect (objects[x],
+                                          SIGNAL (armorchanged (int)),binfo[x],
+                                          SLOT (armorupdated (int)));
+                        QObject::connect (binfo[x],
+                                          SIGNAL (changeinset (bool)), objects[x],
+                                          SLOT (setextragfx (bool)));
+                        QObject::connect (objects[x],
+                                          SIGNAL (fuelchanged (int,int)),binfo[x],
+                                          SLOT (updatefuel (int,int)));
+                        QObject::connect (objects[x],
+                                          SIGNAL (messagechanged (char *)),binfo[x],
+                                          SLOT (newmessage (char *)));
+                        objects[x]->objectHit (0,0);
+                    }
+                    else
+                    {
+                        delete objects[x];
+                        objects[x] = new ScreenObject();
+                        x2 = maxobjects;
+                        continue;
+                    }
+                    break;
+                }
+            }
         }
     }
 

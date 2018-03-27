@@ -298,7 +298,7 @@ void ConfEdit::makecurrc()
     QTextStream s (&f);
     s << "MAXDEVICES: " << maxdevv->cleanText() << endl;
     s << "MAXCOSTS: " << maxcostv->cleanText() << endl;
-    s << "MAXRAM: " << maxramv->currentText() << endl;
+    s << "MAXRAM: " << maxramv->currentIndex() << endl;
     s << "RAMCOSTS:";
     for (x=0; x<9; x++)
         s << " " << ramcostv->itemText(x);
@@ -362,10 +362,11 @@ void ConfEdit::openfile (const QString &filename)
     {
         s >> dummy;
         s >> i;
-        if (i == 1)
+        if (i == 1) {
             devicesenabled[x]->setChecked (true);
-        else
+        } else {
             devicesenabled[x]->setChecked (false);
+        }
         for (y=0; y<5; y++)
         {
             s >> dummy;

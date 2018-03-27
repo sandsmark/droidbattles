@@ -76,10 +76,9 @@ private:
     int numofbots;
     QListWidget *botfiles;
     QLabel *tnumfights;
-    QLineEdit *wnumfights;
+    QSpinBox *wnumfights;
     QLabel *lengthfight;
-    QLineEdit *length;
-    QIntValidator *numfix;
+    QSpinBox *length;
     PixButton *press[2];
     PixButton *readyb;
     PixButton *cancelb;

@@ -21,6 +21,9 @@
 #include <QCloseEvent>
 #include <QSettings>
 
+/**
+	* Init GUI elements
+	*/
 StartTournament::StartTournament()
 {
 
@@ -29,9 +32,9 @@ StartTournament::StartTournament()
     botfiles = new QListWidget (this);
     botfiles->setGeometry (10,75,270,170);
 
-    press[0] = new QPushButton ("load",this);
+    press[0] = new PixButton ("load", this);
     press[0]->setGeometry (0,0,80,40);
-    press[1] = new QPushButton ("remove",this);
+    press[1] = new PixButton ("remove", this);
     press[1]->setGeometry (85,0,80,40);
 
     iffast = new QCheckBox ("Fast (nodelay) battle",this);
@@ -42,11 +45,9 @@ StartTournament::StartTournament()
     QObject::connect (press[1],SIGNAL (clicked()),this,
                       SLOT (dechoosefile()));
 
-    readyb = new QPushButton (this);
-    readyb->setText ("OK");
+    readyb = new PixButton ("OK", this);
     readyb->setGeometry (100,500,80,40);
-    cancelb = new QPushButton (this);
-    cancelb->setText ("cancel");
+    cancelb = new PixButton ("cancel", this);
     cancelb->setGeometry (200,500,80,40);
 
     QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
@@ -87,6 +88,7 @@ StartTournament::StartTournament()
     seed = new QLineEdit (this);
     seed->setGeometry (220,420,60,20);
 
+//	setBackgroundPixmap( Pixmapholder::getpm( 3 ) );
 }
 
 StartTournament::~StartTournament()
@@ -98,13 +100,16 @@ int StartTournament::getnumofbots()
     return botfiles->count();
 }
 
+/**
+	* Return the dir for bot x
+	*/
 QString StartTournament::getbotfile (int x)
 {
     return botfiles->item(x)->text();
 }
 
 /**
-	* Load a .bot file
+	* Chooses one file on the HD
 	*/
 void StartTournament::choosefile()
 {
@@ -114,15 +119,15 @@ void StartTournament::choosefile()
         return;
     }
     settings.setValue("LastBotPath", filename);
-    botfiles->addItem (filename);
+
+    botfiles->addItem(filename);
 }
 
 /**
-	* Remove a .bot file from list
+	* Removes one bot in the list
 	*/
 void StartTournament::dechoosefile()
 {
-//	int x;
     delete botfiles->takeItem(botfiles->currentRow());
 }
 
@@ -136,15 +141,17 @@ void StartTournament::ccl()
     emit cancelclicked();
 }
 
+/**
+	* Don't close if the "X" is clicked
+	*/
 void StartTournament::closeEvent (QCloseEvent *e)
 {
     e->ignore();
 }
 
 /**
-	* The following functions returns settings
+	* The following functions returns the settings
 	*/
-
 int StartTournament::getnumfights()
 {
     QString s = wnumfights->text();
@@ -178,6 +185,10 @@ bool StartTournament::getiffast()
     return iffast->isChecked();
 }
 
+
+/**
+	* Returns the random seed
+	*/
 int StartTournament::getseed()
 {
     QString s = seed->text();

@@ -34,7 +34,7 @@
   *@author Andreas Agorander
   */
 
-class StartTournament : public QWidget
+class StartTournament : public QDialog
 {
 
     Q_OBJECT
@@ -57,7 +57,7 @@ private slots:
 
     void choosefile();
     void dechoosefile();
-    virtual void ocl();
+    void ocl();
     void ccl();
 
 signals:
@@ -74,9 +74,9 @@ private:
     QLabel *lengthfight;
     QLineEdit *length;
     QIntValidator *numfix;
-    QPushButton *press[2];
-    QPushButton *readyb;
-    QPushButton *cancelb;
+    PixButton *press[2];
+    PixButton *readyb;
+    PixButton *cancelb;
     QLabel *maxxinfo;
     QLabel *maxyinfo;
     QSpinBox *maxx;

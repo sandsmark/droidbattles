@@ -85,7 +85,22 @@ DroidBattles::DroidBattles()
     palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MainMenu)));
     setPalette(palette);
 
-    menubuttons[0] =  new PixButton ("Bot-creator", this);
+    QAction *creatorAction = new QAction(this);
+    creatorAction->setShortcut(Qt::Key_F2);
+    connect(creatorAction, &QAction::triggered, this, &DroidBattles::createb);
+    addAction(creatorAction);
+
+    QAction *documentationAction = new QAction(this);
+    documentationAction->setShortcut(Qt::Key_F1);
+    connect(documentationAction, &QAction::triggered, this, &DroidBattles::showdoc);
+    addAction(documentationAction);
+
+    QAction *quitAction = new QAction(this);
+    quitAction->setShortcut(Qt::Key_F10);
+    connect(quitAction, &QAction::triggered, this, &DroidBattles::quit);
+    addAction(quitAction);
+
+    menubuttons[0] =  new PixButton ("Bot Creator (F2)", this);
     menubuttons[1] =  new PixButton ("Config editor", this);
     menubuttons[2] =  new PixButton ("Normal battle", this);
     menubuttons[3] =  new PixButton ("Deathmatch battle", this);
@@ -94,8 +109,8 @@ DroidBattles::DroidBattles()
     menubuttons[6] =  new PixButton ("KOTH tournament", this);
     menubuttons[7] =  new PixButton ("Cup tournament", this);
     menubuttons[8] =  new PixButton ("About DroidBattles", this);
-    menubuttons[9] =  new PixButton ("Documentation", this);
-    menubuttons[10] = new PixButton ("Quit", this);
+    menubuttons[9] =  new PixButton ("Documentation (F1)", this);
+    menubuttons[10] = new PixButton ("Quit (F10)", this);
 
     menubuttons[0]->setGeometry (90,20,320,30);
     menubuttons[1]->setGeometry (70,60,360,30);

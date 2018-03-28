@@ -75,7 +75,17 @@ private:
     void disabletourneys();
 
     /** The buttons that are in the main widget */
-    QPushButton *menubuttons[12];
+    QPushButton *m_createButton;
+    QPushButton *m_configButton;
+    QPushButton *m_skirmishButton;
+    QPushButton *m_deathmatchButton;
+    QPushButton *m_survivalButton;
+    QPushButton *m_leagueButton;
+    QPushButton *m_kothButton;
+    QPushButton *m_cupButton;
+    QPushButton *m_creditsButton;
+    QPushButton *m_docButton;
+    QPushButton *m_quitButton;
     QPixmap *bnpm;
     /** Pointers to the various types of objects the menu object can start */
     // Editor for creating the bots

@@ -84,42 +84,42 @@ DroidBattles::DroidBattles()
     connect(quitAction, &QAction::triggered, this, &DroidBattles::quit);
     addAction(quitAction);
 
-    menubuttons[0] =  new PixButton ("Bot Creator (F2)", this);
-    menubuttons[1] =  new PixButton ("Config editor", this);
-    menubuttons[2] =  new PixButton ("Normal battle", this);
-    menubuttons[3] =  new PixButton ("Deathmatch battle", this);
-    menubuttons[4] =  new PixButton ("Survival battle", this);
-    menubuttons[5] =  new PixButton ("League tournament", this);
-    menubuttons[6] =  new PixButton ("KOTH tournament", this);
-    menubuttons[7] =  new PixButton ("Cup tournament", this);
-    menubuttons[8] =  new PixButton ("About DroidBattles", this);
-    menubuttons[9] =  new PixButton ("Documentation (F1)", this);
-    menubuttons[10] = new PixButton ("Quit (F10)", this);
+    m_createButton =  new PixButton ("Bot Creator (F2)", this);
+    m_configButton =  new PixButton ("Config editor", this);
+    m_skirmishButton =  new PixButton ("Normal battle", this);
+    m_deathmatchButton =  new PixButton ("Deathmatch battle", this);
+    m_survivalButton =  new PixButton ("Survival battle", this);
+    m_leagueButton =  new PixButton ("League tournament", this);
+    m_kothButton =  new PixButton ("KOTH tournament", this);
+    m_cupButton =  new PixButton ("Cup tournament", this);
+    m_creditsButton =  new PixButton ("About DroidBattles", this);
+    m_docButton =  new PixButton ("Documentation (F1)", this);
+    m_quitButton = new PixButton ("Quit (F10)", this);
 
-    menubuttons[0]->setGeometry (90,20,320,30);
-    menubuttons[1]->setGeometry (70,60,360,30);
-    menubuttons[2]->setGeometry (60,100,180,30);
-    menubuttons[3]->setGeometry (60,140,180,30);
-    menubuttons[4]->setGeometry (60,180,180,30);
-    menubuttons[5]->setGeometry (260,100,180,30);
-    menubuttons[6]->setGeometry (260,140,180,30);
-    menubuttons[7]->setGeometry (260,180,180,30);
-    menubuttons[8]->setGeometry (70,220,360,30);
-    menubuttons[9]->setGeometry (90,260,320,30);
-    menubuttons[10]->setGeometry (120,300,260,30);
+    m_createButton->setGeometry(90,20,320,30);
+    m_configButton->setGeometry(70,60,360,30);
+    m_skirmishButton->setGeometry(60,100,180,30);
+    m_deathmatchButton->setGeometry(60,140,180,30);
+    m_survivalButton->setGeometry (60,180,180,30);
+    m_leagueButton->setGeometry (260,100,180,30);
+    m_kothButton->setGeometry (260,140,180,30);
+    m_cupButton->setGeometry (260,180,180,30);
+    m_creditsButton->setGeometry (70,220,360,30);
+    m_docButton->setGeometry (90,260,320,30);
+    m_quitButton->setGeometry (120,300,260,30);
 
     //Connect the buttons
-    connect(menubuttons[0], &PixButton::clicked, this, &DroidBattles::createb);
-    connect(menubuttons[1], &PixButton::clicked, this, &DroidBattles::editconf);
-    connect(menubuttons[2], &PixButton::clicked, this, &DroidBattles::skirmish);
-    connect(menubuttons[3], &PixButton::clicked, this, &DroidBattles::death);
-    connect(menubuttons[4], &PixButton::clicked, this, &DroidBattles::survival);
-    connect(menubuttons[5], &PixButton::clicked, this, &DroidBattles::tournament);
-    connect(menubuttons[6], &PixButton::clicked, this, &DroidBattles::koth);
-    connect(menubuttons[7], &PixButton::clicked, this, &DroidBattles::cup);
-    connect(menubuttons[8], &PixButton::clicked, this, &DroidBattles::about);
-    connect(menubuttons[9], &PixButton::clicked, this, &DroidBattles::showdoc);
-    connect(menubuttons[10], &PixButton::clicked, this, &DroidBattles::quit);
+    connect(m_createButton, &PixButton::clicked, this, &DroidBattles::createb);
+    connect(m_configButton, &PixButton::clicked, this, &DroidBattles::editconf);
+    connect(m_skirmishButton, &PixButton::clicked, this, &DroidBattles::skirmish);
+    connect(m_deathmatchButton, &PixButton::clicked, this, &DroidBattles::death);
+    connect(m_survivalButton, &PixButton::clicked, this, &DroidBattles::survival);
+    connect(m_leagueButton, &PixButton::clicked, this, &DroidBattles::tournament);
+    connect(m_kothButton, &PixButton::clicked, this, &DroidBattles::koth);
+    connect(m_cupButton, &PixButton::clicked, this, &DroidBattles::cup);
+    connect(m_creditsButton, &PixButton::clicked, this, &DroidBattles::about);
+    connect(m_docButton, &PixButton::clicked, this, &DroidBattles::showdoc);
+    connect(m_quitButton, &PixButton::clicked, this, &DroidBattles::quit);
 }
 
 /**
@@ -989,30 +989,30 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
 
 void DroidBattles::enabletourneys()
 {
-    menubuttons[5]->setEnabled (true);
-    menubuttons[6]->setEnabled (true);
-    menubuttons[7]->setEnabled (true);
+    m_leagueButton->setEnabled(true);
+    m_kothButton->setEnabled(true);
+    m_cupButton->setEnabled(true);
 }
 
 void DroidBattles::disabletourneys()
 {
-    menubuttons[5]->setEnabled (false);
-    menubuttons[6]->setEnabled (false);
-    menubuttons[7]->setEnabled (false);
+    m_leagueButton->setEnabled(false);
+    m_kothButton->setEnabled(false);
+    m_cupButton->setEnabled(false);
 }
 
 void DroidBattles::enablebattles()
 {
-    menubuttons[2]->setEnabled (true);
-    menubuttons[3]->setEnabled (true);
-    menubuttons[4]->setEnabled (true);
+    m_skirmishButton->setEnabled(true);
+    m_deathmatchButton->setEnabled(true);
+    m_survivalButton->setEnabled(true);
 }
 
 void DroidBattles::disablebattles()
 {
-    menubuttons[2]->setEnabled (false);
-    menubuttons[3]->setEnabled (false);
-    menubuttons[4]->setEnabled (false);
+    m_skirmishButton->setEnabled(false);
+    m_deathmatchButton->setEnabled(false);
+    m_survivalButton->setEnabled(false);
 }
 
 void DroidBattles::onConfHelpRequested()

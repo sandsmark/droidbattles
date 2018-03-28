@@ -60,7 +60,7 @@ RadarMissile::RadarMissile (int X,int Y,int dir,int bootm,int stm,int mnum,
 RadarMissile::~RadarMissile()
 {
 //	delete graphics;
-    if (dbgWindow) delete dbgWindow;
+    delete dbgWindow;
     if (useUI) delete erasegfx;
     delete devices[0];
     delete devices[1];
@@ -186,7 +186,7 @@ int RadarMissile::returnRadar()
 
 void RadarMissile::createDbgWindow (int id, QPlainTextEdit *e, int* l, int* m)
 {
-    if (dbgWindow) delete dbgWindow;
+    delete dbgWindow;
     dbgWindow = new DebugWindow (e,&l[0],&m[0]);
     dbgWindow->resize (300,405);
     dbgWindow->show();

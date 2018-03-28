@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MAIN_CPP
-#define MAIN_CPP
-
 #include <qapplication.h>
 #include <qfont.h>
 
@@ -256,5 +253,3 @@ int main(int argc, char *argv[])
         }
     }
 }
-
-#endif

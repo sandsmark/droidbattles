@@ -78,12 +78,12 @@ int Beam::objectHit(int type, int strength)
 	* Returns 2 if it's time for collision
 	* -1 else
 	*/
-int Beam::type()
+ScreenObject::ObjectType Beam::type()
 {
     if (effect <= 1) {
-        return 2;
+        return ScreenObject::Collidable;
     } else {
-        return -1;
+        return ScreenObject::NonCollidable;
     }
 }
 

@@ -73,7 +73,7 @@ void Explosion::eraseObject (QPixmap *buffer)
 /**
 	* Returns : object that's not collidable
 	*/
-int Explosion::type()
+ScreenObject::ObjectType Explosion::type()
 {
-    return noncollobject;
+    return ScreenObject::NonCollidable;
 }

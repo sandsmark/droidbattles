@@ -33,6 +33,12 @@ class ScreenObject : public QObject
     Q_OBJECT
 
 public:
+    enum ObjectType {
+        NonCollidable = -1,
+        Destroyed = 0,
+        BotObject = 1,
+        Collidable = 2
+    };
 
     ScreenObject();
     virtual ~ScreenObject();
@@ -56,7 +62,7 @@ public:
     virtual void objectScanned (int intensity,int dir);
     virtual int collisionType();
     virtual int collisionStrength();
-    virtual int type();
+    virtual ObjectType type();
     virtual int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2);
     virtual int writeToDevice (int dev, int action, int value);
     virtual int size();

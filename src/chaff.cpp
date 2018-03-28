@@ -100,9 +100,9 @@ int Chaff::execute()
 /**
 	* Return "exists" id that tells he's a non-colliding object
 	*/
-int Chaff::type()
+ScreenObject::ObjectType Chaff::type()
 {
-    return noncollobject;
+    return ScreenObject::NonCollidable;
 }
 
 /**

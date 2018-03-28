@@ -120,9 +120,9 @@ void ScreenObject::addScreenObject (int /*X*/, int /*Y*/, int /*dir*/, int /*typ
 {
 }
 
-int ScreenObject::type()
+ScreenObject::ObjectType ScreenObject::type()
 {
-    return 0;
+    return ScreenObject::Destroyed;
 }
 
 int ScreenObject::writetoBattleArea (int /*bot*/, int /*dev*/, int /*choice*/, int /*arg1*/, int /*arg2*/)

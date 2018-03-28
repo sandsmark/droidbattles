@@ -74,9 +74,9 @@ int RadarMissile::objectHit (int /*type*/, int /*strength*/)
     return objhitdestroyed;
 }
 
-int RadarMissile::type()
+ScreenObject::ObjectType RadarMissile::type()
 {
-    return 2;
+    return ScreenObject::Collidable;
 }
 
 /**

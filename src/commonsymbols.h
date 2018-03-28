@@ -90,8 +90,6 @@ const int minstartdistance = 2000;
 
 const double toradians = pi/512;
 const double tobotgrades = 512/pi;
-const int doesexist = 1;
-const int doesnotexist = 0;
 const int debugbot = 7;
 
 const int NUMDEV = 20;
@@ -106,7 +104,5 @@ const int objhitdestroyed = 1;
 const int objhitnotdestroyed = 0;
 const int destroyself = -1;
 const int seenbyradar = 1;
-
-const int noncollobject = -1;
 
 #endif

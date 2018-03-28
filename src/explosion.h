@@ -36,7 +36,7 @@ public:
     int execute();
     void eraseObject (QPixmap *buffer);
     void drawObject (QPixmap *buffer, int opt);
-    int type();
+    ObjectType type();
 private:
     int cycle;
     BattleArea *ourarea;

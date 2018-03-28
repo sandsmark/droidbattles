@@ -69,9 +69,9 @@ int Rocket::objectHit (int /*type*/, int /*strength*/)
 /**
 	* Non colliding object...
 	*/
-int Rocket::type()
+ScreenObject::ObjectType Rocket::type()
 {
-    return noncollobject;
+    return ScreenObject::Collidable;
 }
 
 /**

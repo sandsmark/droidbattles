@@ -67,12 +67,13 @@ int Mine::collisionType()
 	* If time < 100 cycles mine is "noncolliding"
 	* ie doesn't explode
 	*/
-int Mine::type()
+ScreenObject::ObjectType Mine::type()
 {
-    if (time1 < 100)
-        return noncollobject;
-    else
-        return 2;
+    if (time1 < 100) {
+        return ScreenObject::NonCollidable;
+    } else {
+        return ScreenObject::Collidable;
+    }
 }
 
 int Mine::objectHit (int /*type*/,int /*strength*/)

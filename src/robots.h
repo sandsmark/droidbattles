@@ -79,7 +79,7 @@ public:
                        void *arg3=0) override;
     int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2) override;
     int writeToDevice (int dev, int action, int value) override;
-    int type() override;
+    ObjectType type() override;
     int collisionType() override;
     int collisionStrength() override;
     int size() override;

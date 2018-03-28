@@ -34,7 +34,7 @@ public:
 
     Mine (int ,int,TextmodeBattleArea &,int owner, bool ui = true);
     ~Mine();
-    int type();
+    ObjectType type();
     int execute();
     int collisionType();
     int collisionStrength();

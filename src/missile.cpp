@@ -84,9 +84,9 @@ void Missile::drawObject (QPixmap *buffer,int opt)
     oldY = int (Ypos);
 }
 
-int Missile::type()
+ScreenObject::ObjectType Missile::type()
 {
-    return 2;
+    return ScreenObject::Collidable;
 }
 
 int Missile::collisionType()

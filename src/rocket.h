@@ -36,7 +36,7 @@ public:
     Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
             int owner, bool ui=true);
     int objectHit (int type,int strength);
-    int type();
+    ObjectType type();
     void eraseObject (QPixmap *buffer);
     void drawObject (QPixmap *buffer, int opt);
     int execute();

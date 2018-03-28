@@ -36,7 +36,7 @@ public:
     ~Chaff();
     void eraseObject (QPixmap *buffer);
     void drawObject (QPixmap *buffer, int opt);
-    int type();
+    ObjectType type();
     int execute();
     int returnRadar();
 

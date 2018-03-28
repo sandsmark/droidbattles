@@ -402,9 +402,9 @@ void Robots::addScreenObject (int X,int Y,int dir,int type, int arg1,
     ourarea->addscrobject (mynum,X,Y,dir,type,arg1,arg2,arg3);
 }
 
-int Robots::type()
+ScreenObject::ObjectType Robots::type()
 {
-    return 1;
+    return ScreenObject::BotObject;
 }
 
 /**

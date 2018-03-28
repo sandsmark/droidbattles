@@ -219,8 +219,8 @@ int TextmodeBattleArea::execround()
                         dist = int (sqrt (dx*dx + dy*dy));     //
 
                         if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))
-                                && objects[x]->type() ==1 && objects[x2]->type()
-                                ==1)   //If they're bigger than their distance, move them apart
+                                && objects[x]->type() == ScreenObject::BotObject && objects[x2]->type()
+                                == ScreenObject::BotObject)   //If they're bigger than their distance, move them apart
                         {
                             double angl = atan2 (dy,dx);
                             int dst = (objects[x]->size() <<6) +
@@ -240,7 +240,7 @@ int TextmodeBattleArea::execround()
                                 objects[x2] = new ScreenObject();
                                 break;
                             case 1 :
-                                if (x < 8 && objects[x2]->type() == 1)
+                                if (x < 8 && objects[x2]->type() == ScreenObject::BotObject)
                                 {
                                     fightswon[x2]++;
                                     delete objects[x2];
@@ -266,7 +266,7 @@ int TextmodeBattleArea::execround()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                if (objects[x2]->type() == 1)
+                                if (objects[x2]->type() == ScreenObject::BotObject)
                                 {
                                     if (objects[x]->owner() < 8 &&
                                             x2 != objects[x]->owner())
@@ -298,7 +298,7 @@ int TextmodeBattleArea::execround()
                                 continue;
                                 break;
                             case 1 :  //If it's a survival battle
-                                if (x < 8 && objects[x]->type() == 1)
+                                if (x < 8 && objects[x]->type() == ScreenObject::BotObject)
                                 {
                                     fightswon[x]++;
                                     delete objects[x];
@@ -327,7 +327,7 @@ int TextmodeBattleArea::execround()
                                 }
                                 break;
                             case 2 :  //If it's a deathmatch battle
-                                if (objects[x]->type() == 1)
+                                if (objects[x]->type() == ScreenObject::BotObject)
                                 {
                                     if (x2owner < 8 && x != x2owner)
                                         fightswon[x2owner]++;
@@ -374,7 +374,7 @@ int TextmodeBattleArea::execround()
         alive[3] = 0;
         for (x=0; x<maxbots; x++)     //Mark teams with bots left
         {
-            if (objects[x]->type() == doesexist)
+            if (objects[x]->type() == ScreenObject::BotObject)
             {
                 int yy;
                 yy = objects[x]->team();
@@ -437,7 +437,7 @@ int TextmodeBattleArea::execround()
     {
         for (x=0; x<maxbots; x++)
         {
-            if (objects[x]->type() == doesexist)
+            if (objects[x]->type() == ScreenObject::BotObject)
             {
                 numofbots++;                       //Count the number of bots alive
                 botnum = x;
@@ -549,7 +549,7 @@ void TextmodeBattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
     int x;
     for (x=0; x<maxobjects; x++)
     {
-        if (objects[x]->type() == doesnotexist)
+        if (objects[x]->type() == ScreenObject::Destroyed)
         {
             delete objects[x];
             Ram *temp3 = (Ram *) arg3;
@@ -625,7 +625,7 @@ int TextmodeBattleArea::devio (int bot,int dev,int choice,int arg1,int arg2)
         int x;
         for (x=0; x<maxbots; x++)
         {
-            if (objects[x]->type() == doesexist && objects[x]->team()
+            if (objects[x]->type() == ScreenObject::BotObject && objects[x]->team()
                     == bot && (arg2 == 255 || objects[x]->number() == arg2))
                 objects[x]->writeRadio (arg1);
         }
@@ -696,7 +696,7 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
                 objects[z] = new ScreenObject();
                 break;
             case 1 :
-                if (z < 8 && objects[z]->type() == 1)
+                if (z < 8 && objects[z]->type() == ScreenObject::BotObject)
                 {
                     fightswon[z]++;
                     delete objects[z];
@@ -723,7 +723,7 @@ void TextmodeBattleArea::explosions (int x,int y,int rad,int strength,int whicho
             case 2 :
                 int x = whichobject;
                 int x2 = z;
-                if (objects[x2]->type() == 1)
+                if (objects[x2]->type() == ScreenObject::BotObject)
                 {
                     if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
                         fightswon[objects[x]->owner() ]++;

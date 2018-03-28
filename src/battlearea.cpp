@@ -230,7 +230,7 @@ void BattleArea::startonebattle (int y)
             QMessageBox::critical(this, "Internal error", "Internal error.\nBot object not created!", QMessageBox::Ok);
             return;
         }
-        if (objects[debugbot]->type() != 1) {
+        if (objects[debugbot]->type() != ScreenObject::BotObject) {
             QMessageBox::critical(this, "Internal error", "Internal error.\nBot object wrong type!", QMessageBox::Ok);
             return;
         }
@@ -362,7 +362,7 @@ void BattleArea::execute()
             int xxx;
             for (xxx=254; xxx > 128; xxx--)
             {
-                if (objects[xxx]->type() == 0)
+                if (objects[xxx]->type() == ScreenObject::Destroyed)
                 {
                     delete objects[xxx];
                     objects[xxx] = new Explosion ( (xx1+xx2) /2, (yy1+yy2) /2,*this);
@@ -397,8 +397,8 @@ void BattleArea::execute()
             dist = int (sqrt (dx*dx + dy*dy));     //
 
             if (dist < ( (objects[x]->size() <<6) + (objects[x2]->size() <<6))
-                    && objects[x]->type() ==1 && objects[x2]->type()
-                    ==1)   //If they're bigger than their distance, move them apart
+                    && objects[x]->type() == ScreenObject::BotObject && objects[x2]->type()
+                    == ScreenObject::BotObject)   //If they're bigger than their distance, move them apart
             {
                 double angl = atan2 (dy,dx);
                 int dst = (objects[x]->size() <<6) +
@@ -420,7 +420,7 @@ void BattleArea::execute()
                     break;
                 case 1 :
                     objects[x2]->eraseObject (&m_pixmap);
-                    if (x < 8 && objects[x2]->type() == 1)
+                    if (x < 8 && objects[x2]->type() == ScreenObject::BotObject)
                     {
                         fightswon[x2]++;
                         delete objects[x2];
@@ -459,7 +459,7 @@ void BattleArea::execute()
                     break;
                 case 2 :  //If it's a deathmatch battle
                     objects[x2]->eraseObject (&m_pixmap);
-                    if (objects[x2]->type() == 1)
+                    if (objects[x2]->type() == ScreenObject::BotObject)
                     {
                         if (objects[x]->owner() < 8 &&
                                 x2 != objects[x]->owner())
@@ -505,7 +505,7 @@ void BattleArea::execute()
                     break;
                 case 1 :  //If it's a survival battle
                     objects[x]->eraseObject (&m_pixmap);
-                    if (x < 8 && objects[x]->type() == 1)
+                    if (x < 8 && objects[x]->type() == ScreenObject::BotObject)
                     {
                         fightswon[x]++;
                         delete objects[x];
@@ -547,7 +547,7 @@ void BattleArea::execute()
                     break;
                 case 2 :  //If it's a deathmatch battle
                     objects[x]->eraseObject (&m_pixmap);
-                    if (objects[x]->type() == 1)
+                    if (objects[x]->type() == ScreenObject::BotObject)
                     {
                         if (x2owner < 8 && x != x2owner)
                             fightswon[x2owner]++;
@@ -598,7 +598,7 @@ void BattleArea::execute()
         alive[3] = 0;
         for (x=0; x<maxbots; x++)     //Mark teams with bots left
         {
-            if (objects[x]->type() == doesexist)
+            if (objects[x]->type() == ScreenObject::BotObject)
             {
                 int yy;
                 yy = objects[x]->team();
@@ -663,7 +663,7 @@ void BattleArea::execute()
     {
         for (x=0; x<maxbots; x++)
         {
-            if (objects[x]->type() == doesexist)
+            if (objects[x]->type() == ScreenObject::BotObject)
             {
                 numofbots++;                       //Count the number of bots alive
                 botnum = x;
@@ -775,7 +775,7 @@ void BattleArea::execute()
 
 
     if (m_debugEnabled)   //If this is a "quick battle", update register content info and such
-        if (objects[debugbot]->type() == 1) // for robots only
+        if (objects[debugbot]->type() == ScreenObject::BotObject) // for robots only
         {
             QVector<DebugContents> *dc = ( (Robots*) objects[debugbot])->allDebugContents();
             if (dc->size() != dbgwindows.size()) {
@@ -820,7 +820,7 @@ void BattleArea::addscrobject (int owner,int X,int Y,int dir,int type,
     int x;
     for (x=0; x<maxobjects; x++)
     {
-        if (objects[x]->type() == doesnotexist)
+        if (objects[x]->type() == ScreenObject::Destroyed)
         {
             delete objects[x];
             Ram *temp3 = (Ram *) arg3;
@@ -966,7 +966,7 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
                 objects[z] = new ScreenObject();
                 break;
             case 1 :
-                if (z < 8 && objects[z]->type() == 1)
+                if (z < 8 && objects[z]->type() == ScreenObject::BotObject)
                 {
                     fightswon[z]++;
                     delete objects[z];
@@ -1002,7 +1002,7 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
                 int x = whichobject;
                 int x2 = z;
                 objects[x2]->eraseObject (&m_pixmap);
-                if (objects[x2]->type() == 1)
+                if (objects[x2]->type() == ScreenObject::BotObject)
                 {
                     if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
                         fightswon[objects[x]->owner() ]++;
@@ -1033,7 +1033,7 @@ void BattleArea::explosions (int x,int y,int rad,int strength,int whichobject)
     int xxx;
     for (xxx=254; xxx > 128; xxx--)
     {
-        if (objects[xxx]->type() == doesnotexist)
+        if (objects[xxx]->type() == ScreenObject::Destroyed)
         {
             delete objects[xxx];
             objects[xxx] = new Explosion (x,y,*this);

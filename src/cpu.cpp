@@ -30,12 +30,12 @@ CPU::~CPU()
 {
 }
 
-void CPU::callobout(unsigned char one, unsigned short two)
+void CPU::callobout(uint8_t one, uint16_t two)
 {
     ourbot->writeDevicePort(one, two);
 }
 
-int CPU::callobin(unsigned char one)
+int CPU::callobin(uint8_t one)
 {
     return ourbot->readDevicePort(one);
 }
@@ -91,7 +91,7 @@ int CPU::readfile(int start, int length, int adress)
     return ret;
 }
 
-int CPU::readPort(unsigned char port)
+int CPU::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

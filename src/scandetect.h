@@ -32,7 +32,7 @@ class ScanDetect : public Device
 public:
     ScanDetect(ScreenObject &object);
     ~ScanDetect();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void execute();
     int type();
     void doSpecial(int, int);

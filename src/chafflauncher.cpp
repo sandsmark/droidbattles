@@ -63,7 +63,7 @@ void ChaffLauncher::execute()
 /**
 	* Returns number of chaffs left to CPU instruktion IN
 	*/
-int ChaffLauncher::readPort(unsigned char port)
+int ChaffLauncher::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

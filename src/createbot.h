@@ -86,7 +86,7 @@ private:
     bool loadFile(const QString &filename);
     bool assemble();
 
-    unsigned int RAMAMOUNT;
+    uint32_t RAMAMOUNT;
     QMessageBox *ermsg;
     MyQMultiLineEdit *edittxt;
     QScrollArea *scroller;

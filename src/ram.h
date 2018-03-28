@@ -18,6 +18,8 @@
 #ifndef RAM_H
 #define RAM_H
 
+#include <cstdint>
+
 /**
 	* The memmodule for bots and others, mainly used by CPU devices
 	* contains functions for reading/writing to memory
@@ -40,26 +42,25 @@ public:
     };
 
     Ram();
-    Ram(int amount, const unsigned char *buf);
+    Ram(int amount, const uint8_t *buf);
     ~Ram();
-    unsigned char getbyte(int adress);
-    char getibyte(int adress);
-    unsigned short getword(int adress);
-    short getiword(int adress);
-    void setbyte(int adress, unsigned char value);
-    void setibyte(int adress, char value);
-    void setword(int adress, unsigned short value);
-    void setiword(int adress, short value);
+    uint8_t getbyte(int adress);
+    int8_t getibyte(int adress);
+    uint16_t getword(int adress);
+    int16_t getiword(int adress);
+    void setbyte(int adress, uint8_t value);
+    void setibyte(int adress, int8_t value);
+    void setword(int adress, uint16_t value);
+    void setiword(int adress, int16_t value);
     int returnsize();
     int getowners();
     void addowner();
     void removeowner();
 
 private:
-    unsigned char *mem;
-    char *cret;
-    short *sret;
-    unsigned short RAMamount;
+    uint8_t *mem;
+    int16_t *sret;
+    uint16_t RAMamount;
     int numowners;
 };
 

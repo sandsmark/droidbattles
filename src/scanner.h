@@ -33,7 +33,7 @@ public:
     Scanner(ScreenObject &object, int arg1, int offset);
     ~Scanner();
     void execute();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void erase(QPainter *painter);
     void draw(QPainter *painter);
 

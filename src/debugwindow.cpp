@@ -231,9 +231,9 @@ void DebugWindow::updatedata(struct DebugContents contents)
 }
 
 /**
-	* Adds an integer to a string
-	*/
-void DebugWindow::addint(QString &str, unsigned short integ)
+    * Adds an integer to a string
+    */
+void DebugWindow::addint(QString &str, uint16_t integ)
 {
     bool ready = false;
     QString temp;

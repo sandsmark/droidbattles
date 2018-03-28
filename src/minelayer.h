@@ -31,7 +31,7 @@ class MineLayer : public Device
 public:
     MineLayer(ScreenObject &, int);
     ~MineLayer();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void execute();
 
 private:

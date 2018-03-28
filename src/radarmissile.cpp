@@ -170,7 +170,7 @@ int RadarMissile::writetoBattleArea(int bot, int dev, int choice, int arg1, int 
 /**
 	* Get value from device port
 	*/
-int RadarMissile::readDevicePort(unsigned char port)
+int RadarMissile::readDevicePort(uint8_t port)
 {
     int tempport = port % 4;
     int tempdevice = int(port / 4);
@@ -187,7 +187,7 @@ int RadarMissile::readDevicePort(unsigned char port)
 /**
 	* Put value in device port
 	*/
-void RadarMissile::writeDevicePort(unsigned char port, unsigned short value)
+void RadarMissile::writeDevicePort(uint8_t port, uint16_t value)
 {
     int tempport = port % 4;
     int tempdevice = int(port / 4);

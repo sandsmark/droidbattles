@@ -99,7 +99,7 @@ void Engine::execute()
 /**
 	* Returns to CPU instruction IN
 	*/
-int Engine::readPort(unsigned char port)
+int Engine::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

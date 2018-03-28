@@ -46,7 +46,7 @@ void ScanDetect::execute()
     }
 }
 
-int ScanDetect::readPort(unsigned char port)
+int ScanDetect::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

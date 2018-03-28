@@ -119,7 +119,7 @@ int Armor::specialValue()
 /**
 	* Returns value to CPU instruktion IN
 	*/
-int Armor::readPort(unsigned char port)
+int Armor::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

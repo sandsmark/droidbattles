@@ -40,7 +40,7 @@ public:
     DebugWindow(QPlainTextEdit *Medit, int *dbl, int *dbm);
     ~DebugWindow();
     void updatedata(struct DebugContents);
-    void addint(QString &, unsigned short);
+    void addint(QString &, uint16_t);
 
 private slots:
     void distsignal();

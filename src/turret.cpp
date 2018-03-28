@@ -38,7 +38,7 @@ Turret::~Turret()
 {
 }
 
-int Turret::readPort(unsigned char port)
+int Turret::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

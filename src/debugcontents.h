@@ -18,28 +18,30 @@
 #ifndef DEBUGCONTENTS_H
 #define DEBUGCONTENTS_H
 
+#include <cstdint>
+
 //Structure constructed to contain info about a CPU in a special instant
 //(For the debug window in a "quick battle")
 
 struct DebugContents
 {
 
-    unsigned short flags;
+    uint16_t flags;
 
-    unsigned short ax;
-    unsigned short bx;
-    unsigned short cx;
-    unsigned short dx;
-    unsigned short sp;
-    unsigned short si;
-    unsigned short di;
-    unsigned short bp;
-    unsigned short ip;
+    uint16_t ax;
+    uint16_t bx;
+    uint16_t cx;
+    uint16_t dx;
+    uint16_t sp;
+    uint16_t si;
+    uint16_t di;
+    uint16_t bp;
+    uint16_t ip;
 
-    unsigned char ipcontents[9];
-    unsigned char spcontents[9];
-    unsigned char sicontents[9];
-    unsigned char dicontents[9];
+    uint8_t ipcontents[9];
+    uint8_t spcontents[9];
+    uint8_t sicontents[9];
+    uint8_t dicontents[9];
 
     int execmem[30];
 };

@@ -49,25 +49,25 @@ void TextModeFileManip::assemble(char *filename)
     int i;
 
     //Memory where the file contents are stored during assemble
-    unsigned char mem[65536 + 256];
+    uint8_t mem[65536 + 256];
     for (i = 0; i < 65536; i++) {
         mem[i] = 0;
     }
 
     //comb/QString array where forward referencing jumps are remembered
     QString jumpnames[512];
-    unsigned short jvalues[512];
+    uint16_t jvalues[512];
     bool existj[512];
     //comb/QString array where label locations, consts and vars are remembered
     QString names[2048];
-    unsigned short nvalues[2048];
+    uint16_t nvalues[2048];
     bool existn[2048];
     //unresolved symbols go here (in case of later declaration)
     QString unresn[4096];
-    unsigned short unrespos[4096];
+    uint16_t unrespos[4096];
     bool unresexist[4096];
-    short unresbits[4096];
-    short unresline[4096];
+    int16_t unresbits[4096];
+    int16_t unresline[4096];
     int numsortdec[NUMDEV * 2 + 1];
     int RAMAMOUNT = 0;
 
@@ -706,13 +706,13 @@ void TextModeFileManip::assemble(char *filename)
     QString token[16];
     QString curmnem;
     bool tunres[16];
-    short unresnum[16];
+    int16_t unresnum[16];
     for (i = 0; i < 15; i++) {
         token[i] = "      ";
     }
     bool exist[16];
     int type[16];
-    unsigned char value[16][2];
+    uint8_t value[16][2];
     int tpos;
     int bits;
 
@@ -1510,11 +1510,11 @@ void TextModeFileManip::checkConfig(char *filename)
         return;
     }
     QDataStream s2(&b);
-    unsigned int lng;
+    uint32_t lng;
     int cost = 0, numdev = 0;
     char *tc;
     s2.readBytes(tc, lng);
-    unsigned char *my = (unsigned char *)&tc[0];
+    uint8_t *my = (uint8_t *)&tc[0];
     if (my[1] > config.maxram) { //Read in all devices
         qDebug() << "ERROR!, Max amount of ram" << endl;
     }

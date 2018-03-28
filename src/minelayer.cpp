@@ -52,7 +52,7 @@ void MineLayer::execute()
 /**
 	* Returns mines left to in instruction
 	*/
-int MineLayer::readPort(unsigned char /*port*/)
+int MineLayer::readPort(uint8_t /*port*/)
 {
     return minesleft;
 }

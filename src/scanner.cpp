@@ -195,7 +195,7 @@ void Scanner::draw(QPainter *painter)
     }
 }
 
-int Scanner::readPort(unsigned char port)
+int Scanner::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

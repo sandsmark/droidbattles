@@ -35,26 +35,26 @@ public:
     CPU();
     CPU(Ram &ramdev, ScreenObject &object);
     virtual ~CPU();
-    virtual void callobout(unsigned char one, unsigned short two);
-    virtual int callobin(unsigned char one);
+    virtual void callobout(uint8_t one, uint16_t two);
+    virtual int callobin(uint8_t one);
     virtual void sendmsg(char *msg);
     virtual int writefile(int start, int length, int adress);
     virtual int readfile(int start, int length, int adress);
     virtual void execinstr();
-    virtual int readPort(unsigned char port);
+    virtual int readPort(uint8_t port);
 
 protected:
     Ram *mem;
-    unsigned short *registers;
-    unsigned char *bit8reg;
-    signed short *iregisters;
-    signed char *ibit8reg;
+    uint16_t *registers;
+    uint8_t *bit8reg;
+    int16_t *iregisters;
+    int8_t *ibit8reg;
     int speed;
-    char cyclesleft;
+    int8_t cyclesleft;
     int bootmem;
-    unsigned short stackmem;
+    uint16_t stackmem;
     //Table over latencies for different opcodes
-    char instrlatency[256];
+    uint8_t instrlatency[256];
     //List of adresses executed last cycle
     int lastexecmem[30];
 };

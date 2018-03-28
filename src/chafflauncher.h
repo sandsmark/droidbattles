@@ -33,7 +33,7 @@ public:
     ChaffLauncher(ScreenObject &object, int level);
     ~ChaffLauncher();
     void execute();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
 
 private:
     int chaffleft;

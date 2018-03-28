@@ -76,7 +76,7 @@ public:
                 int op);
     ~Instruction();
     bool checkmatch(QString &mnem, int arg1t, int arg2t, int bit) const;
-    unsigned char getopcode() const;
+    uint8_t getopcode() const;
 
     int getarg1bits() const;
     int getarg2bits() const;
@@ -92,7 +92,7 @@ private:
     int arg1bits;
     int arg2bits;
     int bits;
-    unsigned char opcode;
+    uint8_t opcode;
 };
 
 #endif

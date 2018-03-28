@@ -30,10 +30,10 @@ RobCpu::RobCpu(Ram &ramdev, ScreenObject &object, int arg1, int arg2, int arg3,
     ourlevel = arg1;
     mem = &ramdev;
     ourbot = &object;
-    registers = new unsigned short[256];
-    bit8reg = (unsigned char *)&registers[0];
-    iregisters = (signed short *)&registers[0];
-    ibit8reg = (signed char *)&registers[0];
+    registers = new uint16_t[256];
+    bit8reg = (uint8_t *)&registers[0];
+    iregisters = (int16_t *)&registers[0];
+    ibit8reg = (int8_t *)&registers[0];
     bootmem = arg2 + arg3 * 256;
     stackmem = arg4 + arg5 * 256;
     registers[eip] = bootmem;
@@ -381,11 +381,11 @@ void RobCpu::execinstr()
     int x;
     int temp;
     int test, tt, argum;
-    unsigned int intpart, restpart, result;
-    signed int iintpart, irestpart, iresult;
-    unsigned short rtemp;
-    char status;
-    unsigned char bit;
+    uint32_t intpart, restpart, result;
+    int32_t iintpart, irestpart, iresult;
+    uint16_t rtemp;
+    uint8_t status;
+    uint8_t bit;
     char message[20];
     int execmementry = 0;
     for (x = 0; x < 30; x++) {
@@ -393,7 +393,7 @@ void RobCpu::execinstr()
     }
 
     while (cyclesleft > 0) {
-        unsigned char instr = mem->getbyte(registers[eip]); //Get the opcode
+        uint8_t instr = mem->getbyte(registers[eip]); //Get the opcode
         if (execmementry < 30) {
             lastexecmem[execmementry++] = registers[eip];
         }
@@ -1047,7 +1047,7 @@ void RobCpu::execinstr()
             //CMPSB
         case 0x3B:
             status = 0;
-            for (unsigned char times = bit8reg[cl]; times > 0; times--) {
+            for (uint8_t times = bit8reg[cl]; times > 0; times--) {
                 test1 = mem->getbyte(registers[di] + times);
                 test2 = mem->getbyte(registers[si] + times);
                 if (test1 != test2) {
@@ -2495,28 +2495,28 @@ void RobCpu::execinstr()
             //SINFUNC
             // AX = AX + BX * SIN DX
         case 0xE6:
-            registers[ax] = (unsigned short)(registers[ax] + (registers[bx] * (sin(registers[dx] / 512.0 * 3.1416))));
+            registers[ax] = (uint16_t)(registers[ax] + (registers[bx] * (sin(registers[dx] / 512.0 * 3.1416))));
             registers[eip]++;
             break;
 
             //COSFUNC
             // AX = AX + BX * COS DX
         case 0xE7:
-            registers[ax] = (unsigned short)(registers[ax] + (registers[bx] * (cos(registers[dx] / 512.0 * 3.1416))));
+            registers[ax] = (uint16_t)(registers[ax] + (registers[bx] * (cos(registers[dx] / 512.0 * 3.1416))));
             registers[eip]++;
             break;
 
             //SIN
             //AX = SIN AX
         case 0xE8:
-            iregisters[ax] = short(sin(registers[ax] / 512.0 * 3.1416) * 32768);
+            iregisters[ax] = int16_t(sin(registers[ax] / 512.0 * 3.1416) * 32768);
             registers[eip]++;
             break;
 
             //COS
             //AX = COS AX
         case 0xE9:
-            iregisters[ax] = short(cos(registers[ax] / 512.0 * 3.1416) * 32768);
+            iregisters[ax] = int16_t(cos(registers[ax] / 512.0 * 3.1416) * 32768);
             registers[eip]++;
             break;
 

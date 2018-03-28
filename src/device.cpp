@@ -74,7 +74,7 @@ Device::~Device()
 	* Take in a value in the port (after an out instruktion from the CPU
 	* And place it in the stack
 	*/
-void Device::addInputPort(unsigned char port, unsigned short value)
+void Device::addInputPort(uint8_t port, uint16_t value)
 {
     for (int count = 0; count < 4; count++) {
         if (!stacktaken[port][count]) {
@@ -89,7 +89,7 @@ void Device::execute()
 {
 }
 
-int Device::readPort(unsigned char /*port*/)
+int Device::readPort(uint8_t /*port*/)
 {
     return 0;
 }

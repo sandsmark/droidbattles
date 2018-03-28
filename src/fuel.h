@@ -31,7 +31,7 @@ class Fuel : public Device
 public:
     Fuel(ScreenObject &, int);
     ~Fuel();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void execute();
 
 private:

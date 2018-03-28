@@ -32,7 +32,7 @@ class Communication : public Device
 public:
     Communication(ScreenObject &object);
     ~Communication();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void execute();
     void doSpecial(int x, int y);
 

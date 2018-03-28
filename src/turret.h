@@ -30,7 +30,7 @@ class Turret : public Device
 public:
     Turret(ScreenObject &, int, int);
     ~Turret();
-    int readPort(unsigned char);
+    int readPort(uint8_t);
     void execute();
 
 private:

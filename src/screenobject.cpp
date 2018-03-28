@@ -112,7 +112,7 @@ int ScreenObject::execute()
     return 0;
 }
 
-int ScreenObject::readDevicePort(unsigned char /*port*/)
+int ScreenObject::readDevicePort(uint8_t /*port*/)
 {
     return 0;
 }
@@ -122,7 +122,7 @@ int ScreenObject::number()
     return mynum;
 }
 
-void ScreenObject::writeDevicePort(unsigned char /*port*/, unsigned short /*value*/)
+void ScreenObject::writeDevicePort(uint8_t /*port*/, uint16_t /*value*/)
 {
 }
 

@@ -70,8 +70,8 @@ public:
     int execute() override;
     void eraseObject(QPixmap *buffer) override;
     void drawObject(QPixmap *buffer, int opt) override;
-    int readDevicePort(unsigned char port) override;
-    void writeDevicePort(unsigned char port, unsigned short value) override;
+    int readDevicePort(uint8_t port) override;
+    void writeDevicePort(uint8_t port, uint16_t value) override;
     int objectHit(int type, int strength) override;
     void objectScanned(int intensity, int dir) override;
     void addScreenObject(int X, int Y, int dir, int type, int arg1 = 0, int arg2 = 0,
@@ -103,7 +103,7 @@ private:
     Ram *ramdevice;
     int radarsignature;
     Device *devicelist[32];
-    char hitabsorborder[32];
+    int8_t hitabsorborder[32];
     TextmodeBattleArea *ourarea;
     bool gfxin;
     QMessageBox *rulebreak;

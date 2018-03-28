@@ -36,7 +36,7 @@ public:
     ~Shield();
     int absorbHit(int strength, int ifint);
     void execute();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void draw(QPainter *painter);
     void erase(QPainter *painter);
 

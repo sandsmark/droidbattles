@@ -68,7 +68,7 @@ int Shield::absorbHit(int strength, int /*ifint*/)
     return strength;
 }
 
-int Shield::readPort(unsigned char port)
+int Shield::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

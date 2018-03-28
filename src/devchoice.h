@@ -54,7 +54,7 @@ public:
     DevChoice(CreateBot *cre, QWidget *parent = 0,
               int num = 0);
     ~DevChoice();
-    unsigned short getitem();
+    uint16_t getitem();
     int getlevel();
     int getarg1();
     void setitem(int x);

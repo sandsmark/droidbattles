@@ -46,7 +46,7 @@ void Repair::execute()
     }
 }
 
-int Repair::readPort(unsigned char /*port*/)
+int Repair::readPort(uint8_t /*port*/)
 {
     return 0;
 }

@@ -36,10 +36,10 @@ public:
     Device();
     virtual ~Device();
     Device(ScreenObject &object);
-    void addInputPort(unsigned char port, unsigned short value);
+    void addInputPort(uint8_t port, uint16_t value);
     void setRelativeAngle(int);
     virtual void execute();
-    virtual int readPort(unsigned char port);
+    virtual int readPort(uint8_t port);
     virtual int absorbHit(int str, int ifint);
     virtual void erase(QPainter *painter);
     virtual void draw(QPainter *painter);

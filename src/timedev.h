@@ -32,7 +32,7 @@ public:
     TimeDev(ScreenObject &);
     ~TimeDev();
     void execute();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
 
 private:
     int timecount;

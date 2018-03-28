@@ -35,7 +35,7 @@ public:
     int absorbHit(int str, int ifint);
     int type();
     int specialValue();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void doSpecial(int, int = 0);
 
 private:

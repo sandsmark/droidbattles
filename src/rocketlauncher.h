@@ -33,7 +33,7 @@ public:
     RocketLauncher(ScreenObject &object, int level, int offset);
     ~RocketLauncher();
     void execute();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
 
 private:
     int readiness;

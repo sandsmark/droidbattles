@@ -102,7 +102,7 @@ DevChoice::~DevChoice()
 /**
 	* Returns the number of the device chosen
 	*/
-unsigned short DevChoice::getitem()
+uint16_t DevChoice::getitem()
 {
     return comb->currentIndex();
 }

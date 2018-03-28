@@ -45,8 +45,8 @@ public:
     int collisionStrength();
     int setPosition(double X, double Y);
     int objectHit(int type, int strength);
-    int readDevicePort(unsigned char port);
-    void writeDevicePort(unsigned char port, unsigned short value);
+    int readDevicePort(uint8_t port);
+    void writeDevicePort(uint8_t port, uint16_t value);
     int writetoBattleArea(int bot, int dev, int choice, int arg1, int arg2);
     int returnRadar();
     void createDbgWindow(int, QPlainTextEdit *, int *, int *);

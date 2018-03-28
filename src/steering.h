@@ -32,7 +32,7 @@ class Steering : public Device
 public:
     Steering(ScreenObject &object, int);
     ~Steering();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void execute();
 
 private:

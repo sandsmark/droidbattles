@@ -52,10 +52,10 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
     QFile f(name); //Open the .bot file
     if (f.open(QIODevice::ReadOnly)) {
         QDataStream s(&f);
-        unsigned int lng;
+        uint32_t lng;
         char *tc;
         s.readBytes(tc, lng);
-        unsigned char *my = (unsigned char *)&tc[0];
+        uint8_t *my = (uint8_t *)&tc[0];
         showextragfx = true;
         f.close();
         if (my[1] > config.maxram) //Read in all devices
@@ -364,7 +364,7 @@ void Robots::drawObject(QPixmap *buffer, int opt)
 /**
 	* Get values from device ports
 	*/
-int Robots::readDevicePort(unsigned char port)
+int Robots::readDevicePort(uint8_t port)
 {
     int tempport = port % portsperdev;
     int tempdevice = int(port / portsperdev);
@@ -375,7 +375,7 @@ int Robots::readDevicePort(unsigned char port)
 /**
 	* Put values in device ports
 	*/
-void Robots::writeDevicePort(unsigned char port, unsigned short value)
+void Robots::writeDevicePort(uint8_t port, uint16_t value)
 {
     int tempport = port % portsperdev;
     int tempdevice = int(port / portsperdev);

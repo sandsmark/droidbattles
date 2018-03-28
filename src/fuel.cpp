@@ -40,7 +40,7 @@ Fuel::~Fuel()
 /**
 	* Returns amount of fuel to in instruction
 	*/
-int Fuel::readPort(unsigned char port)
+int Fuel::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

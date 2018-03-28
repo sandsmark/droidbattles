@@ -102,7 +102,7 @@ void Steering::execute()
     }
 }
 
-int Steering::readPort(unsigned char port)
+int Steering::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

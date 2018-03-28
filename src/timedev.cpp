@@ -60,7 +60,7 @@ void TimeDev::execute()
     }
 }
 
-int TimeDev::readPort(unsigned char port)
+int TimeDev::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

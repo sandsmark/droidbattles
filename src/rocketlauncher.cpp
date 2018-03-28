@@ -64,7 +64,7 @@ void RocketLauncher::execute()
 /**
 	* return inports
 	*/
-int RocketLauncher::readPort(unsigned char port)
+int RocketLauncher::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

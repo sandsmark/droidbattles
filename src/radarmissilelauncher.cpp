@@ -70,7 +70,7 @@ void RadarMissileLauncher::execute()
 /**
 	* return reloadtime
 	*/
-int RadarMissileLauncher::readPort(unsigned char port)
+int RadarMissileLauncher::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

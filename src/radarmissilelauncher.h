@@ -33,13 +33,13 @@ public:
     RadarMissileLauncher(ScreenObject &object, int level, Ram *memdevice,
                          int offset);
     ~RadarMissileLauncher();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
     void execute();
 
 private:
     int reloadtime;
-    unsigned short bootmem;
-    unsigned short stackmem;
+    uint16_t bootmem;
+    uint16_t stackmem;
     Ram *memd;
 };
 

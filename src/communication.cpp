@@ -74,7 +74,7 @@ void Communication::execute()
 /**
 	* Returns messages to CPU instruktion IN
 	*/
-int Communication::readPort(unsigned char port)
+int Communication::readPort(uint8_t port)
 {
     int msg;
     switch (port) {

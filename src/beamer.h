@@ -32,7 +32,7 @@ public:
     Beamer(ScreenObject &, int arg1);
     ~Beamer();
     void execute();
-    int readPort(unsigned char port);
+    int readPort(uint8_t port);
 
 private:
     int length;

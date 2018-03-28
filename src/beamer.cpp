@@ -71,7 +71,7 @@ void Beamer::execute()
 /**
 	* Return values to the CPU instruktion IN
 	*/
-int Beamer::readPort(unsigned char port)
+int Beamer::readPort(uint8_t port)
 {
     switch (port) {
     case 0:

@@ -99,83 +99,57 @@ DebugWindow::~DebugWindow()
 void DebugWindow::updatedata(struct DebugContents contents)
 {
     QString tmp;
-    tmp = "ax :";
-    addint(tmp, contents.ax);
-    registercontents[0]->setText(tmp);
-    tmp = "bx :";
-    addint(tmp, contents.bx);
-    registercontents[1]->setText(tmp);
-    tmp = "cx :";
-    addint(tmp, contents.cx);
-    registercontents[2]->setText(tmp);
-    tmp = "dx :";
-    addint(tmp, contents.dx);
-    registercontents[3]->setText(tmp);
-    tmp = "bp :";
-    addint(tmp, contents.bp);
-    registercontents[4]->setText(tmp);
-    tmp = "sp :";
-    addint(tmp, contents.sp);
-    registercontents[5]->setText(tmp);
-    tmp = "si :";
-    addint(tmp, contents.si);
-    registercontents[6]->setText(tmp);
-    tmp = "di :";
-    addint(tmp, contents.di);
-    registercontents[7]->setText(tmp);
-    tmp = "ip :";
-    addint(tmp, contents.ip);
-    registercontents[8]->setText(tmp);
+    registercontents[0]->setText("ax :" + QString::number(contents.ax));
+    registercontents[1]->setText("bx :" + QString::number(contents.bx));
+    registercontents[2]->setText("cx :" + QString::number(contents.cx));
+    registercontents[3]->setText("dx :" + QString::number(contents.dx));
+    registercontents[4]->setText("bp :" + QString::number(contents.bp));
+    registercontents[5]->setText("sp :" + QString::number(contents.sp));
+    registercontents[6]->setText("si :" + QString::number(contents.si));
+    registercontents[7]->setText("di :" + QString::number(contents.di));
+    registercontents[8]->setText("ip :" + QString::number(contents.ip));
 
     tmp = "Mem contents @ip :";
     int x;
     for (x = 0; x < 4; x++) {
-        tmp += " ";
-        addint(tmp, contents.ipcontents[x]);
+        tmp += " " + QString::number(contents.ipcontents[x]);
     }
     tmp += " ip:";
     for (x = 4; x < 9; x++) {
-        tmp += " ";
-        addint(tmp, contents.ipcontents[x]);
+        tmp += " " + QString::number(contents.ipcontents[x]);
     }
     memcontents[0]->setText(tmp);
 
     tmp = "Mem contents @sp :";
 
     for (x = 0; x < 4; x++) {
-        tmp += " ";
-        addint(tmp, contents.spcontents[x]);
+        tmp += " " + QString::number(contents.spcontents[x]);
     }
     tmp += " sp:";
     for (x = 4; x < 9; x++) {
-        tmp += " ";
-        addint(tmp, contents.spcontents[x]);
+        tmp += " " + QString::number(contents.spcontents[x]);
     }
     memcontents[1]->setText(tmp);
 
     tmp = "Mem contents @si :";
 
     for (x = 0; x < 4; x++) {
-        tmp += " ";
-        addint(tmp, contents.sicontents[x]);
+        tmp += " " + QString::number(contents.sicontents[x]);
     }
     tmp += " si:";
     for (x = 4; x < 9; x++) {
-        tmp += " ";
-        addint(tmp, contents.sicontents[x]);
+        tmp += " " + QString::number(contents.sicontents[x]);
     }
     memcontents[2]->setText(tmp);
 
     tmp = "Mem contents @di :";
 
     for (x = 0; x < 4; x++) {
-        tmp += " ";
-        addint(tmp, contents.dicontents[x]);
+        tmp += " " + QString::number(contents.dicontents[x]);
     }
     tmp += " di:";
     for (x = 4; x < 9; x++) {
-        tmp += " ";
-        addint(tmp, contents.dicontents[x]);
+        tmp += " " + QString::number(contents.dicontents[x]);
     }
     memcontents[3]->setText(tmp);
 
@@ -228,25 +202,6 @@ void DebugWindow::updatedata(struct DebugContents contents)
     }
 
     update();
-}
-
-/**
-    * Adds an integer to a string
-    */
-void DebugWindow::addint(QString &str, uint16_t integ)
-{
-    bool ready = false;
-    QString temp;
-    QString t2;
-    while (!ready) {
-        t2 = ((char)(integ % 10 + '0'));
-        temp = t2 + temp;
-        integ /= 10;
-        if (!integ) {
-            ready = true;
-        }
-    }
-    str += temp;
 }
 
 void DebugWindow::distsignal()

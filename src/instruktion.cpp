@@ -299,7 +299,7 @@ Instruction::Instruction(const char mnem[], int arg1t, int arg2t, int bit, int a
                          int arg2b, int op)
 {
     mnemonic = new char[strlen(mnem) + 1];
-    for (int x = 0; x < strlen(mnem) + 1; x++) {
+    for (size_t x = 0; x < strlen(mnem) + 1; x++) {
         mnemonic[x] = mnem[x];
     }
     arg1type = arg1t;

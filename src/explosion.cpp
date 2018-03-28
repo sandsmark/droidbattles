@@ -20,13 +20,13 @@
 /**
 	* Init position
 	*/
-Explosion::Explosion (int X, int Y, BattleArea &area)
+Explosion::Explosion(int X, int Y, BattleArea &area)
 {
     ourarea = &area;
-    maxx = ourarea->getareainfo (0);
-    maxy = ourarea->getareainfo (1);
-    Xpos = X>>6;
-    Ypos = Y>>6;
+    maxx = ourarea->getareainfo(0);
+    maxy = ourarea->getareainfo(1);
+    Xpos = X >> 6;
+    Ypos = Y >> 6;
     cycle = 1;
 }
 
@@ -39,7 +39,8 @@ Explosion::~Explosion()
 	*/
 int Explosion::execute()
 {
-    if (++cycle > 32) return destroyself;
+    if (++cycle > 32)
+        return destroyself;
     return 0;
 }
 
@@ -47,27 +48,27 @@ int Explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void Explosion::drawObject (QPixmap *buffer, int opt)
+void Explosion::drawObject(QPixmap *buffer, int opt)
 {
     if (opt < 2) {
         return;
     }
 
-    QPainter p (buffer);
-    p.setPen (QColor (255,255,0, 4 * (32 - cycle)));
-    p.drawEllipse (Xpos- (cycle/2),Ypos- (cycle/2),cycle,cycle);
-    oldX = int (Xpos- (cycle/2));
-    oldY = int (Ypos- (cycle/2));
+    QPainter p(buffer);
+    p.setPen(QColor(255, 255, 0, 4 * (32 - cycle)));
+    p.drawEllipse(Xpos - (cycle / 2), Ypos - (cycle / 2), cycle, cycle);
+    oldX = int(Xpos - (cycle / 2));
+    oldY = int(Ypos - (cycle / 2));
 }
 
 /**
 	* Paints a black circle where the yellow was painted before
 	*/
-void Explosion::eraseObject (QPixmap *buffer)
+void Explosion::eraseObject(QPixmap *buffer)
 {
-    QPainter p (buffer);
-    p.setPen (QColor (0,0,0));
-    p.drawEllipse (oldX,oldY, (cycle), (cycle));
+    QPainter p(buffer);
+    p.setPen(QColor(0, 0, 0));
+    p.drawEllipse(oldX, oldY, (cycle), (cycle));
 }
 
 /**

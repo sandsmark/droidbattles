@@ -29,16 +29,13 @@ class Engine : public Device
 {
 
 public:
-
     ~Engine();
-    Engine (ScreenObject &object,int);
-    int readPort (unsigned char port);
+    Engine(ScreenObject &object, int);
+    int readPort(unsigned char port);
     void execute();
 
 private:
-
     int thrust;
-
 };
 
 #endif

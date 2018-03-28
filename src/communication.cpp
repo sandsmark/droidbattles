@@ -20,22 +20,20 @@
 /**
 	* Constructor, inits device
 	*/
-Communication::Communication (ScreenObject &object)
+Communication::Communication(ScreenObject &object)
 {
     ourbot = &object;
     int x;
-    for (x=0; x<32; x++)
+    for (x = 0; x < 32; x++)
         msglist[x] = 0;
     nummsg = 0;
     int count;
     int count2;
     intenabled = false;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -53,61 +51,56 @@ Communication::~Communication()
 void Communication::execute()
 {
     //First port, set receiver
-    if (stacktaken[0][0] == true)
-    {
+    if (stacktaken[0][0] == true) {
         receiver = portstack[0][0];
-        moveportstack (0);
+        moveportstack(0);
     }
 
     //Second port... send number
-    if (stacktaken[1][0] == true)
-    {
+    if (stacktaken[1][0] == true) {
         int numbertosend = portstack[1][0];
-        moveportstack (1);
-        ourbot->writetoBattleArea (ourbot->team(),0,7,numbertosend,receiver);
+        moveportstack(1);
+        ourbot->writetoBattleArea(ourbot->team(), 0, 7, numbertosend, receiver);
     }
 
     //Third port, set interrupt enable/disable
-    if (stacktaken[2][0] == true)
-    {
+    if (stacktaken[2][0] == true) {
         intenabled = portstack[2][0];
-        moveportstack (2);
+        moveportstack(2);
     }
-
 }
 
 /**
 	* Returns messages to CPU instruktion IN
 	*/
-int Communication::readPort (unsigned char port)
+int Communication::readPort(unsigned char port)
 {
     int msg;
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return nummsg;
         break;
-    case 1 :
+    case 1:
         msg = msglist[0];
-        for (int x=0; x<31; x++)
-            msglist[x] = msglist[x+1];
+        for (int x = 0; x < 31; x++)
+            msglist[x] = msglist[x + 1];
         nummsg--;
         return msglist[0];
         break;
-    case 2 :
+    case 2:
         return intenabled;
         break;
-    case 3 :
+    case 3:
         return ourbot->number();
         break;
     }
     return 0;
 }
 
-void Communication::doSpecial (int x, int /*y*/)
+void Communication::doSpecial(int x, int /*y*/)
 {
     if (nummsg < 32)
         msglist[nummsg++] = x;
     if (intenabled)
-        ourbot->addInterrupt (msginterrupt);
+        ourbot->addInterrupt(msginterrupt);
 }

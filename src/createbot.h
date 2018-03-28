@@ -50,13 +50,12 @@ class CreateBot : public QWidget
     Q_OBJECT
 
 public:
-
     CreateBot();
     ~CreateBot();
-    void closeEvent (QCloseEvent *e);
-    void error (const QString &msg, int line);
-    void addint (QString & str,int integ);
-    int devnum (int sort,int num);
+    void closeEvent(QCloseEvent *e);
+    void error(const QString &msg, int line);
+    void addint(QString &str, int integ);
+    int devnum(int sort, int num);
 
 private slots:
     void newb();
@@ -74,9 +73,9 @@ private slots:
     void stopconf();
     void checkconf();
     void devchanged();
-    void scrollview (int);
-    void setEdittxtScrollValue (int i);
-    void setShowlatencyScrollValue (int i);
+    void scrollview(int);
+    void setEdittxtScrollValue(int i);
+    void setShowlatencyScrollValue(int i);
     void onHelpAction();
     void onAssembleAction();
 
@@ -92,7 +91,7 @@ private:
     MyQMultiLineEdit *edittxt;
     QScrollArea *scroller;
     QPlainTextEdit *showlatency;
-    DevChoice* devices[32];
+    DevChoice *devices[32];
     QMenu *File;
     QMenu *Edit;
     QMenu *Assemble;
@@ -106,7 +105,7 @@ private:
     char *dirname;
     QPushButton *gfxbutton;
     QPixmap gfx;
-//		QPixmap *backpm;
+    //		QPixmap *backpm;
     BattleArea *batt;
     StartsBatt *qc;
     ConfStruct curconfig;

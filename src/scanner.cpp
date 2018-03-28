@@ -18,7 +18,7 @@
 #include "scanner.h"
 #include <QtMath>
 
-Scanner::Scanner (ScreenObject &object, int arg1, int offset)
+Scanner::Scanner(ScreenObject &object, int arg1, int offset)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -28,16 +28,14 @@ Scanner::Scanner (ScreenObject &object, int arg1, int offset)
     maxscandist = ourlevel;
     scantimes = 0;
     scantimes2 = 0;
-    relang = offset*4;
+    relang = offset * 4;
     scanshow = 0;
     threshold = 5;
-    int count,count2;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    int count, count2;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -54,28 +52,24 @@ void Scanner::execute()
 
     //Emit a scan pulse, search for closest visible object in
     //scan arc
-    if (stacktaken[0][0] == true)
-    {
-        moveportstack (0);
+    if (stacktaken[0][0] == true) {
+        moveportstack(0);
 
         //Check angles and distance for every object that's a bot
         scanshow = 1;
         lastscandist = 65535;
         lastscanang = 2;
         int count;
-        for (count=0; count<255; count++)
-        {
-            if ( (count != ourbot->number()) &&
-                    (ourbot->writetoBattleArea (0,0,6,count,0) >= threshold))
-            {
+        for (count = 0; count < 255; count++) {
+            if ((count != ourbot->number()) && (ourbot->writetoBattleArea(0, 0, 6, count, 0) >= threshold)) {
                 int ourX, ourY, hisX, hisY;
                 int startang, endang, leftang, rightang, angle, mangle;
                 int distX, distY, dist;
 
                 ourX = ourbot->xPos();
                 ourY = ourbot->yPos();
-                hisX = ourbot->writetoBattleArea (0,0,1,count,0);
-                hisY = ourbot->writetoBattleArea (0,0,2,count,0);
+                hisX = ourbot->writetoBattleArea(0, 0, 1, count, 0);
+                hisY = ourbot->writetoBattleArea(0, 0, 2, count, 0);
 
                 mangle = ourbot->direction() + relang;
                 // when (relang != 0), mangle could contain an unnormalized angle
@@ -92,9 +86,9 @@ void Scanner::execute()
 
                 distX = ourX - hisX;
                 distY = ourY - hisY;
-                dist = int (sqrt (distX*distX + distY*distY));
+                dist = int(sqrt(distX * distX + distY * distY));
 
-                angle = int (atan2 (distY , distX) * 512 / pi);
+                angle = int(atan2(distY, distX) * 512 / pi);
 
                 angle -= 512;
                 if (angle >= 1024)
@@ -102,20 +96,15 @@ void Scanner::execute()
                 if (angle < 0)
                     angle += 1024;
 
-                if (mangle > angle)
-                {
+                if (mangle > angle) {
                     leftang = mangle - angle;
                     rightang = angle + 1024 - mangle;
-                }
-                else
-                {
+                } else {
                     leftang = mangle + 1024 - angle;
                     rightang = angle - mangle;
                 }
 
-                if ( (leftang < width || rightang < width) && (abs (dist)
-                        < lastscandist) && (abs (dist) < maxscandist))
-                {
+                if ((leftang < width || rightang < width) && (abs(dist) < lastscandist) && (abs(dist) < maxscandist)) {
                     lastscandist = dist;
                     double widthinarc;
                     if (leftang < width)
@@ -123,59 +112,58 @@ void Scanner::execute()
                     else
                         widthinarc = width + rightang;
 
-                    lastscanang = int (widthinarc/ ( (width*2) /5));
+                    lastscanang = int(widthinarc / ((width * 2) / 5));
                     lastscanid = count;
-                    lastscanfreq = ourbot->writetoBattleArea (0,0,8,count,0);
-                    lastscandir = ourbot->writetoBattleArea (0,0,3,count,0);
-                    lastscanspeed = ourbot->writetoBattleArea (0,0,4,count,0);
-                    if (lastscanang == 5) lastscanang--;
+                    lastscanfreq = ourbot->writetoBattleArea(0, 0, 8, count, 0);
+                    lastscandir = ourbot->writetoBattleArea(0, 0, 3, count, 0);
+                    lastscanspeed = ourbot->writetoBattleArea(0, 0, 4, count, 0);
+                    if (lastscanang == 5)
+                        lastscanang--;
 
-                    int tdir,tbot,tint,tdist;  //The following lines so
-                    tdir = lastscanang - 2;    //that the scanned bot gets notified
-                    if (tdir < 0) tdir = -tdir;
-                    tdist = int (double (lastscandist) /double (maxscandist) * 4);
+                    int tdir, tbot, tint, tdist; //The following lines so
+                    tdir = lastscanang - 2; //that the scanned bot gets notified
+                    if (tdir < 0)
+                        tdir = -tdir;
+                    tdist = int(double(lastscandist) / double(maxscandist) * 4);
                     tint = tdir + tdist;
-                    tdir = ( (angle >> 7) << 7);
+                    tdir = ((angle >> 7) << 7);
                     tdir += 512;
-                    if (tdir >= 1024) tdir -= 1024;
+                    if (tdir >= 1024)
+                        tdir -= 1024;
                     tbot = count;
-                    ourbot->writetoBattleArea (tbot,0,9,tint,tdir);
-
+                    ourbot->writetoBattleArea(tbot, 0, 9, tint, tdir);
                 }
             }
         }
     }
     //Set scan width
-    if (stacktaken[1][0] == true)
-    {
+    if (stacktaken[1][0] == true) {
         width = portstack[1][0];
-        moveportstack (1);
+        moveportstack(1);
     }
     //Select return from inport 3
-    if (stacktaken[2][0] == true)
-    {
+    if (stacktaken[2][0] == true) {
         wret = portstack[2][0];
-        moveportstack (2);
+        moveportstack(2);
     }
     //Set sensitivity
-    if (stacktaken[3][0] == true)
-    {
+    if (stacktaken[3][0] == true) {
         threshold = portstack[3][0];
-        moveportstack (3);
+        moveportstack(3);
     }
 }
 
 /**
 	* Paint scanarc black
 	*/
-void Scanner::erase (QPainter *painter)
+void Scanner::erase(QPainter *painter)
 {
     if (ispainted == true) {
         painter->setBrush(Qt::black);
         painter->setPen(Qt::black);
-        painter->drawPie ( (lastpaintX-maxscandist) >>6, (lastpaintY-maxscandist) >>6,
-                    (maxscandist*2) >>6, (maxscandist*2) >>6,
-                    - (lastpaintang-lastpaintsize) *5.625,-lastpaintsize*11.25);
+        painter->drawPie((lastpaintX - maxscandist) >> 6, (lastpaintY - maxscandist) >> 6,
+                         (maxscandist * 2) >> 6, (maxscandist * 2) >> 6,
+                         -(lastpaintang - lastpaintsize) * 5.625, -lastpaintsize * 11.25);
         ispainted = false;
     }
 }
@@ -183,41 +171,42 @@ void Scanner::erase (QPainter *painter)
 /**
 	* Paint the white scanarc
 	*/
-void Scanner::draw (QPainter *painter)
+void Scanner::draw(QPainter *painter)
 {
-    if (scanshow-- > 0)
-    {
+    if (scanshow-- > 0) {
         painter->setBrush(QColor(0, 255, 0, 10));
-        painter->setPen (QColor (0, 255, 0, 96));
-        painter->drawPie ( (ourbot->xPos()-maxscandist) >>6, (ourbot->yPos()
-                    -maxscandist) >>6, (maxscandist*2) >>6, (maxscandist*2) >>6,
-                    - ( (ourbot->direction() +relang)-width) *5.625,-width*11.25);
+        painter->setPen(QColor(0, 255, 0, 96));
+        painter->drawPie((ourbot->xPos() - maxscandist) >> 6, (ourbot->yPos() - maxscandist) >> 6, (maxscandist * 2) >> 6, (maxscandist * 2) >> 6,
+                         -((ourbot->direction() + relang) - width) * 5.625, -width * 11.25);
         lastpaintX = ourbot->xPos();
         lastpaintY = ourbot->yPos();
-        lastpaintang = (ourbot->direction() +relang);
+        lastpaintang = (ourbot->direction() + relang);
         lastpaintsize = width;
         ispainted = true;
     }
 }
 
-int Scanner::readPort (unsigned char port)
+int Scanner::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return lastscandist;
         break;
-    case 1 :
+    case 1:
         return lastscanang;
         break;
-    case 2 :
+    case 2:
         return width;
         break;
-    case 3 :
-        if (wret == 0) return lastscanfreq;
-        if (wret == 1) return lastscanid;
-        if (wret == 2) return lastscandir;
-        if (wret == 3) return lastscanspeed;
+    case 3:
+        if (wret == 0)
+            return lastscanfreq;
+        if (wret == 1)
+            return lastscanid;
+        if (wret == 2)
+            return lastscandir;
+        if (wret == 3)
+            return lastscanspeed;
         break;
     }
     return 0;

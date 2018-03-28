@@ -32,20 +32,18 @@
 class CPU : public Device
 {
 public:
-
     CPU();
-    CPU (Ram &ramdev,ScreenObject &object);
+    CPU(Ram &ramdev, ScreenObject &object);
     virtual ~CPU();
-    virtual void callobout (unsigned char one, unsigned short two);
-    virtual int callobin (unsigned char one);
-    virtual void sendmsg (char *msg);
-    virtual int writefile (int start,int length,int adress);
-    virtual int readfile (int start,int length,int adress);
+    virtual void callobout(unsigned char one, unsigned short two);
+    virtual int callobin(unsigned char one);
+    virtual void sendmsg(char *msg);
+    virtual int writefile(int start, int length, int adress);
+    virtual int readfile(int start, int length, int adress);
     virtual void execinstr();
-    virtual int readPort (unsigned char port);
+    virtual int readPort(unsigned char port);
 
 protected:
-
     Ram *mem;
     unsigned short *registers;
     unsigned char *bit8reg;

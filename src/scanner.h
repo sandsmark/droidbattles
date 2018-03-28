@@ -30,12 +30,12 @@
 class Scanner : public Device
 {
 public:
-    Scanner (ScreenObject &object,int arg1,int offset);
+    Scanner(ScreenObject &object, int arg1, int offset);
     ~Scanner();
     void execute();
-    int readPort (unsigned char port);
-    void erase (QPainter *painter);
-    void draw (QPainter *painter);
+    int readPort(unsigned char port);
+    void erase(QPainter *painter);
+    void draw(QPainter *painter);
 
 private:
     int threshold;
@@ -57,7 +57,6 @@ private:
     int lastscanid;
     int lastscandir;
     int lastscanspeed;
-
 };
 
 #endif

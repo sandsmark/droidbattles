@@ -30,10 +30,10 @@ class ChaffLauncher : public Device
 {
 
 public:
-    ChaffLauncher (ScreenObject &object,int level);
+    ChaffLauncher(ScreenObject &object, int level);
     ~ChaffLauncher();
     void execute();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
 
 private:
     int chaffleft;

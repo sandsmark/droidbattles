@@ -17,7 +17,7 @@
 
 #include "turret.h"
 
-Turret::Turret (ScreenObject &object, int arg1,int dev)
+Turret::Turret(ScreenObject &object, int arg1, int dev)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -26,12 +26,10 @@ Turret::Turret (ScreenObject &object, int arg1,int dev)
     wantedoffset = 0;
     int count;
     int count2;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -40,14 +38,13 @@ Turret::~Turret()
 {
 }
 
-int Turret::readPort (unsigned char port)
+int Turret::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return offset;
         break;
-    case 1 :
+    case 1:
         return wantedoffset;
         break;
     }
@@ -56,52 +53,49 @@ int Turret::readPort (unsigned char port)
 
 void Turret::execute()
 {
-    if (stacktaken[0][0] == true)
-    {
+    if (stacktaken[0][0] == true) {
         wantedoffset = portstack[0][0];
-        if (wantedoffset >1024) wantedoffset %= 1024;
-        if (wantedoffset <0) wantedoffset += 1024;
-        moveportstack (0);
+        if (wantedoffset > 1024)
+            wantedoffset %= 1024;
+        if (wantedoffset < 0)
+            wantedoffset += 1024;
+        moveportstack(0);
     }
-    if (stacktaken[1][0] == true)
-    {
+    if (stacktaken[1][0] == true) {
         wantedoffset += portstack[1][0];
-        if (wantedoffset >1023) wantedoffset %= 1024;
-        if (wantedoffset <0) wantedoffset += 1024;
-        moveportstack (1);
+        if (wantedoffset > 1023)
+            wantedoffset %= 1024;
+        if (wantedoffset < 0)
+            wantedoffset += 1024;
+        moveportstack(1);
     }
-    if (stacktaken[2][0] == true)
-    {
+    if (stacktaken[2][0] == true) {
         wantedoffset = offset + portstack[2][0];
-        if (wantedoffset >1023) wantedoffset %= 1024;
-        if (wantedoffset <0) wantedoffset += 1024;
-        moveportstack (2);
+        if (wantedoffset > 1023)
+            wantedoffset %= 1024;
+        if (wantedoffset < 0)
+            wantedoffset += 1024;
+        moveportstack(2);
     }
 
     ///Turn the turret
 
     //Find shortest way
-    int left,right;
-    if (wantedoffset < offset)
-    {
+    int left, right;
+    if (wantedoffset < offset) {
         left = offset - wantedoffset;
         right = wantedoffset + 1024 - offset;
-    }
-    else
-    {
+    } else {
         left = offset + 1024 - wantedoffset;
         right = wantedoffset - offset;
     }
 
-    if (right > left)
-    {
+    if (right > left) {
         if (left < ourlevel)
             offset = wantedoffset;
         else
             offset -= ourlevel;
-    }
-    else
-    {
+    } else {
         if (right < ourlevel)
             offset = wantedoffset;
         else
@@ -113,6 +107,5 @@ void Turret::execute()
     if (offset < 0)
         offset += 1024;
 
-    ourbot->writeToDevice (ourdev,1,offset);
-
+    ourbot->writeToDevice(ourdev, 1, offset);
 }

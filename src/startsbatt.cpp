@@ -38,84 +38,83 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     setWindowFlags(Qt::Dialog);
 
     QHBoxLayout *topButtonsLayout = new QHBoxLayout;
-    press[0] = new PixButton ("Add", this);
+    press[0] = new PixButton("Add", this);
     topButtonsLayout->addWidget(press[0]);
-    press[1] = new PixButton ("Clear", this);
+    press[1] = new PixButton("Clear", this);
     topButtonsLayout->addWidget(press[1]);
     l->addLayout(topButtonsLayout);
 
     int x;
-    for (x=0; x<8; x++)
-    {
+    for (x = 0; x < 8; x++) {
         QHBoxLayout *pl = new QHBoxLayout;
 
         botfiles[x] = "";
-        shownames[x] = new QLabel (this);
+        shownames[x] = new QLabel(this);
         shownames[x]->show();
         pl->addWidget(shownames[x]);
-        team[x] = new QComboBox (this);
+        team[x] = new QComboBox(this);
         pl->addWidget(team[x]);
-        team[x]->addItem ("1");
-        team[x]->addItem ("2");
-        team[x]->addItem ("3");
-        team[x]->addItem ("4");
+        team[x]->addItem("1");
+        team[x]->addItem("2");
+        team[x]->addItem("3");
+        team[x]->addItem("4");
 
         l->addLayout(pl);
     }
 
-    ifteams = new QCheckBox ("Teams",this);
+    ifteams = new QCheckBox("Teams", this);
     l->addWidget(ifteams);
 
-    QObject::connect (press[0],SIGNAL (clicked()),this,
-                      SLOT (choosefile()));
-    QObject::connect (press[1],SIGNAL (clicked()),this,
-                      SLOT (dechoosefile()));
+    QObject::connect(press[0], SIGNAL(clicked()), this,
+                     SLOT(choosefile()));
+    QObject::connect(press[1], SIGNAL(clicked()), this,
+                     SLOT(dechoosefile()));
 
     QGridLayout *optionsLayout = new QGridLayout;
     l->addLayout(optionsLayout);
 
-    tnumfights = new QLabel ("Number of fights:",this);
+    tnumfights = new QLabel("Number of fights:", this);
     optionsLayout->addWidget(tnumfights, 0, 0);
-    wnumfights = new QLineEdit (this);
+    wnumfights = new QLineEdit(this);
     optionsLayout->addWidget(wnumfights, 0, 1);
-    numfix = new QIntValidator (this);
-    wnumfights->setValidator (numfix);
+    numfix = new QIntValidator(this);
+    wnumfights->setValidator(numfix);
 
-    lengthfight = new QLabel ("Max length of fight (50 ~ 1sec):",this);
+    lengthfight = new QLabel("Max length of fight (50 ~ 1sec):", this);
     optionsLayout->addWidget(lengthfight, 1, 0);
-    length = new QLineEdit (this);
+    length = new QLineEdit(this);
     optionsLayout->addWidget(length, 1, 1);
 
-    maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
+    maxxinfo = new QLabel("The xsize of the battlearea: ", this);
     optionsLayout->addWidget(maxxinfo, 2, 0);
-    maxx = new QSpinBox (this);
+    maxx = new QSpinBox(this);
     maxx->setMinimum(8192);
     maxx->setMaximum(65535);
     maxx->setSingleStep(512);
-    maxx->setValue (32768);
+    maxx->setValue(32768);
     optionsLayout->addWidget(maxx, 2, 1);
 
-    maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
+    maxyinfo = new QLabel("The ysize of the battlearea: ", this);
     optionsLayout->addWidget(maxyinfo, 3, 0);
-    maxy = new QSpinBox (this);
+    maxy = new QSpinBox(this);
     maxy->setMinimum(8192);
     maxy->setMaximum(65535);
     maxy->setSingleStep(512);
     optionsLayout->addWidget(maxy, 3, 1);
-    maxy->setValue (32768);
+    maxy->setValue(32768);
 
     QHBoxLayout *bottomLayout = new QHBoxLayout;
     l->addLayout(bottomLayout);
-    readyb = new PixButton ("OK", this);
+    readyb = new PixButton("OK", this);
     bottomLayout->addWidget(readyb);
-    cancelb = new PixButton ("Cancel", this);
+    cancelb = new PixButton("Cancel", this);
     bottomLayout->addWidget(cancelb);
 
-    QObject::connect (readyb,SIGNAL (clicked()),this,SLOT (ocl()));
-    QObject::connect (cancelb,SIGNAL (clicked()),this,SLOT (ccl()));
+    QObject::connect(readyb, SIGNAL(clicked()), this, SLOT(ocl()));
+    QObject::connect(cancelb, SIGNAL(clicked()), this, SLOT(ccl()));
 
     QPalette palette;
-    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::Metal)));
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm(PixmapHolder::Metal)));
     palette.setColor(foregroundRole(), Qt::white);
     setPalette(palette);
 
@@ -126,29 +125,28 @@ StartsBatt::StartsBatt(const QString &configFileName) :
 void StartsBatt::loadfilesettings()
 {
     QString confPath = QStandardPaths::locate(QStandardPaths::AppConfigLocation, m_configFileName);
-    QFile f (confPath);
-    if (f.exists() && f.open (QIODevice::ReadOnly)) {
-        QTextStream s (&f);
+    QFile f(confPath);
+    if (f.exists() && f.open(QIODevice::ReadOnly)) {
+        QTextStream s(&f);
         QString temp;
-        for (int x=0; x<8; x++)
-        {
+        for (int x = 0; x < 8; x++) {
             s >> botfiles[x];
             s >> temp;
-            if (botfiles[x] == QString ("fff"))
+            if (botfiles[x] == QString("fff"))
                 botfiles[x] = "";
-            team[x]->setCurrentIndex (temp.toInt());
-            shownames[x]->setText (QFileInfo(botfiles[x]).baseName());
+            team[x]->setCurrentIndex(temp.toInt());
+            shownames[x]->setText(QFileInfo(botfiles[x]).baseName());
         }
         s >> temp;
-        ifteams->setChecked (temp.toInt());
+        ifteams->setChecked(temp.toInt());
         s >> temp;
-        wnumfights->setText (temp);
+        wnumfights->setText(temp);
         s >> temp;
-        length->setText (temp);
+        length->setText(temp);
         s >> temp;
-        maxx->setValue (temp.toInt());
+        maxx->setValue(temp.toInt());
         s >> temp;
-        maxy->setValue (temp.toInt());
+        maxy->setValue(temp.toInt());
         f.close();
     }
 }
@@ -167,7 +165,7 @@ int StartsBatt::getnumofbots()
     return 0;
 }
 
-QString StartsBatt::getbotfile (int x)
+QString StartsBatt::getbotfile(int x)
 {
     return botfiles[x];
 }
@@ -178,21 +176,19 @@ QString StartsBatt::getbotfile (int x)
 void StartsBatt::choosefile()
 {
     QSettings settings;
-    QString filename = QFileDialog::getOpenFileName (this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
     if (!filename.isEmpty()) {
         settings.setValue("LastBotPath", filename);
     }
 
     int x;
 
-    for (x=0; x<8; x++)
-    {
+    for (x = 0; x < 8; x++) {
         if (botfiles[x].isEmpty())
             break;
     }
-    if (!filename.isEmpty() && x < 8)
-    {
-        shownames[x]->setText (filename);
+    if (!filename.isEmpty() && x < 8) {
+        shownames[x]->setText(filename);
         botfiles[x] = filename;
     }
 }
@@ -201,8 +197,7 @@ void StartsBatt::dechoosefile()
 {
     int x;
 
-    for (x=0; x<8; x++)
-    {
+    for (x = 0; x < 8; x++) {
         shownames[x]->clear();
         botfiles[x] = "";
     }
@@ -217,14 +212,13 @@ void StartsBatt::ocl()
     QString filename = baseDir.absoluteFilePath(m_configFileName);
 
     // Save the current settings to file
-    QFile f (filename);
-    if (f.open (QIODevice::WriteOnly))
-    {
-        QTextStream s (&f);
-        for (int x=0; x<8; x++)
-        {
-            if (botfiles[x] == QString (""))
-                s << "fff" << " " << team[x]->currentIndex() << "\n";
+    QFile f(filename);
+    if (f.open(QIODevice::WriteOnly)) {
+        QTextStream s(&f);
+        for (int x = 0; x < 8; x++) {
+            if (botfiles[x] == QString(""))
+                s << "fff"
+                  << " " << team[x]->currentIndex() << "\n";
             else
                 s << botfiles[x] << " " << team[x]->currentIndex() << "\n";
         }
@@ -279,7 +273,7 @@ bool StartsBatt::getifteams()
     return ifteams->isChecked();
 }
 
-int StartsBatt::getbotteam (int bot)
+int StartsBatt::getbotteam(int bot)
 {
     return team[bot]->currentIndex();
 }

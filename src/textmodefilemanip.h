@@ -35,9 +35,9 @@ class TextModeFileManip
 public:
     TextModeFileManip();
     ~TextModeFileManip();
-    static void assemble (char *filename);
-    static void checkConfig (char *filename);
-    static void loadConfig (char *filename);
+    static void assemble(char *filename);
+    static void checkConfig(char *filename);
+    static void loadConfig(char *filename);
 };
 
 #endif

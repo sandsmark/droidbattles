@@ -18,7 +18,6 @@
 #ifndef TEXTMODEBATTLEAREA_H
 #define TEXTMODEBATTLEAREA_H
 
-
 /**
   *@author Andreas Agorander
   */
@@ -38,15 +37,15 @@ class TextmodeBattleArea
 public:
     TextmodeBattleArea();
     virtual ~TextmodeBattleArea();
-    TextmodeBattleArea (const BattleConfig &battleConfig);
-    virtual void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
-                               int arg2=0, void *arg3=0);
-    int devio (int bot,int dev,int choice,int arg1,int arg2);
-    virtual void startonebattle (int);
-    int	getareainfo (int);
-    virtual void explosions (int x,int y, int rad, int strength, int whichobject);
-    int getstartx (int);
-    int getstarty (int);
+    TextmodeBattleArea(const BattleConfig &battleConfig);
+    virtual void addscrobject(int owner, int X, int Y, int dir, int type, int arg1 = 0,
+                              int arg2 = 0, void *arg3 = 0);
+    int devio(int bot, int dev, int choice, int arg1, int arg2);
+    virtual void startonebattle(int);
+    int getareainfo(int);
+    virtual void explosions(int x, int y, int rad, int strength, int whichobject);
+    int getstartx(int);
+    int getstarty(int);
 
     int execround();
 

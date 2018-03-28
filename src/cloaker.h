@@ -29,9 +29,10 @@ class Cloaker : public Device
 {
 
 public:
-    Cloaker (ScreenObject &object, int arg1);
+    Cloaker(ScreenObject &object, int arg1);
     ~Cloaker();
     void execute();
+
 private:
     bool cloakon;
 };

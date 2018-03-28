@@ -30,13 +30,13 @@ class RobCpu : public CPU
 {
 public:
     RobCpu();
-    RobCpu (Ram &ramdev,ScreenObject &object,int arg1,int arg2,int arg3,
-            int arg4,int arg5);
+    RobCpu(Ram &ramdev, ScreenObject &object, int arg1, int arg2, int arg3,
+           int arg4, int arg5);
     ~RobCpu();
     void execute();
     int type();
     int specialValue();
-    void sendmsg (char *msg);
+    void sendmsg(char *msg);
     struct DebugContents debugContents();
     void execinstr();
 };

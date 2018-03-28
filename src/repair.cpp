@@ -17,7 +17,7 @@
 
 #include "repair.h"
 
-Repair::Repair (ScreenObject &object , int arg1)
+Repair::Repair(ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
@@ -33,16 +33,12 @@ Repair::~Repair()
 	*/
 void Repair::execute()
 {
-    if (--repaircycles <= 0)
-    {
+    if (--repaircycles <= 0) {
         repaircycles = ourlevel;
         int count;
-        for (count=0; count < 32; count++)
-        {
-            if ( (ourbot->writeToDevice (count,2,0) == 99) &&
-                    (ourbot->writeToDevice (count,3,0) > 0))
-            {
-                ourbot->writeToDevice (count,4,-1);   //Repair one damage
+        for (count = 0; count < 32; count++) {
+            if ((ourbot->writeToDevice(count, 2, 0) == 99) && (ourbot->writeToDevice(count, 3, 0) > 0)) {
+                ourbot->writeToDevice(count, 4, -1); //Repair one damage
                 break;
             }
         }
@@ -50,7 +46,7 @@ void Repair::execute()
     }
 }
 
-int Repair::readPort (unsigned char /*port*/)
+int Repair::readPort(unsigned char /*port*/)
 {
     return 0;
 }

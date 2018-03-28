@@ -29,11 +29,11 @@ class Fuel : public Device
 {
 
 public:
-
-    Fuel (ScreenObject &, int);
+    Fuel(ScreenObject &, int);
     ~Fuel();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
     void execute();
+
 private:
     int fuelintlevel;
 };

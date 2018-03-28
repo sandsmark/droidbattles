@@ -30,24 +30,22 @@ class Rocket : public ScreenObject
 {
 
 public:
-
     Rocket();
     ~Rocket();
-    Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
-            int owner, bool ui=true);
-    int objectHit (int type,int strength);
+    Rocket(int X, int Y, int dir, int leng, int mnum, TextmodeBattleArea &area,
+           int owner, bool ui = true);
+    int objectHit(int type, int strength);
     ObjectType type();
-    void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt);
+    void eraseObject(QPixmap *buffer);
+    void drawObject(QPixmap *buffer, int opt);
     int execute();
-    int setPosition (double X,double Y);
+    int setPosition(double X, double Y);
     int collisionType();
     int collisionStrength();
     bool areaExplosionAffects();
     int returnRadar();
 
 private:
-
     int length;
     int uX;
     int uY;

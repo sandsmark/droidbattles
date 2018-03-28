@@ -28,7 +28,7 @@
 class MyQMultiLineEdit : public QPlainTextEdit
 {
 public:
-    MyQMultiLineEdit (QWidget * parent=0);
+    MyQMultiLineEdit(QWidget *parent = 0);
 };
 
 #endif

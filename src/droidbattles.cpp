@@ -45,7 +45,7 @@ DroidBattles::DroidBattles()
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("DroidBattles " VERSION);
 
-    qsrand(time (0));     //Initialize random seed
+    qsrand(time(0)); //Initialize random seed
 
     /**
         * If the base dir doesn't exist, create it
@@ -62,11 +62,11 @@ DroidBattles::DroidBattles()
         QFile::setPermissions(defaultConfPath, QFileDevice::WriteOwner | QFileDevice::ReadOwner);
     }
 
-    resize (500,350);	//Set size of window
-    setFixedSize (500,350);
+    resize(500, 350); //Set size of window
+    setFixedSize(500, 350);
 
     QPalette palette;
-    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm (PixmapHolder::MainMenu)));
+    palette.setBrush(backgroundRole(), QBrush(PixmapHolder::getpm(PixmapHolder::MainMenu)));
     setPalette(palette);
 
     QAction *creatorAction = new QAction(this);
@@ -84,31 +84,31 @@ DroidBattles::DroidBattles()
     connect(quitAction, &QAction::triggered, this, &DroidBattles::quit);
     addAction(quitAction);
 
-    m_createButton =  new PixButton ("Bot Creator (F2)", this);
-    m_configButton =  new PixButton ("Config editor", this);
-    m_skirmishButton =  new PixButton ("Normal battle", this);
-    m_deathmatchButton =  new PixButton ("Deathmatch battle", this);
-    m_survivalButton =  new PixButton ("Survival battle", this);
-    m_leagueButton =  new PixButton ("League tournament", this);
-    m_kothButton =  new PixButton ("KOTH tournament", this);
-    m_cupButton =  new PixButton ("Cup tournament", this);
-    m_creditsButton =  new PixButton ("About DroidBattles", this);
-    m_docButton =  new PixButton ("Documentation (F1)", this);
-    m_quitButton = new PixButton ("Quit (F10)", this);
+    m_createButton = new PixButton("Bot Creator (F2)", this);
+    m_configButton = new PixButton("Config editor", this);
+    m_skirmishButton = new PixButton("Normal battle", this);
+    m_deathmatchButton = new PixButton("Deathmatch battle", this);
+    m_survivalButton = new PixButton("Survival battle", this);
+    m_leagueButton = new PixButton("League tournament", this);
+    m_kothButton = new PixButton("KOTH tournament", this);
+    m_cupButton = new PixButton("Cup tournament", this);
+    m_creditsButton = new PixButton("About DroidBattles", this);
+    m_docButton = new PixButton("Documentation (F1)", this);
+    m_quitButton = new PixButton("Quit (F10)", this);
 
-    m_createButton->setGeometry(88,18,324,34);
-    m_configButton->setGeometry(68,58,364,34);
+    m_createButton->setGeometry(88, 18, 324, 34);
+    m_configButton->setGeometry(68, 58, 364, 34);
 
-    m_skirmishButton->setGeometry(58,98,184,34);
-    m_deathmatchButton->setGeometry(58,138,184,34);
-    m_survivalButton->setGeometry (58,178,184,34);
+    m_skirmishButton->setGeometry(58, 98, 184, 34);
+    m_deathmatchButton->setGeometry(58, 138, 184, 34);
+    m_survivalButton->setGeometry(58, 178, 184, 34);
 
-    m_leagueButton->setGeometry (258,98,184,34);
-    m_kothButton->setGeometry (258,138,184,34);
-    m_cupButton->setGeometry (258,178,184,34);
-    m_creditsButton->setGeometry (68,218,364,34);
-    m_docButton->setGeometry (88,258,324,34);
-    m_quitButton->setGeometry (118,298,264,34);
+    m_leagueButton->setGeometry(258, 98, 184, 34);
+    m_kothButton->setGeometry(258, 138, 184, 34);
+    m_cupButton->setGeometry(258, 178, 184, 34);
+    m_creditsButton->setGeometry(68, 218, 364, 34);
+    m_docButton->setGeometry(88, 258, 324, 34);
+    m_quitButton->setGeometry(118, 298, 264, 34);
 
     //Connect the buttons
     connect(m_createButton, &PixButton::clicked, this, &DroidBattles::createb);
@@ -137,13 +137,13 @@ DroidBattles::~DroidBattles()
 
 void DroidBattles::showdoc()
 {
-    browser = new DocBrowser ("qrc:/doc/index.html");
+    browser = new DocBrowser("qrc:/doc/index.html");
 }
 
 void DroidBattles::onHelpRequested(const QString &word)
 {
     if (!browser) {
-        browser = new DocBrowser ("qrc:/doc/index.html");
+        browser = new DocBrowser("qrc:/doc/index.html");
     }
     browser->lookUp(word);
 }
@@ -157,12 +157,12 @@ void DroidBattles::skirmish()
     disablebattles();
     //Start the dialog where you can choose which bots should fight
     ssb = new StartsBatt("singlebattle.save");
-    ssb->resize (300,570);
+    ssb->resize(300, 570);
     ssb->show();
-    QObject::connect (ssb,SIGNAL (okclicked()),this,
-                      SLOT (startskirmish()));
-    QObject::connect (ssb,SIGNAL (cancelclicked()),this,
-                      SLOT (stopskirmish()));
+    QObject::connect(ssb, SIGNAL(okclicked()), this,
+                     SLOT(startskirmish()));
+    QObject::connect(ssb, SIGNAL(cancelclicked()), this,
+                     SLOT(stopskirmish()));
 }
 
 /**
@@ -172,23 +172,21 @@ void DroidBattles::skirmish()
 	*/
 void DroidBattles::startskirmish()
 {
-    std::array<QString, 8> names;	//Array for the filenames
-    int x,numf,ln,xs,ys;
-    int numbo=0;      //Counter for the number of them who are filled in
+    std::array<QString, 8> names; //Array for the filenames
+    int x, numf, ln, xs, ys;
+    int numbo = 0; //Counter for the number of them who are filled in
     bool ifteamfight;
-    for (x=0; x<8; x++)
-    {
-        names[x] = ssb->getbotfile (x);
+    for (x = 0; x < 8; x++) {
+        names[x] = ssb->getbotfile(x);
         if (!names[x].isEmpty())
             numbo++;
-        teams[x] = ssb->getbotteam (x);
+        teams[x] = ssb->getbotteam(x);
     }
     ifteamfight = ssb->getifteams();
-    if (numbo > 1)
-    {
+    if (numbo > 1) {
         //Create the widget that takes care of the actual battle
         numf = ssb->getnumfights(); //Get the number of fights
-        ln = ssb->getlength();			//Get the max length of fight
+        ln = ssb->getlength(); //Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
 
@@ -202,7 +200,7 @@ void DroidBattles::startskirmish()
         battleConfig.teams = teams;
         battleConfig.isTournament = false;
 
-        batt = new BattleArea (battleConfig, false);
+        batt = new BattleArea(battleConfig, false);
         batt->show();
     }
     delete ssb;
@@ -222,33 +220,31 @@ void DroidBattles::survival()
 {
     disablebattles();
     ssb = new StartSurvBatt();
-    ssb->resize (300,570);
+    ssb->resize(300, 570);
     ssb->show();
-    QObject::connect (ssb,SIGNAL (okclicked()),this,
-                      SLOT (startsurvival()));
-    QObject::connect (ssb,SIGNAL (cancelclicked()),this,
-                      SLOT (stopsurvival()));
+    QObject::connect(ssb, SIGNAL(okclicked()), this,
+                     SLOT(startsurvival()));
+    QObject::connect(ssb, SIGNAL(cancelclicked()), this,
+                     SLOT(stopsurvival()));
 }
 
 void DroidBattles::startsurvival()
 {
-    std::array<QString, 8> names;	//Array for the filenames
-    int x,numf,ln,xs,ys;
-    int numbo=0;      //Counter for the number of them who are filled in
+    std::array<QString, 8> names; //Array for the filenames
+    int x, numf, ln, xs, ys;
+    int numbo = 0; //Counter for the number of them who are filled in
     bool ifteamfight;
-    for (x=0; x<8; x++)
-    {
-        names[x] = ssb->getbotfile (x);
+    for (x = 0; x < 8; x++) {
+        names[x] = ssb->getbotfile(x);
         if (!names[x].isEmpty())
             numbo++;
-        teams[x] = ssb->getbotteam (x);
+        teams[x] = ssb->getbotteam(x);
     }
     ifteamfight = ssb->getifteams();
-    if (numbo > 1)
-    {
+    if (numbo > 1) {
         //Create the widget that takes care of the actual battle
         numf = ssb->getnumfights(); //Get the number of fights
-        ln = ssb->getlength();			//Get the max length of fight
+        ln = ssb->getlength(); //Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
 
@@ -263,7 +259,7 @@ void DroidBattles::startsurvival()
         battleConfig.isTournament = false;
         battleConfig.mode = 1;
 
-        batt = new BattleArea (battleConfig);
+        batt = new BattleArea(battleConfig);
         batt->show();
     }
     delete ssb;
@@ -280,31 +276,29 @@ void DroidBattles::death()
 {
     disablebattles();
     ssb = new StartDeathBatt();
-    ssb->resize (300,570);
+    ssb->resize(300, 570);
     ssb->show();
-    QObject::connect (ssb,SIGNAL (okclicked()),this,SLOT (startdeath()));
-    QObject::connect (ssb,SIGNAL (cancelclicked()),this,SLOT (stopdeath()));
+    QObject::connect(ssb, SIGNAL(okclicked()), this, SLOT(startdeath()));
+    QObject::connect(ssb, SIGNAL(cancelclicked()), this, SLOT(stopdeath()));
 }
 
 void DroidBattles::startdeath()
 {
-    std::array<QString, 8> names;	//Array for the filenames
-    int x,numf,ln,xs,ys;
-    int numbo=0;      //Counter for the number of them who are filled in
+    std::array<QString, 8> names; //Array for the filenames
+    int x, numf, ln, xs, ys;
+    int numbo = 0; //Counter for the number of them who are filled in
     bool ifteamfight;
-    for (x=0; x<8; x++)
-    {
-        names[x] = ssb->getbotfile (x);
+    for (x = 0; x < 8; x++) {
+        names[x] = ssb->getbotfile(x);
         if (!names[x].isEmpty())
             numbo++;
-        teams[x] = ssb->getbotteam (x);
+        teams[x] = ssb->getbotteam(x);
     }
     ifteamfight = ssb->getifteams();
-    if (numbo > 1)
-    {
+    if (numbo > 1) {
         //Create the widget that takes care of the actual battle
         numf = ssb->getnumfights(); //Get the number of fights
-        ln = ssb->getlength();			//Get the max length of fight
+        ln = ssb->getlength(); //Get the max length of fight
         xs = ssb->getxsize();
         ys = ssb->getysize();
 
@@ -319,7 +313,7 @@ void DroidBattles::startdeath()
         battleConfig.isTournament = false;
         battleConfig.mode = BattleConfig::Deathmatch;
 
-        batt = new BattleArea (battleConfig);
+        batt = new BattleArea(battleConfig);
         batt->show();
     }
     delete ssb;
@@ -332,7 +326,6 @@ void DroidBattles::stopdeath()
     enablebattles();
 }
 
-
 /**
 	* Executed if the user presses create bot in the
 	* main menu
@@ -340,7 +333,7 @@ void DroidBattles::stopdeath()
 void DroidBattles::createb()
 {
     cre = new CreateBot();
-    cre->resize (520,500);
+    cre->resize(520, 500);
     cre->show();
 
     connect(cre, &CreateBot::helpRequested, this, &DroidBattles::onHelpRequested);
@@ -352,9 +345,9 @@ void DroidBattles::createb()
 	*/
 void DroidBattles::about()
 {
-    QMessageBox::information (this, "About DroidBattles",
-                              "DroidBattles " VERSION " 2018 Martin Sandsmark, 2005-10-07 by Andreas Agorander (Bluefire@bluefire.nu)\n"
-                              "get the latest version at https://github.com/sandsmark/droidbattles");
+    QMessageBox::information(this, "About DroidBattles",
+                             "DroidBattles " VERSION " 2018 Martin Sandsmark, 2005-10-07 by Andreas Agorander (Bluefire@bluefire.nu)\n"
+                             "get the latest version at https://github.com/sandsmark/droidbattles");
 }
 
 void DroidBattles::showb()
@@ -388,12 +381,12 @@ void DroidBattles::tournament()
 {
     disabletourneys();
     stment = new StartTournament("League");
-    stment->resize (300,570);
+    stment->resize(300, 570);
     stment->show();
-    QObject::connect (stment,SIGNAL (okclicked()),this,
-                      SLOT (starttourney()));
-    QObject::connect (stment,SIGNAL (cancelclicked()),this,
-                      SLOT (stoptourney()));
+    QObject::connect(stment, SIGNAL(okclicked()), this,
+                     SLOT(starttourney()));
+    QObject::connect(stment, SIGNAL(cancelclicked()), this,
+                     SLOT(stoptourney()));
 }
 
 /**
@@ -403,8 +396,7 @@ void DroidBattles::starttourney()
 {
     QString names[64];
     int numofbots = stment->getnumofbots();
-    if (numofbots == 0)
-    {
+    if (numofbots == 0) {
         delete stment;
         enabletourneys();
         return;
@@ -412,26 +404,26 @@ void DroidBattles::starttourney()
     if (numofbots > 64)
         numofbots = 64;
     int x;
-    for (x=0; x<numofbots; x++)
-    {
-        names[x] = stment->getbotfile (x);
+    for (x = 0; x < numofbots; x++) {
+        names[x] = stment->getbotfile(x);
         winmatches[x] = 0;
         wingames[x] = 0;
     }
-    if (!stment->getseed()) stment->setseed(qrand());
-    qsrand (stment->getseed());
+    if (!stment->getseed())
+        stment->setseed(qrand());
+    qsrand(stment->getseed());
     teams[0] = 0;
     teams[1] = 1;
 
     BattleConfig battleConfig = stment->getBattleConfig();
-    battleConfig.names = {""};
+    battleConfig.names = { "" };
     battleConfig.names[0] = names[0];
     battleConfig.names[1] = names[1];
 
-    batt = new BattleArea (battleConfig);
+    batt = new BattleArea(battleConfig);
 
-    connect (batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
-    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+    connect(batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
+    connect(batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
     stment->hide();
     curmainbot = 0;
@@ -452,45 +444,42 @@ void DroidBattles::stoptourney()
 	* to this function. It checks which bots should fight next, and
 	* contains the code executed when all matches are fought
 	*/
-void DroidBattles::managetourney (int wins1, int wins2)
+void DroidBattles::managetourney(int wins1, int wins2)
 {
 
     QString names[64];
     int numofbots = stment->getnumofbots();
     int x;
-    if (numofbots == 0)
-    {
+    if (numofbots == 0) {
         delete stment;
         enabletourneys();
         return;
     }
     if (numofbots > 64)
         numofbots = 64;
-    for (x=0; x<numofbots; x++)
-    {
-        names[x] = stment->getbotfile (x);
-//		winmatches[x] = 0;
-//		wingames[x] = 0;
+    for (x = 0; x < numofbots; x++) {
+        names[x] = stment->getbotfile(x);
+        //		winmatches[x] = 0;
+        //		wingames[x] = 0;
     }
 
     winmatches[curmainbot] += wins1;
     winmatches[cursecbot] += wins2;
-    if (wins1 > wins2) wingames[curmainbot]++;
-    if (wins1 < wins2) wingames[cursecbot]++;
+    if (wins1 > wins2)
+        wingames[curmainbot]++;
+    if (wins1 < wins2)
+        wingames[cursecbot]++;
 
     cursecbot++;
 
-    if (cursecbot == numofbots)
-    {
+    if (cursecbot == numofbots) {
         curmainbot++;
         cursecbot = curmainbot + 1;
     }
 
-    if (curmainbot >= numofbots - 1)
-    {
-        QFile f ("tournament.html");
-        if (!f.open (QIODevice::WriteOnly))
-        {
+    if (curmainbot >= numofbots - 1) {
+        QFile f("tournament.html");
+        if (!f.open(QIODevice::WriteOnly)) {
             //TODO: Add error mesage
             delete stment;
             enabletourneys();
@@ -498,22 +487,18 @@ void DroidBattles::managetourney (int wins1, int wins2)
         }
         bool taken[64];
         int resorder[64];
-        for (x=0; x<64; x++)
-        {
+        for (x = 0; x < 64; x++) {
             taken[x] = false;
             resorder[x] = -1;
         }
-        for (x=0; x<numofbots; x++)   //Sort the bots in order after their results
+        for (x = 0; x < numofbots; x++) //Sort the bots in order after their results
         {
             int y;
-            int maxpointg=-1;
-            int maxpointm=-1;
-            int curmaxbot=-1;
-            for (y=0; y<numofbots; y++)
-            {
-                if (taken[y] == false && (wingames[y] > maxpointg ||
-                                          (wingames[y] == maxpointg && winmatches[y] > maxpointm)))
-                {
+            int maxpointg = -1;
+            int maxpointm = -1;
+            int curmaxbot = -1;
+            for (y = 0; y < numofbots; y++) {
+                if (taken[y] == false && (wingames[y] > maxpointg || (wingames[y] == maxpointg && winmatches[y] > maxpointm))) {
                     maxpointg = wingames[y];
                     maxpointm = winmatches[y];
                     curmaxbot = y;
@@ -523,7 +508,7 @@ void DroidBattles::managetourney (int wins1, int wins2)
             taken[curmaxbot] = true;
         }
 
-        QTextStream s (&f);
+        QTextStream s(&f);
         QString temp;
 
         s << "<HTML>\n";
@@ -538,14 +523,13 @@ void DroidBattles::managetourney (int wins1, int wins2)
         s << "<TD>Bots defeated</TD>\n";
         s << "<TD>Single fights won</TD>\n";
         s << "</TR>\n";
-        for (x=0; x<numofbots; x++)
-        {
+        for (x = 0; x < numofbots; x++) {
             s << "<TR>\n";
-            s << "<TD>" << x+1 << "</TD>\n";
+            s << "<TD>" << x + 1 << "</TD>\n";
             s << "<TD>\n";
             temp = names[resorder[x]];
             int pos = temp.lastIndexOf("/");
-            temp = temp.right (temp.length()-pos-1);
+            temp = temp.right(temp.length() - pos - 1);
             s << temp;
             s << "</TD>\n";
             s << "<TD>" << wingames[resorder[x]] << "</TD>\n";
@@ -561,10 +545,8 @@ void DroidBattles::managetourney (int wins1, int wins2)
         enabletourneys();
         QString tempdc = QDir::currentPath();
         tempdc += "/tournament.html";
-        browser = new DocBrowser (tempdc);
-    }
-    else
-    {
+        browser = new DocBrowser(tempdc);
+    } else {
         teams[0] = 0;
         teams[1] = 1;
 
@@ -572,10 +554,10 @@ void DroidBattles::managetourney (int wins1, int wins2)
         battleConfig.names[0] = names[curmainbot];
         battleConfig.names[1] = names[cursecbot];
 
-        batt = new BattleArea (battleConfig);
+        batt = new BattleArea(battleConfig);
 
-        connect (batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
-        connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+        connect(batt, &BattleArea::battledone, this, &DroidBattles::managetourney);
+        connect(batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
         batt->show();
     }
 }
@@ -587,11 +569,11 @@ void DroidBattles::koth()
 {
     disabletourneys();
     kotht = new KothTournament();
-    kotht->resize (300,570);
+    kotht->resize(300, 570);
     kotht->show();
-    connect (kotht,&KothTournament::okclicked,this,&DroidBattles::startkoth);
-    connect (kotht,&KothTournament::cancelclicked,this,
-                      &DroidBattles::stopkoth);
+    connect(kotht, &KothTournament::okclicked, this, &DroidBattles::startkoth);
+    connect(kotht, &KothTournament::cancelclicked, this,
+            &DroidBattles::stopkoth);
 }
 
 /**
@@ -601,9 +583,8 @@ void DroidBattles::startkoth()
 {
     QString names[64];
     int numofbots = kotht->getnumofbots();
-    int numf,ln,xs,ys;
-    if (numofbots == 0)
-    {
+    int numf, ln, xs, ys;
+    if (numofbots == 0) {
         delete kotht;
         enabletourneys();
         return;
@@ -611,31 +592,31 @@ void DroidBattles::startkoth()
     if (numofbots > 64)
         numofbots = 64;
     int x;
-    for (x=0; x<numofbots; x++)
-    {
-        names[x] = kotht->getbotfile (x);
+    for (x = 0; x < numofbots; x++) {
+        names[x] = kotht->getbotfile(x);
     }
     numf = kotht->getnumfights(); //Get the number of fights
-    ln = kotht->getlength();			//Get the max length of fight
+    ln = kotht->getlength(); //Get the max length of fight
     xs = kotht->getxsize();
     ys = kotht->getysize();
-    if (!kotht->getseed()) kotht->setseed(qrand());
-    qsrand (kotht->getseed());
+    if (!kotht->getseed())
+        kotht->setseed(qrand());
+    qsrand(kotht->getseed());
 
     teams[0] = 0;
     teams[1] = 1;
 
     BattleConfig battleConfig = kotht->getBattleConfig();
-    battleConfig.names[0] = names[numofbots-2];
-    battleConfig.names[1] = names[numofbots-1];
+    battleConfig.names[0] = names[numofbots - 2];
+    battleConfig.names[1] = names[numofbots - 1];
 
-    batt = new BattleArea (battleConfig);
-    connect (batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
-    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+    batt = new BattleArea(battleConfig);
+    connect(batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
+    connect(batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
     kotht->hide();
-    curmainbot = numofbots-2;
-    cursecbot = numofbots-1;
+    curmainbot = numofbots - 2;
+    cursecbot = numofbots - 1;
 }
 
 /**
@@ -652,24 +633,22 @@ void DroidBattles::stopkoth()
 	* This function takes care of keeping the score table, start the next battle and
 	* write the results
 	*/
-void DroidBattles::mankothtourney (int wins1,int wins2)
+void DroidBattles::mankothtourney(int wins1, int wins2)
 {
     QString names[64];
     int numofbots = kotht->getnumofbots();
     int x;
-    if (numofbots == 0)
-    {
+    if (numofbots == 0) {
         delete kotht;
         enabletourneys();
         return;
     }
     if (numofbots > 64)
         numofbots = 64;
-    for (x=0; x<numofbots; x++)
-    {
-        names[x] = kotht->getbotfile (x);
-//		winmatches[x] = 0;
-//		wingames[x] = 0;
+    for (x = 0; x < numofbots; x++) {
+        names[x] = kotht->getbotfile(x);
+        //		winmatches[x] = 0;
+        //		wingames[x] = 0;
     }
 
     results[curmainbot].secbot = cursecbot;
@@ -677,66 +656,63 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
     results[curmainbot].secbotwins = wins2;
 
     //If mainbot lost
-    if (wins2 > wins1)
-    {
+    if (wins2 > wins1) {
         //mainbot in result array
-        newlist[curmainbot+1] = names[curmainbot];
+        newlist[curmainbot + 1] = names[curmainbot];
         //Change mainbot for new battle
         curmainbot--;
         if (curmainbot == -1)
-            newlist[curmainbot+1] = names[cursecbot];
+            newlist[curmainbot + 1] = names[cursecbot];
 
-    }
-    else
-    {
+    } else {
         //secbot in result array
-        newlist[curmainbot+1] = names[cursecbot];
+        newlist[curmainbot + 1] = names[cursecbot];
 
         //Change mainbot for new battle
         cursecbot = curmainbot;
         curmainbot--;
         if (curmainbot == -1)
-            newlist[curmainbot+1] = names[curmainbot+1];
-
+            newlist[curmainbot + 1] = names[curmainbot + 1];
     }
 
-
-    if (curmainbot == -1)
-    {
-        QFile f ("currentKOTH.table");
-        if (!f.open (QIODevice::WriteOnly))
-        {
+    if (curmainbot == -1) {
+        QFile f("currentKOTH.table");
+        if (!f.open(QIODevice::WriteOnly)) {
             //TODO: Add error mesage
             delete kotht;
             enabletourneys();
             return;
         }
 
-        QTextStream s (&f);
+        QTextStream s(&f);
         QString temp;
 
-        s << "Numberofbot:" << " " << numofbots << "\n";
-        for (x=0; x<numofbots; x++)
-        {
-            s << x+1 << ". " << newlist[x] << "\n";
+        s << "Numberofbot:"
+          << " " << numofbots << "\n";
+        for (x = 0; x < numofbots; x++) {
+            s << x + 1 << ". " << newlist[x] << "\n";
         }
-        s << "Numberoffights:" << " " << kotht->getnumfights() << "\n";
-        s << "Length:" << " " << kotht->getlength() << "\n";
-        s << "Xsize:" << " " << kotht->getxsize() << "\n";
-        s << "Ysize:" << " " << kotht->getysize() << "\n";
-        s << "Iffast:" << " " << kotht->getiffast() << "\n";
+        s << "Numberoffights:"
+          << " " << kotht->getnumfights() << "\n";
+        s << "Length:"
+          << " " << kotht->getlength() << "\n";
+        s << "Xsize:"
+          << " " << kotht->getxsize() << "\n";
+        s << "Ysize:"
+          << " " << kotht->getysize() << "\n";
+        s << "Iffast:"
+          << " " << kotht->getiffast() << "\n";
         f.close();
 
-        QFile f2 ("Kothresults.html");
-        if (!f2.open (QIODevice::WriteOnly))
-        {
+        QFile f2("Kothresults.html");
+        if (!f2.open(QIODevice::WriteOnly)) {
             //TODO: Add error mesage
             delete kotht;
             enabletourneys();
             return;
         }
 
-        QTextStream s2 (&f2);
+        QTextStream s2(&f2);
 
         s2 << "<HTML>\n";
         s2 << "<HEAD>\n";
@@ -748,20 +724,21 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         s2 << "<TD>Pos</TD>\n";
         s2 << "<TD>Bot name</TD>\n";
         s2 << "</TR>\n";
-        for (x=0; x<numofbots; x++)
-        {
+        for (x = 0; x < numofbots; x++) {
             s2 << "<TR>\n";
-            s2 << "<TD>" << x+1 << "</TD>\n";
+            s2 << "<TD>" << x + 1 << "</TD>\n";
             s2 << "<TD>\n";
             temp = newlist[x];
             int pos = temp.lastIndexOf("/");
-            temp = temp.right (temp.length()-pos-1);
+            temp = temp.right(temp.length() - pos - 1);
             s2 << temp;
             s2 << "</TD>\n";
             s2 << "</TR>\n";
         }
         s2 << "</TABLE>\n";
-        s2 << "<P>" << "Single match results: " << "</P>\n";
+        s2 << "<P>"
+           << "Single match results: "
+           << "</P>\n";
         s2 << "<TABLE border=1>\n";
         s2 << "<TR>\n";
         s2 << "<TD>Match nr</TD>\n";
@@ -769,27 +746,25 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         s2 << "<TD>Attacker</TD>\n";
         s2 << "<TD>Results</TD>\n";
         s2 << "</TR>\n";
-        for (x=numofbots-2; x>=0; x--)
-        {
+        for (x = numofbots - 2; x >= 0; x--) {
             s2 << "<TR>\n";
-            s2 << "<TD>" << numofbots-x-1 << "</TD>\n";
+            s2 << "<TD>" << numofbots - x - 1 << "</TD>\n";
             s2 << "<TD>\n";
 
             temp = names[x];
             int pos = temp.lastIndexOf("/");
-            temp = temp.right (temp.length()-pos-1);
+            temp = temp.right(temp.length() - pos - 1);
             s2 << temp;
             s2 << "</TD>\n";
 
             s2 << "<TD>\n";
             temp = names[results[x].secbot];
             pos = temp.lastIndexOf("/");
-            temp = temp.right (temp.length()-pos-1);
+            temp = temp.right(temp.length() - pos - 1);
             s2 << temp;
             s2 << "</TD>\n";
 
-            s2 << "<TD> " << results[x].mainbotwins << " - " <<
-            results[x].secbotwins << "</TD>\n";
+            s2 << "<TD> " << results[x].mainbotwins << " - " << results[x].secbotwins << "</TD>\n";
 
             s2 << "</TR>\n";
         }
@@ -803,10 +778,8 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         enabletourneys();
         QString tempdc = QDir::currentPath();
         tempdc += "/Kothresults.html";
-        browser = new DocBrowser (tempdc);
-    }
-    else
-    {
+        browser = new DocBrowser(tempdc);
+    } else {
         teams[0] = 0;
         teams[1] = 1;
 
@@ -814,26 +787,25 @@ void DroidBattles::mankothtourney (int wins1,int wins2)
         battleConfig.names[0] = names[curmainbot];
         battleConfig.names[1] = names[cursecbot];
 
-        batt = new BattleArea (battleConfig);
+        batt = new BattleArea(battleConfig);
 
-        connect (batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
-        connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+        connect(batt, &BattleArea::battledone, this, &DroidBattles::mankothtourney);
+        connect(batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
 
         batt->show();
     }
-
 }
 
 void DroidBattles::cup()
 {
     disabletourneys();
     cuptournament = new StartCup();
-    cuptournament->resize (300,570);
+    cuptournament->resize(300, 570);
     cuptournament->show();
-    QObject::connect (cuptournament,SIGNAL (okclicked()),this,
-                      SLOT (startcupt()));
-    QObject::connect (cuptournament,SIGNAL (cancelclicked()),this,
-                      SLOT (stopcup()));
+    QObject::connect(cuptournament, SIGNAL(okclicked()), this,
+                     SLOT(startcupt()));
+    QObject::connect(cuptournament, SIGNAL(cancelclicked()), this,
+                     SLOT(stopcup()));
 }
 
 void DroidBattles::startcupt()
@@ -843,8 +815,7 @@ void DroidBattles::startcupt()
     botsleft = cuptournament->getnumofbots();
     QString names[64];
     int numofbots = cuptournament->getnumofbots();
-    if (numofbots == 0)
-    {
+    if (numofbots == 0) {
         delete cuptournament;
         enabletourneys();
         return;
@@ -852,13 +823,13 @@ void DroidBattles::startcupt()
     if (numofbots > 64)
         numofbots = 64;
     int x;
-    for (x=0; x<numofbots; x++)
-    {
-        names[x] = cuptournament->getbotfile (x);
+    for (x = 0; x < numofbots; x++) {
+        names[x] = cuptournament->getbotfile(x);
         nextround[x] = x;
     }
-    if (!cuptournament->getseed()) cuptournament->setseed(qrand());
-    qsrand (cuptournament->getseed());
+    if (!cuptournament->getseed())
+        cuptournament->setseed(qrand());
+    qsrand(cuptournament->getseed());
 
     teams[0] = 0;
     teams[1] = 1;
@@ -869,9 +840,9 @@ void DroidBattles::startcupt()
     BattleConfig battleConfig = cuptournament->getBattleConfig();
     battleConfig.names[0] = names[0];
     battleConfig.names[1] = names[1];
-    batt = new BattleArea (battleConfig);
-    connect (batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
-    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+    batt = new BattleArea(battleConfig);
+    connect(batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
+    connect(batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
     cuptournament->hide();
 }
@@ -882,24 +853,22 @@ void DroidBattles::stopcup()
     enabletourneys();
 }
 
-void DroidBattles::mancuptourney (int wins1,int wins2)
+void DroidBattles::mancuptourney(int wins1, int wins2)
 {
     QString names[64];
     int numofbots = cuptournament->getnumofbots();
     int x;
-    if (numofbots == 0)
-    {
+    if (numofbots == 0) {
         delete kotht;
         enabletourneys();
         return;
     }
     if (numofbots > 64)
         numofbots = 64;
-    for (x=0; x<numofbots; x++)
-    {
-        names[x] = cuptournament->getbotfile (x);
-//		winmatches[x] = 0;
-//		wingames[x] = 0;
+    for (x = 0; x < numofbots; x++) {
+        names[x] = cuptournament->getbotfile(x);
+        //		winmatches[x] = 0;
+        //		wingames[x] = 0;
     }
 
     results[resultcounter].mainbot = nextround[curmainbot];
@@ -918,26 +887,22 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
     cursecbot += 2;
     nextroundcount++;
 
-    if (botsleft==2 || botsleft==4 || botsleft==8 || botsleft==16 ||
-            botsleft==32)
-    {
+    if (botsleft == 2 || botsleft == 4 || botsleft == 8 || botsleft == 16 || botsleft == 32) {
         curmainbot = 0;
         cursecbot = 1;
         nextroundcount = 0;
     }
-    if (botsleft == 1)
-    {
+    if (botsleft == 1) {
         //write results
-        QFile f2 ("Cupresults.html");
-        if (!f2.open (QIODevice::WriteOnly))
-        {
+        QFile f2("Cupresults.html");
+        if (!f2.open(QIODevice::WriteOnly)) {
             //TODO: Add error mesage
             delete cuptournament;
             enabletourneys();
             return;
         }
 
-        QTextStream s2 (&f2);
+        QTextStream s2(&f2);
         s2 << "<HTML>\n";
         s2 << "<HEAD>\n";
         s2 << "<TITLE>Cup results</TITLE>\n";
@@ -948,28 +913,27 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
         s2 << "<TD>Bot1</TD><TD>Bot2</TD><TD>Result</TD></TR>\n";
 
         int xxx = cuptournament->getnumofbots();
-        resultcounter=0;
+        resultcounter = 0;
         int x;
-        while (xxx > 1)
-        {
-            for (x = 0; x < xxx; x+=2)
-            {
+        while (xxx > 1) {
+            for (x = 0; x < xxx; x += 2) {
                 s2 << "<TR><TD>" << names[results[resultcounter].mainbot]
-                << "</TD><TD>" << names[results[resultcounter].secbot]
-                << "</TD><TD>" << results[resultcounter].mainbotwins
-                << " - " <<  results[resultcounter].secbotwins << "</TD></TR>\n";
+                   << "</TD><TD>" << names[results[resultcounter].secbot]
+                   << "</TD><TD>" << results[resultcounter].mainbotwins
+                   << " - " << results[resultcounter].secbotwins << "</TD></TR>\n";
                 resultcounter++;
             }
             s2 << "<HR>\n";
             xxx /= 2;
         }
-        s2 << "</TABLE>\n" << "Winner: " << names[nextround[0]] << "\n<BR>";
+        s2 << "</TABLE>\n"
+           << "Winner: " << names[nextround[0]] << "\n<BR>";
         s2 << "Random seed used: " << cuptournament->getseed();
         s2 << "\n</BODY>\n</HTML>";
         f2.close();
         QString tempdc = QDir::currentPath();
         tempdc += "/Cupresults.html";
-        browser = new DocBrowser (tempdc);
+        browser = new DocBrowser(tempdc);
         delete cuptournament;
         enabletourneys();
         return;
@@ -982,11 +946,10 @@ void DroidBattles::mancuptourney (int wins1,int wins2)
     battleConfig.names[0] = names[nextround[curmainbot]];
     battleConfig.names[1] = names[nextround[cursecbot]];
 
-    batt = new BattleArea (battleConfig);
-    connect (batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
-    connect (batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
+    batt = new BattleArea(battleConfig);
+    connect(batt, &BattleArea::battledone, this, &DroidBattles::mancuptourney);
+    connect(batt, &BattleArea::closed, this, &DroidBattles::enabletourneys);
     batt->show();
-
 }
 
 void DroidBattles::enabletourneys()
@@ -1020,9 +983,8 @@ void DroidBattles::disablebattles()
 void DroidBattles::onConfHelpRequested()
 {
     if (!browser) {
-        browser = new DocBrowser ("qrc:/doc/index-8.html");
+        browser = new DocBrowser("qrc:/doc/index-8.html");
     } else {
-        browser->setSource (QUrl("qrc:/doc/index-8.html"));
-
+        browser->setSource(QUrl("qrc:/doc/index-8.html"));
     }
 }

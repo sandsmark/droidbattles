@@ -72,10 +72,10 @@ public:
 
     const static Instruction instructions[247];
 
-    Instruction (const char mnem[],int arg1t,int arg2t,int bit,int arg1b,int arg2b,
-                 int op);
+    Instruction(const char mnem[], int arg1t, int arg2t, int bit, int arg1b, int arg2b,
+                int op);
     ~Instruction();
-    bool checkmatch (QString &mnem, int arg1t, int arg2t, int bits) const;
+    bool checkmatch(QString &mnem, int arg1t, int arg2t, int bits) const;
     unsigned char getopcode() const;
 
     int getarg1bits() const;
@@ -93,7 +93,6 @@ private:
     int arg2bits;
     int bits;
     unsigned char opcode;
-
 };
 
 #endif

@@ -70,7 +70,6 @@ public:
     ~DroidBattles();
 
 private:
-
     void enabletourneys();
     void disabletourneys();
 
@@ -149,17 +148,17 @@ private slots:
     void tournament();
     void starttourney();
     void stoptourney();
-    void managetourney (int wins1, int wins2);
+    void managetourney(int wins1, int wins2);
 
     void koth();
     void startkoth();
     void stopkoth();
-    void mankothtourney (int wins1, int wins2);
+    void mankothtourney(int wins1, int wins2);
 
     void cup();
     void startcupt();
     void stopcup();
-    void mancuptourney (int wins1,int wins2);
+    void mancuptourney(int wins1, int wins2);
 
     void showdoc();
     void onHelpRequested(const QString &word);
@@ -167,4 +166,3 @@ private slots:
 };
 
 #endif
-

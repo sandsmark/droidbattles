@@ -18,7 +18,6 @@
 #ifndef RAM_H
 #define RAM_H
 
-
 /**
 	* The memmodule for bots and others, mainly used by CPU devices
 	* contains functions for reading/writing to memory
@@ -41,29 +40,27 @@ public:
     };
 
     Ram();
-    Ram (int amount,unsigned char *buf);
+    Ram(int amount, unsigned char *buf);
     ~Ram();
-    unsigned char getbyte (int adress);
-    char getibyte (int adress);
-    unsigned short getword (int adress);
-    short getiword (int adress);
-    void setbyte (int adress, unsigned char value);
-    void setibyte (int adress, char value);
-    void setword (int adress, unsigned short value);
-    void setiword (int adress, short value);
+    unsigned char getbyte(int adress);
+    char getibyte(int adress);
+    unsigned short getword(int adress);
+    short getiword(int adress);
+    void setbyte(int adress, unsigned char value);
+    void setibyte(int adress, char value);
+    void setword(int adress, unsigned short value);
+    void setiword(int adress, short value);
     int returnsize();
     int getowners();
     void addowner();
     void removeowner();
 
 private:
-
     unsigned char *mem;
     char *cret;
     short *sret;
     unsigned short RAMamount;
     int numowners;
-
 };
 
 #endif

@@ -28,8 +28,8 @@ Rocket::~Rocket()
 /**
 	* Init position, gfx
 	*/
-Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
-                int owner, bool ui)
+Rocket::Rocket(int X, int Y, int dir, int leng, int mnum, TextmodeBattleArea &area,
+               int owner, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -43,25 +43,23 @@ Rocket::Rocket (int X,int Y,int dir,int leng,int mnum, TextmodeBattleArea &area,
     uX = X;
     uY = Y;
     double dira = direction() * pi / 512;
-    setPosition (cos (dira) * 1500,sin (dira) * 1500);
+    setPosition(cos(dira) * 1500, sin(dira) * 1500);
     m_size = 16;
     countpoint = 0;
     length = leng;
-    if (useUI)
-    {
-        for (int x=0; x<50; x++)
-        {
-            pointX[x] = int (Xpos);
-            pointY[x] = int (Ypos);
-            pointD[x] = direction() +512 + (rand() %128)-64;
+    if (useUI) {
+        for (int x = 0; x < 50; x++) {
+            pointX[x] = int(Xpos);
+            pointY[x] = int(Ypos);
+            pointD[x] = direction() + 512 + (rand() % 128) - 64;
         }
         erasegfx = new QPixmap(8, 8);
-        erasegfx->fill (Qt::black);
-        graphics = PixmapHolder::getpmp (PixmapHolder::Rocket);
+        erasegfx->fill(Qt::black);
+        graphics = PixmapHolder::getpmp(PixmapHolder::Rocket);
     }
 }
 
-int Rocket::objectHit (int /*type*/, int /*strength*/)
+int Rocket::objectHit(int /*type*/, int /*strength*/)
 {
     return 1;
 }
@@ -79,15 +77,14 @@ ScreenObject::ObjectType Rocket::type()
 	*/
 void Rocket::eraseObject(QPixmap *buffer)
 {
-    QPainter p (buffer);
-    p.setPen (QColor (0,0,0));
+    QPainter p(buffer);
+    p.setPen(QColor(0, 0, 0));
     int x;
-    for (x=0; x<50; x++)
-    {
-        p.drawPoint (pointX[x]>>6,pointY[x]>>6);
+    for (x = 0; x < 50; x++) {
+        p.drawPoint(pointX[x] >> 6, pointY[x] >> 6);
     }
 
-    p.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
+    p.drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
 }
 
 /**
@@ -99,21 +96,23 @@ void Rocket::drawObject(QPixmap *buffer, int opt)
         return;
     }
 
-    QPainter p (buffer);
-    pointD[countpoint] = direction() +512 + (rand() %128)-64;
-    if (pointD[countpoint] > 1024) pointD[countpoint] -= 1024;
-    pointX[countpoint] = int (Xpos);
-    pointY[countpoint] = int (Ypos);
+    QPainter p(buffer);
+    pointD[countpoint] = direction() + 512 + (rand() % 128) - 64;
+    if (pointD[countpoint] > 1024)
+        pointD[countpoint] -= 1024;
+    pointX[countpoint] = int(Xpos);
+    pointY[countpoint] = int(Ypos);
 
-    if (++countpoint >= 50) countpoint = 0;
+    if (++countpoint >= 50)
+        countpoint = 0;
     int x;
 
-    for (x=0; x<50; x++) {
-        p.setPen (QColor (255,0,0, (rand() % 128) + 64));
+    for (x = 0; x < 50; x++) {
+        p.setPen(QColor(255, 0, 0, (rand() % 128) + 64));
         double dira = pointD[x] * pi / 512;
-        pointX[x] += int (cos (dira) * 64);
-        pointY[x] += int (sin (dira) * 64);
-        p.drawPoint (pointX[x]>>6,pointY[x]>>6);
+        pointX[x] += int(cos(dira) * 64);
+        pointY[x] += int(sin(dira) * 64);
+        p.drawPoint(pointX[x] >> 6, pointY[x] >> 6);
     }
     p.drawPixmap((int(Xpos) >> 6) - 4, (int(Ypos) >> 6) - 4, *graphics);
 }
@@ -125,11 +124,10 @@ void Rocket::drawObject(QPixmap *buffer, int opt)
 int Rocket::execute()
 {
     double dir = direction() * pi / 512;
-    int ret = setPosition(cos(dir) * m_speed, sin(dir) * m_speed);       //Update position
-    int dist = int (sqrt ( (Xpos-uX) * (Xpos-uX) + (Ypos-uY) * (Ypos-uY)));
-    if (dist > length)
-    {
-        ourarea->explosions (Xpos,Ypos,3500,120,mynum);
+    int ret = setPosition(cos(dir) * m_speed, sin(dir) * m_speed); //Update position
+    int dist = int(sqrt((Xpos - uX) * (Xpos - uX) + (Ypos - uY) * (Ypos - uY)));
+    if (dist > length) {
+        ourarea->explosions(Xpos, Ypos, 3500, 120, mynum);
         return destroyself;
     }
     return ret;
@@ -138,16 +136,20 @@ int Rocket::execute()
 /**
 	* Move, and if he moved outside, destroy self
 	*/
-int Rocket::setPosition(double X,double Y)
+int Rocket::setPosition(double X, double Y)
 {
-    oldX = int (Xpos);
-    oldY = int (Ypos);
+    oldX = int(Xpos);
+    oldY = int(Ypos);
     Xpos += X;
     Ypos += Y;
-    if (Xpos < 0) return destroyself;
-    if (Xpos > ourarea->getareainfo (0)) return destroyself;
-    if (Ypos < 0) return destroyself;
-    if (Ypos > ourarea->getareainfo (1)) return destroyself;
+    if (Xpos < 0)
+        return destroyself;
+    if (Xpos > ourarea->getareainfo(0))
+        return destroyself;
+    if (Ypos < 0)
+        return destroyself;
+    if (Ypos > ourarea->getareainfo(1))
+        return destroyself;
     return 0;
 }
 

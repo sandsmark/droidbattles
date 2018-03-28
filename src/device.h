@@ -35,21 +35,21 @@ public:
 
     Device();
     virtual ~Device();
-    Device (ScreenObject &object);
-    void addInputPort (unsigned char port,unsigned short value);
-    void setRelativeAngle (int);
+    Device(ScreenObject &object);
+    void addInputPort(unsigned char port, unsigned short value);
+    void setRelativeAngle(int);
     virtual void execute();
-    virtual int readPort (unsigned char port);
-    virtual int absorbHit (int str,int ifint);
-    virtual void erase (QPainter *painter);
-    virtual void draw (QPainter *painter);
+    virtual int readPort(unsigned char port);
+    virtual int absorbHit(int str, int ifint);
+    virtual void erase(QPainter *painter);
+    virtual void draw(QPainter *painter);
     virtual int type();
     virtual int specialValue();
     virtual struct DebugContents debugContents();
-    virtual void doSpecial (int, int=0);
+    virtual void doSpecial(int, int = 0);
 
 protected:
-    void moveportstack (int port);
+    void moveportstack(int port);
 
     int portstack[4][4];
     bool stacktaken[4][4];
@@ -58,8 +58,6 @@ protected:
     int ourlevel;
     bool intenabled;
     bool intenabled2;
-
 };
-
 
 #endif

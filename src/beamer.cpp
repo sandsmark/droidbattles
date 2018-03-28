@@ -20,19 +20,17 @@
 /**
 	* Constructor, inits device
 	*/
-Beamer::Beamer (ScreenObject &object, int arg1)
+Beamer::Beamer(ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
     int count;
     int count2;
     relang = 0;
-    for (count=0; count<3; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 3; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -48,40 +46,37 @@ Beamer::~Beamer()
 	*/
 void Beamer::execute()
 {
-    if (stacktaken[0][0] == true)
-    {
-        moveportstack (0);
+    if (stacktaken[0][0] == true) {
+        moveportstack(0);
         //Fire beam
-        if (ourbot->fuel() <= 20) return;
-        ourbot->setFuel (-20);
-        ourbot->changeHeat (ourlevel);
-        ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
-                              ourbot->direction() +relang,5,length);
+        if (ourbot->fuel() <= 20)
+            return;
+        ourbot->setFuel(-20);
+        ourbot->changeHeat(ourlevel);
+        ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
+                                ourbot->direction() + relang, 5, length);
     }
-    if (stacktaken[1][0] == true)
-    {
+    if (stacktaken[1][0] == true) {
         relang = portstack[1][0];
-        moveportstack (1);
+        moveportstack(1);
     }
 
-    if (stacktaken[2][0] == true)
-    {
+    if (stacktaken[2][0] == true) {
         length = portstack[2][0];
-        moveportstack (2);
+        moveportstack(2);
     }
 }
 
 /**
 	* Return values to the CPU instruktion IN
 	*/
-int Beamer::readPort (unsigned char port)
+int Beamer::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return relang;
         break;
-    case 1 :
+    case 1:
         return length;
         break;
     }

@@ -35,30 +35,28 @@ class RadarMissile : public ScreenObject
 {
 
 public:
-
-    RadarMissile (int,int,int,int,int,int,TextmodeBattleArea &,Ram *,int owner, bool ui=true);
+    RadarMissile(int, int, int, int, int, int, TextmodeBattleArea &, Ram *, int owner, bool ui = true);
     ~RadarMissile();
     int execute();
-    void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt);
+    void eraseObject(QPixmap *buffer);
+    void drawObject(QPixmap *buffer, int opt);
     ObjectType type();
     int collisionType();
     int collisionStrength();
-    int setPosition (double X,double Y);
-    int objectHit (int type,int strength);
-    int readDevicePort (unsigned char port);
-    void writeDevicePort (unsigned char port,unsigned short value);
-    int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2);
+    int setPosition(double X, double Y);
+    int objectHit(int type, int strength);
+    int readDevicePort(unsigned char port);
+    void writeDevicePort(unsigned char port, unsigned short value);
+    int writetoBattleArea(int bot, int dev, int choice, int arg1, int arg2);
     int returnRadar();
-    void createDbgWindow (int, QPlainTextEdit *, int*, int*);
+    void createDbgWindow(int, QPlainTextEdit *, int *, int *);
 
 private:
-
     TextmodeBattleArea *ourarea;
     int strength;
     Ram *ramdevice;
     Device *devices[3];
-    DebugWindow* dbgWindow;
+    DebugWindow *dbgWindow;
 };
 
 #endif

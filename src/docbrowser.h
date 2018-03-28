@@ -31,9 +31,9 @@ class DocBrowser : public QTextBrowser
 {
 
 public:
-    DocBrowser (QString src);
+    DocBrowser(QString src);
     ~DocBrowser();
-    void closeEvent (QCloseEvent *e);
+    void closeEvent(QCloseEvent *e);
 
 public slots:
     void lookUp(const QString &keyword);

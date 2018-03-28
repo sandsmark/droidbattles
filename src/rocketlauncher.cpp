@@ -17,20 +17,18 @@
 
 #include "rocketlauncher.h"
 
-RocketLauncher::RocketLauncher (ScreenObject &object,int level, int offset)
+RocketLauncher::RocketLauncher(ScreenObject &object, int level, int offset)
 {
     ourlevel = level;
     ourbot = &object;
     int count;
     int count2;
     readiness = 200;
-    relang = offset*4;
-    for (count=0; count<3; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    relang = offset * 4;
+    for (count = 0; count < 3; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -44,21 +42,19 @@ RocketLauncher::~RocketLauncher()
 	*/
 void RocketLauncher::execute()
 {
-    if (readiness < 200) readiness++;
+    if (readiness < 200)
+        readiness++;
     //Set distance
-    if (stacktaken[0][0] == true)
-    {
+    if (stacktaken[0][0] == true) {
         distance = portstack[0][0];
-        moveportstack (0);
+        moveportstack(0);
     }
     //Fire a rocket
-    if (stacktaken[1][0] == true)
-    {
-        if (readiness > 100)
-        {
-            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
-                                  ourbot->direction() +relang,6,distance);
-            moveportstack (1);
+    if (stacktaken[1][0] == true) {
+        if (readiness > 100) {
+            ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
+                                    ourbot->direction() + relang, 6, distance);
+            moveportstack(1);
             readiness -= ourlevel;
         }
     }
@@ -67,14 +63,13 @@ void RocketLauncher::execute()
 /**
 	* return inports
 	*/
-int RocketLauncher::readPort (unsigned char port)
+int RocketLauncher::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return readiness;
         break;
-    case 1 :
+    case 1:
         return distance;
         break;
     }

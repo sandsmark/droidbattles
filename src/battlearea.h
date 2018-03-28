@@ -45,16 +45,15 @@ class BattleArea : public QDialog, public TextmodeBattleArea
     Q_OBJECT
 
 public:
-
-    BattleArea (const BattleConfig &battleConfig, bool ifdebug=false,
-                QPlainTextEdit *dbedit=NULL, int *dbl=0, int *dbm=0);
+    BattleArea(const BattleConfig &battleConfig, bool ifdebug = false,
+               QPlainTextEdit *dbedit = NULL, int *dbl = 0, int *dbm = 0);
     ~BattleArea();
-    void addscrobject (int owner,int X,int Y,int dir,int type,int arg1=0,
-                       int arg2=0, void *arg3=0);
+    void addscrobject(int owner, int X, int Y, int dir, int type, int arg1 = 0,
+                      int arg2 = 0, void *arg3 = 0);
     //int devio( int bot,int dev,int choice,int arg1,int arg2 );
-    void startonebattle (int);
+    void startonebattle(int);
     //int	getareainfo( int );
-    void explosions (int x,int y, int rad, int strength, int whichobject);
+    void explosions(int x, int y, int rad, int strength, int whichobject);
     //int getstartx( int );
     //int getstarty( int );
 
@@ -69,22 +68,21 @@ private slots:
     void dmem();
 
 signals:
-    void battledone (int,int);
+    void battledone(int, int);
     void closed();
 
 protected:
-    void closeEvent(QCloseEvent*);
+    void closeEvent(QCloseEvent *);
 
 private:
-
-    QList<DebugWindow*> dbgwindows;
+    QList<DebugWindow *> dbgwindows;
     QPlainTextEdit *_dbedit;
     int *_dbl;
     int *_dbm;
 
     int missilesLaunched;
 
-//		screenobject *objects[256];
+    //		screenobject *objects[256];
     QPixmap m_pixmap;
     QLabel *mydrw;
     QWidget *infowindow;

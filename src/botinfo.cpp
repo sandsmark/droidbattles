@@ -26,7 +26,7 @@
 /**
     * Constructor, create all GUI elements
     */
-BotInfo::BotInfo (const QString &botname, ScreenObject *rb, int armor)
+BotInfo::BotInfo(const QString &botname, ScreenObject *rb, int armor)
 {
     bot = rb;
     if (botname.isEmpty()) {
@@ -49,7 +49,6 @@ BotInfo::BotInfo (const QString &botname, ScreenObject *rb, int armor)
     armorlevel.setMaximum(armor);
     armorlevel.setValue(armor);
 
-
     heatmsg.setText("H:");
 
     heatlevel.setMaximum(850);
@@ -60,8 +59,8 @@ BotInfo::BotInfo (const QString &botname, ScreenObject *rb, int armor)
     message.setText("M: ");
 
     ifscanner.setText("Show device gfx");
-    ifscanner.setChecked (true);
-    connect (&ifscanner, &QAbstractButton::toggled, this, &BotInfo::statch);
+    ifscanner.setChecked(true);
+    connect(&ifscanner, &QAbstractButton::toggled, this, &BotInfo::statch);
 
     showgfx.setPixmap(rb->getgfx().copy(0, 0, rb->getgfx().height(), rb->getgfx().height()));
 }
@@ -95,7 +94,7 @@ BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name
     * Updates armor progressbar
     * Connected to armorchanged signal that the bot emits
     */
-void BotInfo::armorupdated (int x)
+void BotInfo::armorupdated(int x)
 {
     armorlevel.setValue(x);
 
@@ -113,24 +112,24 @@ void BotInfo::armorupdated (int x)
 /**
     * emits signal that makes the bots show/not show device gfx
     */
-void BotInfo::statch (bool x)
+void BotInfo::statch(bool x)
 {
-    emit (changeinset (x));
+    emit(changeinset(x));
 }
 
 /**
     * Updates fuel value
     */
-void BotInfo::updatefuel (int fuel,int heat)
+void BotInfo::updatefuel(int fuel, int heat)
 {
-    msgmsg.setText (QString::asprintf("F: %d", fuel));
+    msgmsg.setText(QString::asprintf("F: %d", fuel));
     heatlevel.setValue(heat);
 }
 
 /**
     * Shows new message
     */
-void BotInfo::newmessage (char *msg)
+void BotInfo::newmessage(char *msg)
 {
     message.setText(QString::asprintf("M: %s", msg));
 }

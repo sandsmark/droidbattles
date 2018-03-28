@@ -43,7 +43,6 @@ class ConfEdit : public QDialog
     Q_OBJECT
 
 public:
-
     ConfEdit();
     ~ConfEdit();
 
@@ -90,10 +89,9 @@ private slots:
     void makecurrc();
     void savec();
     void defaultc();
-    void openfile (const QString &tempname);
+    void openfile(const QString &tempname);
 
     void save(const QString &filename);
-
 };
 
 #endif

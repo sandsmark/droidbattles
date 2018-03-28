@@ -39,16 +39,16 @@ public:
     static BotInfo *addBotInfo(QGridLayout *layout, int index, const QString &name, ScreenObject *screenObject);
 
 private slots:
-    void armorupdated (int x);
-    void updatefuel (int fuel, int heat);
-    void statch (bool x);
-    void newmessage (char *msg);
+    void armorupdated(int x);
+    void updatefuel(int fuel, int heat);
+    void statch(bool x);
+    void newmessage(char *msg);
 
 signals:
-    void changeinset (bool x);
+    void changeinset(bool x);
 
 private:
-    BotInfo (const QString &botname, ScreenObject *rb, int armor);
+    BotInfo(const QString &botname, ScreenObject *rb, int armor);
 
     QLabel botnam;
     QProgressBar armorlevel;

@@ -29,17 +29,16 @@ class Armor : public Device
 {
 
 public:
-
-    Armor (ScreenObject &object,int);
+    Armor(ScreenObject &object, int);
     ~Armor();
     void execute();
-    int absorbHit (int str,int ifint);
+    int absorbHit(int str, int ifint);
     int type();
     int specialValue();
-    int readPort (unsigned char port);
-    void doSpecial (int,int=0);
-private:
+    int readPort(unsigned char port);
+    void doSpecial(int, int = 0);
 
+private:
     int strength;
     int orstrength;
     int armorintlevel;

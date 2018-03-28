@@ -3,7 +3,8 @@
 
 #include <array>
 
-struct BattleConfig {
+struct BattleConfig
+{
     enum FightMode {
         Normal = 0,
         Survival = 1,
@@ -18,7 +19,7 @@ struct BattleConfig {
     int maxRounds = 6000;
     int maxPoints = 10;
     int numFights = 1;
-    std::array<int, 8> teams = {0};
+    std::array<int, 8> teams = { 0 };
     bool fastMode = false;
 };
 

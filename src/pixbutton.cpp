@@ -20,8 +20,8 @@
 #include <QStylePainter>
 #include <QStyleOptionButton>
 
-PixButton::PixButton (QString text,QWidget *parent)
-        : QPushButton (text, parent)
+PixButton::PixButton(QString text, QWidget *parent) :
+    QPushButton(text, parent)
 {
     tex = text;
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -31,7 +31,7 @@ PixButton::~PixButton()
 {
 }
 
-void PixButton::paintEvent (QPaintEvent *)
+void PixButton::paintEvent(QPaintEvent *)
 {
     // Draw our own background and text
     QPainter paint(this);
@@ -53,5 +53,5 @@ void PixButton::paintEvent (QPaintEvent *)
     }
 
     paint.setPen(Qt::black);
-    paint.drawText (0, 0, width(), height(), Qt::AlignCenter, tex);
+    paint.drawText(0, 0, width(), height(), Qt::AlignCenter, tex);
 }

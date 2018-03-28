@@ -20,22 +20,22 @@
 Ram::Ram()
 {
     mem = new unsigned char[1];
-    numowners=1;
-    RAMamount=1;
+    numowners = 1;
+    RAMamount = 1;
 }
 
 /**
 	* Constructs RAM and fills the RAM
 	* with contents
 	*/
-Ram::Ram (int amount,unsigned char *buf)
+Ram::Ram(int amount, unsigned char *buf)
 {
     RAMamount = amount;
     mem = new unsigned char[RAMamount];
     int x;
-    for (x=0; x<RAMamount; x++)
-        mem[x] = buf[x+256];
-    numowners=1;
+    for (x = 0; x < RAMamount; x++)
+        mem[x] = buf[x + 256];
+    numowners = 1;
 }
 
 /**
@@ -43,13 +43,13 @@ Ram::Ram (int amount,unsigned char *buf)
 	*/
 Ram::~Ram()
 {
-    delete [] mem;
+    delete[] mem;
 }
 
 /**
 	* Returns byte at adress adress
 	*/
-unsigned char Ram::getbyte (int adress)
+unsigned char Ram::getbyte(int adress)
 {
     if (adress > 0 && adress < RAMamount)
         return mem[adress];
@@ -60,51 +60,44 @@ unsigned char Ram::getbyte (int adress)
 /**
 	* Returns signed byte
 	*/
-char Ram::getibyte (int adress)
+char Ram::getibyte(int adress)
 {
-    if (adress < RAMamount)
-    {
-        cret = (char *) &mem[adress];
+    if (adress < RAMamount) {
+        cret = (char *)&mem[adress];
         return *cret;
-    }
-    else
+    } else
         return 0xFF;
-
 }
 
 /**
 	* Returns word
 	*/
-unsigned short Ram::getword (int adress)
+unsigned short Ram::getword(int adress)
 {
-    if (adress < RAMamount-1)
-    {
-//		usret = (unsigned short *)&mem[adress];
-//		return *usret;
-        return mem[adress] + mem[adress+1]*256;
-    }
-    else
+    if (adress < RAMamount - 1) {
+        //		usret = (unsigned short *)&mem[adress];
+        //		return *usret;
+        return mem[adress] + mem[adress + 1] * 256;
+    } else
         return 0xFFFF;
 }
 
 /**
 	* Returns signed word
 	*/
-short Ram::getiword (int adress)
+short Ram::getiword(int adress)
 {
-    if (adress < RAMamount-1)
-    {
-        sret = (short *) &mem[adress];
+    if (adress < RAMamount - 1) {
+        sret = (short *)&mem[adress];
         return *sret;
-    }
-    else
+    } else
         return 0xFFFF;
 }
 
 /**
 	* Sets byte
 	*/
-void Ram::setbyte (int adress,unsigned char value)
+void Ram::setbyte(int adress, unsigned char value)
 {
     if (adress < RAMamount)
         mem[adress] = value;
@@ -113,14 +106,13 @@ void Ram::setbyte (int adress,unsigned char value)
 /**
 	* Sets word
 	*/
-void Ram::setword (int adress,unsigned short value)
+void Ram::setword(int adress, unsigned short value)
 {
-    if (adress < RAMamount-1)
-    {
-        mem[adress] = value%256;
-        mem[adress + 1] = value/256;
-//		usret = (unsigned short *)&mem[adress];
-//		*usret = value;
+    if (adress < RAMamount - 1) {
+        mem[adress] = value % 256;
+        mem[adress + 1] = value / 256;
+        //		usret = (unsigned short *)&mem[adress];
+        //		*usret = value;
     }
 }
 
@@ -128,11 +120,10 @@ void Ram::setword (int adress,unsigned short value)
 	* Sets signed byte
 	* (Obsolete?)
 	*/
-void Ram::setibyte (int adress,char value)
+void Ram::setibyte(int adress, char value)
 {
-    if (adress < RAMamount)
-    {
-        cret = (char *) &mem[adress];
+    if (adress < RAMamount) {
+        cret = (char *)&mem[adress];
         *cret = value;
     }
 }
@@ -141,11 +132,10 @@ void Ram::setibyte (int adress,char value)
 	* Sets signed word
 	* (Obsolete?)
 	*/
-void Ram::setiword (int adress,short value)
+void Ram::setiword(int adress, short value)
 {
-    if (adress < RAMamount-1)
-    {
-        sret = (short *) &mem[adress];
+    if (adress < RAMamount - 1) {
+        sret = (short *)&mem[adress];
         *sret = value;
     }
 }

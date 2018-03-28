@@ -21,7 +21,7 @@
 /**
 	* Constructor ,inits device
 	*/
-Armor::Armor (ScreenObject &object, int arg1)
+Armor::Armor(ScreenObject &object, int arg1)
 {
     ourbot = &object;
     strength = arg1;
@@ -33,12 +33,10 @@ Armor::Armor (ScreenObject &object, int arg1)
     heatintlevel = 1000;
     int count;
     int count2;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -56,34 +54,28 @@ Armor::~Armor()
 	*/
 void Armor::execute()
 {
-    if (intenabled2)
-    {
+    if (intenabled2) {
         if (ourbot->armorval < armorintlevel)
-            ourbot->addInterrupt (3);
+            ourbot->addInterrupt(3);
     }
-    if (ourbot->heat() > heatintlevel)
-    {
-        ourbot->addInterrupt (5);
+    if (ourbot->heat() > heatintlevel) {
+        ourbot->addInterrupt(5);
     }
-    if (stacktaken[0][0] == true)
-    {
+    if (stacktaken[0][0] == true) {
         intenabled = portstack[0][0];
-        moveportstack (0);
+        moveportstack(0);
     }
-    if (stacktaken[1][0] == true)
-    {
+    if (stacktaken[1][0] == true) {
         intenabled2 = portstack[1][0];
-        moveportstack (1);
+        moveportstack(1);
     }
-    if (stacktaken[2][0] == true)
-    {
+    if (stacktaken[2][0] == true) {
         armorintlevel = portstack[2][0];
-        moveportstack (2);
+        moveportstack(2);
     }
-    if (stacktaken[3][0] == true)
-    {
+    if (stacktaken[3][0] == true) {
         heatintlevel = portstack[3][0];
-        moveportstack (3);
+        moveportstack(3);
     }
 }
 
@@ -91,17 +83,15 @@ void Armor::execute()
 	* Takes in the strength of the hit and
 	*	returns the amount of hitpoints it couldn't absorb
 	*/
-int Armor::absorbHit (int str,int ifint)
+int Armor::absorbHit(int str, int ifint)
 {
-    if (strength >= str)
-    {
+    if (strength >= str) {
         strength -= str;
         ourbot->armorval -= str;
-        if (intenabled==true && ifint==1) ourbot->addInterrupt (hitinterrupt);
+        if (intenabled == true && ifint == 1)
+            ourbot->addInterrupt(hitinterrupt);
         return 0;
-    }
-    else
-    {
+    } else {
         str -= strength;
         ourbot->armorval -= strength;
         strength = 0;
@@ -122,20 +112,19 @@ int Armor::type()
 	*/
 int Armor::specialValue()
 {
-    return (orstrength-strength);
+    return (orstrength - strength);
 }
 
 /**
 	* Returns value to CPU instruktion IN
 	*/
-int Armor::readPort (unsigned char port)
+int Armor::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return ourbot->armor();
         break;
-    case 1 :
+    case 1:
         return ourbot->heat();
         break;
     }
@@ -146,7 +135,7 @@ int Armor::readPort (unsigned char port)
 	* The repair unit uses this function in order to not issue an interrupt
 	* every time he repairs.
 	*/
-void Armor::doSpecial (int x, int /*y*/)
+void Armor::doSpecial(int x, int /*y*/)
 {
     ourbot->armorval -= x;
     strength -= x;

@@ -27,9 +27,10 @@
 class Chiller : public Device
 {
 public:
-    Chiller (ScreenObject &object, int arg1);
+    Chiller(ScreenObject &object, int arg1);
     ~Chiller();
     void execute();
+
 private:
     bool ison;
     int heatdiss;

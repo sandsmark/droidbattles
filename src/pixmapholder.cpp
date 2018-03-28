@@ -31,15 +31,15 @@ PixmapHolder::~PixmapHolder()
 {
 }
 
-void PixmapHolder::addpm (QString name, PixmapId num)
+void PixmapHolder::addpm(QString name, PixmapId num)
 {
-    pm[num] = new QPixmap (name);
+    pm[num] = new QPixmap(name);
     if (pm[num]->isNull()) {
         qWarning() << "Failed to load" << name;
     }
 }
 
-QPixmap & PixmapHolder::getpm (PixmapId num)
+QPixmap &PixmapHolder::getpm(PixmapId num)
 {
     if (!initialized) {
         load();
@@ -51,7 +51,7 @@ QPixmap & PixmapHolder::getpm (PixmapId num)
     return *pm[num];
 }
 
-QPixmap * PixmapHolder::getpmp (PixmapId num)
+QPixmap *PixmapHolder::getpmp(PixmapId num)
 {
     if (!initialized) {
         load();
@@ -66,15 +66,15 @@ QPixmap * PixmapHolder::getpmp (PixmapId num)
 void PixmapHolder::load()
 {
     //Load all pixmaps used by the application
-    addpm (":/images/mainmenu.png", PixmapHolder::MainMenu);
-    addpm (":/images/backbutton.png", PixmapHolder::BackButton);
-    addpm (":/images/metal.png", PixmapHolder::Metal);
-    addpm (":/images/metalback2.png", PixmapHolder::MetalBackground);
-    addpm (":/images/radarmissile.bmp", PixmapHolder::RadarMissile);
-    addpm (":/images/chaff.bmp", PixmapHolder::Chaff);
-    addpm (":/images/mine.xpm", PixmapHolder::Mine);
-    addpm (":/images/missile.xpm", PixmapHolder::Missile);
-    addpm (":/images/rocket.xpm", PixmapHolder::Rocket);
+    addpm(":/images/mainmenu.png", PixmapHolder::MainMenu);
+    addpm(":/images/backbutton.png", PixmapHolder::BackButton);
+    addpm(":/images/metal.png", PixmapHolder::Metal);
+    addpm(":/images/metalback2.png", PixmapHolder::MetalBackground);
+    addpm(":/images/radarmissile.bmp", PixmapHolder::RadarMissile);
+    addpm(":/images/chaff.bmp", PixmapHolder::Chaff);
+    addpm(":/images/mine.xpm", PixmapHolder::Mine);
+    addpm(":/images/missile.xpm", PixmapHolder::Missile);
+    addpm(":/images/rocket.xpm", PixmapHolder::Rocket);
 
     initialized = true;
 }

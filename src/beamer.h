@@ -29,10 +29,10 @@ class Beamer : public Device
 {
 
 public:
-    Beamer (ScreenObject &,int arg1);
+    Beamer(ScreenObject &, int arg1);
     ~Beamer();
     void execute();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
 
 private:
     int length;

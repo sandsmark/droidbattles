@@ -33,7 +33,6 @@ public:
     ~StartCup();
 private slots:
     void ocl();
-
 };
 
 #endif

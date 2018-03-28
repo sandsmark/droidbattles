@@ -23,7 +23,7 @@
 /**
 	* Init position, graphics and such
 	*/
-Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &area, bool ui)
+Missile::Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea &area, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -36,19 +36,19 @@ Missile::Missile (int X,int Y,int dir,int owner,int mnum, TextmodeBattleArea &ar
     Xpos = X;
     Ypos = Y;
     double dira = direction() * pi / 512;
-    setPosition (cos (dira) * 1500, sin(dira) * 1500);
-    if (useUI)
-    {
+    setPosition(cos(dira) * 1500, sin(dira) * 1500);
+    if (useUI) {
         erasegfx = new QPixmap(8, 8);
-        erasegfx->fill (Qt::black);
-        graphics = PixmapHolder::getpmp (PixmapHolder::Missile);
+        erasegfx->fill(Qt::black);
+        graphics = PixmapHolder::getpmp(PixmapHolder::Missile);
     }
 }
 
 Missile::~Missile()
 {
-//	delete graphics;
-    if (useUI) delete erasegfx;
+    //	delete graphics;
+    if (useUI)
+        delete erasegfx;
 }
 
 /**
@@ -57,31 +57,31 @@ Missile::~Missile()
 int Missile::execute()
 {
     double dir = direction() * pi / 512;
-    return setPosition (cos (dir) * speed(),sin (dir) * speed());
+    return setPosition(cos(dir) * speed(), sin(dir) * speed());
 }
 
 /**
 	* Paint the shot black
 	*/
-void Missile::eraseObject (QPixmap *buffer)
+void Missile::eraseObject(QPixmap *buffer)
 {
     QPainter painter(buffer);
-    painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
+    painter.drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
 }
 
 /**
 	* Paint the shot on the screen
 	*/
-void Missile::drawObject (QPixmap *buffer,int opt)
+void Missile::drawObject(QPixmap *buffer, int opt)
 {
     if (opt > 0) {
         return;
     }
 
     QPainter painter(buffer);
-    painter.drawPixmap ((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
-    oldX = int (Xpos);
-    oldY = int (Ypos);
+    painter.drawPixmap((xPos() >> 6) - 4, (yPos() >> 6) - 4, *graphics);
+    oldX = int(Xpos);
+    oldY = int(Ypos);
 }
 
 ScreenObject::ObjectType Missile::type()
@@ -99,7 +99,7 @@ int Missile::collisionStrength()
     return 15;
 }
 
-int Missile::objectHit (int /*type*/, int /*strength*/)
+int Missile::objectHit(int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }
@@ -108,16 +108,20 @@ int Missile::objectHit (int /*type*/, int /*strength*/)
 	* If the shot gets outside the battlefield
 	* it deletes itself
 	*/
-int Missile::setPosition (double X,double Y)
+int Missile::setPosition(double X, double Y)
 {
-    oldX = int (Xpos);
-    oldY = int (Ypos);
+    oldX = int(Xpos);
+    oldY = int(Ypos);
     Xpos += X;
     Ypos += Y;
-    if (Xpos < 0) return destroyself;
-    if (Xpos > ourarea->getareainfo (0)) return destroyself;
-    if (Ypos < 0) return destroyself;
-    if (Ypos > ourarea->getareainfo (1)) return destroyself;
+    if (Xpos < 0)
+        return destroyself;
+    if (Xpos > ourarea->getareainfo(0))
+        return destroyself;
+    if (Ypos < 0)
+        return destroyself;
+    if (Ypos > ourarea->getareainfo(1))
+        return destroyself;
     return 0;
 }
 

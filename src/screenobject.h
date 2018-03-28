@@ -42,59 +42,58 @@ public:
 
     ScreenObject();
     virtual ~ScreenObject();
-    virtual int setPosition (double X,double Y);
-    void changeDirection (int Z);
-    void changeSpeed (int Z);
+    virtual int setPosition(double X, double Y);
+    void changeDirection(int Z);
+    void changeSpeed(int Z);
     int xPos();
     int yPos();
     int direction();
     int speed();
     int number();
 
-    virtual void addScreenObject (int X,int Y,int dir,int type,int arg1=0,
-                               int arg2=0, void *arg3=0);
-    virtual int readDevicePort (unsigned char port);
-    virtual void writeDevicePort (unsigned char port,unsigned short value);
+    virtual void addScreenObject(int X, int Y, int dir, int type, int arg1 = 0,
+                                 int arg2 = 0, void *arg3 = 0);
+    virtual int readDevicePort(unsigned char port);
+    virtual void writeDevicePort(unsigned char port, unsigned short value);
     virtual int execute();
-    virtual void eraseObject (QPixmap *buffer);
-    virtual void drawObject (QPixmap *buffer, int opt);
-    virtual int objectHit (int type,int strength);
-    virtual void objectScanned (int intensity,int dir);
+    virtual void eraseObject(QPixmap *buffer);
+    virtual void drawObject(QPixmap *buffer, int opt);
+    virtual int objectHit(int type, int strength);
+    virtual void objectScanned(int intensity, int dir);
     virtual int collisionType();
     virtual int collisionStrength();
     virtual ObjectType type();
-    virtual int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2);
-    virtual int writeToDevice (int dev, int action, int value);
+    virtual int writetoBattleArea(int bot, int dev, int choice, int arg1, int arg2);
+    virtual int writeToDevice(int dev, int action, int value);
     virtual int size();
     virtual QString getDebugMessage1();
     virtual QString getDebugMessage2();
-    virtual void setDebugVariable1 (int);
-    virtual void setDebugVariable2 (int);
-    virtual void setFuel (int);
-    virtual void setSpeed (int);
+    virtual void setDebugVariable1(int);
+    virtual void setDebugVariable2(int);
+    virtual void setFuel(int);
+    virtual void setSpeed(int);
     virtual int fuel();
     virtual int armor();
     virtual int memorySize();
-    virtual void writeRadio (int);
+    virtual void writeRadio(int);
     virtual bool areaExplosionAffects();
     int armorval;
     int team();
-    virtual void addInterrupt (int);
+    virtual void addInterrupt(int);
     virtual struct DebugContents debugContents();
     virtual int returnRadar();
     virtual int collisionId();
-    void changeHeat (int x);
-    virtual void setRadar (int x);
+    void changeHeat(int x);
+    virtual void setRadar(int x);
     int heat();
-    void setHeat (int x);
+    void setHeat(int x);
     int owner();
-    void sendMessage (char *msg);
+    void sendMessage(char *msg);
     virtual void dumpRam();
     QString myfile;
-    QPixmap & getgfx();
+    QPixmap &getgfx();
 
 protected:
-
     int upcount;
     int fuelval;
     int heatval;
@@ -120,16 +119,15 @@ protected:
 
     bool useUI;
 
-private	slots:
+private slots:
 
-    void setextragfx (bool x);
+    void setextragfx(bool x);
 
 signals:
 
-    void armorchanged (int x);
-    void fuelchanged (int x,int y);
-    void messagechanged (char *msg);
-
+    void armorchanged(int x);
+    void fuelchanged(int x, int y);
+    void messagechanged(char *msg);
 };
 
 #endif

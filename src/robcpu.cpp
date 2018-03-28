@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "robcpu.h"
-extern bool SingleStepMode;  // defined in battlearea.h
+extern bool SingleStepMode; // defined in battlearea.h
 
 #include <QtMath>
 
@@ -24,28 +24,26 @@ RobCpu::RobCpu()
 {
 }
 
-RobCpu::RobCpu (Ram &ramdev,ScreenObject &object,int arg1,int arg2,int arg3,
-                int arg4,int arg5)
+RobCpu::RobCpu(Ram &ramdev, ScreenObject &object, int arg1, int arg2, int arg3,
+               int arg4, int arg5)
 {
     ourlevel = arg1;
     mem = &ramdev;
     ourbot = &object;
     registers = new unsigned short[256];
-    bit8reg = (unsigned char*) &registers[0];
-    iregisters = (signed short*) &registers[0];
-    ibit8reg = (signed char*) &registers[0];
-    bootmem = arg2+arg3*256;
-    stackmem = arg4+arg5*256;
+    bit8reg = (unsigned char *)&registers[0];
+    iregisters = (signed short *)&registers[0];
+    ibit8reg = (signed char *)&registers[0];
+    bootmem = arg2 + arg3 * 256;
+    stackmem = arg4 + arg5 * 256;
     registers[eip] = bootmem;
     registers[sp] = stackmem;
 
-    int count,count2;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    int count, count2;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
     instrlatency[0] = 1;
@@ -294,31 +292,29 @@ RobCpu::RobCpu (Ram &ramdev,ScreenObject &object,int arg1,int arg2,int arg3,
     cyclesleft = 0;
 }
 
-
 RobCpu::~RobCpu()
 {
-    delete [] registers;
+    delete[] registers;
 }
 
 void RobCpu::execute()
 {
     cyclesleft += ourlevel;
-    if (stacktaken[0][0] == true)   // Port 0, cause interrupt
+    if (stacktaken[0][0] == true) // Port 0, cause interrupt
     {
         int inter = portstack[0][0];
-        moveportstack (0);
+        moveportstack(0);
 
-        int temp = mem->returnsize()- (inter*2+2); // Get interrupt vector
-        if (mem->getword (temp) != 0xFFFF)
-        {
-            mem->setword (registers[sp], registers[eip]);  // Save current eip on stack
+        int temp = mem->returnsize() - (inter * 2 + 2); // Get interrupt vector
+        if (mem->getword(temp) != 0xFFFF) {
+            mem->setword(registers[sp], registers[eip]); // Save current eip on stack
             int tt = mem->returnsize();
-            registers[eip] = mem->getword (tt- (inter*2+2));
+            registers[eip] = mem->getword(tt - (inter * 2 + 2));
             registers[sp] += 2;
             registers[flags] &= 0xFBFF; // clear interrupt flag
         }
     }
-    execinstr();   //Execute instruction
+    execinstr(); //Execute instruction
 }
 
 int RobCpu::type()
@@ -331,7 +327,7 @@ int RobCpu::type()
 	*/
 int RobCpu::specialValue()
 {
-    if ( (registers[flags] & 0x0400) == 0x0400)
+    if ((registers[flags] & 0x0400) == 0x0400)
         return 5;
     else
         return 4;
@@ -355,15 +351,14 @@ struct DebugContents RobCpu::debugContents()
     temp.ip = registers[eip];
 
     int x;
-    for (x=-4; x<5; x++)
-    {
-        temp.ipcontents[x+4] = mem->getbyte (registers[eip]+x);
-        temp.spcontents[x+4] = mem->getbyte (registers[sp]+x);
-        temp.dicontents[x+4] = mem->getbyte (registers[di]+x);
-        temp.sicontents[x+4] = mem->getbyte (registers[si]+x);
+    for (x = -4; x < 5; x++) {
+        temp.ipcontents[x + 4] = mem->getbyte(registers[eip] + x);
+        temp.spcontents[x + 4] = mem->getbyte(registers[sp] + x);
+        temp.dicontents[x + 4] = mem->getbyte(registers[di] + x);
+        temp.sicontents[x + 4] = mem->getbyte(registers[si] + x);
     }
 
-    for (x=0; x<30; x++)
+    for (x = 0; x < 30; x++)
         temp.execmem[x] = lastexecmem[x];
 
     return temp;
@@ -372,9 +367,9 @@ struct DebugContents RobCpu::debugContents()
 /**
 	* Sends a "message" to the infowindow
 	*/
-void RobCpu::sendmsg (char *msg)
+void RobCpu::sendmsg(char *msg)
 {
-    ourbot->sendMessage (msg);
+    ourbot->sendMessage(msg);
 }
 
 void RobCpu::execinstr()
@@ -384,147 +379,145 @@ void RobCpu::execinstr()
     int test2;
     int x;
     int temp;
-    int test,tt,argum;
-    unsigned int intpart,restpart,result;
-    signed int iintpart,irestpart,iresult;
+    int test, tt, argum;
+    unsigned int intpart, restpart, result;
+    signed int iintpart, irestpart, iresult;
     unsigned short rtemp;
     char status;
     unsigned char bit;
     char message[20];
-    int execmementry=0;
-    for (x=0; x<30; x++)
+    int execmementry = 0;
+    for (x = 0; x < 30; x++)
         lastexecmem[x] = -1;
 
-    while (cyclesleft > 0)
-    {
-        unsigned char instr = mem->getbyte (registers[eip]);   //Get the opcode
-        if (execmementry < 30) lastexecmem[execmementry++] = registers[eip];
+    while (cyclesleft > 0) {
+        unsigned char instr = mem->getbyte(registers[eip]); //Get the opcode
+        if (execmementry < 30)
+            lastexecmem[execmementry++] = registers[eip];
         cyclesleft -= instrlatency[instr];
-        switch (instr)
-        {
+        switch (instr) {
             //NOP
-        case 0x00 :
+        case 0x00:
             registers[eip]++;
             break;
 
             //MOV reg,reg 16 bit
-        case 0x01 :
-            registers[mem->getbyte (registers[eip]+1) ] =
-                registers[mem->getbyte (registers[eip]+2) ];
+        case 0x01:
+            registers[mem->getbyte(registers[eip] + 1)] =
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //MOV reg,reg 8 bit
-        case 0x02 :
-            bit8reg[mem->getbyte (registers[eip]+1) ] =
-                bit8reg[mem->getbyte (registers[eip]+2) ];
+        case 0x02:
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                bit8reg[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //MOV reg,mem 16 bit
-        case 0x03 :
-            registers[mem->getbyte (registers[eip]+1) ] =
-                mem->getword (mem->getword (registers[eip]+2));
-            registers[eip] +=4;
+        case 0x03:
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(mem->getword(registers[eip] + 2));
+            registers[eip] += 4;
             break;
 
             //MOV reg,mem 8 bit
-        case 0x04 :
-            bit8reg[mem->getbyte (registers[eip]+1) ] =
-                mem->getbyte (mem->getword (registers[eip]+2));
+        case 0x04:
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                mem->getbyte(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //MOV reg,[reg] 16 bit
-        case 0x05 :
-            registers[mem->getbyte (registers[eip]+1) ] =
-                mem->getword (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x05:
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //MOV reg,[reg] 8 bit
-        case 0x06 :
-            bit8reg[mem->getbyte (registers[eip]+1) ] =
-                mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x06:
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //MOV mem,reg 16 bit
-        case 0x07 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          registers[mem->getbyte (registers[eip]+3) ]);
+        case 0x07:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //MOV mem,reg 8 bit
-        case 0x08 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          bit8reg[mem->getbyte (registers[eip]+3) ]);
+        case 0x08:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         bit8reg[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //MOV [reg],reg 16 bit
-        case 0x09 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x09:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //MOV [reg],reg 8 bit
-        case 0x0A :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ],
-                          bit8reg[mem->getbyte (registers[eip]+2) ]);
+        case 0x0A:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         bit8reg[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //MOV reg,imm 16 bit
-        case 0x0B :
-            registers[mem->getbyte (registers[eip]+1) ] =
-                mem->getword (registers[eip]+2);
+        case 0x0B:
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(registers[eip] + 2);
             registers[eip] += 4;
             break;
 
             //MOV reg,imm 8 bit
-        case 0x0C :
-            bit8reg[mem->getbyte (registers[eip]+1) ] =
-                mem->getbyte (registers[eip]+2);
+        case 0x0C:
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //MOV [reg],imm 16 bit
-        case 0x0D :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[eip]+2));
+        case 0x0D:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //MOV [reg],imm 8 bit
-        case 0x0E :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getbyte (registers[eip]+2));
+        case 0x0E:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //MOV mem,imm 16 bit
-        case 0x0F :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (registers[eip]+3));
+        case 0x0F:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(registers[eip] + 3));
             registers[eip] += 5;
             break;
 
             //MOV mem,imm 8 bit
-        case 0x10 :
-            mem->setbyte (mem->getword (registers[eip]+1),
-                          mem->getbyte (registers[eip]+3));
+        case 0x10:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //MOVSB
-        case 0x11 :
+        case 0x11:
             temp = registers[cx];
-            for (x=0; x<temp; x++)
-            {
-                mem->setbyte (registers[di],mem->getbyte (registers[si]));
+            for (x = 0; x < temp; x++) {
+                mem->setbyte(registers[di], mem->getbyte(registers[si]));
                 registers[di]++;
                 registers[si]++;
             }
@@ -532,11 +525,10 @@ void RobCpu::execinstr()
             break;
 
             //MOVSW
-        case 0x12 :
+        case 0x12:
             temp = registers[cx];
-            for (x=0; x<temp; x++)
-            {
-                mem->setword (registers[di],mem->getword (registers[si]));
+            for (x = 0; x < temp; x++) {
+                mem->setword(registers[di], mem->getword(registers[si]));
                 registers[di] += 2;
                 registers[si] += 2;
             }
@@ -544,197 +536,192 @@ void RobCpu::execinstr()
             break;
 
             //STOSB
-        case 0x13 :
+        case 0x13:
             temp = registers[cx];
-            for (x=0; x<temp; x++)
-            {
-                mem->setbyte (registers[di],bit8reg[ah]);
+            for (x = 0; x < temp; x++) {
+                mem->setbyte(registers[di], bit8reg[ah]);
                 registers[di]++;
             }
             registers[eip]++;
             break;
 
             //STOSW
-        case 0x14 :
+        case 0x14:
             temp = registers[cx];
-            for (x=0; x<temp; x++)
-            {
-                mem->setword (registers[di],registers[ax]);
+            for (x = 0; x < temp; x++) {
+                mem->setword(registers[di], registers[ax]);
                 registers[di] += 2;
             }
             registers[eip]++;
             break;
 
             //PUSH r 16 bit
-        case 0x15 :
-            mem->setword (registers[sp],
-                          registers[ mem->getbyte (registers[eip]+1) ]);
+        case 0x15:
+            mem->setword(registers[sp],
+                         registers[mem->getbyte(registers[eip] + 1)]);
             registers[sp] += 2;
             registers[eip] += 2;
             break;
 
             //PUSH r 8 bit
-        case 0x16 :
-            mem->setbyte (registers[sp],
-                          bit8reg[ mem->getbyte (registers[eip]+1) ]);
+        case 0x16:
+            mem->setbyte(registers[sp],
+                         bit8reg[mem->getbyte(registers[eip] + 1)]);
             registers[sp]++;
             registers[eip] += 2;
             break;
 
             //PUSH mem 16 bit
-        case 0x17 :
-            mem->setword (registers[sp],
-                          mem->getword (mem->getword (registers[eip]+1)));
+        case 0x17:
+            mem->setword(registers[sp],
+                         mem->getword(mem->getword(registers[eip] + 1)));
             registers[sp] += 2;
             registers[eip] += 3;
             break;
 
             //PUSH mem 8 bit
-        case 0x18 :
-            mem->setbyte (registers[sp],
-                          mem->getbyte (mem->getword (registers[eip]+1)));
+        case 0x18:
+            mem->setbyte(registers[sp],
+                         mem->getbyte(mem->getword(registers[eip] + 1)));
             registers[sp]++;
             registers[eip] += 3;
             break;
 
             //PUSH [reg] 16 bit
-        case 0x19 :
-            mem->setword (registers[sp],mem->getword (registers[
-                              mem->getbyte (registers[eip]+1) ]));
+        case 0x19:
+            mem->setword(registers[sp], mem->getword(registers[mem->getbyte(registers[eip] + 1)]));
             registers[sp] += 2;
             registers[eip] += 2;
             break;
 
             //PUSH [reg] 8 bit
-        case 0x1A :
-            mem->setbyte (registers[sp], mem->getbyte (registers[
-                              mem->getbyte (registers[eip]+1) ]));
+        case 0x1A:
+            mem->setbyte(registers[sp], mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]));
             registers[sp]++;
             registers[eip] += 2;
             break;
 
             //PUSH imm 16 bit
-        case 0x1B :
-            mem->setword (registers[sp], mem->getword (registers[eip]+1));
+        case 0x1B:
+            mem->setword(registers[sp], mem->getword(registers[eip] + 1));
             registers[sp] += 2;
             registers[eip] += 3;
             break;
 
             //PUSH imm 8 bit
-        case 0x1C :
-            mem->setbyte (registers[sp], mem->getbyte (registers[eip]+1));
+        case 0x1C:
+            mem->setbyte(registers[sp], mem->getbyte(registers[eip] + 1));
             registers[sp]++;
             registers[eip] += 2;
             break;
 
             //POP reg 16 bit
-        case 0x1D :
+        case 0x1D:
             registers[sp] -= 2;
-            registers[mem->getbyte (registers[eip]+1) ] =
-                mem->getword (registers[sp]);
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(registers[sp]);
             registers[eip] += 2;
             break;
 
             //POP reg 8 bit
-        case 0x1E :
+        case 0x1E:
             registers[sp]--;
-            bit8reg[mem->getbyte (registers[eip]+1) ] =
-                mem->getbyte (registers[sp]);
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                mem->getbyte(registers[sp]);
             registers[eip] += 2;
             break;
 
             //POP mem 16 bit
-        case 0x1F :
+        case 0x1F:
             registers[sp] -= 2;
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (registers[sp]));
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(registers[sp]));
             registers[eip] += 3;
             break;
 
             //POP mem 8 bit
-        case 0x20 :
+        case 0x20:
             registers[sp]--;
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (registers[sp]));
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(registers[sp]));
             registers[eip] += 3;
             break;
 
             //POP [reg] 16 bit
-        case 0x21 :
+        case 0x21:
             registers[sp] -= 2;
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[sp]));
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[sp]));
             registers[eip] += 2;
             break;
 
             //POP [reg] 8 bit
-        case 0x22 :
+        case 0x22:
             registers[sp]--;
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getbyte (registers[sp]));
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[sp]));
             registers[eip] += 2;
             break;
 
             //XCHG reg,reg 16 bit
-        case 0x23 :
-            temp = registers[ mem->getbyte (registers[eip]+1) ];
-            registers[mem->getbyte (registers[eip]+1) ] =
-                registers[mem->getbyte (registers[eip]+2) ];
-            registers[mem->getbyte (registers[eip]+2) ] = temp;
+        case 0x23:
+            temp = registers[mem->getbyte(registers[eip] + 1)];
+            registers[mem->getbyte(registers[eip] + 1)] =
+                registers[mem->getbyte(registers[eip] + 2)];
+            registers[mem->getbyte(registers[eip] + 2)] = temp;
             registers[eip] += 3;
             break;
 
             //XCHG reg,reg 8 bit
-        case 0x24 :
-            temp = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            bit8reg[mem->getbyte (registers[eip]+1) ] =
-                bit8reg[mem->getbyte (registers[eip]+2) ];
-            bit8reg[mem->getbyte (registers[eip]+2) ] = temp;
+        case 0x24:
+            temp = bit8reg[mem->getbyte(registers[eip] + 1)];
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                bit8reg[mem->getbyte(registers[eip] + 2)];
+            bit8reg[mem->getbyte(registers[eip] + 2)] = temp;
             registers[eip] += 3;
             break;
 
             //XCHG reg,mem 16 bit
-        case 0x25 :
-            temp = registers[ mem->getbyte (registers[eip]+1) ];
-            registers[mem->getbyte (registers[eip]+1) ] =
-                mem->getword (mem->getword (registers[eip]+2));
-            mem->setword (mem->getword (registers[eip]+2) , temp);
+        case 0x25:
+            temp = registers[mem->getbyte(registers[eip] + 1)];
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(mem->getword(registers[eip] + 2));
+            mem->setword(mem->getword(registers[eip] + 2), temp);
             registers[eip] += 4;
             break;
 
             //XCHG reg,mem 8 bit
-        case 0x26 :
-            temp = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            bit8reg[  mem->getbyte (registers[eip]+1) ] =
-                mem->getbyte (mem->getword (registers[eip]+2));
-            mem->setbyte (mem->getword (registers[eip]+2) , temp);
+        case 0x26:
+            temp = bit8reg[mem->getbyte(registers[eip] + 1)];
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                mem->getbyte(mem->getword(registers[eip] + 2));
+            mem->setbyte(mem->getword(registers[eip] + 2), temp);
             registers[eip] += 4;
             break;
 
             //XCHG reg,[reg] 16 bit
-        case 0x27 :
-            temp = registers[ mem->getbyte (registers[eip]+1) ];
-            registers[ mem->getbyte (registers[eip]+1) ] =
-                mem->getword (registers[ mem->getbyte (registers[eip]+2) ]);
-            mem->setword (registers[ mem->getbyte (registers[eip]+2) ] , temp);
+        case 0x27:
+            temp = registers[mem->getbyte(registers[eip] + 1)];
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
+            mem->setword(registers[mem->getbyte(registers[eip] + 2)], temp);
             registers[eip] += 3;
             break;
 
             //XCHG reg,[reg] 8 bit (broken)
-        case 0x28 :
-            temp = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            bit8reg[ mem->getbyte (registers[eip]+1) ] =
-                mem->getbyte (registers[ mem->getbyte (registers[eip]+2) ]);
-            mem->setbyte (registers[mem->getbyte (registers[eip]+2) ], temp);
+        case 0x28:
+            temp = bit8reg[mem->getbyte(registers[eip] + 1)];
+            bit8reg[mem->getbyte(registers[eip] + 1)] =
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 2)], temp);
             registers[eip] += 3;
             break;
 
             //TEST reg,imm 16 bit
-        case 0x29 :
-            test = registers[ mem->getbyte (registers[eip]+1) ];
-            bit = mem->getbyte (registers[eip]+2);
-            if (bit <= 15)
-            {
+        case 0x29:
+            test = registers[mem->getbyte(registers[eip] + 1)];
+            bit = mem->getbyte(registers[eip] + 2);
+            if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
                 if (test == 1)
@@ -746,11 +733,10 @@ void RobCpu::execinstr()
             break;
 
             //TEST mem,imm 16 bit
-        case 0x2A :
-            test = mem->getword (mem->getword (registers[eip]+1));
-            bit = mem->getbyte (registers[eip]+2);
-            if (bit <= 15)
-            {
+        case 0x2A:
+            test = mem->getword(mem->getword(registers[eip] + 1));
+            bit = mem->getbyte(registers[eip] + 2);
+            if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
                 if (test == 1)
@@ -762,11 +748,10 @@ void RobCpu::execinstr()
             break;
 
             //TEST [reg],imm 16 bit
-        case 0x2B :
-            test = mem->getword (registers[mem->getbyte (registers[eip]+1) ]);
-            bit = mem->getbyte (registers[eip]+2);
-            if (bit <= 15)
-            {
+        case 0x2B:
+            test = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
+            bit = mem->getbyte(registers[eip] + 2);
+            if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
                 if (test == 1)
@@ -778,11 +763,10 @@ void RobCpu::execinstr()
             break;
 
             //TEST reg,cl 16 bit
-        case 0x2C :
-            test = registers[mem->getbyte (registers[eip]+1) ];
+        case 0x2C:
+            test = registers[mem->getbyte(registers[eip] + 1)];
             bit = bit8reg[cl];
-            if (bit <= 15)
-            {
+            if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
                 if (test == 1)
@@ -794,11 +778,10 @@ void RobCpu::execinstr()
             break;
 
             //TEST mem,cl 16 bit
-        case 0x2D :
-            test = mem->getword (mem->getword (registers[eip]+1));
+        case 0x2D:
+            test = mem->getword(mem->getword(registers[eip] + 1));
             bit = bit8reg[cl];
-            if (bit <= 15)
-            {
+            if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
                 if (test == 1)
@@ -810,11 +793,10 @@ void RobCpu::execinstr()
             break;
 
             //TEST [reg],cl 16 bit
-        case 0x2E :
-            test = mem->getword (registers[mem->getbyte (registers[eip]+1) ]);
+        case 0x2E:
+            test = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
             bit = bit8reg[cl];
-            if (bit <= 15)
-            {
+            if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
                 if (test == 1)
@@ -826,21 +808,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,reg 16
-        case 0x2F :
-            test1 = registers[ mem->getbyte (registers[eip]+1) ];
-            test2 = registers[ mem->getbyte (registers[eip]+2) ];
-            if (test1 == test2)
-            {
+        case 0x2F:
+            test1 = registers[mem->getbyte(registers[eip] + 1)];
+            test2 = registers[mem->getbyte(registers[eip] + 2)];
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -848,21 +827,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,reg 8
-        case 0x30 :
-            test1 = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            test2 = bit8reg[ mem->getbyte (registers[eip]+2) ];
-            if (test1 == test2)
-            {
+        case 0x30:
+            test1 = bit8reg[mem->getbyte(registers[eip] + 1)];
+            test2 = bit8reg[mem->getbyte(registers[eip] + 2)];
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -870,21 +846,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,mem 16
-        case 0x31 :
-            test1 = registers[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getword (mem->getword (registers[eip]+2));
-            if (test1 == test2)
-            {
+        case 0x31:
+            test1 = registers[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getword(mem->getword(registers[eip] + 2));
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -892,21 +865,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,mem 8
-        case 0x32 :
-            test1 = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getbyte (mem->getword (registers[eip]+2));
-            if (test1 == test2)
-            {
+        case 0x32:
+            test1 = bit8reg[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getbyte(mem->getword(registers[eip] + 2));
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -914,21 +884,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,[reg] 16
-        case 0x33 :
-            test1 = registers[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getword (registers[mem->getbyte (registers[eip]+2) ]);
-            if (test1 == test2)
-            {
+        case 0x33:
+            test1 = registers[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -936,21 +903,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,[reg] 8
-        case 0x34 :
-            test1 = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
-            if (test1 == test2)
-            {
+        case 0x34:
+            test1 = bit8reg[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -958,21 +922,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,imm 16
-        case 0x35 :
-            test1 = registers[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getword (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x35:
+            test1 = registers[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getword(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -980,21 +941,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP reg,imm 8
-        case 0x36 :
-            test1 = bit8reg[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getbyte (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x36:
+            test1 = bit8reg[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getbyte(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1002,21 +960,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP [reg],imm 16
-        case 0x37 :
-            test1 = mem->getword (registers[ mem->getbyte (registers[eip]+1) ]);
-            test2 = mem->getword (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x37:
+            test1 = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
+            test2 = mem->getword(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1024,21 +979,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP [reg],imm 8
-        case 0x38 :
-            test1 = mem->getbyte (registers[ mem->getbyte (registers[eip]+1) ]);
-            test2 = mem->getbyte (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x38:
+            test1 = mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]);
+            test2 = mem->getbyte(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1046,21 +998,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP mem,imm 16
-        case 0x39 :
-            test1 = mem->getword (mem->getword (registers[eip]+1));
-            test2 = mem->getword (registers[eip]+3);
-            if (test1 == test2)
-            {
+        case 0x39:
+            test1 = mem->getword(mem->getword(registers[eip] + 1));
+            test2 = mem->getword(registers[eip] + 3);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1068,21 +1017,18 @@ void RobCpu::execinstr()
             break;
 
             //CMP mem,imm 8
-        case 0x3A :
-            test1 = mem->getbyte (mem->getword (registers[eip]+1));
-            test2 = mem->getbyte (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x3A:
+            test1 = mem->getbyte(mem->getword(registers[eip] + 1));
+            test2 = mem->getbyte(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1090,31 +1036,28 @@ void RobCpu::execinstr()
             break;
 
             //CMPSB
-        case 0x3B :
+        case 0x3B:
             status = 0;
-            for (unsigned char times = bit8reg[cl]; times>0; times--)
-            {
-                test1 = mem->getbyte (registers[di]+times);
-                test2 = mem->getbyte (registers[si]+times);
-                if (test1 != test2)
-                {
-                    if (test1 > test2) status = 1;
-                    if (test1 < test2) status = 2;
+            for (unsigned char times = bit8reg[cl]; times > 0; times--) {
+                test1 = mem->getbyte(registers[di] + times);
+                test2 = mem->getbyte(registers[si] + times);
+                if (test1 != test2) {
+                    if (test1 > test2)
+                        status = 1;
+                    if (test1 < test2)
+                        status = 2;
                     break;
                 }
             }
-            if (status == 0)
-            {
+            if (status == 0) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (status == 1)
-            {
+            if (status == 1) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (status == 2)
-            {
+            if (status == 2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1122,637 +1065,602 @@ void RobCpu::execinstr()
             break;
 
             //JMP imm
-        case 0x3C :
-            registers[eip] = mem->getword (registers[eip]+1);
+        case 0x3C:
+            registers[eip] = mem->getword(registers[eip] + 1);
             break;
 
             //JZ imm
-        case 0x3D :
-            if ( (registers[flags] & equalflag) == equalflag)
-                registers[eip] = mem->getword (registers[eip]+1);
+        case 0x3D:
+            if ((registers[flags] & equalflag) == equalflag)
+                registers[eip] = mem->getword(registers[eip] + 1);
             else
                 registers[eip] += 3;
             break;
 
             //JNZ imm
-        case 0x3E :
-            if ( (registers[flags] & equalflag) != equalflag)
-                registers[eip] = mem->getword (registers[eip]+1);
+        case 0x3E:
+            if ((registers[flags] & equalflag) != equalflag)
+                registers[eip] = mem->getword(registers[eip] + 1);
             else
                 registers[eip] += 3;
             break;
 
             //JAE/JNB imm
-        case 0x3F :
-            if ( (registers[flags] & belowflag) != belowflag)
-                registers[eip] = mem->getword (registers[eip]+1);
+        case 0x3F:
+            if ((registers[flags] & belowflag) != belowflag)
+                registers[eip] = mem->getword(registers[eip] + 1);
             else
                 registers[eip] += 3;
             break;
 
             //JBE/JNA imm
-        case 0x40 :
-            if ( (registers[flags] & aboveflag) != aboveflag)
-                registers[eip] = mem->getword (registers[eip]+1);
+        case 0x40:
+            if ((registers[flags] & aboveflag) != aboveflag)
+                registers[eip] = mem->getword(registers[eip] + 1);
             else
                 registers[eip] += 3;
             break;
 
             //JMP reg
-        case 0x41 :
-            registers[eip] = registers[ mem->getbyte (registers[eip]+1) ];
+        case 0x41:
+            registers[eip] = registers[mem->getbyte(registers[eip] + 1)];
             break;
 
             //LOOP imm
-        case 0x42 :
-            if (registers[cx] > 0)
-            {
+        case 0x42:
+            if (registers[cx] > 0) {
                 registers[cx]--;
-                registers[eip] = mem->getword (registers[eip]+1);
-            }
-            else
-            {
+                registers[eip] = mem->getword(registers[eip] + 1);
+            } else {
                 registers[eip] += 3;
             }
             break;
 
             //CALL imm
-        case 0x43 :
-            mem->setword (registers[sp], registers[eip]+3);
-            registers[eip] = mem->getword (registers[eip]+1);
+        case 0x43:
+            mem->setword(registers[sp], registers[eip] + 3);
+            registers[eip] = mem->getword(registers[eip] + 1);
             registers[sp] += 2;
             break;
 
             //RET
-        case 0x44 :
+        case 0x44:
             registers[sp] -= 2;
-            registers[eip] = mem->getword (registers[sp]);
+            registers[eip] = mem->getword(registers[sp]);
             break;
 
             //IRET
-        case 0x45 :
+        case 0x45:
             registers[sp] -= 2;
-            registers[eip] = mem->getword (registers[sp]);
+            registers[eip] = mem->getword(registers[sp]);
             registers[flags] |= setinterruptflag;
             break;
 
             //CLI
-        case 0x46 :
+        case 0x46:
             registers[flags] &= clearinterruptflag;
             registers[eip]++;
             break;
 
             //STI
-        case 0x47 :
+        case 0x47:
             registers[flags] |= setinterruptflag;
             registers[eip]++;
             break;
 
             //OUT imm,imm
-        case 0x48 :
-            callobout (mem->getbyte (registers[eip]+1),
-                       mem->getword (registers[eip]+2));
+        case 0x48:
+            callobout(mem->getbyte(registers[eip] + 1),
+                      mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //OUT imm,reg
-        case 0x49 :
-            callobout (mem->getbyte (registers[eip]+1),
-                       registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x49:
+            callobout(mem->getbyte(registers[eip] + 1),
+                      registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //OUT imm,[reg]
-        case 0x4A :
-            callobout (mem->getbyte (registers[eip]+1),
-                       mem->getword (registers[mem->getbyte (registers[eip]+2) ]));
+        case 0x4A:
+            callobout(mem->getbyte(registers[eip] + 1),
+                      mem->getword(registers[mem->getbyte(registers[eip] + 2)]));
             registers[eip] += 3;
             break;
 
             //IN reg,imm
-        case 0x4B :
-            registers[ mem->getbyte (registers[eip]+1) ] =
-                callobin (mem->getbyte (registers[eip]+2));
+        case 0x4B:
+            registers[mem->getbyte(registers[eip] + 1)] =
+                callobin(mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //INC reg 16
-        case 0x4C :
-            registers[ mem->getbyte (registers[eip]+1) ]++;
+        case 0x4C:
+            registers[mem->getbyte(registers[eip] + 1)]++;
             registers[eip] += 2;
             break;
 
             //INC reg 8
-        case 0x4D :
-            bit8reg[ mem->getbyte (registers[eip]+1) ]++;
+        case 0x4D:
+            bit8reg[mem->getbyte(registers[eip] + 1)]++;
             registers[eip] += 2;
             break;
 
             //INC mem 16
-        case 0x4E :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (mem->getword (registers[eip]+1)) +1);
+        case 0x4E:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) + 1);
             registers[eip] += 3;
             break;
 
             //INC mem 8
-        case 0x4F :
-            mem->setbyte (mem->getword (registers[eip]+1),
-                          mem->getbyte (mem->getword (registers[eip]+1)) +1);
+        case 0x4F:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) + 1);
             registers[eip] += 3;
             break;
 
             //INC [reg] 16
-        case 0x50 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) +1);
+        case 0x50:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) + 1);
             registers[eip] += 2;
             break;
 
             //INC [reg] 8
-        case 0x51 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) +1);
+        case 0x51:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) + 1);
             registers[eip] += 2;
             break;
 
             //DEC reg 16
-        case 0x52 :
-            registers[ mem->getbyte (registers[eip]+1) ]--;
+        case 0x52:
+            registers[mem->getbyte(registers[eip] + 1)]--;
             registers[eip] += 2;
             break;
 
             //DEC reg 8
-        case 0x53 :
-            bit8reg[ mem->getbyte (registers[eip]+1) ]--;
+        case 0x53:
+            bit8reg[mem->getbyte(registers[eip] + 1)]--;
             registers[eip] += 2;
             break;
 
             //DEC mem 16
-        case 0x54 :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (mem->getword (registers[eip]+1))-1);
+        case 0x54:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) - 1);
             registers[eip] += 3;
             break;
 
             //DEC mem 8
-        case 0x55 :
-            mem->setbyte (mem->getword (registers[eip]+1),
-                          mem->getbyte (mem->getword (registers[eip]+1))-1);
+        case 0x55:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) - 1);
             registers[eip] += 3;
             break;
 
             //DEC [reg] 16
-        case 0x56 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ])-1);
+        case 0x56:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) - 1);
             registers[eip] += 2;
             break;
 
             //DEC [reg] 8
-        case 0x57 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ])-1);
+        case 0x57:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) - 1);
             registers[eip] += 2;
             break;
 
             //ADD reg,reg 16
-        case 0x58 :
-            registers[ mem->getbyte (registers[eip]+1) ] +=
-                registers[ mem->getbyte (registers[eip]+2) ];
+        case 0x58:
+            registers[mem->getbyte(registers[eip] + 1)] +=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //ADD reg,reg 8
-        case 0x59 :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] +=
-                bit8reg[ mem->getbyte (registers[eip]+2) ];
+        case 0x59:
+            bit8reg[mem->getbyte(registers[eip] + 1)] +=
+                bit8reg[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //ADD reg,imm 16
-        case 0x5A :
-            registers[ mem->getbyte (registers[eip]+1) ] +=
-                mem->getword (registers[eip]+2);
+        case 0x5A:
+            registers[mem->getbyte(registers[eip] + 1)] +=
+                mem->getword(registers[eip] + 2);
             registers[eip] += 4;
             break;
 
             //ADD reg,imm 8
-        case 0x5B :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] +=
-                mem->getbyte (registers[eip]+2);
+        case 0x5B:
+            bit8reg[mem->getbyte(registers[eip] + 1)] +=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //ADD reg,[reg] 16
-        case 0x5C :
-            registers[ mem->getbyte (registers[eip]+1) ] +=
-                mem->getword (registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0x5C:
+            registers[mem->getbyte(registers[eip] + 1)] +=
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //ADD reg,[reg] 8
-        case 0x5D :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] +=
-                mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x5D:
+            bit8reg[mem->getbyte(registers[eip] + 1)] +=
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //ADD reg,mem 16
-        case 0x5E :
-            registers[ mem->getbyte (registers[eip]+1) ] +=
-                mem->getword (mem->getword (registers[eip]+2));
+        case 0x5E:
+            registers[mem->getbyte(registers[eip] + 1)] +=
+                mem->getword(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //ADD reg,mem 8
-        case 0x5F :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] +=
-                mem->getbyte (mem->getword (registers[eip]+2));
+        case 0x5F:
+            bit8reg[mem->getbyte(registers[eip] + 1)] +=
+                mem->getbyte(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //ADD [reg],reg 16
-        case 0x60 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) +
-                          registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0x60:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) + registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //ADD [reg],reg 8
-        case 0x61 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) +
-                          bit8reg[mem->getbyte (registers[eip]+2) ]);
+        case 0x61:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) + bit8reg[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //ADD [reg],imm 16
-        case 0x62 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) +
-                          mem->getword (registers[eip]+2));
+        case 0x62:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) + mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //ADD [reg],imm 8
-        case 0x63 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) +
-                          mem->getbyte (registers[eip]+2));
+        case 0x63:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) + mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //ADD mem,reg 16
-        case 0x64 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) +
-                          registers[ mem->getbyte (registers[eip]+3) ]);
+        case 0x64:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) + registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //ADD mem,reg 8
-        case 0x65 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) +
-                          bit8reg[ mem->getbyte (registers[eip]+3) ]);
+        case 0x65:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) + bit8reg[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //ADD mem,imm 16
-        case 0x66 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) +
-                          mem->getword (registers[eip]+3));
+        case 0x66:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) + mem->getword(registers[eip] + 3));
             registers[eip] += 5;
             break;
 
             //ADD mem,imm 8
-        case 0x67 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) +
-                          mem->getbyte (registers[eip]+3));
+        case 0x67:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) + mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //SUB reg,reg 16
-        case 0x68 :
-            registers[ mem->getbyte (registers[eip]+1) ] -=
-                registers[ mem->getbyte (registers[eip]+2) ];
+        case 0x68:
+            registers[mem->getbyte(registers[eip] + 1)] -=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //SUB reg,reg 8
-        case 0x69 :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] -=
-                bit8reg[ mem->getbyte (registers[eip]+2) ];
+        case 0x69:
+            bit8reg[mem->getbyte(registers[eip] + 1)] -=
+                bit8reg[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //SUB reg,imm 16
-        case 0x6A :
-            registers[ mem->getbyte (registers[eip]+1) ] -=
-                mem->getword (registers[eip]+2);
+        case 0x6A:
+            registers[mem->getbyte(registers[eip] + 1)] -=
+                mem->getword(registers[eip] + 2);
             registers[eip] += 4;
             break;
 
             //SUB reg,imm 8
-        case 0x6B :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] -=
-                mem->getbyte (registers[eip]+2);
+        case 0x6B:
+            bit8reg[mem->getbyte(registers[eip] + 1)] -=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //SUB reg,[reg] 16
-        case 0x6C :
-            registers[ mem->getbyte (registers[eip]+1) ] -=
-                mem->getword (registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0x6C:
+            registers[mem->getbyte(registers[eip] + 1)] -=
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //SUB reg,[reg] 8
-        case 0x6D :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] -=
-                mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x6D:
+            bit8reg[mem->getbyte(registers[eip] + 1)] -=
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //SUB reg,mem 16
-        case 0x6E :
-            registers[ mem->getbyte (registers[eip]+1) ] -=
-                mem->getword (mem->getword (registers[eip]+2));
+        case 0x6E:
+            registers[mem->getbyte(registers[eip] + 1)] -=
+                mem->getword(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //SUB reg,mem 8
-        case 0x6F :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] -=
-                mem->getbyte (mem->getword (registers[eip]+2));
+        case 0x6F:
+            bit8reg[mem->getbyte(registers[eip] + 1)] -=
+                mem->getbyte(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //SUB [reg],reg 16
-        case 0x70 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) -
-                          registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0x70:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) - registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //SUB [reg],reg 8
-        case 0x71 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) -
-                          bit8reg[mem->getbyte (registers[eip]+2) ]);
+        case 0x71:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) - bit8reg[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //SUB [reg],imm 16
-        case 0x72 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) -
-                          mem->getword (registers[eip]+2));
+        case 0x72:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) - mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //SUB [reg],imm 8
-        case 0x73 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) -
-                          mem->getbyte (registers[eip]+2));
+        case 0x73:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) - mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //SUB mem,reg 16
-        case 0x74 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) -
-                          registers[ mem->getbyte (registers[eip]+3) ]);
+        case 0x74:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) - registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //SUB mem,reg 8
-        case 0x75 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) -
-                          bit8reg[ mem->getbyte (registers[eip]+3) ]);
+        case 0x75:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) - bit8reg[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //SUB mem,imm 16
-        case 0x76 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) -
-                          mem->getword (registers[eip]+3));
+        case 0x76:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) - mem->getword(registers[eip] + 3));
             registers[eip] += 5;
             break;
 
             //SUB mem,imm 8
-        case 0x77 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) -
-                          mem->getbyte (registers[eip]+3));
+        case 0x77:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) - mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
-
             //ROL reg,reg
-        case 0x78 :
-            tt = registers[ mem->getbyte (registers[eip]+2) ];
-            rtemp = registers[ mem->getbyte (registers[eip]+1) ];
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 0x8000) ==0x8000)
+        case 0x78:
+            tt = registers[mem->getbyte(registers[eip] + 2)];
+            rtemp = registers[mem->getbyte(registers[eip] + 1)];
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 0x8000) == 0x8000)
                     rtemp = (rtemp << 1) + 1;
                 else
                     rtemp <<= 1;
             }
-            registers[ mem->getbyte (registers[eip]+1) ] = rtemp;
+            registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
             break;
 
             //ROL reg,imm
-        case 0x79 :
-            tt = mem->getbyte (registers[eip]+2);
-            rtemp = registers[ mem->getbyte (registers[eip]+1) ];
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 0x8000) ==0x8000)
+        case 0x79:
+            tt = mem->getbyte(registers[eip] + 2);
+            rtemp = registers[mem->getbyte(registers[eip] + 1)];
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 0x8000) == 0x8000)
                     rtemp = (rtemp << 1) + 1;
                 else
                     rtemp <<= 1;
             }
-            registers[ mem->getbyte (registers[eip]+1) ] = rtemp;
+            registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
             break;
 
             //ROL [reg],imm 16
-        case 0x7A :
-            tt = mem->getbyte (registers[eip]+2);
-            rtemp = mem->getword (registers[ mem->getbyte (registers[eip]+1) ]);
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 0x8000) ==0x8000)
+        case 0x7A:
+            tt = mem->getbyte(registers[eip] + 2);
+            rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 0x8000) == 0x8000)
                     rtemp = (rtemp << 1) + 1;
                 else
                     rtemp <<= 1;
             }
-            mem->setword (registers[ mem->getbyte (registers[eip]+1) ], rtemp);
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
             break;
 
             //ROL [reg],reg 8
-        case 0x7B :
-            tt = registers[ mem->getbyte (registers[eip]+2) ];
-            rtemp = mem->getword (registers[ mem->getbyte (registers[eip]+1) ]);
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 0x8000) ==0x8000)
+        case 0x7B:
+            tt = registers[mem->getbyte(registers[eip] + 2)];
+            rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 0x8000) == 0x8000)
                     rtemp = (rtemp << 1) + 1;
                 else
                     rtemp <<= 1;
             }
-            mem->setword (registers[ mem->getbyte (registers[eip]+1) ], rtemp);
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
             break;
 
             //ROL mem,reg
-        case 0x7C :
-            tt = registers[ mem->getbyte (registers[eip]+3) ];
-            rtemp = mem->getword (mem->getword (registers[eip]+1));
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 0x8000) ==0x8000)
+        case 0x7C:
+            tt = registers[mem->getbyte(registers[eip] + 3)];
+            rtemp = mem->getword(mem->getword(registers[eip] + 1));
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 0x8000) == 0x8000)
                     rtemp = (rtemp << 1) + 1;
                 else
                     rtemp <<= 1;
             }
-            mem->setword (mem->getword (registers[eip]+1), rtemp);
+            mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
             break;
 
             //ROL mem,imm
-        case 0x7D :
-            tt = mem->getbyte (registers[eip]+3);
-            rtemp = mem->getword (mem->getword (registers[eip]+1));
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 0x8000) ==0x8000)
+        case 0x7D:
+            tt = mem->getbyte(registers[eip] + 3);
+            rtemp = mem->getword(mem->getword(registers[eip] + 1));
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 0x8000) == 0x8000)
                     rtemp = (rtemp << 1) + 1;
                 else
                     rtemp <<= 1;
             }
-            mem->setword (mem->getword (registers[eip]+1), rtemp);
+            mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
             break;
 
-
             //ROR reg,reg
-        case 0x7E :
-            tt = registers[ mem->getbyte (registers[eip]+2) ];
-            rtemp = registers[ mem->getbyte (registers[eip]+1) ];
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 1) ==1)
+        case 0x7E:
+            tt = registers[mem->getbyte(registers[eip] + 2)];
+            rtemp = registers[mem->getbyte(registers[eip] + 1)];
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 1) == 1)
                     rtemp = (rtemp >> 1) + 0x8000;
                 else
                     rtemp >>= 1;
             }
-            registers[ mem->getbyte (registers[eip]+1) ] = rtemp;
+            registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
             break;
 
             //ROR reg,imm
-        case 0x7F :
-            tt = mem->getbyte (registers[eip]+2);
-            rtemp = registers[ mem->getbyte (registers[eip]+1) ];
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 1) ==1)
+        case 0x7F:
+            tt = mem->getbyte(registers[eip] + 2);
+            rtemp = registers[mem->getbyte(registers[eip] + 1)];
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 1) == 1)
                     rtemp = (rtemp >> 1) + 0x8000;
                 else
                     rtemp >>= 1;
             }
-            registers[ mem->getbyte (registers[eip]+1) ] = rtemp;
+            registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
             break;
 
             //ROR [reg],imm
-        case 0x80 :
-            tt = mem->getbyte (registers[eip]+2);
-            rtemp = mem->getword (registers[ mem->getbyte (registers[eip]+1) ]);
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 1) ==1)
+        case 0x80:
+            tt = mem->getbyte(registers[eip] + 2);
+            rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 1) == 1)
                     rtemp = (rtemp >> 1) + 0x8000;
                 else
                     rtemp >>= 1;
             }
-            mem->setword (registers[ mem->getbyte (registers[eip]+1) ], rtemp);
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
             break;
 
             //ROR [reg],reg
-        case 0x81 :
-            tt = registers[ mem->getbyte (registers[eip]+2) ];
-            rtemp = mem->getword (registers[ mem->getbyte (registers[eip]+1) ]);
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 1) ==1)
+        case 0x81:
+            tt = registers[mem->getbyte(registers[eip] + 2)];
+            rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 1) == 1)
                     rtemp = (rtemp >> 1) + 0x8000;
                 else
                     rtemp >>= 1;
             }
-            mem->setword (registers[ mem->getbyte (registers[eip]+1) ], rtemp);
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
             break;
 
             //ROR mem,reg
-        case 0x82 :
-            tt = registers[ mem->getbyte (registers[eip]+3) ];
-            rtemp = mem->getword (mem->getword (registers[eip]+1));
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 1) ==1)
+        case 0x82:
+            tt = registers[mem->getbyte(registers[eip] + 3)];
+            rtemp = mem->getword(mem->getword(registers[eip] + 1));
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 1) == 1)
                     rtemp = (rtemp >> 1) + 0x8000;
                 else
                     rtemp >>= 1;
             }
-            mem->setword (mem->getword (registers[eip]+1), rtemp);
+            mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
             break;
 
             //ROR mem,imm
-        case 0x83 :
-            tt = mem->getbyte (registers[eip]+3);
-            rtemp = mem->getword (mem->getword (registers[eip]+1));
-            for (x=0; x<tt; x++)
-            {
-                if ( (rtemp & 1) ==1)
+        case 0x83:
+            tt = mem->getbyte(registers[eip] + 3);
+            rtemp = mem->getword(mem->getword(registers[eip] + 1));
+            for (x = 0; x < tt; x++) {
+                if ((rtemp & 1) == 1)
                     rtemp = (rtemp >> 1) + 0x8000;
                 else
                     rtemp >>= 1;
             }
-            mem->setword (mem->getword (registers[eip]+1), rtemp);
+            mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
             break;
 
-
             //IMUL
-        case 0x84 :
+        case 0x84:
             iresult = iregisters[ax] * iregisters[dx];
-            iregisters[ax] = iresult&0xffff;
-            iregisters[dx] = iresult>>16;
+            iregisters[ax] = iresult & 0xffff;
+            iregisters[dx] = iresult >> 16;
             registers[eip]++;
             break;
 
             //IDIV
-        case 0x85 :
-            if (iregisters[dx] != 0)
-            {
-                iintpart = int (iregisters[ax] /	iregisters[dx]);
-                irestpart = iregisters[ax]%iregisters[dx];
+        case 0x85:
+            if (iregisters[dx] != 0) {
+                iintpart = int(iregisters[ax] / iregisters[dx]);
+                irestpart = iregisters[ax] % iregisters[dx];
                 iregisters[ax] = iintpart;
                 iregisters[dx] = irestpart;
             }
@@ -1760,29 +1668,29 @@ void RobCpu::execinstr()
             break;
 
             //JA mem
-        case 0x86 :
-            if ( (registers[flags] & aboveflag) == aboveflag)
-                registers[eip] = mem->getword (registers[eip]+1);
+        case 0x86:
+            if ((registers[flags] & aboveflag) == aboveflag)
+                registers[eip] = mem->getword(registers[eip] + 1);
             else
                 registers[eip] += 3;
             break;
 
             //JB mem
-        case 0x87 :
-            if ( (registers[flags] & belowflag) == belowflag)
-                registers[eip] = mem->getword (registers[eip]+1);
+        case 0x87:
+            if ((registers[flags] & belowflag) == belowflag)
+                registers[eip] = mem->getword(registers[eip] + 1);
             else
                 registers[eip] += 3;
             break;
 
             //atanfunc
             // AX = atan2(BX,DX)
-        case 0x88 :
-            temp = int (atan2 (iregisters[bx],iregisters[dx]) *512/pi);
+        case 0x88:
+            temp = int(atan2(iregisters[bx], iregisters[dx]) * 512 / pi);
             temp -= 256;
             if (temp < 0)
                 temp += 1024;
-            temp = -temp+1024;
+            temp = -temp + 1024;
             if (temp >= 1024)
                 temp -= 1024;
             registers[ax] = temp;
@@ -1792,29 +1700,26 @@ void RobCpu::execinstr()
             //SQR
             //AX = SQR AX
             //DX = decimalpart
-        case 0x89 :
+        case 0x89:
             temp = registers[ax];
-            registers[ax] = int (sqrt (temp));
-            registers[dx] = int ( (sqrt (temp)-registers[ax]) * 65536);
+            registers[ax] = int(sqrt(temp));
+            registers[dx] = int((sqrt(temp) - registers[ax]) * 65536);
             registers[eip]++;
             break;
 
             //ICMP reg,reg 16
-        case 0x8A :
-            test1 = iregisters[ mem->getbyte (registers[eip]+1) ];
-            test2 = iregisters[ mem->getbyte (registers[eip]+2) ];
-            if (test1 == test2)
-            {
+        case 0x8A:
+            test1 = iregisters[mem->getbyte(registers[eip] + 1)];
+            test2 = iregisters[mem->getbyte(registers[eip] + 2)];
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1822,21 +1727,18 @@ void RobCpu::execinstr()
             break;
 
             //ICMP reg,mem 16
-        case 0x8B :
-            test1 = iregisters[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getiword (mem->getword (registers[eip]+2));
-            if (test1 == test2)
-            {
+        case 0x8B:
+            test1 = iregisters[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getiword(mem->getword(registers[eip] + 2));
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1844,21 +1746,18 @@ void RobCpu::execinstr()
             break;
 
             //ICMP reg,[reg] 16
-        case 0x8C :
-            test1 = iregisters[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getiword (registers[mem->getbyte (registers[eip]+2) ]);
-            if (test1 == test2)
-            {
+        case 0x8C:
+            test1 = iregisters[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getiword(registers[mem->getbyte(registers[eip] + 2)]);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1866,21 +1765,18 @@ void RobCpu::execinstr()
             break;
 
             //ICMP reg,imm 16
-        case 0x8D :
-            test1 = iregisters[ mem->getbyte (registers[eip]+1) ];
-            test2 = mem->getiword (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x8D:
+            test1 = iregisters[mem->getbyte(registers[eip] + 1)];
+            test2 = mem->getiword(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1888,21 +1784,18 @@ void RobCpu::execinstr()
             break;
 
             //ICMP [reg],imm 16
-        case 0x8E :
-            test1 = mem->getiword (registers[ mem->getbyte (registers[eip]+1) ]);
-            test2 = mem->getiword (registers[eip]+2);
-            if (test1 == test2)
-            {
+        case 0x8E:
+            test1 = mem->getiword(registers[mem->getbyte(registers[eip] + 1)]);
+            test2 = mem->getiword(registers[eip] + 2);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1910,21 +1803,18 @@ void RobCpu::execinstr()
             break;
 
             //ICMP mem,imm 16
-        case 0x8F :
-            test1 = mem->getiword (mem->getword (registers[eip]+1));
-            test2 = mem->getiword (registers[eip]+3);
-            if (test1 == test2)
-            {
+        case 0x8F:
+            test1 = mem->getiword(mem->getword(registers[eip] + 1));
+            test2 = mem->getiword(registers[eip] + 3);
+            if (test1 == test2) {
                 registers[flags] |= setequalflag;
                 registers[flags] &= clearequalflags;
             }
-            if (test1 > test2)
-            {
+            if (test1 > test2) {
                 registers[flags] |= setaboveflag;
                 registers[flags] &= clearaboveflags;
             }
-            if (test1 < test2)
-            {
+            if (test1 < test2) {
                 registers[flags] |= setbelowflag;
                 registers[flags] &= clearbelowflags;
             }
@@ -1932,32 +1822,32 @@ void RobCpu::execinstr()
             break;
 
             //MSG reg
-        case 0x90 :
-            temp = registers[mem->getbyte (registers[eip]+1) ];
-            for (x=0; x<20; x++)
-                message[x] = mem->getbyte (temp+x);
+        case 0x90:
+            temp = registers[mem->getbyte(registers[eip] + 1)];
+            for (x = 0; x < 20; x++)
+                message[x] = mem->getbyte(temp + x);
             message[19] = 0;
-            sendmsg (message);
+            sendmsg(message);
             registers[eip] += 2;
             break;
 
             //MSG mem
-        case 0x91 :
-            temp = mem->getword (registers[eip]+1);
-            for (x=0; x<20; x++)
-                message[x] = mem->getbyte (temp+x);
+        case 0x91:
+            temp = mem->getword(registers[eip] + 1);
+            for (x = 0; x < 20; x++)
+                message[x] = mem->getbyte(temp + x);
             message[19] = 0;
-            sendmsg (message);
+            sendmsg(message);
             registers[eip] += 3;
             break;
 
             //ERR val
-        case 0x92 :
-            temp = mem->getbyte (registers[eip]+1);
-            strcpy (message,"ERROR #: ");
-            message[9] = temp+'0';
+        case 0x92:
+            temp = mem->getbyte(registers[eip] + 1);
+            strcpy(message, "ERROR #: ");
+            message[9] = temp + '0';
             message[10] = 0;
-            sendmsg (message);
+            sendmsg(message);
             registers[eip] += 2;
             break;
 
@@ -1967,9 +1857,9 @@ void RobCpu::execinstr()
             // DI - adress
 
             // AX = number if bytes read or -1 if error
-        case 0x93 :
-            iregisters[ax] = readfile (registers[ax], registers[cx],
-                                       registers[di]);
+        case 0x93:
+            iregisters[ax] = readfile(registers[ax], registers[cx],
+                                      registers[di]);
             registers[eip]++;
             break;
 
@@ -1979,607 +1869,565 @@ void RobCpu::execinstr()
             // SI - adress
 
             // AX = number of bytes written or -1 if error
-        case 0x94 :
-            iregisters[ax] = writefile (registers[ax], registers[cx],
-                                        registers[si]);
+        case 0x94:
+            iregisters[ax] = writefile(registers[ax], registers[cx],
+                                       registers[si]);
             registers[eip]++;
             break;
 
             //LZ reg
-        case 0x95 :
-            if ( (registers[flags] & equalflag) == equalflag)
-                registers[mem->getbyte (registers[eip]+1) ] = 1;
+        case 0x95:
+            if ((registers[flags] & equalflag) == equalflag)
+                registers[mem->getbyte(registers[eip] + 1)] = 1;
             else
-                registers[mem->getbyte (registers[eip]+1) ] = 0;
+                registers[mem->getbyte(registers[eip] + 1)] = 0;
             registers[eip] += 2;
             break;
 
             //LNZ reg
-        case 0x96 :
+        case 0x96:
             if ((registers[flags] & equalflag) != equalflag)
-                registers[mem->getbyte (registers[eip]+1) ] = 1;
+                registers[mem->getbyte(registers[eip] + 1)] = 1;
             else
-                registers[mem->getbyte (registers[eip]+1) ] = 0;
+                registers[mem->getbyte(registers[eip] + 1)] = 0;
             registers[eip] += 2;
             break;
 
             //LA reg
-        case 0x97 :
+        case 0x97:
             if ((registers[flags] & aboveflag) == aboveflag)
-                registers[mem->getbyte (registers[eip]+1) ] = 1;
+                registers[mem->getbyte(registers[eip] + 1)] = 1;
             else
-                registers[mem->getbyte (registers[eip]+1) ] = 0;
+                registers[mem->getbyte(registers[eip] + 1)] = 0;
             registers[eip] += 2;
             break;
 
             //AND reg,reg 16
-        case 0x98 :
-            registers[ mem->getbyte (registers[eip]+1) ] &=
-                registers[ mem->getbyte (registers[eip]+2) ];
+        case 0x98:
+            registers[mem->getbyte(registers[eip] + 1)] &=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //AND reg,reg 8
-        case 0x99 :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] &=
-                bit8reg[ mem->getbyte (registers[eip]+2) ];
+        case 0x99:
+            bit8reg[mem->getbyte(registers[eip] + 1)] &=
+                bit8reg[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //AND reg,imm 16
-        case 0x9A :
-            registers[ mem->getbyte (registers[eip]+1) ] &=
-                mem->getword (registers[eip]+2);
+        case 0x9A:
+            registers[mem->getbyte(registers[eip] + 1)] &=
+                mem->getword(registers[eip] + 2);
             registers[eip] += 4;
             break;
 
             //AND reg,imm 8
-        case 0x9B :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] &=
-                mem->getbyte (registers[eip]+2);
+        case 0x9B:
+            bit8reg[mem->getbyte(registers[eip] + 1)] &=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //AND reg,[reg] 16
-        case 0x9C :
-            registers[ mem->getbyte (registers[eip]+1) ] &=
-                mem->getword (registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0x9C:
+            registers[mem->getbyte(registers[eip] + 1)] &=
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //AND reg,[reg] 8
-        case 0x9D :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] &=
-                mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0x9D:
+            bit8reg[mem->getbyte(registers[eip] + 1)] &=
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //AND reg,mem 16
-        case 0x9E :
-            registers[ mem->getbyte (registers[eip]+1) ] &=
-                mem->getword (mem->getword (registers[eip]+2));
+        case 0x9E:
+            registers[mem->getbyte(registers[eip] + 1)] &=
+                mem->getword(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //AND reg,mem 8
-        case 0x9F :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] &=
-                mem->getbyte (mem->getword (registers[eip]+2));
+        case 0x9F:
+            bit8reg[mem->getbyte(registers[eip] + 1)] &=
+                mem->getbyte(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //AND [reg],reg 16
-        case 0xA0 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) &
-                          registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0xA0:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) & registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //AND [reg],reg 8
-        case 0xA1 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) &
-                          bit8reg[mem->getbyte (registers[eip]+2) ]);
+        case 0xA1:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) & bit8reg[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //AND [reg],imm 16
-        case 0xA2 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) &
-                          mem->getword (registers[eip]+2));
+        case 0xA2:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) & mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //AND [reg],imm 8
-        case 0xA3 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) &
-                          mem->getbyte (registers[eip]+2));
+        case 0xA3:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) & mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //AND mem,reg 16
-        case 0xA4 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) &
-                          registers[ mem->getbyte (registers[eip]+3) ]);
+        case 0xA4:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) & registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //AND mem,reg 8
-        case 0xA5 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) &
-                          bit8reg[ mem->getbyte (registers[eip]+3) ]);
+        case 0xA5:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) & bit8reg[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //AND mem,imm 16
-        case 0xA6 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) &
-                          mem->getword (registers[eip]+3));
+        case 0xA6:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) & mem->getword(registers[eip] + 3));
             registers[eip] += 5;
             break;
 
             //AND mem,imm 8
-        case 0xA7 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) &
-                          mem->getbyte (registers[eip]+3));
+        case 0xA7:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) & mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //OR reg,reg 16
-        case 0xA8 :
-            registers[ mem->getbyte (registers[eip]+1) ] |=
-                registers[ mem->getbyte (registers[eip]+2) ];
+        case 0xA8:
+            registers[mem->getbyte(registers[eip] + 1)] |=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //OR reg,reg 8
-        case 0xA9 :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] |=
-                bit8reg[ mem->getbyte (registers[eip]+2) ];
+        case 0xA9:
+            bit8reg[mem->getbyte(registers[eip] + 1)] |=
+                bit8reg[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //OR reg,imm 16
-        case 0xAA :
-            registers[ mem->getbyte (registers[eip]+1) ] |=
-                mem->getword (registers[eip]+2);
+        case 0xAA:
+            registers[mem->getbyte(registers[eip] + 1)] |=
+                mem->getword(registers[eip] + 2);
             registers[eip] += 4;
             break;
 
             //OR reg,imm 8
-        case 0xAB :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] |=
-                mem->getbyte (registers[eip]+2);
+        case 0xAB:
+            bit8reg[mem->getbyte(registers[eip] + 1)] |=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //OR reg,[reg] 16
-        case 0xAC :
-            registers[ mem->getbyte (registers[eip]+1) ] |=
-                mem->getword (registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0xAC:
+            registers[mem->getbyte(registers[eip] + 1)] |=
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //OR reg,[reg] 8
-        case 0xAD :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] |=
-                mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0xAD:
+            bit8reg[mem->getbyte(registers[eip] + 1)] |=
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //OR reg,mem 16
-        case 0xAE :
-            registers[ mem->getbyte (registers[eip]+1) ] |=
-                mem->getword (mem->getword (registers[eip]+2));
+        case 0xAE:
+            registers[mem->getbyte(registers[eip] + 1)] |=
+                mem->getword(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //OR reg,mem 8
-        case 0xAF :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] |=
-                mem->getbyte (mem->getword (registers[eip]+2));
+        case 0xAF:
+            bit8reg[mem->getbyte(registers[eip] + 1)] |=
+                mem->getbyte(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //OR [reg],reg 16
-        case 0xB0 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) |
-                          registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0xB0:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) | registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //OR [reg],reg 8
-        case 0xB1 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) |
-                          bit8reg[mem->getbyte (registers[eip]+2) ]);
+        case 0xB1:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) | bit8reg[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //OR [reg],imm 16
-        case 0xB2 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) |
-                          mem->getword (registers[eip]+2));
+        case 0xB2:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) | mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //OR [reg],imm 8
-        case 0xB3 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) |
-                          mem->getbyte (registers[eip]+2));
+        case 0xB3:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) | mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //OR mem,reg 16
-        case 0xB4 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) |
-                          registers[ mem->getbyte (registers[eip]+3) ]);
+        case 0xB4:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) | registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //OR mem,reg 8
-        case 0xB5 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) |
-                          bit8reg[ mem->getbyte (registers[eip]+3) ]);
+        case 0xB5:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) | bit8reg[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //OR mem,imm 16
-        case 0xB6 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) |
-                          mem->getword (registers[eip]+3));
+        case 0xB6:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) | mem->getword(registers[eip] + 3));
             registers[eip] += 5;
             break;
 
             //OR mem,imm 8
-        case 0xB7 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) |
-                          mem->getbyte (registers[eip]+3));
+        case 0xB7:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) | mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
             //XOR reg,reg 16
-        case 0xB8 :
-            registers[ mem->getbyte (registers[eip]+1) ] ^=
-                registers[ mem->getbyte (registers[eip]+2) ];
+        case 0xB8:
+            registers[mem->getbyte(registers[eip] + 1)] ^=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //XOR reg,reg 8
-        case 0xB9 :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] ^=
-                bit8reg[ mem->getbyte (registers[eip]+2) ];
+        case 0xB9:
+            bit8reg[mem->getbyte(registers[eip] + 1)] ^=
+                bit8reg[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //XOR reg,imm 16
-        case 0xBA :
-            registers[ mem->getbyte (registers[eip]+1) ] ^=
-                mem->getword (registers[eip]+2);
+        case 0xBA:
+            registers[mem->getbyte(registers[eip] + 1)] ^=
+                mem->getword(registers[eip] + 2);
             registers[eip] += 4;
             break;
 
             //XOR reg,imm 8
-        case 0xBB :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] ^=
-                mem->getbyte (registers[eip]+2);
+        case 0xBB:
+            bit8reg[mem->getbyte(registers[eip] + 1)] ^=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //XOR reg,[reg] 16
-        case 0xBC :
-            registers[ mem->getbyte (registers[eip]+1) ] ^=
-                mem->getword (registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0xBC:
+            registers[mem->getbyte(registers[eip] + 1)] ^=
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //XOR reg,[reg] 8
-        case 0xBD :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] ^=
-                mem->getbyte (registers[mem->getbyte (registers[eip]+2) ]);
+        case 0xBD:
+            bit8reg[mem->getbyte(registers[eip] + 1)] ^=
+                mem->getbyte(registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //XOR reg,mem 16
-        case 0xBE :
-            registers[ mem->getbyte (registers[eip]+1) ] ^=
-                mem->getword (mem->getword (registers[eip]+2));
+        case 0xBE:
+            registers[mem->getbyte(registers[eip] + 1)] ^=
+                mem->getword(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //XOR reg,mem 8
-        case 0xBF :
-            bit8reg[ mem->getbyte (registers[eip]+1) ] ^=
-                mem->getbyte (mem->getword (registers[eip]+2));
+        case 0xBF:
+            bit8reg[mem->getbyte(registers[eip] + 1)] ^=
+                mem->getbyte(mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //XOR [reg],reg 16
-        case 0xC0 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) ^
-                          registers[ mem->getbyte (registers[eip]+2) ]);
+        case 0xC0:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) ^ registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //XOR [reg],reg 8
-        case 0xC1 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) ^
-                          bit8reg[mem->getbyte (registers[eip]+2) ]);
+        case 0xC1:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) ^ bit8reg[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //XOR [reg],imm 16
-        case 0xC2 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) ^
-                          mem->getword (registers[eip]+2));
+        case 0xC2:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) ^ mem->getword(registers[eip] + 2));
             registers[eip] += 4;
             break;
 
             //XOR [reg],imm 8
-        case 0xC3 :
-            mem->setbyte (registers[mem->getbyte (registers[eip]+1) ] ,
-                          mem->getbyte (registers[mem->getbyte (registers[eip]+1) ]) ^
-                          mem->getbyte (registers[eip]+2));
+        case 0xC3:
+            mem->setbyte(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getbyte(registers[mem->getbyte(registers[eip] + 1)]) ^ mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //XOR mem,reg 16
-        case 0xC4 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) ^
-                          registers[ mem->getbyte (registers[eip]+3) ]);
+        case 0xC4:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) ^ registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //XOR mem,reg 8
-        case 0xC5 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) ^
-                          bit8reg[ mem->getbyte (registers[eip]+3) ]);
+        case 0xC5:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) ^ bit8reg[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //XOR mem,imm 16
-        case 0xC6 :
-            mem->setword (mem->getword (registers[eip]+1) ,
-                          mem->getword (mem->getword (registers[eip]+1)) ^
-                          mem->getword (registers[eip]+3));
+        case 0xC6:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) ^ mem->getword(registers[eip] + 3));
             registers[eip] += 5;
             break;
 
             //XOR mem,imm 8
-        case 0xC7 :
-            mem->setbyte (mem->getword (registers[eip]+1) ,
-                          mem->getbyte (mem->getword (registers[eip]+1)) ^
-                          mem->getbyte (registers[eip]+3));
+        case 0xC7:
+            mem->setbyte(mem->getword(registers[eip] + 1),
+                         mem->getbyte(mem->getword(registers[eip] + 1)) ^ mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //SHL reg,imm 16
-        case 0xC8 :
-            registers[mem->getbyte (registers[eip]+1) ] <<=
-                mem->getbyte (registers[eip]+2);
+        case 0xC8:
+            registers[mem->getbyte(registers[eip] + 1)] <<=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //SHL reg,reg 16
-        case 0xC9 :
-            registers[mem->getbyte (registers[eip]+1) ] <<=
-                registers[mem->getbyte (registers[eip]+2) ];
+        case 0xC9:
+            registers[mem->getbyte(registers[eip] + 1)] <<=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //SHL [reg],imm 16
-        case 0xCA :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) <<
-                          mem->getbyte (registers[eip]+2));
+        case 0xCA:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) << mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //SHL [reg],reg 16
-        case 0xCB :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) <<
-                          registers[mem->getbyte (registers[eip]+2) ]);
+        case 0xCB:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) << registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //SHL mem,imm 16
-        case 0xCC :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (mem->getword (registers[eip]+1)) <<
-                          mem->getbyte (registers[eip]+3));
+        case 0xCC:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) << mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //SHL mem,reg 16
-        case 0xCD :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (mem->getword (registers[eip]+1)) <<
-                          registers[mem->getbyte (registers[eip]+3) ]);
+        case 0xCD:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) << registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //SHR reg,imm 16
-        case 0xCE :
-            registers[mem->getbyte (registers[eip]+1) ] >>=
-                mem->getbyte (registers[eip]+2);
+        case 0xCE:
+            registers[mem->getbyte(registers[eip] + 1)] >>=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //SHR reg,reg 16
-        case 0xCF :
-            registers[mem->getbyte (registers[eip]+1) ] >>=
-                registers[mem->getbyte (registers[eip]+2) ];
+        case 0xCF:
+            registers[mem->getbyte(registers[eip] + 1)] >>=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //SHR [reg],imm 16
-        case 0xD0 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) >>
-                          mem->getbyte (registers[eip]+2));
+        case 0xD0:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) >> mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //SHR [reg],reg 16
-        case 0xD1 :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ],
-                          mem->getword (registers[mem->getbyte (registers[eip]+1) ]) >>
-                          registers[mem->getbyte (registers[eip]+2) ]);
+        case 0xD1:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)],
+                         mem->getword(registers[mem->getbyte(registers[eip] + 1)]) >> registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //SHR mem,imm 16
-        case 0xD2 :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (mem->getword (registers[eip]+1)) >>
-                          mem->getbyte (registers[eip]+3));
+        case 0xD2:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) >> mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //SHR mem,reg 16
-        case 0xD3 :
-            mem->setword (mem->getword (registers[eip]+1),
-                          mem->getword (mem->getword (registers[eip]+1)) >>
-                          registers[mem->getbyte (registers[eip]+3) ]);
+        case 0xD3:
+            mem->setword(mem->getword(registers[eip] + 1),
+                         mem->getword(mem->getword(registers[eip] + 1)) >> registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
-
             //ISHL reg,imm 16
-        case 0xD4 :
-            iregisters[mem->getbyte (registers[eip]+1) ] <<=
-                mem->getbyte (registers[eip]+2);
+        case 0xD4:
+            iregisters[mem->getbyte(registers[eip] + 1)] <<=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //ISHL reg,reg 16
-        case 0xD5 :
-            iregisters[mem->getbyte (registers[eip]+1) ] <<=
-                registers[mem->getbyte (registers[eip]+2) ];
+        case 0xD5:
+            iregisters[mem->getbyte(registers[eip] + 1)] <<=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //ISHL [reg],imm 16
-        case 0xD6 :
-            mem->setiword (registers[mem->getbyte (registers[eip]+1) ],
-                           mem->getiword (registers[mem->getbyte (registers[eip]+1) ]) <<
-                           mem->getbyte (registers[eip]+2));
+        case 0xD6:
+            mem->setiword(registers[mem->getbyte(registers[eip] + 1)],
+                          mem->getiword(registers[mem->getbyte(registers[eip] + 1)]) << mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //ISHL [reg],reg 16
-        case 0xD7 :
-            mem->setiword (registers[mem->getbyte (registers[eip]+1) ],
-                           mem->getiword (registers[mem->getbyte (registers[eip]+1) ]) <<
-                           registers[mem->getbyte (registers[eip]+2) ]);
+        case 0xD7:
+            mem->setiword(registers[mem->getbyte(registers[eip] + 1)],
+                          mem->getiword(registers[mem->getbyte(registers[eip] + 1)]) << registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //ISHL mem,imm 16
-        case 0xD8 :
-            mem->setiword (mem->getword (registers[eip]+1),
-                           mem->getiword (mem->getword (registers[eip]+1)) <<
-                           mem->getbyte (registers[eip]+3));
+        case 0xD8:
+            mem->setiword(mem->getword(registers[eip] + 1),
+                          mem->getiword(mem->getword(registers[eip] + 1)) << mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //ISHL mem,reg 16
-        case 0xD9 :
-            mem->setiword (mem->getword (registers[eip]+1),
-                           mem->getiword (mem->getword (registers[eip]+1)) <<
-                           registers[mem->getbyte (registers[eip]+3) ]);
+        case 0xD9:
+            mem->setiword(mem->getword(registers[eip] + 1),
+                          mem->getiword(mem->getword(registers[eip] + 1)) << registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //ISHR reg,imm 16
-        case 0xDA :
-            iregisters[mem->getbyte (registers[eip]+1) ] >>=
-                mem->getbyte (registers[eip]+2);
+        case 0xDA:
+            iregisters[mem->getbyte(registers[eip] + 1)] >>=
+                mem->getbyte(registers[eip] + 2);
             registers[eip] += 3;
             break;
 
             //ISHR reg,reg 16
-        case 0xDB :
-            iregisters[mem->getbyte (registers[eip]+1) ] >>=
-                registers[mem->getbyte (registers[eip]+2) ];
+        case 0xDB:
+            iregisters[mem->getbyte(registers[eip] + 1)] >>=
+                registers[mem->getbyte(registers[eip] + 2)];
             registers[eip] += 3;
             break;
 
             //ISHR [reg],imm 16
-        case 0xDC :
-            mem->setiword (registers[mem->getbyte (registers[eip]+1) ],
-                           mem->getiword (registers[mem->getbyte (registers[eip]+1) ]) >>
-                           mem->getbyte (registers[eip]+2));
+        case 0xDC:
+            mem->setiword(registers[mem->getbyte(registers[eip] + 1)],
+                          mem->getiword(registers[mem->getbyte(registers[eip] + 1)]) >> mem->getbyte(registers[eip] + 2));
             registers[eip] += 3;
             break;
 
             //ISHR [reg],reg 16
-        case 0xDD :
-            mem->setiword (registers[mem->getbyte (registers[eip]+1) ],
-                           mem->getiword (registers[mem->getbyte (registers[eip]+1) ]) >>
-                           registers[mem->getbyte (registers[eip]+2) ]);
+        case 0xDD:
+            mem->setiword(registers[mem->getbyte(registers[eip] + 1)],
+                          mem->getiword(registers[mem->getbyte(registers[eip] + 1)]) >> registers[mem->getbyte(registers[eip] + 2)]);
             registers[eip] += 3;
             break;
 
             //ISHR mem,imm 16
-        case 0xDE :
-            mem->setiword (mem->getword (registers[eip]+1),
-                           mem->getiword (mem->getword (registers[eip]+1)) >>
-                           mem->getbyte (registers[eip]+3));
+        case 0xDE:
+            mem->setiword(mem->getword(registers[eip] + 1),
+                          mem->getiword(mem->getword(registers[eip] + 1)) >> mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //ISHR mem,reg 16
-        case 0xDF :
-            mem->setiword (mem->getword (registers[eip]+1),
-                           mem->getiword (mem->getword (registers[eip]+1)) >>
-                           registers[mem->getbyte (registers[eip]+3) ]);
+        case 0xDF:
+            mem->setiword(mem->getword(registers[eip] + 1),
+                          mem->getiword(mem->getword(registers[eip] + 1)) >> registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //INT imm
-        case 0xE0 :
-            mem->setword (registers[sp], registers[eip]+2);
+        case 0xE0:
+            mem->setword(registers[sp], registers[eip] + 2);
             tt = mem->returnsize();
-            argum = mem->getbyte (registers[eip]+1);
-            registers[eip] = mem->getword (tt- (argum*2+2));
+            argum = mem->getbyte(registers[eip] + 1);
+            registers[eip] = mem->getword(tt - (argum * 2 + 2));
             registers[sp] += 2;
             registers[flags] &= 0xFBFF;
             break;
 
             //MUL
-        case 0xE1 :
+        case 0xE1:
             result = registers[ax] * registers[dx];
-            registers[ax] = result&0xffff;
-            registers[dx] = result>>16;
+            registers[ax] = result & 0xffff;
+            registers[dx] = result >> 16;
             registers[eip]++;
             break;
 
             //DIV
-        case 0xE2 :
-            if (registers[dx] != 0)
-            {
-                intpart = int (registers[ax] /	registers[dx]);
-                restpart = registers[ax]%registers[dx];
+        case 0xE2:
+            if (registers[dx] != 0) {
+                intpart = int(registers[ax] / registers[dx]);
+                restpart = registers[ax] % registers[dx];
                 registers[ax] = intpart;
                 registers[dx] = restpart;
             }
@@ -2587,132 +2435,130 @@ void RobCpu::execinstr()
             break;
 
             //RET IMM
-        case 0xE3 :
-            temp = mem->getbyte (registers[eip]+1);
+        case 0xE3:
+            temp = mem->getbyte(registers[eip] + 1);
             registers[sp] -= 2;
-            registers[eip] = mem->getword (registers[sp]);
+            registers[eip] = mem->getword(registers[sp]);
             registers[sp] -= temp;
             break;
 
             //LODSB
-        case 0xE4 :
-            bit8reg[al] = mem->getbyte (registers[si]);
+        case 0xE4:
+            bit8reg[al] = mem->getbyte(registers[si]);
             registers[si]++;
             registers[eip]++;
             break;
 
             //LODSW
-        case 0xE5 :
-            registers[ax] = mem->getword (registers[si]);
+        case 0xE5:
+            registers[ax] = mem->getword(registers[si]);
             registers[si] += 2;
             registers[eip]++;
             break;
 
             //SINFUNC
             // AX = AX + BX * SIN DX
-        case 0xE6 :
-            registers[ax] = (unsigned short) (registers[ax] +
-                                              (registers[bx]* (sin (registers[dx]/512.0*3.1416))));
+        case 0xE6:
+            registers[ax] = (unsigned short)(registers[ax] + (registers[bx] * (sin(registers[dx] / 512.0 * 3.1416))));
             registers[eip]++;
             break;
 
             //COSFUNC
             // AX = AX + BX * COS DX
-        case 0xE7 :
-            registers[ax] = (unsigned short) (registers[ax] +
-                                              (registers[bx]* (cos (registers[dx]/512.0*3.1416))));
+        case 0xE7:
+            registers[ax] = (unsigned short)(registers[ax] + (registers[bx] * (cos(registers[dx] / 512.0 * 3.1416))));
             registers[eip]++;
             break;
 
             //SIN
             //AX = SIN AX
-        case 0xE8 :
-            iregisters[ax] = short (sin (registers[ax]/512.0*3.1416) *32768);
+        case 0xE8:
+            iregisters[ax] = short(sin(registers[ax] / 512.0 * 3.1416) * 32768);
             registers[eip]++;
             break;
 
             //COS
             //AX = COS AX
-        case 0xE9 :
-            iregisters[ax] = short (cos (registers[ax]/512.0*3.1416) *32768);
+        case 0xE9:
+            iregisters[ax] = short(cos(registers[ax] / 512.0 * 3.1416) * 32768);
             registers[eip]++;
             break;
 
             //MOV reg,[reg+val]
-        case 0xEA :
-            registers[ mem->getbyte (registers[eip]+1) ] =
-                mem->getword (registers[mem->getbyte (registers[eip]+2) ]+
-                              mem->getbyte (registers[eip]+3));
+        case 0xEA:
+            registers[mem->getbyte(registers[eip] + 1)] =
+                mem->getword(registers[mem->getbyte(registers[eip] + 2)] + mem->getbyte(registers[eip] + 3));
             registers[eip] += 4;
             break;
 
             //MOV [reg+val],reg
-        case 0xEB :
-            mem->setword (registers[mem->getbyte (registers[eip]+1) ]+
-                          mem->getbyte (registers[eip]+2),
-                          registers[ mem->getbyte (registers[eip]+3) ]);
+        case 0xEB:
+            mem->setword(registers[mem->getbyte(registers[eip] + 1)] + mem->getbyte(registers[eip] + 2),
+                         registers[mem->getbyte(registers[eip] + 3)]);
             registers[eip] += 4;
             break;
 
             //RND
-        case 0xEC :
+        case 0xEC:
             registers[ax] = qrand();
             registers[eip]++;
             break;
 
             //HWAIT
-        case 0xED :
+        case 0xED:
             registers[eip]++;
-            if (cyclesleft>0) cyclesleft = 0;
+            if (cyclesleft > 0)
+                cyclesleft = 0;
             break;
 
             //LB reg
-        case 0xEE :
+        case 0xEE:
             if ((registers[flags] & belowflag) == belowflag)
-                registers[mem->getbyte (registers[eip]+1) ] = 1;
+                registers[mem->getbyte(registers[eip] + 1)] = 1;
             else
-                registers[mem->getbyte (registers[eip]+1) ] = 0;
+                registers[mem->getbyte(registers[eip] + 1)] = 0;
             registers[eip] += 2;
             break;
 
             //LAE/LNB reg
-        case 0xEF :
+        case 0xEF:
             if ((registers[flags] & belowflag) != belowflag)
-                registers[mem->getbyte (registers[eip]+1) ] = 1;
+                registers[mem->getbyte(registers[eip] + 1)] = 1;
             else
-                registers[mem->getbyte (registers[eip]+1) ] = 0;
+                registers[mem->getbyte(registers[eip] + 1)] = 0;
             registers[eip] += 2;
             break;
 
             //LBE/LNA reg
-        case 0xF0 :
+        case 0xF0:
             if ((registers[flags] & aboveflag) != aboveflag)
-                registers[mem->getbyte (registers[eip]+1) ] = 1;
+                registers[mem->getbyte(registers[eip] + 1)] = 1;
             else
-                registers[mem->getbyte (registers[eip]+1) ] = 0;
+                registers[mem->getbyte(registers[eip] + 1)] = 0;
             registers[eip] += 2;
             break;
 
             //CJ reg label
-        case 0xF1 :
-            if (registers[mem->getbyte (registers[eip]+1) ] >= 1)
-                registers[eip] = mem->getword (registers[eip]+2);
+        case 0xF1:
+            if (registers[mem->getbyte(registers[eip] + 1)] >= 1)
+                registers[eip] = mem->getword(registers[eip] + 2);
             else
                 registers[eip] += 4;
             break;
 
             //CJN reg label
-        case 0xF2 :
-            if (registers[mem->getbyte (registers[eip]+1) ] == 0)
-                registers[eip] = mem->getword (registers[eip]+2);
+        case 0xF2:
+            if (registers[mem->getbyte(registers[eip] + 1)] == 0)
+                registers[eip] = mem->getword(registers[eip] + 2);
             else
                 registers[eip] += 4;
             break;
 
-        default :
+        default:
             registers[eip]++;
             cyclesleft--;
         }
-        if (SingleStepMode) cyclesleft = 0;
+        if (SingleStepMode)
+            cyclesleft = 0;
     }
 }

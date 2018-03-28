@@ -17,20 +17,18 @@
 
 #include "plasma.h"
 
-Plasma::Plasma (ScreenObject &object, int arg1, int offset)
+Plasma::Plasma(ScreenObject &object, int arg1, int offset)
 {
     ourlevel = arg1;
     ourbot = &object;
     int count;
     int count2;
     readiness = 200;
-    relang = offset*4;
-    for (count=0; count<3; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    relang = offset * 4;
+    for (count = 0; count < 3; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -48,13 +46,12 @@ void Plasma::execute()
     if (readiness < 200) {
         readiness += ourlevel;
     }
-    if (stacktaken[0][0] == true && readiness > 0)
-    {
-        moveportstack (0);
+    if (stacktaken[0][0] == true && readiness > 0) {
+        moveportstack(0);
         //Fire plasma missile code
-        ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
-                              ourbot->direction() +relang,2,ourbot->number());
-        ourbot->changeHeat (45);
+        ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
+                                ourbot->direction() + relang, 2, ourbot->number());
+        ourbot->changeHeat(45);
         readiness -= 80;
     }
 }

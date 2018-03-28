@@ -56,7 +56,7 @@ public:
     int getxsize();
     int getysize();
     bool getifteams();
-    int getbotteam (int bot);
+    int getbotteam(int bot);
 
 private slots:
 
@@ -71,7 +71,7 @@ signals:
 
 protected:
     virtual void loadfilesettings();
-    void closeEvent(QCloseEvent*);
+    void closeEvent(QCloseEvent *);
 
     int numofbots;
     QString botfiles[8];

@@ -30,11 +30,11 @@ class Communication : public Device
 {
 
 public:
-    Communication (ScreenObject &object);
+    Communication(ScreenObject &object);
     ~Communication();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
     void execute();
-    void doSpecial (int x,int y);
+    void doSpecial(int x, int y);
 
 private:
     int msglist[32];

@@ -18,18 +18,16 @@
 #include "minelayer.h"
 #include <QDebug>
 
-MineLayer::MineLayer (ScreenObject &object, int ourlevel)
+MineLayer::MineLayer(ScreenObject &object, int ourlevel)
 {
     qDebug() << "Mine layer has" << ourlevel << "mines";
     minesleft = ourlevel;
     ourbot = &object;
-    int count,count2;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    int count, count2;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -40,13 +38,11 @@ MineLayer::~MineLayer()
 
 void MineLayer::execute()
 {
-    if (stacktaken[0][0] == true)
-    {
-        moveportstack (0);
-        if (minesleft > 0)
-        {
-            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
-                                  ourbot->direction(),3);
+    if (stacktaken[0][0] == true) {
+        moveportstack(0);
+        if (minesleft > 0) {
+            ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
+                                    ourbot->direction(), 3);
             minesleft--;
             qDebug() << minesleft;
         }

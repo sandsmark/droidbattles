@@ -20,14 +20,14 @@
 #include <QCloseEvent>
 #include <QLabel>
 
-InfoBox::InfoBox (QString msg, QWidget *parent)
-        : QDialog (parent)
+InfoBox::InfoBox(QString msg, QWidget *parent) :
+    QDialog(parent)
 {
     setWindowFlags(Qt::Dialog);
-    text = new QLabel (msg,this);
-    text->setGeometry (0,0,0,0);
-    text->resize (text->sizeHint());
-    resize (text->sizeHint());
+    text = new QLabel(msg, this);
+    text->setGeometry(0, 0, 0, 0);
+    text->resize(text->sizeHint());
+    resize(text->sizeHint());
     show();
 }
 
@@ -35,7 +35,7 @@ InfoBox::~InfoBox()
 {
 }
 
-void InfoBox::closeEvent (QCloseEvent*)
+void InfoBox::closeEvent(QCloseEvent *)
 {
     delete this;
 }

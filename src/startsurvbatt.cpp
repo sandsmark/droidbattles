@@ -21,10 +21,9 @@
 StartSurvBatt::StartSurvBatt() :
     StartsBatt("survbattle.save")
 {
-    ifteams->setText ("Fast battle");
-    for (int x=0; x<8; x++)
-    {
+    ifteams->setText("Fast battle");
+    for (int x = 0; x < 8; x++) {
         team[x]->hide();
     }
-    tnumfights->setText ("Number of lives:");
+    tnumfights->setText("Number of lives:");
 }

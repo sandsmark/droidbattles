@@ -31,23 +31,20 @@ class Mine : public ScreenObject
 {
 
 public:
-
-    Mine (int ,int,TextmodeBattleArea &,int owner, bool ui = true);
+    Mine(int, int, TextmodeBattleArea &, int owner, bool ui = true);
     ~Mine();
     ObjectType type();
     int execute();
     int collisionType();
     int collisionStrength();
-    int objectHit (int,int);
-    void drawObject (QPixmap *buffer, int);
-    void eraseObject (QPixmap *buffer);
+    int objectHit(int, int);
+    void drawObject(QPixmap *buffer, int);
+    void eraseObject(QPixmap *buffer);
     int returnRadar();
 
 private:
-
     int time1;
     TextmodeBattleArea *ourarea;
-
 };
 
 #endif

@@ -22,31 +22,29 @@
 
 //global variabel for textmode...
 
-
 //This file contains all Constants used
 
 //constants for cpu registers
-const int eip=5;
-const int ax=1;
-const int bx=2;
-const int cx=3;
-const int dx=4;
-const int sp=9;
-const int bp=8;
-const int al=2;
-const int ah=3;
-const int bl=4;
-const int bh=5;
-const int cl=6;
-const int ch=7;
-const int dl=8;
-const int dh=9;
-const int di=6;
-const int si=7;
-const int flags=0;
+const int eip = 5;
+const int ax = 1;
+const int bx = 2;
+const int cx = 3;
+const int dx = 4;
+const int sp = 9;
+const int bp = 8;
+const int al = 2;
+const int ah = 3;
+const int bl = 4;
+const int bh = 5;
+const int cl = 6;
+const int ch = 7;
+const int dl = 8;
+const int dh = 9;
+const int di = 6;
+const int si = 7;
+const int flags = 0;
 
-
-const double pi=3.14159265358979;
+const double pi = 3.14159265358979;
 const int portsperdev = 4;
 
 //Indexes for the interrupts
@@ -88,8 +86,8 @@ const int notfirstround = 1;
 
 const int minstartdistance = 2000;
 
-const double toradians = pi/512;
-const double tobotgrades = 512/pi;
+const double toradians = pi / 512;
+const double tobotgrades = 512 / pi;
 const int debugbot = 7;
 
 const int NUMDEV = 20;

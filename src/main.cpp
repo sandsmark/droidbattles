@@ -31,13 +31,13 @@
 #include "battlearea.h"
 #include <QMessageBox>
 
-void startbattle (int argc, char *argv[])
+void startbattle(int argc, char *argv[])
 {
     std::array<QString, 8> bots;
     int numbots = 0;
     int battletype = 0;
     bool teamfight = false;
-    std::array<int, 8> teams = {1};
+    std::array<int, 8> teams = { 1 };
     int numfights = 1;
 
     int xsize = 32768;
@@ -46,121 +46,90 @@ void startbattle (int argc, char *argv[])
 
     int curarg = 3;
     int tteam = 1;
-    while (curarg < argc)
-    {
-        if (strcmp (argv[curarg] , "-bot") == 0)
-        {
-            if (argc < curarg+2)
-            {
+    while (curarg < argc) {
+        if (strcmp(argv[curarg], "-bot") == 0) {
+            if (argc < curarg + 2) {
                 qWarning() << " ERROR: -bot without following bot specification";
                 return;
             }
-            if (numbots >= 8)
-            {
+            if (numbots >= 8) {
                 qWarning() << " ERROR: To many -bot specifications";
                 return;
             }
-            bots[numbots] = argv[curarg+1];
-            QFile f (bots[numbots]);
-            if (!f.exists())
-            {
+            bots[numbots] = argv[curarg + 1];
+            QFile f(bots[numbots]);
+            if (!f.exists()) {
                 qWarning() << " ERROR: Botfile " << bots[numbots] << " not found";
                 return;
             }
             curarg += 2;
             teams[numbots] = tteam;
             numbots++;
-        }
-        else if (strcmp (argv[curarg] , "-normal") == 0)
-        {
+        } else if (strcmp(argv[curarg], "-normal") == 0) {
             battletype = 0;
             curarg++;
-        }
-        else if (strcmp (argv[curarg] , "-survival") == 0)
-        {
+        } else if (strcmp(argv[curarg], "-survival") == 0) {
             battletype = 1;
             curarg++;
-        }
-        else if (strcmp (argv[curarg] , "-deathmatch") == 0)
-        {
+        } else if (strcmp(argv[curarg], "-deathmatch") == 0) {
             battletype = 2;
             curarg++;
-        }
-        else if (strcmp (argv[curarg] , "-team") == 0)
-        {
+        } else if (strcmp(argv[curarg], "-team") == 0) {
             teamfight = true;
-            if (argc < curarg+2)
-            {
+            if (argc < curarg + 2) {
                 qWarning() << " ERROR: -team without following team specification";
                 return;
             }
-            int temp = atoi (argv[curarg+1]);
-            if (temp < 1 || temp > 4)
-            {
+            int temp = atoi(argv[curarg + 1]);
+            if (temp < 1 || temp > 4) {
                 qWarning() << " ERROR: -team followed by invalid specification";
                 return;
             }
             tteam = temp;
             curarg += 2;
-        }
-        else if (strcmp (argv[curarg] , "-xsize") == 0)
-        {
-            if (argc < curarg+2)
-            {
+        } else if (strcmp(argv[curarg], "-xsize") == 0) {
+            if (argc < curarg + 2) {
                 qWarning() << " ERROR: -xsize without following size specification";
                 return;
             }
-            int temp = atoi (argv[curarg+1]);
-            if (temp < 8192 || temp > 65535)
-            {
+            int temp = atoi(argv[curarg + 1]);
+            if (temp < 8192 || temp > 65535) {
                 qWarning() << " ERROR: -xsize followed by invalid specification";
                 return;
             }
             xsize = temp;
             curarg += 2;
-        }
-        else if (strcmp (argv[curarg] , "-ysize") == 0)
-        {
-            if (argc < curarg+2)
-            {
+        } else if (strcmp(argv[curarg], "-ysize") == 0) {
+            if (argc < curarg + 2) {
                 qWarning() << " ERROR: -ysize without following team specification";
                 return;
             }
-            int temp = atoi (argv[curarg+1]);
-            if (temp < 8192 || temp > 65535)
-            {
+            int temp = atoi(argv[curarg + 1]);
+            if (temp < 8192 || temp > 65535) {
                 qWarning() << " ERROR: -ysize followed by invalid specification";
                 return;
             }
             ysize = temp;
             curarg += 2;
-        }
-        else if (strcmp (argv[curarg] , "-numfights") == 0)
-        {
-            if (argc < curarg+2)
-            {
+        } else if (strcmp(argv[curarg], "-numfights") == 0) {
+            if (argc < curarg + 2) {
                 qWarning() << " ERROR: -numfights without following specification";
                 return;
             }
-            int temp = atoi (argv[curarg+1]);
-            if (temp < 1)
-            {
+            int temp = atoi(argv[curarg + 1]);
+            if (temp < 1) {
                 qWarning() << " ERROR: -numfights followed by invalid specification";
                 return;
             }
             numfights = temp;
             curarg += 2;
-        }
-        else if (strcmp (argv[curarg] , "-maxrounds") == 0)
-        {
-            if (argc < curarg+2)
-            {
+        } else if (strcmp(argv[curarg], "-maxrounds") == 0) {
+            if (argc < curarg + 2) {
                 qWarning() << " ERROR: -maxrounds without following specification";
                 return;
             }
-            int temp = atoi (argv[curarg+1]);
-            if (temp < 100)
-            {
+            int temp = atoi(argv[curarg + 1]);
+            if (temp < 100) {
                 qWarning() << " ERROR: -maxrounds followed by invalid specification";
                 return;
             }
@@ -168,8 +137,7 @@ void startbattle (int argc, char *argv[])
             curarg += 2;
         }
     }
-    if (numbots > 1)
-    {
+    if (numbots > 1) {
         BattleConfig battleConfig;
         battleConfig.names = bots;
         battleConfig.numFights = numfights;
@@ -180,24 +148,22 @@ void startbattle (int argc, char *argv[])
         battleConfig.teams = teams;
         battleConfig.fastMode = false;
         battleConfig.mode = battletype;
-        TextmodeBattleArea *area = new TextmodeBattleArea (battleConfig);
-        while (true)
-        {
+        TextmodeBattleArea *area = new TextmodeBattleArea(battleConfig);
+        while (true) {
             if (area->execround() == 3)
                 break;
         }
-    }
-    else
+    } else
         qWarning() << " ERROR: Not enough bots specified";
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     QCoreApplication *app;
 
     bool useGUI = true;
     if (argc > 1) {
-        if (strcmp (argv[1] , "-textmode") == 0) {
+        if (strcmp(argv[1], "-textmode") == 0) {
             useGUI = false;
         }
     }
@@ -218,11 +184,11 @@ int main (int argc, char *argv[])
                                  "Pass a path to a .bot file to use",
                                  "path");
     QCommandLineOption ticksOption("max-rounds",
-                                 "Max rounds per battle (~50 rounds per second by default)",
-                                 "number");
+                                   "Max rounds per battle (~50 rounds per second by default)",
+                                   "number");
     QCommandLineOption battlesOption("num-battles",
-                                 "Number of battles to run",
-                                 "number");
+                                     "Number of battles to run",
+                                     "number");
 
     parser.addHelpOption();
     parser.addOption(botOption);
@@ -244,7 +210,7 @@ int main (int argc, char *argv[])
             return 1;
         }
 
-        for (int i=0; i<bots.count(); i++) {
+        for (int i = 0; i < bots.count(); i++) {
             battleConf.names[i] = bots[i];
         }
 
@@ -271,28 +237,19 @@ int main (int argc, char *argv[])
         droidbattles->show();
         return app->exec();
     } else {
-        if (strcmp (argv[2] , "-assemble") == 0) {
+        if (strcmp(argv[2], "-assemble") == 0) {
             if (argc >= 4)
-                TextModeFileManip::assemble (argv[3]);
-        }
-        else if (strcmp (argv[2] , "-check") == 0)
-        {
+                TextModeFileManip::assemble(argv[3]);
+        } else if (strcmp(argv[2], "-check") == 0) {
             if (argc >= 4)
-                TextModeFileManip::checkConfig (argv[3]);
-        }
-        else if (strcmp (argv[2] , "-loadconfig") == 0)
-        {
+                TextModeFileManip::checkConfig(argv[3]);
+        } else if (strcmp(argv[2], "-loadconfig") == 0) {
             if (argc >= 4)
-                TextModeFileManip::loadConfig (argv[3]);
-        }
-        else if (strcmp (argv[2] , "-battle") == 0)
-        {
-            startbattle (argc,argv);
+                TextModeFileManip::loadConfig(argv[3]);
+        } else if (strcmp(argv[2], "-battle") == 0) {
+            startbattle(argc, argv);
         }
     }
 }
-
-
-
 
 #endif

@@ -29,8 +29,7 @@ class Plasma : public Device
 {
 
 public:
-
-    Plasma (ScreenObject &object,int arg1,int offset);
+    Plasma(ScreenObject &object, int arg1, int offset);
     ~Plasma();
     void execute();
 

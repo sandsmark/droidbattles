@@ -21,7 +21,7 @@ CPU::CPU()
 {
 }
 
-CPU::CPU (Ram &ramdev, ScreenObject& /*object*/)
+CPU::CPU(Ram &ramdev, ScreenObject & /*object*/)
 {
     mem = &ramdev;
 }
@@ -30,20 +30,19 @@ CPU::~CPU()
 {
 }
 
-void CPU::callobout (unsigned char one,unsigned short two)
+void CPU::callobout(unsigned char one, unsigned short two)
 {
-    ourbot->writeDevicePort (one,two);
+    ourbot->writeDevicePort(one, two);
 }
 
-int CPU::callobin (unsigned char one)
+int CPU::callobin(unsigned char one)
 {
-    return ourbot->readDevicePort (one);
+    return ourbot->readDevicePort(one);
 }
 
-void CPU::sendmsg (char* /*msg*/)
+void CPU::sendmsg(char * /*msg*/)
 {
 }
-
 
 /**
 	* This function executes instruktions until cyclesleft <= 0
@@ -52,54 +51,53 @@ void CPU::execinstr()
 {
 }
 
-int CPU::writefile (int start,int length,int adress)
+int CPU::writefile(int start, int length, int adress)
 {
     char buffer[4096];
-    int maxbytes = (mem->returnsize() %1024) *64;
-    if (start+length > maxbytes)
+    int maxbytes = (mem->returnsize() % 1024) * 64;
+    if (start + length > maxbytes)
         return -1;
-    for (int x=0; x<length; x++)
-        buffer[x] = mem->getibyte (adress+x);
-    QFile f (ourbot->myfile);
-    if (!f.open (QIODevice::WriteOnly))
+    for (int x = 0; x < length; x++)
+        buffer[x] = mem->getibyte(adress + x);
+    QFile f(ourbot->myfile);
+    if (!f.open(QIODevice::WriteOnly))
         return -1;
-    f.seek (start);
+    f.seek(start);
     int ret = f.write(&buffer[0], length);
     f.close();
     return ret;
 }
 
-int CPU::readfile (int start,int length,int adress)
+int CPU::readfile(int start, int length, int adress)
 {
     char buffer[4096];
-    int maxbytes = (mem->returnsize() %1024) *64;
-    if (start+length > maxbytes)
+    int maxbytes = (mem->returnsize() % 1024) * 64;
+    if (start + length > maxbytes)
         return -1;
-    QFile f (ourbot->myfile);
-    if (!f.open (QIODevice::ReadOnly))
+    QFile f(ourbot->myfile);
+    if (!f.open(QIODevice::ReadOnly))
         return -1;
-    f.seek (start);
-    int ret = f.read(buffer,length);
-    for (int x=0; x<length; x++)
-        mem->setibyte (adress+x,buffer[x]);
+    f.seek(start);
+    int ret = f.read(buffer, length);
+    for (int x = 0; x < length; x++)
+        mem->setibyte(adress + x, buffer[x]);
     f.close();
     return ret;
 }
 
-int CPU::readPort (unsigned char port)
+int CPU::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
-        return ourbot->writetoBattleArea (0,0,10,0,0);   //Xsize of battlearea
+    switch (port) {
+    case 0:
+        return ourbot->writetoBattleArea(0, 0, 10, 0, 0); //Xsize of battlearea
         break;
-    case 1 :
-        return ourbot->writetoBattleArea (0,0,11,0,0);   //Ysize of battlearea
+    case 1:
+        return ourbot->writetoBattleArea(0, 0, 11, 0, 0); //Ysize of battlearea
         break;
-    case 2 :
-        return ourbot->writetoBattleArea (0,0,12,0,0);   //maxlength of battle
+    case 2:
+        return ourbot->writetoBattleArea(0, 0, 12, 0, 0); //maxlength of battle
         break;
-    case 3 :
+    case 3:
         return ourbot->team();
         break;
     }

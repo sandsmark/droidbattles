@@ -42,9 +42,9 @@ public:
 
     PixmapHolder();
     ~PixmapHolder();
-    static void addpm (QString name, PixmapId num);
-    static QPixmap & getpm (PixmapId num);
-    static QPixmap * getpmp (PixmapId num);
+    static void addpm(QString name, PixmapId num);
+    static QPixmap &getpm(PixmapId num);
+    static QPixmap *getpmp(PixmapId num);
 
 private:
     static void load();
@@ -52,4 +52,3 @@ private:
 };
 
 #endif
-

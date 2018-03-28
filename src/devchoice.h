@@ -51,18 +51,16 @@ class DevChoice : public QGroupBox
     Q_OBJECT
 
 public:
-
-    DevChoice (CreateBot *cre, QWidget *parent=0,
-               int num=0);
+    DevChoice(CreateBot *cre, QWidget *parent = 0,
+              int num = 0);
     ~DevChoice();
     unsigned short getitem();
     int getlevel();
     int getarg1();
-    void setitem (int x);
-    void setarg1 (const QString &value);
+    void setitem(int x);
+    void setarg1(const QString &value);
 
 private:
-
     QComboBox *comb;
     QLineEdit *arg1;
     QButtonGroup *level;
@@ -78,14 +76,13 @@ private:
 
 public slots:
 
-    void levelchosen (int);
+    void levelchosen(int);
     void costchanged();
     void showinfo();
 
 signals:
 
     void change();
-
 };
 
 #endif

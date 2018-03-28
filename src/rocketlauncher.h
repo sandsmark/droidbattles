@@ -30,11 +30,11 @@ class RocketLauncher : public Device
 {
 
 public:
-
-    RocketLauncher (ScreenObject &object,int level,int offset);
+    RocketLauncher(ScreenObject &object, int level, int offset);
     ~RocketLauncher();
     void execute();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
+
 private:
     int readiness;
     int distance;

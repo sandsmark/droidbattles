@@ -31,49 +31,57 @@ ScreenObject::~ScreenObject()
 {
 }
 
-void ScreenObject::drawObject (QPixmap * /*buffer*/, int /*opt*/)
+void ScreenObject::drawObject(QPixmap * /*buffer*/, int /*opt*/)
 {
 }
 
-void ScreenObject::eraseObject (QPixmap * /*buffer*/)
+void ScreenObject::eraseObject(QPixmap * /*buffer*/)
 {
 }
 
-int ScreenObject::setPosition (double X,double Y)
+int ScreenObject::setPosition(double X, double Y)
 {
-    oldX = int (Xpos);
-    oldY = int (Ypos);
-    Xpos += X;                   //Update position
+    oldX = int(Xpos);
+    oldY = int(Ypos);
+    Xpos += X; //Update position
     Ypos += Y;
-    if (Xpos < 0) Xpos = 0;        //Check if we went over the borders of
-    if (Xpos > maxx) Xpos = maxx;   //The battlefield
-    if (Ypos < 0) Ypos = 0;
-    if (Ypos > maxy) Ypos = maxy;
+    if (Xpos < 0)
+        Xpos = 0; //Check if we went over the borders of
+    if (Xpos > maxx)
+        Xpos = maxx; //The battlefield
+    if (Ypos < 0)
+        Ypos = 0;
+    if (Ypos > maxy)
+        Ypos = maxy;
     return 0;
 }
 
-void ScreenObject::changeDirection (int Z)
+void ScreenObject::changeDirection(int Z)
 {
     m_direction += Z;
-    if (m_direction >= 1024) m_direction -= 1024;
-    if (m_direction < 0) m_direction += 1024;
+    if (m_direction >= 1024)
+        m_direction -= 1024;
+    if (m_direction < 0)
+        m_direction += 1024;
 }
 
-void ScreenObject::changeSpeed (int Z)
+void ScreenObject::changeSpeed(int Z)
 {
     m_speed += Z;
-    if (m_speed < -75) m_speed = -75;
-    if (m_speed > 100) m_speed = 100;
+    if (m_speed < -75)
+        m_speed = -75;
+    if (m_speed > 100)
+        m_speed = 100;
 }
 
 int ScreenObject::xPos()
 {
-    return int (Xpos);
+    return int(Xpos);
 }
 
 int ScreenObject::yPos()
 {
-    return int (Ypos);
+    return int(Ypos);
 }
 
 int ScreenObject::direction()
@@ -86,7 +94,7 @@ int ScreenObject::speed()
     return m_speed;
 }
 
-void ScreenObject::setSpeed (int x)
+void ScreenObject::setSpeed(int x)
 {
     m_speed = x;
 }
@@ -96,7 +104,7 @@ int ScreenObject::execute()
     return 0;
 }
 
-int ScreenObject::readDevicePort (unsigned char /*port*/)
+int ScreenObject::readDevicePort(unsigned char /*port*/)
 {
     return 0;
 }
@@ -106,17 +114,17 @@ int ScreenObject::number()
     return mynum;
 }
 
-void ScreenObject::writeDevicePort (unsigned char /*port*/, unsigned short /*value*/)
+void ScreenObject::writeDevicePort(unsigned char /*port*/, unsigned short /*value*/)
 {
 }
 
-int ScreenObject::objectHit (int /*type*/, int /*strength*/)
+int ScreenObject::objectHit(int /*type*/, int /*strength*/)
 {
     return 0;
 }
 
-void ScreenObject::addScreenObject (int /*X*/, int /*Y*/, int /*dir*/, int /*type*/, int /*arg1*/,
-                                 int /*arg2*/, void* /*arg3*/)
+void ScreenObject::addScreenObject(int /*X*/, int /*Y*/, int /*dir*/, int /*type*/, int /*arg1*/,
+                                   int /*arg2*/, void * /*arg3*/)
 {
 }
 
@@ -125,12 +133,12 @@ ScreenObject::ObjectType ScreenObject::type()
     return ScreenObject::Destroyed;
 }
 
-int ScreenObject::writetoBattleArea (int /*bot*/, int /*dev*/, int /*choice*/, int /*arg1*/, int /*arg2*/)
+int ScreenObject::writetoBattleArea(int /*bot*/, int /*dev*/, int /*choice*/, int /*arg1*/, int /*arg2*/)
 {
     return 0;
 }
 
-int ScreenObject::writeToDevice (int /*dev*/, int /*action*/, int /*value*/)
+int ScreenObject::writeToDevice(int /*dev*/, int /*action*/, int /*value*/)
 {
     return 0;
 }
@@ -160,20 +168,20 @@ QString ScreenObject::getDebugMessage2()
     return 0;
 }
 
-void ScreenObject::setDebugVariable1 (int /*msg*/)
+void ScreenObject::setDebugVariable1(int /*msg*/)
 {
 }
 
-void ScreenObject::setDebugVariable2 (int /*msg*/)
+void ScreenObject::setDebugVariable2(int /*msg*/)
 {
 }
 
-void ScreenObject::setextragfx (bool x)
+void ScreenObject::setextragfx(bool x)
 {
     showextragfx = x;
 }
 
-void ScreenObject::setFuel (int x)
+void ScreenObject::setFuel(int x)
 {
     fuelval += x;
 }
@@ -188,10 +196,11 @@ int ScreenObject::armor()
     return armorval;
 }
 
-void ScreenObject::changeHeat (int x)
+void ScreenObject::changeHeat(int x)
 {
     heatval += x;
-    if (heatval < 0) heatval = 0;
+    if (heatval < 0)
+        heatval = 0;
 }
 
 int ScreenObject::heat()
@@ -199,7 +208,7 @@ int ScreenObject::heat()
     return heatval;
 }
 
-void ScreenObject::setHeat (int x)
+void ScreenObject::setHeat(int x)
 {
     heatval = x;
 }
@@ -209,7 +218,7 @@ int ScreenObject::team()
     return m_team;
 }
 
-void ScreenObject::writeRadio (int /*sig*/)
+void ScreenObject::writeRadio(int /*sig*/)
 {
 }
 
@@ -218,7 +227,7 @@ int ScreenObject::memorySize()
     return 0;
 }
 
-void ScreenObject::addInterrupt (int /*inter*/)
+void ScreenObject::addInterrupt(int /*inter*/)
 {
 }
 
@@ -242,12 +251,13 @@ int ScreenObject::collisionId()
     return noncollid;
 }
 
-void ScreenObject::sendMessage (char *msg)
+void ScreenObject::sendMessage(char *msg)
 {
-    if (useUI) emit messagechanged (msg);
+    if (useUI)
+        emit messagechanged(msg);
 }
 
-void ScreenObject::objectScanned (int /*intensity*/, int /*dir*/)
+void ScreenObject::objectScanned(int /*intensity*/, int /*dir*/)
 {
 }
 
@@ -256,12 +266,12 @@ int ScreenObject::owner()
     return myowner;
 }
 
-QPixmap & ScreenObject::getgfx()
+QPixmap &ScreenObject::getgfx()
 {
     return *graphics;
 }
 
-void ScreenObject::setRadar (int /*x*/)
+void ScreenObject::setRadar(int /*x*/)
 {
 }
 

@@ -29,14 +29,12 @@ class MineLayer : public Device
 {
 
 public:
-
-    MineLayer (ScreenObject &, int);
+    MineLayer(ScreenObject &, int);
     ~MineLayer();
     int readPort(unsigned char port);
     void execute();
 
 private:
-
     int minesleft;
 };
 

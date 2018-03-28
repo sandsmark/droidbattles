@@ -28,18 +28,15 @@ class Turret : public Device
 {
 
 public:
-
-    Turret (ScreenObject &,int,int);
+    Turret(ScreenObject &, int, int);
     ~Turret();
-    int readPort (unsigned char);
+    int readPort(unsigned char);
     void execute();
 
 private:
-
     int ourdev;
     int wantedoffset;
     int offset;
-
 };
 
 #endif

@@ -42,8 +42,6 @@ struct DebugContents
     unsigned char dicontents[9];
 
     int execmem[30];
-
 };
-
 
 #endif

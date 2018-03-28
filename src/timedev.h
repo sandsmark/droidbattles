@@ -29,10 +29,10 @@ class TimeDev : public Device
 {
 
 public:
-    TimeDev (ScreenObject &);
+    TimeDev(ScreenObject &);
     ~TimeDev();
     void execute();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
 
 private:
     int timecount;

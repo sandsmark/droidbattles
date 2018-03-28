@@ -24,7 +24,6 @@
   *@author Andreas Agorander
   */
 
-
 class StartSurvBatt : public StartsBatt
 {
     Q_OBJECT

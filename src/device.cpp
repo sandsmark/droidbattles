@@ -18,29 +18,29 @@
 #include "device.h"
 #include <QMap>
 const QStringList Device::s_deviceNames = {
-        "CPU",
-        "engine",
-        "steering",
-        "plasmagun",
-        "armor",
-        "scanner",
-        "fuel",
-        "chaff",
-        "turret",
-        "scanwarner",
-        "timedev",
-        "shield",
-        "repair",
-        "radio",
-        "chiller",
-        "cloaker",
-        "minelayer",
-        "missile",
-        "beam",
-        "AS-rocket"
+    "CPU",
+    "engine",
+    "steering",
+    "plasmagun",
+    "armor",
+    "scanner",
+    "fuel",
+    "chaff",
+    "turret",
+    "scanwarner",
+    "timedev",
+    "shield",
+    "repair",
+    "radio",
+    "chiller",
+    "cloaker",
+    "minelayer",
+    "missile",
+    "beam",
+    "AS-rocket"
 };
 
-Device::Device (ScreenObject &object)
+Device::Device(ScreenObject &object)
 {
     ourbot = &object;
 }
@@ -76,12 +76,10 @@ Device::~Device()
 	* Take in a value in the port (after an out instruktion from the CPU
 	* And place it in the stack
 	*/
-void Device::addInputPort (unsigned char port, unsigned short value)
+void Device::addInputPort(unsigned char port, unsigned short value)
 {
-    for (int count=0; count<4; count++)
-    {
-        if (stacktaken[port][count] == false)
-        {
+    for (int count = 0; count < 4; count++) {
+        if (stacktaken[port][count] == false) {
             stacktaken[port][0] = true;
             portstack[port][0] = value;
             break;
@@ -93,21 +91,21 @@ void Device::execute()
 {
 }
 
-int Device::readPort (unsigned char /*port*/)
+int Device::readPort(unsigned char /*port*/)
 {
     return 0;
 }
 
-int Device::absorbHit (int str, int /*ifint*/)
+int Device::absorbHit(int str, int /*ifint*/)
 {
     return str;
 }
 
-void Device::erase (QPainter* /*buffer*/)
+void Device::erase(QPainter * /*buffer*/)
 {
 }
 
-void Device::draw (QPainter* /*buffer*/)
+void Device::draw(QPainter * /*buffer*/)
 {
 }
 
@@ -115,7 +113,7 @@ void Device::draw (QPainter* /*buffer*/)
 	* Sets relative angle of device (relative to bot)
 	* ie. turret calls this function in the device he "turrets"
 	*/
-void Device::setRelativeAngle (int x)
+void Device::setRelativeAngle(int x)
 {
     relang = x;
 }
@@ -135,20 +133,19 @@ struct DebugContents Device::debugContents()
     return DebugContents();
 }
 
-void Device::doSpecial (int /*x*/, int /*y*/)
+void Device::doSpecial(int /*x*/, int /*y*/)
 {
 }
 
 /**
 	* Move the sack one step down for port "port"
 	*/
-void Device::moveportstack (int port)
+void Device::moveportstack(int port)
 {
     int count;
-    for (count = 0; count < 3; count++)
-    {
-        portstack[port][count] = portstack[port][count+1];
-        stacktaken[port][count] = stacktaken[port][count+1];
+    for (count = 0; count < 3; count++) {
+        portstack[port][count] = portstack[port][count + 1];
+        stacktaken[port][count] = stacktaken[port][count + 1];
     }
     portstack[port][3] = 0;
     stacktaken[port][3] = false;

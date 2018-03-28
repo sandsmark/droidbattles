@@ -29,11 +29,10 @@ StartCup::~StartCup()
 void StartCup::ocl()
 {
     int x = getnumofbots();
-    if (x==4 || x==8 || x==16 || x==32 || x==64)
+    if (x == 4 || x == 8 || x == 16 || x == 32 || x == 64)
         emit okclicked();
-    else
-    {
-        QMessageBox::information (this,"Battlebots","Number of bots must be 4,8,"
-                                  "16,32 or 64");
+    else {
+        QMessageBox::information(this, "Battlebots", "Number of bots must be 4,8,"
+                                                     "16,32 or 64");
     }
 }

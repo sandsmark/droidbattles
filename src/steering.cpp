@@ -17,19 +17,17 @@
 
 #include "steering.h"
 
-Steering::Steering (ScreenObject &object, int arg1)
+Steering::Steering(ScreenObject &object, int arg1)
 {
     ourlevel = arg1;
     ourbot = &object;
     aimatdir = ourbot->direction();
     int count;
     int count2;
-    for (count=0; count<4; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 4; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -44,77 +42,71 @@ Steering::~Steering()
 	*/
 void Steering::execute()
 {
-    if (stacktaken[0][0] == true)
-    {
+    if (stacktaken[0][0] == true) {
         aimatdir += portstack[0][0];
-        if (aimatdir > 1024) aimatdir %= 1024;
-        if (aimatdir < 0) aimatdir += 1024;
-        moveportstack (0);
+        if (aimatdir > 1024)
+            aimatdir %= 1024;
+        if (aimatdir < 0)
+            aimatdir += 1024;
+        moveportstack(0);
     }
 
-    if (stacktaken[1][0] == true)
-    {
+    if (stacktaken[1][0] == true) {
         aimatdir = portstack[1][0];
-        if (aimatdir > 1024) aimatdir %= 1024;
-        if (aimatdir < 0) aimatdir += 1024;
-        moveportstack (1);
+        if (aimatdir > 1024)
+            aimatdir %= 1024;
+        if (aimatdir < 0)
+            aimatdir += 1024;
+        moveportstack(1);
     }
 
-    if (stacktaken[2][0] == true)
-    {
+    if (stacktaken[2][0] == true) {
         aimatdir = ourbot->direction() + portstack[2][0];
-        if (aimatdir > 1024) aimatdir %= 1024;
-        if (aimatdir < 0) aimatdir += 1024;
-        moveportstack (2);
+        if (aimatdir > 1024)
+            aimatdir %= 1024;
+        if (aimatdir < 0)
+            aimatdir += 1024;
+        moveportstack(2);
     }
-
 
     int diff1, diff2;
 
-    if (aimatdir != ourbot->direction())
-    {
-        if (aimatdir < ourbot->direction())
-        {
+    if (aimatdir != ourbot->direction()) {
+        if (aimatdir < ourbot->direction()) {
             diff1 = ourbot->direction() - aimatdir;
             diff2 = 1024 - ourbot->direction() + aimatdir;
-        }
-        else
-        {
+        } else {
             diff1 = ourbot->direction() + 1024 - aimatdir;
             diff2 = aimatdir - ourbot->direction();
         }
 
-        if (diff1 < diff2)
-        {
+        if (diff1 < diff2) {
             if (diff1 < ourlevel)
-                ourbot->changeDirection (-diff1);
+                ourbot->changeDirection(-diff1);
             else
-                ourbot->changeDirection (- (ourlevel));
-        }
-        else
-        {
+                ourbot->changeDirection(-(ourlevel));
+        } else {
             if (diff2 < ourlevel)
-                ourbot->changeDirection (diff2);
+                ourbot->changeDirection(diff2);
             else
-                ourbot->changeDirection ( (ourlevel));
+                ourbot->changeDirection((ourlevel));
         }
     }
 }
 
-int Steering::readPort (unsigned char port)
+int Steering::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return ourbot->direction();
         break;
-    case 1 :
+    case 1:
         return aimatdir;
         break;
-    case 2 :
+    case 2:
         return ourbot->xPos();
         break;
-    case 3 :
+    case 3:
         return ourbot->yPos();
         break;
     }

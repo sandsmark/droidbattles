@@ -30,16 +30,13 @@ class Steering : public Device
 {
 
 public:
-
-    Steering (ScreenObject &object,int);
+    Steering(ScreenObject &object, int);
     ~Steering();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
     void execute();
 
 private:
-
     int aimatdir;
-
 };
 
 #endif

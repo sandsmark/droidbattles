@@ -30,12 +30,12 @@
 KothTournament::KothTournament() :
     StartTournament("KOTH")
 {
-    loadlist = new PixButton ("Load list", this);
+    loadlist = new PixButton("Load list", this);
 
-    QObject::connect (loadlist,SIGNAL (clicked()),this,
-                      SLOT (chooselist()));
+    QObject::connect(loadlist, SIGNAL(clicked()), this,
+                     SLOT(chooselist()));
 
-    QGridLayout *l = qobject_cast<QGridLayout*>(layout());
+    QGridLayout *l = qobject_cast<QGridLayout *>(layout());
     Q_ASSERT(l);
     l->addWidget(loadlist, 0, 0);
 }
@@ -48,7 +48,7 @@ void KothTournament::chooselist()
 {
     QSettings settings;
 
-    QString filename = QFileDialog::getOpenFileName (this, tr("Select tournament table file"), settings.value("LastTablePath").toString(), "*.table");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select tournament table file"), settings.value("LastTablePath").toString(), "*.table");
     if (filename.isEmpty()) {
         return;
     }
@@ -59,37 +59,37 @@ void KothTournament::chooselist()
     //Empty list of bots
     botfiles->clear();
     //Load new bots
-    QFile f (filename);
-    f.open (QIODevice::ReadOnly);
-    QTextStream s (&f);
+    QFile f(filename);
+    f.open(QIODevice::ReadOnly);
+    QTextStream s(&f);
 
     QString temp;
     s >> temp;
     s >> temp;
     int numbots = temp.toInt();
-    for (x=0; x<numbots; x++) {
+    for (x = 0; x < numbots; x++) {
         s >> temp;
         s >> temp;
-        botfiles->addItem (temp);
+        botfiles->addItem(temp);
     }
     //numfights
     s >> temp;
     s >> temp;
-    wnumfights->setValue( temp.toInt());
+    wnumfights->setValue(temp.toInt());
     //lengthfights
     s >> temp;
     s >> temp;
-    length->setValue (temp.toInt());
+    length->setValue(temp.toInt());
     //Xsize
     s >> temp;
     s >> temp;
-    maxx->setValue (temp.toInt());
+    maxx->setValue(temp.toInt());
     //Ysize
     s >> temp;
     s >> temp;
-    maxy->setValue (temp.toInt());
+    maxy->setValue(temp.toInt());
     //Iffast
     s >> temp;
     s >> temp;
-    iffast->setChecked (temp.toInt());
+    iffast->setChecked(temp.toInt());
 }

@@ -33,24 +33,21 @@ class Missile : public ScreenObject
 {
 
 public:
-
-    Missile (int X,int Y,int dir,int owner,int mynum,TextmodeBattleArea &area, bool ui = true);
+    Missile(int X, int Y, int dir, int owner, int mynum, TextmodeBattleArea &area, bool ui = true);
     ~Missile();
     int execute();
-    void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt);
+    void eraseObject(QPixmap *buffer);
+    void drawObject(QPixmap *buffer, int opt);
     ObjectType type();
     int collisionType();
     int collisionStrength();
-    int setPosition (double X,double Y);
-    int objectHit (int type,int strength);
+    int setPosition(double X, double Y);
+    int objectHit(int type, int strength);
     int returnRadar();
 
 private:
-
     int strength;
     TextmodeBattleArea *ourarea;
-
 };
 
 #endif

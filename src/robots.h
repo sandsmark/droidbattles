@@ -64,43 +64,41 @@ class Robots : public ScreenObject
     Q_OBJECT
 
 public:
-
-    Robots (const QString &name, TextmodeBattleArea &area, int mnum, ConfStruct, int tm,
-            bool er=true, bool ui = true);
+    Robots(const QString &name, TextmodeBattleArea &area, int mnum, ConfStruct, int tm,
+           bool er = true, bool ui = true);
     ~Robots();
     int execute() override;
-    void eraseObject (QPixmap *buffer) override;
-    void drawObject (QPixmap *buffer, int opt) override;
-    int readDevicePort (unsigned char port) override;
-    void writeDevicePort (unsigned char port,unsigned short value) override;
-    int objectHit (int type,int strength) override;
-    void objectScanned (int intensity, int dir) override;
-    void addScreenObject (int X,int Y,int dir,int type, int arg1=0,int arg2=0,
-                       void *arg3=0) override;
-    int writetoBattleArea (int bot,int dev,int choice,int arg1,int arg2) override;
-    int writeToDevice (int dev, int action, int value) override;
+    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPixmap *buffer, int opt) override;
+    int readDevicePort(unsigned char port) override;
+    void writeDevicePort(unsigned char port, unsigned short value) override;
+    int objectHit(int type, int strength) override;
+    void objectScanned(int intensity, int dir) override;
+    void addScreenObject(int X, int Y, int dir, int type, int arg1 = 0, int arg2 = 0,
+                         void *arg3 = 0) override;
+    int writetoBattleArea(int bot, int dev, int choice, int arg1, int arg2) override;
+    int writeToDevice(int dev, int action, int value) override;
     ObjectType type() override;
     int collisionType() override;
     int collisionStrength() override;
     int size() override;
-    void writeRadio (int) override;
+    void writeRadio(int) override;
     QString getDebugMessage1() override;
     QString getDebugMessage2() override;
-    void setDebugVariable1 (int) override;
-    void setDebugVariable2 (int) override;
-    void showError (const QString &, const QString &);
+    void setDebugVariable1(int) override;
+    void setDebugVariable2(int) override;
+    void showError(const QString &, const QString &);
     int memorySize() override;
-    void addInterrupt (int) override;
+    void addInterrupt(int) override;
     struct DebugContents debugContents() override;
     int cpuCount();
     // the caller has to delete the returned pointer
     QVector<DebugContents> *allDebugContents();
     int returnRadar() override;
-    void setRadar (int x) override;
+    void setRadar(int x) override;
     void dumpRam() override;
 
 private:
-
     int RAMamount;
     Ram *ramdevice;
     int radarsignature;

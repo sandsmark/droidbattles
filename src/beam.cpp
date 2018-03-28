@@ -21,27 +21,29 @@
 /**
 	* Constructor , initializing and positioning beam
 	*/
-Beam::Beam (int X,int Y,int dir,int l,TextmodeBattleArea &area, int owner, bool ui)
+Beam::Beam(int X, int Y, int dir, int l, TextmodeBattleArea &area, int owner, bool ui)
 {
     useUI = ui;
     myowner = owner;
     ourarea = &area;
     noncollid = collenabled;
     length = l;
-    if (length > maxbeamlength) length = maxbeamlength;
-    if (length < minbeamlength) length = minbeamlength;
+    if (length > maxbeamlength)
+        length = maxbeamlength;
+    if (length < minbeamlength)
+        length = minbeamlength;
     m_direction = dir;
     Xpos = X;
     Ypos = Y;
     uX = X;
     uY = Y;
     double dira = direction() * toradians;
-    double tempX,tempY;
-    tempX = cos (dira) * length;
-    tempY = sin (dira) * length;
-    maxx = ourarea->getareainfo (0);
-    maxy = ourarea->getareainfo (1);
-    setPosition (tempX,tempY);
+    double tempX, tempY;
+    tempX = cos(dira) * length;
+    tempY = sin(dira) * length;
+    maxx = ourarea->getareainfo(0);
+    maxy = ourarea->getareainfo(1);
+    setPosition(tempX, tempY);
     effect = 5;
 }
 
@@ -59,8 +61,10 @@ Beam::~Beam()
 	*/
 int Beam::execute()
 {
-    if (effect==0) return destroyself;
-    if (effect >0) effect--;
+    if (effect == 0)
+        return destroyself;
+    if (effect > 0)
+        effect--;
     return 0;
 }
 
@@ -90,26 +94,26 @@ ScreenObject::ObjectType Beam::type()
 /**
 	* Paint object
 	*/
-void Beam::drawObject (QPixmap *buffer, int opt)
+void Beam::drawObject(QPixmap *buffer, int opt)
 {
     if (opt > 0) {
         return;
     }
 
-    QPainter p (buffer);
-    p.setPen (QColor (0,0, (5 - effect) * 50));
-    p.drawLine (uX>>6, uY>>6, xPos() >>6, yPos() >>6);
+    QPainter p(buffer);
+    p.setPen(QColor(0, 0, (5 - effect) * 50));
+    p.drawLine(uX >> 6, uY >> 6, xPos() >> 6, yPos() >> 6);
     ispainted = true;
 }
 
 /**
 	* Paint object black
 	*/
-void Beam::eraseObject (QPixmap *buffer)
+void Beam::eraseObject(QPixmap *buffer)
 {
-    QPainter p (buffer);
-    p.setPen (QColor (0,0,0));
-    p.drawLine (uX>>6, uY>>6, xPos() >>6, yPos() >>6);
+    QPainter p(buffer);
+    p.setPen(QColor(0, 0, 0));
+    p.drawLine(uX >> 6, uY >> 6, xPos() >> 6, yPos() >> 6);
     ispainted = false;
 }
 

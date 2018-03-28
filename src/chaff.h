@@ -31,11 +31,10 @@ class Chaff : public ScreenObject
 {
 
 public:
-
-    Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui = true);
+    Chaff(int X, int Y, int d, int spd, TextmodeBattleArea &area, bool ui = true);
     ~Chaff();
-    void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt);
+    void eraseObject(QPixmap *buffer);
+    void drawObject(QPixmap *buffer, int opt);
     ObjectType type();
     int execute();
     int returnRadar();

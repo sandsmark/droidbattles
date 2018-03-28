@@ -22,7 +22,7 @@
 /**
 	* Init position and load gfx
 	*/
-Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
+Mine::Mine(int x, int y, TextmodeBattleArea &area, int owner, bool ui)
 {
     useUI = ui;
     myowner = owner;
@@ -32,13 +32,11 @@ Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
     Ypos = y;
     m_size = 8;
     noncollid = 256;
-    if (useUI)
-    {
+    if (useUI) {
         erasegfx = new QPixmap(8, 8);
-        erasegfx->fill (Qt::black);
-        graphics = PixmapHolder::getpmp (PixmapHolder::Mine);
+        erasegfx->fill(Qt::black);
+        graphics = PixmapHolder::getpmp(PixmapHolder::Mine);
     }
-
 }
 
 /**
@@ -46,8 +44,9 @@ Mine::Mine (int x,int y, TextmodeBattleArea &area,int owner, bool ui)
 	*/
 Mine::~Mine()
 {
-    if (useUI) delete erasegfx;
-//	delete graphics;
+    if (useUI)
+        delete erasegfx;
+    //	delete graphics;
 }
 
 /**
@@ -76,7 +75,7 @@ ScreenObject::ObjectType Mine::type()
     }
 }
 
-int Mine::objectHit (int /*type*/,int /*strength*/)
+int Mine::objectHit(int /*type*/, int /*strength*/)
 {
     return objhitdestroyed;
 }
@@ -84,24 +83,24 @@ int Mine::objectHit (int /*type*/,int /*strength*/)
 /**
 	* Show the graphics on the battlefield
 	*/
-void Mine::drawObject (QPixmap *buffer,int opt)
+void Mine::drawObject(QPixmap *buffer, int opt)
 {
     if (opt > 0) {
         return;
     }
     QPainter painter(buffer);
-    painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
-    oldX = int (Xpos);
-    oldY = int (Ypos);
+    painter.drawPixmap((xPos() >> 6) - 4, (yPos() >> 6) - 4, *graphics);
+    oldX = int(Xpos);
+    oldY = int(Ypos);
 }
 
 /**
 	* Paint it black
 	*/
-void Mine::eraseObject (QPixmap *buffer)
+void Mine::eraseObject(QPixmap *buffer)
 {
     QPainter painter(buffer);
-    painter.drawPixmap((oldX>>6)-4, (oldY>>6)-4, *erasegfx);
+    painter.drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
 }
 
 /**

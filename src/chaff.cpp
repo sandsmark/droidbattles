@@ -23,23 +23,22 @@
 /**
 	* Constructor, Init object
 	*/
-Chaff::Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui)
+Chaff::Chaff(int X, int Y, int d, int spd, TextmodeBattleArea &area, bool ui)
 {
     m_direction = d;
     Xpos = X;
     Ypos = Y;
     m_speed = spd;
     useUI = ui;
-    if (useUI)
-    {
+    if (useUI) {
         erasegfx = new QPixmap(12, 12);
         erasegfx->fill(Qt::black);
-        graphics = PixmapHolder::getpmp (PixmapHolder::Chaff);
+        graphics = PixmapHolder::getpmp(PixmapHolder::Chaff);
     }
     timeleft = 159;
     ourarea = &area;
-    maxx = ourarea->getareainfo (0);
-    maxy = ourarea->getareainfo (1);
+    maxx = ourarea->getareainfo(0);
+    maxy = ourarea->getareainfo(1);
 }
 
 /**
@@ -47,14 +46,15 @@ Chaff::Chaff (int X,int Y,int d,int spd, TextmodeBattleArea &area, bool ui)
 	*/
 Chaff::~Chaff()
 {
-    if (useUI) delete erasegfx;
-//	delete graphics;
+    if (useUI)
+        delete erasegfx;
+    //	delete graphics;
 }
 
 /**
 	* Paint object
 	*/
-void Chaff::drawObject (QPixmap *buffer,int opt)
+void Chaff::drawObject(QPixmap *buffer, int opt)
 {
     if (opt > 0) {
         return;
@@ -63,9 +63,9 @@ void Chaff::drawObject (QPixmap *buffer,int opt)
     QPainter painter(buffer);
     const int width = 12;
     const int height = 12;
-    const int x = (xPos() >>6)-6;
-    const int y = (yPos() >>6)-6;
-    const int sourceX = 84- (int (timeleft/20) * 12);
+    const int x = (xPos() >> 6) - 6;
+    const int y = (yPos() >> 6) - 6;
+    const int sourceX = 84 - (int(timeleft / 20) * 12);
     painter.drawPixmap(x, y, width, height, *graphics, sourceX, 0, width, height);
     oldX = xPos();
     oldY = yPos();
@@ -74,10 +74,10 @@ void Chaff::drawObject (QPixmap *buffer,int opt)
 /**
 	* Paint object black
 	*/
-void Chaff::eraseObject (QPixmap *buffer)
+void Chaff::eraseObject(QPixmap *buffer)
 {
     QPainter painter(buffer);
-    painter.drawPixmap((oldX>>6)-6, (oldY>>6)-6, *erasegfx);
+    painter.drawPixmap((oldX >> 6) - 6, (oldY >> 6) - 6, *erasegfx);
 }
 
 /**
@@ -86,10 +86,10 @@ void Chaff::eraseObject (QPixmap *buffer)
 int Chaff::execute()
 {
     double dira = direction() * pi / 512;
-    double tempX,tempY;
-    tempX = cos (dira) * speed();
-    tempY = sin (dira) * speed();
-    setPosition (tempX,tempY);
+    double tempX, tempY;
+    tempX = cos(dira) * speed();
+    tempY = sin(dira) * speed();
+    setPosition(tempX, tempY);
     timeleft--;
     if (!timeleft)
         return destroyself;

@@ -39,12 +39,12 @@ ConfEdit::ConfEdit()
 
     setAttribute(Qt::WA_DeleteOnClose);
 
-    defaultbutton = new QPushButton ("Load default values" , this);
-    openbutton = new QPushButton ("Open existing config" , this);
-    savebutton = new QPushButton ("Save current config", this);
-    closebutton = new QPushButton ("Close config editor",this);
-    makecurrentbutton = new QPushButton ("Apply current config", this);
-    helpbutton = new QPushButton ("HELP", this);
+    defaultbutton = new QPushButton("Load default values", this);
+    openbutton = new QPushButton("Open existing config", this);
+    savebutton = new QPushButton("Save current config", this);
+    closebutton = new QPushButton("Close config editor", this);
+    makecurrentbutton = new QPushButton("Apply current config", this);
+    helpbutton = new QPushButton("HELP", this);
 
     QGridLayout *buttonsLayout = new QGridLayout;
     buttonsLayout->addWidget(defaultbutton, 0, 0);
@@ -55,17 +55,17 @@ ConfEdit::ConfEdit()
     buttonsLayout->addWidget(helpbutton, 1, 2);
     mainLayout->addLayout(buttonsLayout);
 
-    connect (defaultbutton, &QAbstractButton::clicked, this, &ConfEdit::defaultc);
-    connect (openbutton, &QAbstractButton::clicked, this, &ConfEdit::openc);
-    connect (savebutton, &QAbstractButton::clicked, this, &ConfEdit::savec);
+    connect(defaultbutton, &QAbstractButton::clicked, this, &ConfEdit::defaultc);
+    connect(openbutton, &QAbstractButton::clicked, this, &ConfEdit::openc);
+    connect(savebutton, &QAbstractButton::clicked, this, &ConfEdit::savec);
     connect(closebutton, &QPushButton::clicked, this, &ConfEdit::close);
-    connect (makecurrentbutton, &QAbstractButton::clicked, this, &ConfEdit::makecurrc);
-    connect (helpbutton, &QAbstractButton::clicked, this,
-                      &ConfEdit::helpRequested);
+    connect(makecurrentbutton, &QAbstractButton::clicked, this, &ConfEdit::makecurrc);
+    connect(helpbutton, &QAbstractButton::clicked, this,
+            &ConfEdit::helpRequested);
 
-    valid = new QIntValidator (this);
+    valid = new QIntValidator(this);
 
-    scroll = new QScrollArea (this);
+    scroll = new QScrollArea(this);
     mainLayout->addWidget(scroll);
 
     setarea = new QWidget();
@@ -73,47 +73,47 @@ ConfEdit::ConfEdit()
     scroll->setWidgetResizable(true);
     scroll->setWidget(setarea);
 
-    maxdevl = new QLabel ("Maximum number of devices: ", setarea);
-    maxdevv = new QSpinBox (setarea);
+    maxdevl = new QLabel("Maximum number of devices: ", setarea);
+    maxdevv = new QSpinBox(setarea);
     maxdevv->setMinimum(1);
     maxdevv->setMaximum(32);
     maxdevv->setSingleStep(1);
 
-    maxcostl = new QLabel ("Maximum cost of bot: ", setarea);
-    maxcostv = new QSpinBox (setarea);
+    maxcostl = new QLabel("Maximum cost of bot: ", setarea);
+    maxcostv = new QSpinBox(setarea);
     maxcostv->setMinimum(100);
     maxcostv->setMaximum(65500);
     maxcostv->setSingleStep(100);
 
-    maxraml = new QLabel ("Maximum amount of RAM: ", setarea);
-    maxramv = new QComboBox (setarea);
-    maxramv->addItem ("1k");
-    maxramv->addItem ("2k");
-    maxramv->addItem ("4k");
-    maxramv->addItem ("8k");
-    maxramv->addItem ("16k");
-    maxramv->addItem ("24k");
-    maxramv->addItem ("32k");
-    maxramv->addItem ("48k");
-    maxramv->addItem ("64k");
+    maxraml = new QLabel("Maximum amount of RAM: ", setarea);
+    maxramv = new QComboBox(setarea);
+    maxramv->addItem("1k");
+    maxramv->addItem("2k");
+    maxramv->addItem("4k");
+    maxramv->addItem("8k");
+    maxramv->addItem("16k");
+    maxramv->addItem("24k");
+    maxramv->addItem("32k");
+    maxramv->addItem("48k");
+    maxramv->addItem("64k");
 
     QComboBox::InsertPolicy pol = QComboBox::InsertAtCurrent;
 
-    ramcostl = new QLabel ("Cost of RAM: ",setarea);
-    ramcostv = new QComboBox (setarea);
+    ramcostl = new QLabel("Cost of RAM: ", setarea);
+    ramcostv = new QComboBox(setarea);
     ramcostv->setEditable(true);
-    ramcostv->setValidator (valid);
-    ramcostv->setInsertPolicy (pol);
-    ramcostv->addItem ("100");
-    ramcostv->addItem ("250");
-    ramcostv->addItem ("600");
-    ramcostv->addItem ("1500");
-    ramcostv->addItem ("4000");
-    ramcostv->addItem ("9000");
-    ramcostv->addItem ("18000");
-    ramcostv->addItem ("20000");
-    ramcostv->addItem ("25000");
-    ramcostv->setMaxCount (10);
+    ramcostv->setValidator(valid);
+    ramcostv->setInsertPolicy(pol);
+    ramcostv->addItem("100");
+    ramcostv->addItem("250");
+    ramcostv->addItem("600");
+    ramcostv->addItem("1500");
+    ramcostv->addItem("4000");
+    ramcostv->addItem("9000");
+    ramcostv->addItem("18000");
+    ramcostv->addItem("20000");
+    ramcostv->addItem("25000");
+    ramcostv->setMaxCount(10);
 
     QGridLayout *optionsLayout = new QGridLayout;
     optionsLayout->addWidget(maxdevl, 0, 0);
@@ -127,76 +127,72 @@ ConfEdit::ConfEdit()
 
     setareaLayout->addLayout(optionsLayout);
 
-    devicegroup[0] = new QGroupBox ("CPU", setarea);
-    devicegroup[1] = new QGroupBox ("engine", setarea);
-    devicegroup[2] = new QGroupBox ("steering",setarea);
-    devicegroup[3] = new QGroupBox ("plasmagun",setarea);
-    devicegroup[4] = new QGroupBox ("armor",setarea);
-    devicegroup[5] = new QGroupBox ("scanner",setarea);
-    devicegroup[6] = new QGroupBox ("fuel",setarea);
-    devicegroup[7] = new QGroupBox ("chaff",setarea);
-    devicegroup[8] = new QGroupBox ("turret",setarea);
-    devicegroup[9] = new QGroupBox ("scanwarner",setarea);
-    devicegroup[10] = new QGroupBox ("timedev",setarea);
-    devicegroup[11] = new QGroupBox ("shield",setarea);
-    devicegroup[12] = new QGroupBox ("repair",setarea);
-    devicegroup[13] = new QGroupBox ("radio",setarea);
-    devicegroup[14] = new QGroupBox ("chiller",setarea);
-    devicegroup[15] = new QGroupBox ("cloaker",setarea);
-    devicegroup[16] = new QGroupBox ("minelayer",setarea);
-    devicegroup[17] = new QGroupBox ("missile",setarea);
-    devicegroup[18] = new QGroupBox ("beam",setarea);
-    devicegroup[19] = new QGroupBox ("AS-rocket",setarea);
-
+    devicegroup[0] = new QGroupBox("CPU", setarea);
+    devicegroup[1] = new QGroupBox("engine", setarea);
+    devicegroup[2] = new QGroupBox("steering", setarea);
+    devicegroup[3] = new QGroupBox("plasmagun", setarea);
+    devicegroup[4] = new QGroupBox("armor", setarea);
+    devicegroup[5] = new QGroupBox("scanner", setarea);
+    devicegroup[6] = new QGroupBox("fuel", setarea);
+    devicegroup[7] = new QGroupBox("chaff", setarea);
+    devicegroup[8] = new QGroupBox("turret", setarea);
+    devicegroup[9] = new QGroupBox("scanwarner", setarea);
+    devicegroup[10] = new QGroupBox("timedev", setarea);
+    devicegroup[11] = new QGroupBox("shield", setarea);
+    devicegroup[12] = new QGroupBox("repair", setarea);
+    devicegroup[13] = new QGroupBox("radio", setarea);
+    devicegroup[14] = new QGroupBox("chiller", setarea);
+    devicegroup[15] = new QGroupBox("cloaker", setarea);
+    devicegroup[16] = new QGroupBox("minelayer", setarea);
+    devicegroup[17] = new QGroupBox("missile", setarea);
+    devicegroup[18] = new QGroupBox("beam", setarea);
+    devicegroup[19] = new QGroupBox("AS-rocket", setarea);
 
     QGridLayout *devicesLayout = new QGridLayout;
     setareaLayout->addLayout(devicesLayout);
 
-    for (int x=0; x<numdev; x++)
-    {
+    for (int x = 0; x < numdev; x++) {
         QGridLayout *deviceLayout = new QGridLayout(devicegroup[x]);
-        devicesenabled[x] = new QCheckBox ("enabled",devicegroup[x]);
+        devicesenabled[x] = new QCheckBox("enabled", devicegroup[x]);
         deviceLayout->addWidget(devicesenabled[x], 0, 0);
-        costs[x] = new QLabel ("Cost of device: ", devicegroup[x]);
+        costs[x] = new QLabel("Cost of device: ", devicegroup[x]);
         deviceLayout->addWidget(costs[x], 1, 0);
 
-        levelcosts[x] = new QComboBox (devicegroup[x]);
+        levelcosts[x] = new QComboBox(devicegroup[x]);
         levelcosts[x]->setEditable(true);
-        levelcosts[x]->setInsertPolicy (pol);
-        levelcosts[x]->addItem ("100");
-        levelcosts[x]->addItem ("200");
-        levelcosts[x]->addItem ("300");
-        levelcosts[x]->addItem ("400");
-        levelcosts[x]->addItem ("500");
-        levelcosts[x]->setValidator (valid);
+        levelcosts[x]->setInsertPolicy(pol);
+        levelcosts[x]->addItem("100");
+        levelcosts[x]->addItem("200");
+        levelcosts[x]->addItem("300");
+        levelcosts[x]->addItem("400");
+        levelcosts[x]->addItem("500");
+        levelcosts[x]->setValidator(valid);
         deviceLayout->addWidget(levelcosts[x], 1, 1);
-        levelcosts[x]->setMaxCount (6);
+        levelcosts[x]->setMaxCount(6);
 
-        values[x] = new QLabel ("Values for dev: ", devicegroup[x]);
+        values[x] = new QLabel("Values for dev: ", devicegroup[x]);
         deviceLayout->addWidget(values[x], 2, 0);
 
-        levelvalues[x] = new QComboBox (devicegroup[x]);
+        levelvalues[x] = new QComboBox(devicegroup[x]);
         levelvalues[x]->setEditable(true);
-        levelvalues[x]->setInsertPolicy (pol);
-        levelvalues[x]->addItem ("0");
-        levelvalues[x]->addItem ("0");
-        levelvalues[x]->addItem ("0");
-        levelvalues[x]->addItem ("0");
-        levelvalues[x]->addItem ("0");
-        levelvalues[x]->setValidator (valid);
+        levelvalues[x]->setInsertPolicy(pol);
+        levelvalues[x]->addItem("0");
+        levelvalues[x]->addItem("0");
+        levelvalues[x]->addItem("0");
+        levelvalues[x]->addItem("0");
+        levelvalues[x]->addItem("0");
+        levelvalues[x]->setValidator(valid);
         deviceLayout->addWidget(levelvalues[x], 2, 1);
-        levelvalues[x]->setMaxCount (6);
-
+        levelvalues[x]->setMaxCount(6);
 
         if (x < 10) {
             devicesLayout->addWidget(devicegroup[x], x, 0);
         } else {
-            devicesLayout->addWidget(devicegroup[x], x-10, 1);
-
+            devicesLayout->addWidget(devicegroup[x], x - 10, 1);
         }
     }
 
-    openfile (QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
+    openfile(QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
     show();
 }
 
@@ -212,7 +208,7 @@ ConfEdit::~ConfEdit()
 	*/
 void ConfEdit::defaultc()
 {
-    openfile (":/misc/current.cfg");
+    openfile(":/misc/current.cfg");
 }
 
 /**
@@ -222,13 +218,13 @@ void ConfEdit::openc()
 {
     QSettings settings;
 
-    QString filename = QFileDialog::getOpenFileName (this, tr("Select config file"), settings.value("LastConfFile").toString(), "*.cfg");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select config file"), settings.value("LastConfFile").toString(), "*.cfg");
     if (filename.isEmpty()) {
         return;
     }
 
     settings.setValue("LastConfFile", filename);
-    openfile (filename);
+    openfile(filename);
 }
 /**
 	* Saves current setings to a config file
@@ -236,9 +232,8 @@ void ConfEdit::openc()
 void ConfEdit::savec()
 {
     QSettings settings;
-    QString filename = QFileDialog::getSaveFileName (this, tr("Select config file"), settings.value("LastConfFile").toString(), "*.cfg");
-    if (filename.isEmpty())
-    {
+    QString filename = QFileDialog::getSaveFileName(this, tr("Select config file"), settings.value("LastConfFile").toString(), "*.cfg");
+    if (filename.isEmpty()) {
         return;
     }
     settings.setValue("LastConfFile", filename);
@@ -259,7 +254,7 @@ void ConfEdit::makecurrc()
     save(filename);
 }
 
-void ConfEdit::openfile (const QString &filename)
+void ConfEdit::openfile(const QString &filename)
 {
     if (filename.isEmpty()) {
         return;
@@ -271,15 +266,15 @@ void ConfEdit::openfile (const QString &filename)
     maxramv->setCurrentIndex(conf.maxram);
 
     int x, y;
-    for (x=0; x<9; x++) {
+    for (x = 0; x < 9; x++) {
         ramcostv->setItemText(x, QString::number(conf.ramcost[x]));
     }
 
-    for (x=0; x<numdev; x++) {
+    for (x = 0; x < numdev; x++) {
         devicesenabled[x]->setChecked(conf.enabled[x]);
-        for (y=0; y<5; y++) {
-            levelcosts[x]->setItemText (y, QString::number(conf.cost[y][x]));
-            levelvalues[x]->setItemText (y, QString::number(conf.values[y][x]));
+        for (y = 0; y < 5; y++) {
+            levelcosts[x]->setItemText(y, QString::number(conf.cost[y][x]));
+            levelvalues[x]->setItemText(y, QString::number(conf.values[y][x]));
         }
     }
 }
@@ -291,15 +286,16 @@ void ConfEdit::save(const QString &filename)
     conf.maxcost = maxcostv->cleanText().toInt();
     conf.maxram = maxramv->currentIndex();
     int x, y;
-    for (x=0; x<9; x++) {
+    for (x = 0; x < 9; x++) {
         conf.ramcost[x] = ramcostv->itemText(x).toInt();
     }
 
-    for (x=0; x<numdev; x++) {
+    for (x = 0; x < numdev; x++) {
         conf.enabled[x] = devicesenabled[x]->isChecked();
-        for (y=0; y<5; y++) {
+        for (y = 0; y < 5; y++) {
             conf.cost[y][x] = levelcosts[x]->itemText(y).toInt();
-            conf.values[y][x] = levelvalues[x]->itemText(y).toInt();;
+            conf.values[y][x] = levelvalues[x]->itemText(y).toInt();
+            ;
         }
     }
     conf.save(filename);

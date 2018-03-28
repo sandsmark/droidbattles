@@ -30,20 +30,17 @@ class RadarMissileLauncher : public Device
 {
 
 public:
-
-    RadarMissileLauncher (ScreenObject &object, int level, Ram *memdevice,
-                          int offset);
+    RadarMissileLauncher(ScreenObject &object, int level, Ram *memdevice,
+                         int offset);
     ~RadarMissileLauncher();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
     void execute();
 
 private:
-
     int reloadtime;
     unsigned short bootmem;
     unsigned short stackmem;
     Ram *memd;
-
 };
 
 #endif

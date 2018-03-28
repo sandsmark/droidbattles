@@ -30,10 +30,11 @@ class Repair : public Device
 {
 
 public:
-    Repair (ScreenObject &object,int arg1);
+    Repair(ScreenObject &object, int arg1);
     ~Repair();
     void execute();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
+
 private:
     int repaircycles;
 };

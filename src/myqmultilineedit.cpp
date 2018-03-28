@@ -24,7 +24,8 @@
 
 class Highlighter : public QSyntaxHighlighter
 {
-    struct Rule {
+    struct Rule
+    {
         QRegularExpression pattern;
         QVector<QTextCharFormat> formats;
     };
@@ -54,26 +55,24 @@ private:
 Highlighter::Highlighter(QTextDocument *document) :
     QSyntaxHighlighter(document)
 {
-    const QStringList registers({
-        "ax",
-        "bx",
-        "cx",
-        "dx",
-        "al",
-        "ah",
-        "bl",
-        "bh",
-        "cl",
-        "ch",
-        "dl",
-        "dh",
-        "eip",
-        "sp",
-        "bp",
-        "si",
-        "di",
-        "flags"
-    });
+    const QStringList registers({ "ax",
+                                  "bx",
+                                  "cx",
+                                  "dx",
+                                  "al",
+                                  "ah",
+                                  "bl",
+                                  "bh",
+                                  "cl",
+                                  "ch",
+                                  "dl",
+                                  "dh",
+                                  "eip",
+                                  "sp",
+                                  "bp",
+                                  "si",
+                                  "di",
+                                  "flags" });
 
     m_argTypePatterns[Instruction::Register] = "(" + registers.join('|') + ")";
 
@@ -82,8 +81,8 @@ Highlighter::Highlighter(QTextDocument *document) :
         prefixed.append("@" + reg);
     }
     m_argTypePatterns[Instruction::RegisterRef] = "(" + prefixed.join('|') + ")";
-    m_argTypePatterns[Instruction::Value] =  "(-?\\w+)";
-    m_argTypePatterns[Instruction::MemAddress] =  "(@\\w+)";
+    m_argTypePatterns[Instruction::Value] = "(-?\\w+)";
+    m_argTypePatterns[Instruction::MemAddress] = "(@\\w+)";
 
     m_commentFormat.setForeground(Qt::gray);
     m_commentFormat.setFontWeight(QFont::Normal);
@@ -91,13 +90,13 @@ Highlighter::Highlighter(QTextDocument *document) :
     m_declareDataRegex = QRegularExpression("(#\\w+)");
     m_dataRegex = QRegularExpression("(dw|db) +(\\w+)");
 
-    addRule("(:)(\\w+)", {Qt::black, Qt::blue}, {QFont::Normal, QFont::Bold});
-    addRule("(%CPUboot) +(\\d+)", {Qt::black, Qt::darkYellow}, {QFont::Bold, QFont::Normal});
-    addRule("(%)(CPUstack) +(\\d+)", {Qt::black, Qt::darkGreen, Qt::darkYellow}, {QFont::Bold, QFont::Bold, QFont::Normal});
-    addRule("(%org) +(\\d+)", {Qt::darkMagenta, Qt::darkYellow}, {QFont::Bold, QFont::Normal});
-    addRule("(%interrupt) +(\\d+)", {Qt::darkCyan, Qt::darkYellow}, {QFont::Bold, QFont::Normal});
-    addRule("(\\$)(\\w+) +(\\d+)", {Qt::black, Qt::darkBlue, Qt::darkYellow}, {QFont::Normal, QFont::Bold, QFont::Normal});
-    addRule("(iret|ret)", {Qt::darkMagenta}, {QFont::Bold});
+    addRule("(:)(\\w+)", { Qt::black, Qt::blue }, { QFont::Normal, QFont::Bold });
+    addRule("(%CPUboot) +(\\d+)", { Qt::black, Qt::darkYellow }, { QFont::Bold, QFont::Normal });
+    addRule("(%)(CPUstack) +(\\d+)", { Qt::black, Qt::darkGreen, Qt::darkYellow }, { QFont::Bold, QFont::Bold, QFont::Normal });
+    addRule("(%org) +(\\d+)", { Qt::darkMagenta, Qt::darkYellow }, { QFont::Bold, QFont::Normal });
+    addRule("(%interrupt) +(\\d+)", { Qt::darkCyan, Qt::darkYellow }, { QFont::Bold, QFont::Normal });
+    addRule("(\\$)(\\w+) +(\\d+)", { Qt::black, Qt::darkBlue, Qt::darkYellow }, { QFont::Normal, QFont::Bold, QFont::Normal });
+    addRule("(iret|ret)", { Qt::darkMagenta }, { QFont::Bold });
 
     for (const Instruction &instruction : Instruction::instructions) {
         createRule(instruction);
@@ -159,8 +158,8 @@ void Highlighter::highlightBlock(const QString &block)
                 continue;
             }
 
-            for (int i=0; i<rule.formats.count(); i++) {
-                setFormat(match.capturedStart(i+1), match.capturedLength(i+1), rule.formats[i]);
+            for (int i = 0; i < rule.formats.count(); i++) {
+                setFormat(match.capturedStart(i + 1), match.capturedLength(i + 1), rule.formats[i]);
             }
         }
     }
@@ -200,7 +199,7 @@ QString Highlighter::argPattern(const Instruction::Types type)
 QTextCharFormat Highlighter::argFormat(const Instruction::Types type)
 {
     QTextCharFormat format;
-    switch(type) {
+    switch (type) {
     case Instruction::Register:
         format.setForeground(Qt::darkYellow);
         format.setFontWeight(QFont::Normal);
@@ -221,7 +220,6 @@ QTextCharFormat Highlighter::argFormat(const Instruction::Types type)
         break;
     }
     return format;
-
 }
 
 void Highlighter::addRule(const QString &pattern, const QVector<QColor> &color, const QVector<QFont::Weight> &weight)
@@ -229,7 +227,7 @@ void Highlighter::addRule(const QString &pattern, const QVector<QColor> &color, 
 #ifdef QT_DEBUG
     Q_ASSERT(color.size() == weight.size());
 #else
-    if(color.size() != weight.size()) {
+    if (color.size() != weight.size()) {
         qWarning() << "invalid rule?";
         return;
     }
@@ -237,7 +235,7 @@ void Highlighter::addRule(const QString &pattern, const QVector<QColor> &color, 
 
     Rule rule;
     rule.pattern = QRegularExpression(pattern);
-    for (int i=0; i<color.count(); i++) {
+    for (int i = 0; i < color.count(); i++) {
         QTextCharFormat format;
         format.setForeground(color[i]);
         format.setFontWeight(weight[i]);
@@ -246,7 +244,8 @@ void Highlighter::addRule(const QString &pattern, const QVector<QColor> &color, 
     m_rules.append(std::move(rule));
 }
 
-MyQMultiLineEdit::MyQMultiLineEdit(QWidget *parent) : QPlainTextEdit (parent)
+MyQMultiLineEdit::MyQMultiLineEdit(QWidget *parent) :
+    QPlainTextEdit(parent)
 {
     new Highlighter(document());
 }

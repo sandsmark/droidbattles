@@ -19,17 +19,15 @@
 /**
 	* Constructor, init device
 	*/
-ChaffLauncher::ChaffLauncher (ScreenObject &object,int level)
+ChaffLauncher::ChaffLauncher(ScreenObject &object, int level)
 {
     chaffleft = level;
-    int count,count2;
+    int count, count2;
     ourbot = &object;
-    for (count=0; count<3; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 3; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -47,19 +45,16 @@ ChaffLauncher::~ChaffLauncher()
 void ChaffLauncher::execute()
 {
     int count;
-    if (stacktaken[0][0] == true)
-    {
-        for (count = 1; count<4; count++)
-        {
-            portstack[0][count-1] = portstack[0][count];
-            stacktaken[0][count-1] = stacktaken[0][count];
+    if (stacktaken[0][0] == true) {
+        for (count = 1; count < 4; count++) {
+            portstack[0][count - 1] = portstack[0][count];
+            stacktaken[0][count - 1] = stacktaken[0][count];
         }
         portstack[0][3] = 0;
         stacktaken[0][3] = false;
-        if (chaffleft > 0)
-        {
-            ourbot->addScreenObject (ourbot->xPos(),ourbot->yPos(),
-                                  ourbot->direction(),7,ourbot->speed() /2);
+        if (chaffleft > 0) {
+            ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
+                                    ourbot->direction(), 7, ourbot->speed() / 2);
             chaffleft--;
         }
     }
@@ -68,11 +63,10 @@ void ChaffLauncher::execute()
 /**
 	* Returns number of chaffs left to CPU instruktion IN
 	*/
-int ChaffLauncher::readPort (unsigned char port)
+int ChaffLauncher::readPort(unsigned char port)
 {
-    switch (port)
-    {
-    case 0 :
+    switch (port) {
+    case 0:
         return chaffleft;
         break;
     }

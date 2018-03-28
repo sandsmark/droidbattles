@@ -31,12 +31,13 @@ class Explosion : public ScreenObject
 {
 
 public:
-    Explosion (int X, int Y, BattleArea &area);
+    Explosion(int X, int Y, BattleArea &area);
     ~Explosion();
     int execute();
-    void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt);
+    void eraseObject(QPixmap *buffer);
+    void drawObject(QPixmap *buffer, int opt);
     ObjectType type();
+
 private:
     int cycle;
     BattleArea *ourarea;

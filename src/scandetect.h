@@ -30,12 +30,13 @@
 class ScanDetect : public Device
 {
 public:
-    ScanDetect (ScreenObject &object);
+    ScanDetect(ScreenObject &object);
     ~ScanDetect();
-    int readPort (unsigned char port);
+    int readPort(unsigned char port);
     void execute();
     int type();
-    void doSpecial (int,int);
+    void doSpecial(int, int);
+
 private:
     int numscans;
     int lastscanintensity;

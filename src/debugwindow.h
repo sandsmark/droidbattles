@@ -37,17 +37,17 @@ class DebugWindow : public QDialog
     Q_OBJECT
 
 public:
-    DebugWindow (QPlainTextEdit *Medit, int *dbl, int *dbm);
+    DebugWindow(QPlainTextEdit *Medit, int *dbl, int *dbm);
     ~DebugWindow();
-    void updatedata (struct DebugContents);
-    void addint (QString &,unsigned short);
+    void updatedata(struct DebugContents);
+    void addint(QString &, unsigned short);
 
 private slots:
     void distsignal();
 
 private:
     QLabel *registercontents[9]; //AX,BX,CX,DX,SP,BP,SI,DI,IP
-    QLabel *flagcontents[4];     //equal,above,below,intenabled
+    QLabel *flagcontents[4]; //equal,above,below,intenabled
     QLabel *memcontents[4];
     QPlainTextEdit *execlines;
     QPushButton *dumpmemb;
@@ -58,7 +58,6 @@ private:
 
 signals:
     void dumpmem();
-
 };
 
 #endif

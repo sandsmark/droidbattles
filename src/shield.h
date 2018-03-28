@@ -32,13 +32,14 @@ class Shield : public Device
 {
 
 public:
-    Shield (ScreenObject &object,int arg1);
+    Shield(ScreenObject &object, int arg1);
     ~Shield();
-    int absorbHit (int strength,int ifint);
+    int absorbHit(int strength, int ifint);
     void execute();
-    int readPort (unsigned char port);
-    void draw (QPainter *painter);
-    void erase (QPainter *painter);
+    int readPort(unsigned char port);
+    void draw(QPainter *painter);
+    void erase(QPainter *painter);
+
 private:
     int ourlevel;
     bool Isup;

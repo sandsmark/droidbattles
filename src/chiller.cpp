@@ -17,19 +17,17 @@
 
 #include "chiller.h"
 
-Chiller::Chiller (ScreenObject &object,int arg1)
+Chiller::Chiller(ScreenObject &object, int arg1)
 {
     ison = false;
     ourbot = &object;
     heatdiss = arg1;
     int count;
     int count2;
-    for (count=0; count<3; count++)
-    {
-        for (count2=0; count2<4; count2++)
-        {
-            stacktaken[count][count2]=false;
-            portstack[count][count2]=0;
+    for (count = 0; count < 3; count++) {
+        for (count2 = 0; count2 < 4; count2++) {
+            stacktaken[count][count2] = false;
+            portstack[count][count2] = 0;
         }
     }
 }
@@ -40,18 +38,14 @@ Chiller::~Chiller()
 
 void Chiller::execute()
 {
-    if (ison && ourbot->fuel() > 5)
-    {
-        ourbot->changeHeat (- (heatdiss*2));
-        ourbot->setFuel (- (5));
+    if (ison && ourbot->fuel() > 5) {
+        ourbot->changeHeat(-(heatdiss * 2));
+        ourbot->setFuel(-(5));
+    } else {
+        ourbot->changeHeat(-(heatdiss));
     }
-    else
-    {
-        ourbot->changeHeat (- (heatdiss));
-    }
-    if (stacktaken[0][0] == true)
-    {
+    if (stacktaken[0][0] == true) {
         ison = portstack[0][0];
-        moveportstack (0);
+        moveportstack(0);
     }
 }

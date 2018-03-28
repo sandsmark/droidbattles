@@ -37,58 +37,57 @@
 StartTournament::StartTournament(const QString &type) :
     m_type(type)
 {
-    botfiles = new QListWidget (this);
+    botfiles = new QListWidget(this);
 
-    press[0] = new PixButton ("Add bot", this);
+    press[0] = new PixButton("Add bot", this);
 
-    press[1] = new PixButton ("Remove selected", this);
+    press[1] = new PixButton("Remove selected", this);
 
-    iffast = new QCheckBox ("Fast (nodelay) battle",this);
+    iffast = new QCheckBox("Fast (nodelay) battle", this);
 
-    connect (press[0],&QAbstractButton::clicked,this,
-                      &StartTournament::choosefile);
-    connect (press[1],&QAbstractButton::clicked,this,
-                      &StartTournament::dechoosefile);
+    connect(press[0], &QAbstractButton::clicked, this,
+            &StartTournament::choosefile);
+    connect(press[1], &QAbstractButton::clicked, this,
+            &StartTournament::dechoosefile);
 
-    readyb = new PixButton ("OK", this);
-    cancelb = new PixButton ("cancel", this);
+    readyb = new PixButton("OK", this);
+    cancelb = new PixButton("cancel", this);
 
-    connect (readyb,&QAbstractButton::clicked,this,&StartTournament::ocl);
-    connect (cancelb,&QAbstractButton::clicked,this,&StartTournament::ccl);
+    connect(readyb, &QAbstractButton::clicked, this, &StartTournament::ocl);
+    connect(cancelb, &QAbstractButton::clicked, this, &StartTournament::ccl);
 
-    tnumfights = new QLabel ("Number of fights:",this);
-    wnumfights = new QSpinBox (this);
+    tnumfights = new QLabel("Number of fights:", this);
+    wnumfights = new QSpinBox(this);
     wnumfights->setMinimum(1);
 
-    lengthfight = new QLabel ("Max length of fight (approximately 50 ticks per 1 sec):",this);
+    lengthfight = new QLabel("Max length of fight (approximately 50 ticks per 1 sec):", this);
 
-    length = new QSpinBox (this);
+    length = new QSpinBox(this);
     length->setMinimum(50);
     length->setMaximum(180000);
 
-    maxxinfo = new QLabel ("The xsize of the battlearea: ",this);
-    maxx = new QSpinBox (this);
+    maxxinfo = new QLabel("The xsize of the battlearea: ", this);
+    maxx = new QSpinBox(this);
     maxx->setMinimum(8192);
     maxx->setMaximum(65535);
     maxx->setSingleStep(512);
-    maxx->setValue (32768);
+    maxx->setValue(32768);
 
-    maxyinfo = new QLabel ("The ysize of the battlearea: ",this);
-    maxy = new QSpinBox (this);
+    maxyinfo = new QLabel("The ysize of the battlearea: ", this);
+    maxy = new QSpinBox(this);
     maxy->setMinimum(8192);
     maxy->setMaximum(65535);
     maxy->setSingleStep(512);
-    maxy->setValue (32768);
+    maxy->setValue(32768);
 
-    seedinfo = new QLabel ("Random seed used (0 for random): ",this);
-    seed = new QLineEdit (this);
+    seedinfo = new QLabel("Random seed used (0 for random): ", this);
+    seed = new QLineEdit(this);
 
     QGridLayout *l = new QGridLayout;
     l->addWidget(press[0], 0, 1);
     l->addWidget(press[1], 0, 2);
 
     l->addWidget(botfiles, 1, 0, 1, 3);
-
 
     l->addWidget(iffast, 2, 0);
 
@@ -129,7 +128,7 @@ int StartTournament::getnumofbots()
 /**
 	* Return the dir for bot x
 	*/
-QString StartTournament::getbotfile (int x)
+QString StartTournament::getbotfile(int x)
 {
     return botfiles->item(x)->text();
 }
@@ -140,7 +139,7 @@ QString StartTournament::getbotfile (int x)
 void StartTournament::choosefile()
 {
     QSettings settings;
-    QString filename = QFileDialog::getOpenFileName (this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select bot file"), settings.value("LastBotPath").toString(), "*.bot");
     if (filename.isEmpty()) {
         return;
     }
@@ -174,7 +173,7 @@ void StartTournament::save()
     settings.beginGroup(m_type);
 
     QStringList files;
-    for (int i=0; i<botfiles->count(); i++) {
+    for (int i = 0; i < botfiles->count(); i++) {
         files.append(botfiles->item(i)->text());
     }
 
@@ -185,7 +184,6 @@ void StartTournament::save()
     settings.setValue(SETTINGS_MAX_Y, maxy->value());
     settings.setValue(SETTINGS_FAST, iffast->isChecked());
     settings.setValue(SETTINGS_SEED, seed->text());
-
 }
 
 void StartTournament::load()
@@ -207,7 +205,7 @@ void StartTournament::load()
 /**
 	* Don't close if the "X" is clicked
 	*/
-void StartTournament::closeEvent (QCloseEvent *e)
+void StartTournament::closeEvent(QCloseEvent *e)
 {
     e->ignore();
 }

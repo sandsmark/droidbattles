@@ -70,7 +70,7 @@ public:
     ~Robots();
     int execute() override;
     void eraseObject (QPixmap *buffer) override;
-    void drawObject (QPixmap *buffer, int opt = 0) override;
+    void drawObject (QPixmap *buffer, int opt) override;
     int readDevicePort (unsigned char port) override;
     void writeDevicePort (unsigned char port,unsigned short value) override;
     int objectHit (int type,int strength) override;

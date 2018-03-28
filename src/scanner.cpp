@@ -170,9 +170,9 @@ void Scanner::execute()
 	*/
 void Scanner::erase (QPainter *painter)
 {
-    if (ispainted == true)
-    {
-        painter->setPen (QColor (0,0,0));
+    if (ispainted == true) {
+        painter->setBrush(Qt::black);
+        painter->setPen(Qt::black);
         painter->drawPie ( (lastpaintX-maxscandist) >>6, (lastpaintY-maxscandist) >>6,
                     (maxscandist*2) >>6, (maxscandist*2) >>6,
                     - (lastpaintang-lastpaintsize) *5.625,-lastpaintsize*11.25);
@@ -187,7 +187,8 @@ void Scanner::draw (QPainter *painter)
 {
     if (scanshow-- > 0)
     {
-        painter->setPen (QColor (255,255,255));
+        painter->setBrush(QColor(0, 255, 0, 16));
+        painter->setPen (QColor (0, 255, 0, 96));
         painter->drawPie ( (ourbot->xPos()-maxscandist) >>6, (ourbot->yPos()
                     -maxscandist) >>6, (maxscandist*2) >>6, (maxscandist*2) >>6,
                     - ( (ourbot->direction() +relang)-width) *5.625,-width*11.25);

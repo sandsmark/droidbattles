@@ -56,18 +56,17 @@ Chaff::~Chaff()
 	*/
 void Chaff::drawObject (QPixmap *buffer,int opt)
 {
-
-//	int x;
-    if (opt == 0) {
-        QPainter painter(buffer);
-        const int width = 12;
-        const int height = 12;
-        const int x = (xPos() >>6)-6;
-        const int y = (yPos() >>6)-6;
-        const int sourceX = 84- (int (timeleft/20) * 12);
-        painter.drawPixmap(x, y, width, height, *graphics, sourceX, 0, width, height);
-//        bitBlt (buffer, (getXpos() >>6)-6, (getYpos() >>6)-6, graphics,picpos, 0, 12,12);
+    if (opt > 0) {
+        return;
     }
+
+    QPainter painter(buffer);
+    const int width = 12;
+    const int height = 12;
+    const int x = (xPos() >>6)-6;
+    const int y = (yPos() >>6)-6;
+    const int sourceX = 84- (int (timeleft/20) * 12);
+    painter.drawPixmap(x, y, width, height, *graphics, sourceX, 0, width, height);
     oldX = xPos();
     oldY = yPos();
 }
@@ -79,7 +78,6 @@ void Chaff::eraseObject (QPixmap *buffer)
 {
     QPainter painter(buffer);
     painter.drawPixmap((oldX>>6)-6, (oldY>>6)-6, *erasegfx);
-//    bitBlt (buffer, (oldX>>6)-6, (oldY>>6)-6,erasegfx);
 }
 
 /**

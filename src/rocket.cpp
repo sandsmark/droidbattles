@@ -93,8 +93,12 @@ void Rocket::eraseObject(QPixmap *buffer)
 /**
 	* Paint the flame from the rocket
 	*/
-void Rocket::drawObject(QPixmap *buffer, int /*opt*/)
+void Rocket::drawObject(QPixmap *buffer, int opt)
 {
+    if (opt > 0) {
+        return;
+    }
+
     QPainter p (buffer);
     p.setPen (QColor (255,0,0));
     pointD[countpoint] = direction() +512 + (rand() %128)-64;

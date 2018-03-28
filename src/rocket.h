@@ -38,7 +38,7 @@ public:
     int objectHit (int type,int strength);
     int type();
     void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt=0);
+    void drawObject (QPixmap *buffer, int opt);
     int execute();
     int setPosition (double X,double Y);
     int collisionType();

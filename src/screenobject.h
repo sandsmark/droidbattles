@@ -51,7 +51,7 @@ public:
     virtual void writeDevicePort (unsigned char port,unsigned short value);
     virtual int execute();
     virtual void eraseObject (QPixmap *buffer);
-    virtual void drawObject (QPixmap *buffer, int opt = 0);
+    virtual void drawObject (QPixmap *buffer, int opt);
     virtual int objectHit (int type,int strength);
     virtual void objectScanned (int intensity,int dir);
     virtual int collisionType();

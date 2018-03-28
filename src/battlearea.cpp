@@ -313,8 +313,7 @@ void BattleArea::execute()
     for (x=0; x<maxobjects; x++)              //Remove the gfx from last round
         objects[x]->eraseObject (&m_pixmap);
 
-    for (x=0; x<maxobjects; x++)
-    {
+    for (x=0; x<maxobjects; x++) {
         int ifdel = objects[x]->execute();  //Let each object execute,
         //move around and things like that
         if (ifdel == -1)             //If the object ordered it's own destruction
@@ -325,7 +324,7 @@ void BattleArea::execute()
             continue;
         }
 
-        objects[x]->drawObject (&m_pixmap);     //Let each object paint itself
+        objects[x]->drawObject (&m_pixmap, 0);     //Let each object paint itself
         int x2;
 
         if (objects[x]->type() <= 0) {    //Check If the object exists and
@@ -802,6 +801,12 @@ void BattleArea::execute()
     if (ifdelete == true)
         deleteLater();
 
+    for (x=0; x<maxobjects; x++) {
+        objects[x]->drawObject (&m_pixmap, 1);     //Let each object paint itself
+    }
+    for (x=0; x<maxobjects; x++) {
+        objects[x]->drawObject (&m_pixmap, 2);     //Let each object paint itself
+    }
     mydrw->setPixmap(m_pixmap.scaled(mydrw->size(), Qt::KeepAspectRatio));
 }
 

@@ -80,19 +80,24 @@ int Beam::objectHit(int type, int strength)
 	*/
 int Beam::type()
 {
-    if (effect <= 1)
+    if (effect <= 1) {
         return 2;
-    else
+    } else {
         return -1;
+    }
 }
 
 /**
 	* Paint object
 	*/
-void Beam::drawObject (QPixmap *buffer, int /*opt*/)
+void Beam::drawObject (QPixmap *buffer, int opt)
 {
+    if (opt > 0) {
+        return;
+    }
+
     QPainter p (buffer);
-    p.setPen (QColor (0,0,255));
+    p.setPen (QColor (0,0, (5 - effect) * 50));
     p.drawLine (uX>>6, uY>>6, xPos() >>6, yPos() >>6);
     ispainted = true;
 }

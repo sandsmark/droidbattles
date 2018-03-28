@@ -83,15 +83,13 @@ int Mine::objectHit (int /*type*/,int /*strength*/)
 /**
 	* Show the graphics on the battlefield
 	*/
-void Mine::drawObject (QPixmap *buffer,int opt=0)
+void Mine::drawObject (QPixmap *buffer,int opt)
 {
-    QPainter painter(buffer);
-
-    if (opt == 0) {
-        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
-    } else {
-        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *erasegfx);
+    if (opt > 0) {
+        return;
     }
+    QPainter painter(buffer);
+    painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
     oldX = int (Xpos);
     oldY = int (Ypos);
 }

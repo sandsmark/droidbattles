@@ -40,7 +40,7 @@ public:
     ~RadarMissile();
     int execute();
     void eraseObject (QPixmap *buffer);
-    void drawObject (QPixmap *buffer, int opt = 0);
+    void drawObject (QPixmap *buffer, int opt);
     int type();
     int collisionType();
     int collisionStrength();

@@ -94,11 +94,12 @@ void RadarMissile::eraseObject (QPixmap *buffer)
 	*/
 void RadarMissile::drawObject (QPixmap *buffer, int opt)
 {
+    if (opt > 0) {
+        return;
+    }
+
     QPainter painter(buffer);
-    if (opt == 0)
-        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
-    else
-        painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *erasegfx);
+    painter.drawPixmap((xPos() >>6)-4, (yPos() >>6)-4, *graphics);
     oldX = int (Xpos);
     oldY = int (Ypos);
     devices[2]->draw (&painter);

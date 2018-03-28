@@ -47,10 +47,14 @@ int Explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void Explosion::drawObject (QPixmap *buffer, int /*opt*/)
+void Explosion::drawObject (QPixmap *buffer, int opt)
 {
+    if (opt < 2) {
+        return;
+    }
+
     QPainter p (buffer);
-    p.setPen (QColor (255,255,0));
+    p.setPen (QColor (255,255,0, 4 * (32 - cycle)));
     p.drawEllipse (Xpos- (cycle/2),Ypos- (cycle/2),cycle,cycle);
     oldX = int (Xpos- (cycle/2));
     oldY = int (Ypos- (cycle/2));

@@ -96,17 +96,19 @@ DroidBattles::DroidBattles()
     m_docButton =  new PixButton ("Documentation (F1)", this);
     m_quitButton = new PixButton ("Quit (F10)", this);
 
-    m_createButton->setGeometry(90,20,320,30);
-    m_configButton->setGeometry(70,60,360,30);
-    m_skirmishButton->setGeometry(60,100,180,30);
-    m_deathmatchButton->setGeometry(60,140,180,30);
-    m_survivalButton->setGeometry (60,180,180,30);
-    m_leagueButton->setGeometry (260,100,180,30);
-    m_kothButton->setGeometry (260,140,180,30);
-    m_cupButton->setGeometry (260,180,180,30);
-    m_creditsButton->setGeometry (70,220,360,30);
-    m_docButton->setGeometry (90,260,320,30);
-    m_quitButton->setGeometry (120,300,260,30);
+    m_createButton->setGeometry(88,18,324,34);
+    m_configButton->setGeometry(68,58,364,34);
+
+    m_skirmishButton->setGeometry(58,98,184,34);
+    m_deathmatchButton->setGeometry(58,138,184,34);
+    m_survivalButton->setGeometry (58,178,184,34);
+
+    m_leagueButton->setGeometry (258,98,184,34);
+    m_kothButton->setGeometry (258,138,184,34);
+    m_cupButton->setGeometry (258,178,184,34);
+    m_creditsButton->setGeometry (68,218,364,34);
+    m_docButton->setGeometry (88,258,324,34);
+    m_quitButton->setGeometry (118,298,264,34);
 
     //Connect the buttons
     connect(m_createButton, &PixButton::clicked, this, &DroidBattles::createb);

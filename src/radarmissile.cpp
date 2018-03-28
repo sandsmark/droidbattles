@@ -60,14 +60,16 @@ RadarMissile::~RadarMissile()
 {
     //	delete graphics;
     delete dbgWindow;
-    if (useUI)
+    if (useUI) {
         delete erasegfx;
+    }
     delete devices[0];
     delete devices[1];
     delete devices[2];
     ramdevice->removeowner();
-    if (ramdevice->getowners() == 0)
+    if (ramdevice->getowners() == 0) {
         delete ramdevice;
+    }
 }
 
 int RadarMissile::objectHit(int /*type*/, int /*strength*/)
@@ -112,13 +114,16 @@ void RadarMissile::drawObject(QPixmap *buffer, int opt)
 int RadarMissile::execute()
 {
     int x;
-    for (x = 0; x < 3; x++) //Execute all devices
+    for (x = 0; x < 3; x++) { //Execute all devices
         devices[x]->execute();
-    if (dbgWindow)
+    }
+    if (dbgWindow) {
         dbgWindow->updatedata(devices[0]->debugContents());
+    }
     double dir = direction() * pi / 512;
-    if (--fuelval <= 0)
+    if (--fuelval <= 0) {
         return -1;
+    }
     return setPosition(cos(dir) * m_speed, sin(dir) * m_speed); //Update position
 }
 
@@ -128,14 +133,18 @@ int RadarMissile::setPosition(double X, double Y)
     oldY = int(Ypos);
     Xpos += X;
     Ypos += Y;
-    if (Xpos < 0)
+    if (Xpos < 0) {
         return destroyself;
-    if (Xpos > ourarea->getareainfo(0))
+    }
+    if (Xpos > ourarea->getareainfo(0)) {
         return destroyself;
-    if (Ypos < 0)
+    }
+    if (Ypos < 0) {
         return destroyself;
-    if (Ypos > ourarea->getareainfo(1))
+    }
+    if (Ypos > ourarea->getareainfo(1)) {
         return destroyself;
+    }
     return 0;
 }
 
@@ -182,8 +191,9 @@ void RadarMissile::writeDevicePort(unsigned char port, unsigned short value)
 {
     int tempport = port % 4;
     int tempdevice = int(port / 4);
-    if (tempdevice < 3)
+    if (tempdevice < 3) {
         devices[tempdevice]->addInputPort(tempport, value);
+    }
 }
 
 int RadarMissile::returnRadar()

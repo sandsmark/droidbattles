@@ -42,8 +42,9 @@ RocketLauncher::~RocketLauncher()
 	*/
 void RocketLauncher::execute()
 {
-    if (readiness < 200)
+    if (readiness < 200) {
         readiness++;
+    }
     //Set distance
     if (stacktaken[0][0] == true) {
         distance = portstack[0][0];

@@ -28,10 +28,12 @@ Beam::Beam(int X, int Y, int dir, int l, TextmodeBattleArea &area, int owner, bo
     ourarea = &area;
     noncollid = collenabled;
     length = l;
-    if (length > maxbeamlength)
+    if (length > maxbeamlength) {
         length = maxbeamlength;
-    if (length < minbeamlength)
+    }
+    if (length < minbeamlength) {
         length = minbeamlength;
+    }
     m_direction = dir;
     Xpos = X;
     Ypos = Y;
@@ -61,10 +63,12 @@ Beam::~Beam()
 	*/
 int Beam::execute()
 {
-    if (effect == 0)
+    if (effect == 0) {
         return destroyself;
-    if (effect > 0)
+    }
+    if (effect > 0) {
         effect--;
+    }
     return 0;
 }
 

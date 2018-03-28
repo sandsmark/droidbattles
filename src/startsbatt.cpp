@@ -132,8 +132,9 @@ void StartsBatt::loadfilesettings()
         for (int x = 0; x < 8; x++) {
             s >> botfiles[x];
             s >> temp;
-            if (botfiles[x] == QString("fff"))
+            if (botfiles[x] == QString("fff")) {
                 botfiles[x] = "";
+            }
             team[x]->setCurrentIndex(temp.toInt());
             shownames[x]->setText(QFileInfo(botfiles[x]).baseName());
         }
@@ -184,8 +185,9 @@ void StartsBatt::choosefile()
     int x;
 
     for (x = 0; x < 8; x++) {
-        if (botfiles[x].isEmpty())
+        if (botfiles[x].isEmpty()) {
             break;
+        }
     }
     if (!filename.isEmpty() && x < 8) {
         shownames[x]->setText(filename);
@@ -216,11 +218,12 @@ void StartsBatt::ocl()
     if (f.open(QIODevice::WriteOnly)) {
         QTextStream s(&f);
         for (int x = 0; x < 8; x++) {
-            if (botfiles[x] == QString(""))
+            if (botfiles[x] == QString("")) {
                 s << "fff"
                   << " " << team[x]->currentIndex() << "\n";
-            else
+            } else {
                 s << botfiles[x] << " " << team[x]->currentIndex() << "\n";
+            }
         }
         s << ifteams->isChecked() << "\n";
         s << getnumfights() << "\n";
@@ -243,8 +246,9 @@ void StartsBatt::ccl()
 int StartsBatt::getnumfights()
 {
     QString s = wnumfights->text();
-    if (s.length() == 0)
+    if (s.length() == 0) {
         return 0;
+    }
 
     return s.toInt();
 }
@@ -252,8 +256,9 @@ int StartsBatt::getnumfights()
 int StartsBatt::getlength()
 {
     QString s = length->text();
-    if (s.length() == 0)
+    if (s.length() == 0) {
         return 3000;
+    }
 
     return s.toInt();
 }

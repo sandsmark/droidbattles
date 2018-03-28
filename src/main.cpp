@@ -150,11 +150,13 @@ void startbattle(int argc, char *argv[])
         battleConfig.mode = battletype;
         TextmodeBattleArea *area = new TextmodeBattleArea(battleConfig);
         while (true) {
-            if (area->execround() == 3)
+            if (area->execround() == 3) {
                 break;
+            }
         }
-    } else
+    } else {
         qWarning() << " ERROR: Not enough bots specified";
+    }
 }
 
 int main(int argc, char *argv[])
@@ -238,14 +240,17 @@ int main(int argc, char *argv[])
         return app->exec();
     } else {
         if (strcmp(argv[2], "-assemble") == 0) {
-            if (argc >= 4)
+            if (argc >= 4) {
                 TextModeFileManip::assemble(argv[3]);
+            }
         } else if (strcmp(argv[2], "-check") == 0) {
-            if (argc >= 4)
+            if (argc >= 4) {
                 TextModeFileManip::checkConfig(argv[3]);
+            }
         } else if (strcmp(argv[2], "-loadconfig") == 0) {
-            if (argc >= 4)
+            if (argc >= 4) {
                 TextModeFileManip::loadConfig(argv[3]);
+            }
         } else if (strcmp(argv[2], "-battle") == 0) {
             startbattle(argc, argv);
         }

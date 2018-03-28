@@ -98,13 +98,15 @@ void Rocket::drawObject(QPixmap *buffer, int opt)
 
     QPainter p(buffer);
     pointD[countpoint] = direction() + 512 + (rand() % 128) - 64;
-    if (pointD[countpoint] > 1024)
+    if (pointD[countpoint] > 1024) {
         pointD[countpoint] -= 1024;
+    }
     pointX[countpoint] = int(Xpos);
     pointY[countpoint] = int(Ypos);
 
-    if (++countpoint >= 50)
+    if (++countpoint >= 50) {
         countpoint = 0;
+    }
     int x;
 
     for (x = 0; x < 50; x++) {
@@ -142,14 +144,18 @@ int Rocket::setPosition(double X, double Y)
     oldY = int(Ypos);
     Xpos += X;
     Ypos += Y;
-    if (Xpos < 0)
+    if (Xpos < 0) {
         return destroyself;
-    if (Xpos > ourarea->getareainfo(0))
+    }
+    if (Xpos > ourarea->getareainfo(0)) {
         return destroyself;
-    if (Ypos < 0)
+    }
+    if (Ypos < 0) {
         return destroyself;
-    if (Ypos > ourarea->getareainfo(1))
+    }
+    if (Ypos > ourarea->getareainfo(1)) {
         return destroyself;
+    }
     return 0;
 }
 

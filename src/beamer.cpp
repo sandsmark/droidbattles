@@ -49,8 +49,9 @@ void Beamer::execute()
     if (stacktaken[0][0] == true) {
         moveportstack(0);
         //Fire beam
-        if (ourbot->fuel() <= 20)
+        if (ourbot->fuel() <= 20) {
             return;
+        }
         ourbot->setFuel(-20);
         ourbot->changeHeat(ourlevel);
         ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),

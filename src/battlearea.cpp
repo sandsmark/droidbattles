@@ -123,10 +123,11 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
 	*/
 void BattleArea::play()
 {
-    if (m_fastMode == true)
+    if (m_fastMode == true) {
         eventH.start(0); //As fast as possible
-    else
+    } else {
         eventH.start(20); //20 ms between ticks (50 times/second)
+    }
     runmode = 1;
 }
 
@@ -144,11 +145,13 @@ void BattleArea::pause()
 	*/
 void BattleArea::singlestep()
 {
-    if (m_debugEnabled)
+    if (m_debugEnabled) {
         SingleStepMode = true;
+    }
     this->execute();
-    if (m_debugEnabled)
+    if (m_debugEnabled) {
         SingleStepMode = false;
+    }
 }
 
 /**
@@ -175,10 +178,12 @@ void BattleArea::startonebattle(int y)
     //from the run before this
     if (y == notfirstround) {
         //Deallocate memory
-        for (x = 0; x < maxbots; x++)
+        for (x = 0; x < maxbots; x++) {
             delete binfo[x];
-        for (x = 0; x < maxobjects; x++)
+        }
+        for (x = 0; x < maxobjects; x++) {
             delete objects[x];
+        }
     }
 
     //Randomize start positions and make sure the bots don't start to
@@ -196,8 +201,9 @@ void BattleArea::startonebattle(int y)
                 int xdiff = abs(xstarts[y] - xstarts[x]);
                 int ydiff = abs(ystarts[y] - ystarts[x]);
                 int tdist = int(sqrt((xdiff * xdiff) + (ydiff * ydiff)));
-                if (tdist < dst)
+                if (tdist < dst) {
                     dst = tdist;
+                }
             }
             tries++;
         }
@@ -244,8 +250,9 @@ void BattleArea::startonebattle(int y)
     }
 
     //Make all other positions as "standard" screenobjects
-    for (x = maxbots; x < maxobjects; x++)
+    for (x = maxbots; x < maxobjects; x++) {
         objects[x] = new ScreenObject();
+    }
 
     //Create the infoboxes for the bots
     for (x = 0; x < maxbots; x++) {
@@ -298,8 +305,9 @@ void BattleArea::execute()
             m_maxPoints = 0;
         }
     }
-    for (x = 0; x < maxobjects; x++) //Remove the gfx from last round
+    for (x = 0; x < maxobjects; x++) { //Remove the gfx from last round
         objects[x]->eraseObject(&m_pixmap);
+    }
 
     for (x = 0; x < maxobjects; x++) {
         int ifdel = objects[x]->execute(); //Let each object execute,
@@ -434,8 +442,9 @@ void BattleArea::execute()
                 case 2: //If it's a deathmatch battle
                     objects[x2]->eraseObject(&m_pixmap);
                     if (objects[x2]->type() == ScreenObject::BotObject) {
-                        if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
+                        if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                             fightswon[objects[x]->owner()]++;
+                        }
                         checkwin = true;
                         //Calc X and Y position
                         xstarts[x2] = qrand() % m_xSize;
@@ -511,8 +520,9 @@ void BattleArea::execute()
                 case 2: //If it's a deathmatch battle
                     objects[x]->eraseObject(&m_pixmap);
                     if (objects[x]->type() == ScreenObject::BotObject) {
-                        if (x2owner < 8 && x != x2owner)
+                        if (x2owner < 8 && x != x2owner) {
                             fightswon[x2owner]++;
+                        }
                         delete objects[x];
                         x2 = maxobjects;
                         checkwin = true;
@@ -561,8 +571,9 @@ void BattleArea::execute()
             if (objects[x]->type() == ScreenObject::BotObject) {
                 int yy;
                 yy = objects[x]->team();
-                if (yy > 3 || yy < 0)
+                if (yy > 3 || yy < 0) {
                     yy = 0;
+                }
                 alive[yy] = 1;
             }
         }
@@ -576,8 +587,9 @@ void BattleArea::execute()
         if (numofbots <= 1) //If battle is over
         {
             eventH.stop();
-            if (numofbots == 1)
+            if (numofbots == 1) {
                 fightswon[botnum]++;
+            }
             fightsfought++;
             if (fightsfought >= numfights) //If all rounds of battle is over
             {
@@ -585,8 +597,9 @@ void BattleArea::execute()
                 int curval = 0;
                 bool draw = false;
                 for (x = 0; x < maxteams; x++) {
-                    if (fightswon[x] == curval)
+                    if (fightswon[x] == curval) {
                         draw = true;
+                    }
                     if (fightswon[x] > curval) {
                         curval = fightswon[x];
                         winbot = x;
@@ -600,16 +613,18 @@ void BattleArea::execute()
                     msg = " Team ";
                     msg += int(winbot) + '1';
                     msg += " won!";
-                } else
+                } else {
                     msg = "Fight was a draw";
+                }
                 //				ermsg->setText( msg );
                 //				ermsg->setButtonText( 0, "OK" );
                 //				int ret = ermsg->exec( );
                 //				delete ermsg;
                 QMessageBox::information(0, "Fight Ended", msg);
                 ifdelete = true;
-            } else
+            } else {
                 startonebattle(notfirstround); //If we have rounds left, continue
+            }
         } // with a new round
     }
 
@@ -623,8 +638,9 @@ void BattleArea::execute()
         if (numofbots <= 1) //If the current fight has ended
         {
             eventH.stop(); //Stop doing rounds of fight
-            if (numofbots == 1) //If we have a winner ,count up his points
+            if (numofbots == 1) { //If we have a winner ,count up his points
                 fightswon[botnum]++;
+            }
             fightsfought++;
             if (fightsfought >= numfights) //If we have done all the rounds of
             { // fights we should have, Determine the overall winner
@@ -671,12 +687,14 @@ void BattleArea::execute()
                         break;
                     }
                     QMessageBox::information(0, "Fight ended", msg);
-                } else
+                } else {
                     emit battledone(fightswon[0], fightswon[1]);
+                }
 
                 ifdelete = true;
-            } else
+            } else {
                 startonebattle(notfirstround); //If we have fights left,start a new
+            }
         }
     }
 
@@ -708,7 +726,7 @@ void BattleArea::execute()
         }
     }
 
-    if (m_debugEnabled) //If this is a "quick battle", update register content info and such
+    if (m_debugEnabled) { //If this is a "quick battle", update register content info and such
         if (objects[debugbot]->type() == ScreenObject::BotObject) // for robots only
         {
             QVector<DebugContents> *dc = ((Robots *)objects[debugbot])->allDebugContents();
@@ -718,10 +736,12 @@ void BattleArea::execute()
             }
             QList<DebugWindow *>::iterator i = dbgwindows.begin();
             QVector<DebugContents>::iterator j = dc->begin();
-            for (; i != dbgwindows.end(); i++, j++)
+            for (; i != dbgwindows.end(); i++, j++) {
                 (*i)->updatedata(*j);
+            }
             delete dc;
         }
+    }
     //		dbgwindow->updatedata( objects[debugbot]->returndbgcont( ) );
 
     /*	if( runmode == 1 )
@@ -732,8 +752,9 @@ void BattleArea::execute()
     			eventH->start( 20 );
     	}*/
 
-    if (ifdelete == true)
+    if (ifdelete == true) {
         deleteLater();
+    }
 
     for (x = 0; x < maxobjects; x++) {
         objects[x]->drawObject(&m_pixmap, 1); //Let each object paint itself
@@ -772,8 +793,9 @@ void BattleArea::addscrobject(int owner, int X, int Y, int dir, int type,
             case 4:
                 objects[x] = new RadarMissile(X, Y, dir, arg1, arg2, x, *this, temp3, owner);
                 ++missilesLaunched;
-                if (m_debugEnabled && (owner == debugbot))
+                if (m_debugEnabled && (owner == debugbot)) {
                     ((RadarMissile *)objects[x])->createDbgWindow(missilesLaunched, _dbedit, _dbl, _dbm);
+                }
                 break;
             case 5:
                 objects[x] = new Beam(X, Y, dir, arg1, *this, owner);
@@ -877,15 +899,18 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
 {
     int X1, Y1, D1, S1, z;
     for (z = 0; z < maxbots; z++) {
-        if (z == whichobject)
+        if (z == whichobject) {
             continue;
-        if (!objects[z]->areaExplosionAffects())
+        }
+        if (!objects[z]->areaExplosionAffects()) {
             continue;
+        }
         X1 = objects[z]->xPos();
         Y1 = objects[z]->yPos();
         D1 = int(sqrt(((X1 - x) * (X1 - x)) + ((Y1 - y) * (Y1 - y))));
-        if (D1 >= rad)
+        if (D1 >= rad) {
             continue;
+        }
         S1 = strength - (D1 * strength / rad);
         if (objects[z]->objectHit(9, S1) == 1) //If the damage killed him
         {
@@ -927,8 +952,9 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
                 int x2 = z;
                 objects[x2]->eraseObject(&m_pixmap);
                 if (objects[x2]->type() == ScreenObject::BotObject) {
-                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
+                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                         fightswon[objects[x]->owner()]++;
+                    }
                     checkwin = true;
                     //Calc X and Y position
                     xstarts[x2] = qrand() % m_xSize;

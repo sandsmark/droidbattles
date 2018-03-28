@@ -157,8 +157,9 @@ void DevChoice::costchanged()
     curconfig.load(QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
 
     int dev = getitem();
-    if (dev == 0)
+    if (dev == 0) {
         return;
+    }
     int devlev = getlevel();
 
     QString resulttext;

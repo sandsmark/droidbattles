@@ -55,13 +55,16 @@ int CPU::writefile(int start, int length, int adress)
 {
     char buffer[4096];
     int maxbytes = (mem->returnsize() % 1024) * 64;
-    if (start + length > maxbytes)
+    if (start + length > maxbytes) {
         return -1;
-    for (int x = 0; x < length; x++)
+    }
+    for (int x = 0; x < length; x++) {
         buffer[x] = mem->getibyte(adress + x);
+    }
     QFile f(ourbot->myfile);
-    if (!f.open(QIODevice::WriteOnly))
+    if (!f.open(QIODevice::WriteOnly)) {
         return -1;
+    }
     f.seek(start);
     int ret = f.write(&buffer[0], length);
     f.close();
@@ -72,15 +75,18 @@ int CPU::readfile(int start, int length, int adress)
 {
     char buffer[4096];
     int maxbytes = (mem->returnsize() % 1024) * 64;
-    if (start + length > maxbytes)
+    if (start + length > maxbytes) {
         return -1;
+    }
     QFile f(ourbot->myfile);
-    if (!f.open(QIODevice::ReadOnly))
+    if (!f.open(QIODevice::ReadOnly)) {
         return -1;
+    }
     f.seek(start);
     int ret = f.read(buffer, length);
-    for (int x = 0; x < length; x++)
+    for (int x = 0; x < length; x++) {
         mem->setibyte(adress + x, buffer[x]);
+    }
     f.close();
     return ret;
 }

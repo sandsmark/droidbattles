@@ -24,8 +24,9 @@ Communication::Communication(ScreenObject &object)
 {
     ourbot = &object;
     int x;
-    for (x = 0; x < 32; x++)
+    for (x = 0; x < 32; x++) {
         msglist[x] = 0;
+    }
     nummsg = 0;
     int count;
     int count2;
@@ -82,8 +83,9 @@ int Communication::readPort(unsigned char port)
         break;
     case 1:
         msg = msglist[0];
-        for (int x = 0; x < 31; x++)
+        for (int x = 0; x < 31; x++) {
             msglist[x] = msglist[x + 1];
+        }
         nummsg--;
         return msglist[0];
         break;
@@ -99,8 +101,10 @@ int Communication::readPort(unsigned char port)
 
 void Communication::doSpecial(int x, int /*y*/)
 {
-    if (nummsg < 32)
+    if (nummsg < 32) {
         msglist[nummsg++] = x;
-    if (intenabled)
+    }
+    if (intenabled) {
         ourbot->addInterrupt(msginterrupt);
+    }
 }

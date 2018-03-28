@@ -43,8 +43,9 @@ RadarMissileLauncher::~RadarMissileLauncher()
 	*/
 void RadarMissileLauncher::execute()
 {
-    if (reloadtime > 0)
+    if (reloadtime > 0) {
         reloadtime--;
+    }
     //Set boot mem
     if (stacktaken[0][0] == true) {
         bootmem = portstack[0][0];

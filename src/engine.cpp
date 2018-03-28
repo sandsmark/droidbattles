@@ -44,19 +44,23 @@ void Engine::execute()
 {
     if (stacktaken[0][0] == true) {
         thrust = portstack[0][0];
-        if (thrust > ourlevel)
+        if (thrust > ourlevel) {
             thrust = ourlevel;
-        if (thrust < 0)
+        }
+        if (thrust < 0) {
             thrust = 0;
+        }
         moveportstack(0);
     }
 
     if (stacktaken[1][0] == true) {
         thrust = -(portstack[1][0]);
-        if (thrust < -(ourlevel / 2))
+        if (thrust < -(ourlevel / 2)) {
             thrust = -(ourlevel / 2);
-        if (thrust > 0)
+        }
+        if (thrust > 0) {
             thrust = 0;
+        }
         moveportstack(1);
     }
 
@@ -64,13 +68,16 @@ void Engine::execute()
         ourbot->changeHeat(int(thrust / 35));
         if (thrust > ourbot->speed() && ourbot->fuel() >= thrust + 1) {
             ourbot->changeSpeed(1);
-            if (thrust > 0)
+            if (thrust > 0) {
                 ourbot->setFuel(-(1 + thrust / 10));
+            }
         } else {
-            if (ourbot->speed() > 0)
+            if (ourbot->speed() > 0) {
                 ourbot->changeSpeed(-1);
-            if (ourbot->speed() < 0)
+            }
+            if (ourbot->speed() < 0) {
                 ourbot->changeSpeed(1);
+            }
         }
     }
     if (thrust < 0) {
@@ -79,10 +86,12 @@ void Engine::execute()
             ourbot->changeSpeed(-1);
             ourbot->setFuel(-(1 + (-thrust) / 10));
         } else {
-            if (ourbot->speed() < 0)
+            if (ourbot->speed() < 0) {
                 ourbot->changeSpeed(1);
-            if (ourbot->speed() > 0)
+            }
+            if (ourbot->speed() > 0) {
                 ourbot->changeSpeed(-1);
+            }
         }
     }
 }

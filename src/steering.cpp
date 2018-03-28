@@ -44,28 +44,34 @@ void Steering::execute()
 {
     if (stacktaken[0][0] == true) {
         aimatdir += portstack[0][0];
-        if (aimatdir > 1024)
+        if (aimatdir > 1024) {
             aimatdir %= 1024;
-        if (aimatdir < 0)
+        }
+        if (aimatdir < 0) {
             aimatdir += 1024;
+        }
         moveportstack(0);
     }
 
     if (stacktaken[1][0] == true) {
         aimatdir = portstack[1][0];
-        if (aimatdir > 1024)
+        if (aimatdir > 1024) {
             aimatdir %= 1024;
-        if (aimatdir < 0)
+        }
+        if (aimatdir < 0) {
             aimatdir += 1024;
+        }
         moveportstack(1);
     }
 
     if (stacktaken[2][0] == true) {
         aimatdir = ourbot->direction() + portstack[2][0];
-        if (aimatdir > 1024)
+        if (aimatdir > 1024) {
             aimatdir %= 1024;
-        if (aimatdir < 0)
+        }
+        if (aimatdir < 0) {
             aimatdir += 1024;
+        }
         moveportstack(2);
     }
 
@@ -81,15 +87,17 @@ void Steering::execute()
         }
 
         if (diff1 < diff2) {
-            if (diff1 < ourlevel)
+            if (diff1 < ourlevel) {
                 ourbot->changeDirection(-diff1);
-            else
+            } else {
                 ourbot->changeDirection(-(ourlevel));
+            }
         } else {
-            if (diff2 < ourlevel)
+            if (diff2 < ourlevel) {
                 ourbot->changeDirection(diff2);
-            else
+            } else {
                 ourbot->changeDirection((ourlevel));
+            }
         }
     }
 }

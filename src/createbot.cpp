@@ -565,10 +565,11 @@ bool CreateBot::loadFile(const QString &filename)
 
     QString pngName = QFileInfo(m_fileName).absoluteDir().filePath(QFileInfo(botname).baseName() + ".png");
     QFile f2(pngName);
-    if (f2.exists())
+    if (f2.exists()) {
         gfx.load(pngName);
-    else
+    } else {
         gfx = QPixmap();
+    }
 
     changed = false;
     edittxt->document()->setModified(false);
@@ -597,8 +598,9 @@ void CreateBot::save()
     s << "RAM: " << amountRAM->currentIndex() << endl
       << endl;
     int x;
-    for (x = 0; x < 32; x++)
+    for (x = 0; x < 32; x++) {
         s << "DEVICE: " << devices[x]->getitem() << " " << devices[x]->getlevel() << " " << devices[x]->getarg1() << endl;
+    }
     s << endl;
     QString tempdata = edittxt->document()->toPlainText();
     s << tempdata;
@@ -631,8 +633,9 @@ void CreateBot::saveas()
         s << "RAM: " << amountRAM->currentIndex() << endl
           << endl;
         int x;
-        for (x = 0; x < 32; x++)
+        for (x = 0; x < 32; x++) {
             s << "DEVICE: " << devices[x]->getitem() << " " << devices[x]->getlevel() << " " << devices[x]->getarg1() << endl;
+        }
         s << endl;
         QString tempdata = edittxt->document()->toPlainText();
         s << tempdata;
@@ -686,8 +689,9 @@ bool CreateBot::assemble()
 
     //Memory where the file contents are stored during assemble
     unsigned char mem[65536 + 256];
-    for (i = 0; i < 65536; i++)
+    for (i = 0; i < 65536; i++) {
         mem[i] = 0;
+    }
 
     //comb/QString array where forward referencing jumps are remembered
     QString jumpnames[512];
@@ -709,27 +713,37 @@ bool CreateBot::assemble()
 
     //Put in the amount of RAM
     mem[1] = amountRAM->currentIndex();
-    if (mem[1] == 0)
+    if (mem[1] == 0) {
         RAMAMOUNT = 1024;
-    if (mem[1] == 1)
+    }
+    if (mem[1] == 1) {
         RAMAMOUNT = 2048;
-    if (mem[1] == 2)
+    }
+    if (mem[1] == 2) {
         RAMAMOUNT = 4096;
-    if (mem[1] == 3)
+    }
+    if (mem[1] == 3) {
         RAMAMOUNT = 8192;
-    if (mem[1] == 4)
+    }
+    if (mem[1] == 4) {
         RAMAMOUNT = 16384;
-    if (mem[1] == 5)
+    }
+    if (mem[1] == 5) {
         RAMAMOUNT = 24576;
-    if (mem[1] == 6)
+    }
+    if (mem[1] == 6) {
         RAMAMOUNT = 32768;
-    if (mem[1] == 7)
+    }
+    if (mem[1] == 7) {
         RAMAMOUNT = 49152;
-    if (mem[1] == 8)
+    }
+    if (mem[1] == 8) {
         RAMAMOUNT = 65536;
+    }
     //Put in the devices chosen
-    for (i = 0; i < (NUMDEV * 2 + 1); i++)
+    for (i = 0; i < (NUMDEV * 2 + 1); i++) {
         numsortdec[i] = 0;
+    }
 
     //Zero alot of vars
     for (i = 0; i < 511; i++) {
@@ -1300,8 +1314,9 @@ bool CreateBot::assemble()
     QString curmnem;
     bool tunres[16];
     short unresnum[16];
-    for (i = 0; i < 15; i++)
+    for (i = 0; i < 15; i++) {
         token[i] = "      ";
+    }
     bool exist[16];
     bool ok = false;
     Instruction::Types type[16];
@@ -1378,8 +1393,9 @@ bool CreateBot::assemble()
             type[0] = Instruction::Label;
             int x;
             for (x = 0; x < 2047; x++) {
-                if (existn[x] == false)
+                if (existn[x] == false) {
                     break;
+                }
             }
             names[x] = token[0].right(token[0].length() - 1);
             nvalues[x] = posinmem;
@@ -1395,8 +1411,9 @@ bool CreateBot::assemble()
                 type[0] = Instruction::ConstDecl;
                 int x;
                 for (x = 0; x < 2047; x++) {
-                    if (existn[x] == false)
+                    if (existn[x] == false) {
                         break;
+                    }
                 }
                 names[x] = token[0].right(token[0].length() - 1);
                 nvalues[x] = posinmem;
@@ -1418,8 +1435,9 @@ bool CreateBot::assemble()
                 type[0] = Instruction::VarDecl;
                 int x;
                 for (x = 0; x < 2047; x++) {
-                    if (existn[x] == false)
+                    if (existn[x] == false) {
                         break;
+                    }
                 }
                 names[x] = token[0].right(token[0].length() - 1);
                 existn[x] = true;
@@ -1481,8 +1499,9 @@ bool CreateBot::assemble()
                             }
                         }
                     } else {
-                        if (tpos < 0)
+                        if (tpos < 0) {
                             tpos += 65536;
+                        }
                         mem[posinmem + 256] = tpos % 256;
                         mem[posinmem + 257] = int(tpos / 256);
                         posinmem += 2;
@@ -1517,10 +1536,11 @@ bool CreateBot::assemble()
 
                 } else {
                     //If it's a direct value
-                    if (isplus) //if( token[1].left( 1 )=="+" )
+                    if (isplus) { //if( token[1].left( 1 )=="+" )
                         posinmem += tpos;
-                    else
+                    } else {
                         posinmem = tpos;
+                    }
                 }
             } else {
                 error("Expected: value for org", linenum);
@@ -1870,8 +1890,9 @@ bool CreateBot::assemble()
                             type[i] = Instruction::MemAddress;
                             tunres[i] = true;
                             for (x = 0; x < 4095; x++) {
-                                if (unresexist[x] == false)
+                                if (unresexist[x] == false) {
                                     break;
+                                }
                             }
                             unresexist[x] = true;
                             unresn[x] = tempstring.right(tempstring.length());
@@ -1909,8 +1930,9 @@ bool CreateBot::assemble()
                             type[i] = Instruction::Value;
                             tunres[i] = true;
                             for (x = 0; x < 4095; x++) {
-                                if (unresexist[x] == false)
+                                if (unresexist[x] == false) {
                                     break;
+                                }
                             }
                             unresexist[x] = true;
                             unresn[x] = token[i].right(tempstring.length());
@@ -1918,8 +1940,9 @@ bool CreateBot::assemble()
                             unresnum[i] = x;
                         }
                     } else {
-                        if (tpos < 0)
+                        if (tpos < 0) {
                             tpos += 65536;
+                        }
                         value[i][0] = tpos % 256;
                         value[i][1] = tpos / 256;
                         type[i] = Instruction::Value;
@@ -1973,8 +1996,9 @@ bool CreateBot::assemble()
             if (q < 200) {
                 insertstr += QString::number(q);
             }
-            if (i == 237)
+            if (i == 237) {
                 insertstr += "+X";
+            }
             ///////////////
             posinmem++;
 
@@ -2073,8 +2097,9 @@ bool CreateBot::assemble()
 void CreateBot::error(const QString &msg, int line)
 {
     QMessageBox::information(0, "Message from the almighty assembler", msg);
-    if (line >= 0)
+    if (line >= 0) {
         edittxt->setTextCursor(QTextCursor(edittxt->document()->findBlockByLineNumber(line)));
+    }
 }
 
 /**
@@ -2099,8 +2124,9 @@ bool CreateBot::startquick()
         for (int x = 0; x < 8; x++) {
             s >> names[x];
             s >> temp;
-            if (names[x] == QString("fff"))
+            if (names[x] == QString("fff")) {
                 names[x] = "";
+            }
             teams[x] = temp.toInt();
         }
         names[7] = QFileInfo(m_fileName).absoluteDir().filePath(QFileInfo(botname).baseName() + ".bot");
@@ -2229,8 +2255,9 @@ void CreateBot::addint(QString &str, int integ)
         t2 = (integ % 10 + '0');
         temp = t2 + temp;
         integ /= 10;
-        if (!integ)
+        if (!integ) {
             ready = true;
+        }
     }
     str += temp;
 }
@@ -2244,8 +2271,9 @@ int CreateBot::devnum(int sort, int num)
 {
     int number = 0;
     for (int x = 0; x < num; x++) {
-        if (devices[x]->getitem() == sort)
+        if (devices[x]->getitem() == sort) {
             number++;
+        }
     }
     return number;
 }

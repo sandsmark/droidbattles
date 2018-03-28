@@ -55,8 +55,9 @@ Armor::~Armor()
 void Armor::execute()
 {
     if (intenabled2) {
-        if (ourbot->armorval < armorintlevel)
+        if (ourbot->armorval < armorintlevel) {
             ourbot->addInterrupt(3);
+        }
     }
     if (ourbot->heat() > heatintlevel) {
         ourbot->addInterrupt(5);
@@ -88,8 +89,9 @@ int Armor::absorbHit(int str, int ifint)
     if (strength >= str) {
         strength -= str;
         ourbot->armorval -= str;
-        if (intenabled == true && ifint == 1)
+        if (intenabled == true && ifint == 1) {
             ourbot->addInterrupt(hitinterrupt);
+        }
         return 0;
     } else {
         str -= strength;

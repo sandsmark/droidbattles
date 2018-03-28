@@ -45,33 +45,41 @@ int ScreenObject::setPosition(double X, double Y)
     oldY = int(Ypos);
     Xpos += X; //Update position
     Ypos += Y;
-    if (Xpos < 0)
+    if (Xpos < 0) {
         Xpos = 0; //Check if we went over the borders of
-    if (Xpos > maxx)
+    }
+    if (Xpos > maxx) {
         Xpos = maxx; //The battlefield
-    if (Ypos < 0)
+    }
+    if (Ypos < 0) {
         Ypos = 0;
-    if (Ypos > maxy)
+    }
+    if (Ypos > maxy) {
         Ypos = maxy;
+    }
     return 0;
 }
 
 void ScreenObject::changeDirection(int Z)
 {
     m_direction += Z;
-    if (m_direction >= 1024)
+    if (m_direction >= 1024) {
         m_direction -= 1024;
-    if (m_direction < 0)
+    }
+    if (m_direction < 0) {
         m_direction += 1024;
+    }
 }
 
 void ScreenObject::changeSpeed(int Z)
 {
     m_speed += Z;
-    if (m_speed < -75)
+    if (m_speed < -75) {
         m_speed = -75;
-    if (m_speed > 100)
+    }
+    if (m_speed > 100) {
         m_speed = 100;
+    }
 }
 
 int ScreenObject::xPos()
@@ -199,8 +207,9 @@ int ScreenObject::armor()
 void ScreenObject::changeHeat(int x)
 {
     heatval += x;
-    if (heatval < 0)
+    if (heatval < 0) {
         heatval = 0;
+    }
 }
 
 int ScreenObject::heat()
@@ -253,8 +262,9 @@ int ScreenObject::collisionId()
 
 void ScreenObject::sendMessage(char *msg)
 {
-    if (useUI)
+    if (useUI) {
         emit messagechanged(msg);
+    }
 }
 
 void ScreenObject::objectScanned(int /*intensity*/, int /*dir*/)

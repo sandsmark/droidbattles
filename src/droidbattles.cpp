@@ -178,8 +178,9 @@ void DroidBattles::startskirmish()
     bool ifteamfight;
     for (x = 0; x < 8; x++) {
         names[x] = ssb->getbotfile(x);
-        if (!names[x].isEmpty())
+        if (!names[x].isEmpty()) {
             numbo++;
+        }
         teams[x] = ssb->getbotteam(x);
     }
     ifteamfight = ssb->getifteams();
@@ -236,8 +237,9 @@ void DroidBattles::startsurvival()
     bool ifteamfight;
     for (x = 0; x < 8; x++) {
         names[x] = ssb->getbotfile(x);
-        if (!names[x].isEmpty())
+        if (!names[x].isEmpty()) {
             numbo++;
+        }
         teams[x] = ssb->getbotteam(x);
     }
     ifteamfight = ssb->getifteams();
@@ -290,8 +292,9 @@ void DroidBattles::startdeath()
     bool ifteamfight;
     for (x = 0; x < 8; x++) {
         names[x] = ssb->getbotfile(x);
-        if (!names[x].isEmpty())
+        if (!names[x].isEmpty()) {
             numbo++;
+        }
         teams[x] = ssb->getbotteam(x);
     }
     ifteamfight = ssb->getifteams();
@@ -401,16 +404,18 @@ void DroidBattles::starttourney()
         enabletourneys();
         return;
     }
-    if (numofbots > 64)
+    if (numofbots > 64) {
         numofbots = 64;
+    }
     int x;
     for (x = 0; x < numofbots; x++) {
         names[x] = stment->getbotfile(x);
         winmatches[x] = 0;
         wingames[x] = 0;
     }
-    if (!stment->getseed())
+    if (!stment->getseed()) {
         stment->setseed(qrand());
+    }
     qsrand(stment->getseed());
     teams[0] = 0;
     teams[1] = 1;
@@ -455,8 +460,9 @@ void DroidBattles::managetourney(int wins1, int wins2)
         enabletourneys();
         return;
     }
-    if (numofbots > 64)
+    if (numofbots > 64) {
         numofbots = 64;
+    }
     for (x = 0; x < numofbots; x++) {
         names[x] = stment->getbotfile(x);
         //		winmatches[x] = 0;
@@ -465,10 +471,12 @@ void DroidBattles::managetourney(int wins1, int wins2)
 
     winmatches[curmainbot] += wins1;
     winmatches[cursecbot] += wins2;
-    if (wins1 > wins2)
+    if (wins1 > wins2) {
         wingames[curmainbot]++;
-    if (wins1 < wins2)
+    }
+    if (wins1 < wins2) {
         wingames[cursecbot]++;
+    }
 
     cursecbot++;
 
@@ -589,8 +597,9 @@ void DroidBattles::startkoth()
         enabletourneys();
         return;
     }
-    if (numofbots > 64)
+    if (numofbots > 64) {
         numofbots = 64;
+    }
     int x;
     for (x = 0; x < numofbots; x++) {
         names[x] = kotht->getbotfile(x);
@@ -599,8 +608,9 @@ void DroidBattles::startkoth()
     ln = kotht->getlength(); //Get the max length of fight
     xs = kotht->getxsize();
     ys = kotht->getysize();
-    if (!kotht->getseed())
+    if (!kotht->getseed()) {
         kotht->setseed(qrand());
+    }
     qsrand(kotht->getseed());
 
     teams[0] = 0;
@@ -643,8 +653,9 @@ void DroidBattles::mankothtourney(int wins1, int wins2)
         enabletourneys();
         return;
     }
-    if (numofbots > 64)
+    if (numofbots > 64) {
         numofbots = 64;
+    }
     for (x = 0; x < numofbots; x++) {
         names[x] = kotht->getbotfile(x);
         //		winmatches[x] = 0;
@@ -661,8 +672,9 @@ void DroidBattles::mankothtourney(int wins1, int wins2)
         newlist[curmainbot + 1] = names[curmainbot];
         //Change mainbot for new battle
         curmainbot--;
-        if (curmainbot == -1)
+        if (curmainbot == -1) {
             newlist[curmainbot + 1] = names[cursecbot];
+        }
 
     } else {
         //secbot in result array
@@ -671,8 +683,9 @@ void DroidBattles::mankothtourney(int wins1, int wins2)
         //Change mainbot for new battle
         cursecbot = curmainbot;
         curmainbot--;
-        if (curmainbot == -1)
+        if (curmainbot == -1) {
             newlist[curmainbot + 1] = names[curmainbot + 1];
+        }
     }
 
     if (curmainbot == -1) {
@@ -820,15 +833,17 @@ void DroidBattles::startcupt()
         enabletourneys();
         return;
     }
-    if (numofbots > 64)
+    if (numofbots > 64) {
         numofbots = 64;
+    }
     int x;
     for (x = 0; x < numofbots; x++) {
         names[x] = cuptournament->getbotfile(x);
         nextround[x] = x;
     }
-    if (!cuptournament->getseed())
+    if (!cuptournament->getseed()) {
         cuptournament->setseed(qrand());
+    }
     qsrand(cuptournament->getseed());
 
     teams[0] = 0;
@@ -863,8 +878,9 @@ void DroidBattles::mancuptourney(int wins1, int wins2)
         enabletourneys();
         return;
     }
-    if (numofbots > 64)
+    if (numofbots > 64) {
         numofbots = 64;
+    }
     for (x = 0; x < numofbots; x++) {
         names[x] = cuptournament->getbotfile(x);
         //		winmatches[x] = 0;
@@ -877,10 +893,11 @@ void DroidBattles::mancuptourney(int wins1, int wins2)
     results[resultcounter].secbotwins = wins2;
     resultcounter++;
 
-    if (wins1 >= wins2)
+    if (wins1 >= wins2) {
         nextround[nextroundcount] = nextround[curmainbot];
-    else
+    } else {
         nextround[nextroundcount] = nextround[cursecbot];
+    }
 
     botsleft--;
     curmainbot += 2;

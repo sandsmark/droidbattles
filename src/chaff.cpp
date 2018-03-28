@@ -46,8 +46,9 @@ Chaff::Chaff(int X, int Y, int d, int spd, TextmodeBattleArea &area, bool ui)
 	*/
 Chaff::~Chaff()
 {
-    if (useUI)
+    if (useUI) {
         delete erasegfx;
+    }
     //	delete graphics;
 }
 
@@ -91,10 +92,11 @@ int Chaff::execute()
     tempY = sin(dira) * speed();
     setPosition(tempX, tempY);
     timeleft--;
-    if (!timeleft)
+    if (!timeleft) {
         return destroyself;
-    else
+    } else {
         return 0;
+    }
 }
 
 /**

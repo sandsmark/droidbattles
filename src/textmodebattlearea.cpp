@@ -67,8 +67,9 @@ TextmodeBattleArea::TextmodeBattleArea(const BattleConfig &battleConfig)
 TextmodeBattleArea::~TextmodeBattleArea()
 {
     int x;
-    for (x = 0; x < maxobjects; x++)
+    for (x = 0; x < maxobjects; x++) {
         delete objects[x];
+    }
 }
 
 /**
@@ -82,8 +83,9 @@ void TextmodeBattleArea::startonebattle(int y)
     //from the run before this
     if (y == notfirstround) {
         //Deallocate memory
-        for (x = 0; x < maxobjects; x++)
+        for (x = 0; x < maxobjects; x++) {
             delete objects[x];
+        }
     }
 
     //Randomize start positions and make sure the bots don't start to
@@ -101,8 +103,9 @@ void TextmodeBattleArea::startonebattle(int y)
                 int xdiff = abs(xstarts[y] - xstarts[x]);
                 int ydiff = abs(ystarts[y] - ystarts[x]);
                 int tdist = int(sqrt((xdiff * xdiff) + (ydiff * ydiff)));
-                if (tdist < dst)
+                if (tdist < dst) {
                     dst = tdist;
+                }
             }
             tries++;
         }
@@ -112,15 +115,17 @@ void TextmodeBattleArea::startonebattle(int y)
     QString tn;
     for (x = 0; x < maxbots; x++) {
         tn = names[x];
-        if (!tn.isEmpty())
+        if (!tn.isEmpty()) {
             objects[x] = new Robots(tn, *this, x, config, botteams[x], false, false);
-        else
+        } else {
             objects[x] = new ScreenObject();
+        }
     }
 
     //Make all other positions as "standard" screenobjects
-    for (x = maxbots; x < maxobjects; x++)
+    for (x = maxbots; x < maxobjects; x++) {
         objects[x] = new ScreenObject();
+    }
 
     roundsrun = 0;
 }
@@ -239,8 +244,9 @@ int TextmodeBattleArea::execround()
                                 break;
                             case 2: //If it's a deathmatch battle
                                 if (objects[x2]->type() == ScreenObject::BotObject) {
-                                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
+                                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                                         fightswon[objects[x]->owner()]++;
+                                    }
                                     checkwin = true;
                                     //Calc X and Y position
                                     xstarts[x2] = qrand() % m_xSize;
@@ -289,8 +295,9 @@ int TextmodeBattleArea::execround()
                                 break;
                             case 2: //If it's a deathmatch battle
                                 if (objects[x]->type() == ScreenObject::BotObject) {
-                                    if (x2owner < 8 && x != x2owner)
+                                    if (x2owner < 8 && x != x2owner) {
                                         fightswon[x2owner]++;
+                                    }
                                     delete objects[x];
                                     x2 = maxobjects;
                                     checkwin = true;
@@ -335,8 +342,9 @@ int TextmodeBattleArea::execround()
             if (objects[x]->type() == ScreenObject::BotObject) {
                 int yy;
                 yy = objects[x]->team();
-                if (yy > 3 || yy < 0)
+                if (yy > 3 || yy < 0) {
                     yy = 0;
+                }
                 alive[yy] = 1;
             }
         }
@@ -349,8 +357,9 @@ int TextmodeBattleArea::execround()
         }
         if (numofbots <= 1) //If battle is over
         {
-            if (numofbots == 1)
+            if (numofbots == 1) {
                 fightswon[botnum]++;
+            }
             fightsfought++;
             if (fightsfought >= numfights) //If all rounds of battle is over
             {
@@ -358,8 +367,9 @@ int TextmodeBattleArea::execround()
                 int curval = 0;
                 bool draw = false;
                 for (x = 0; x < maxteams; x++) {
-                    if (fightswon[x] == curval)
+                    if (fightswon[x] == curval) {
                         draw = true;
+                    }
                     if (fightswon[x] > curval) {
                         curval = fightswon[x];
                         winbot = x;
@@ -371,8 +381,9 @@ int TextmodeBattleArea::execround()
                     msg = " Team ";
                     msg += int(winbot) + '1';
                     msg += " won!";
-                } else
+                } else {
                     msg = "Fight was a draw";
+                }
                 //				ermsg->setText( msg );
                 //				ermsg->setButtonText( 0, "OK" );
                 //				int ret = ermsg->exec( );
@@ -380,8 +391,9 @@ int TextmodeBattleArea::execround()
                 //				QMessageBox::information( 0, "Fight Ended",msg );
                 qDebug() << "Result: " << msg.data() << endl;
                 return 3;
-            } else
+            } else {
                 startonebattle(notfirstround); //If we have rounds left, continue
+            }
         } // with a new round
     }
 
@@ -394,8 +406,9 @@ int TextmodeBattleArea::execround()
         }
         if (numofbots <= 1) //If the current fight has ended
         {
-            if (numofbots == 1) //If we have a winner ,count up his points
+            if (numofbots == 1) { //If we have a winner ,count up his points
                 fightswon[botnum]++;
+            }
             fightsfought++;
             if (fightsfought >= numfights) //If we have done all the rounds of
             { // fights we should have, Determine the overall winner
@@ -445,8 +458,9 @@ int TextmodeBattleArea::execround()
                     qDebug() << "Result: " << msg.data() << endl;
                     return 3;
                 }
-            } else
+            } else {
                 startonebattle(notfirstround); //If we have fights left,start a new
+            }
         }
     }
 
@@ -553,8 +567,9 @@ int TextmodeBattleArea::devio(int bot, int dev, int choice, int arg1, int arg2)
     case 7:
         int x;
         for (x = 0; x < maxbots; x++) {
-            if (objects[x]->type() == ScreenObject::BotObject && objects[x]->team() == bot && (arg2 == 255 || objects[x]->number() == arg2))
+            if (objects[x]->type() == ScreenObject::BotObject && objects[x]->team() == bot && (arg2 == 255 || objects[x]->number() == arg2)) {
                 objects[x]->writeRadio(arg1);
+            }
         }
         break;
     case 8:
@@ -603,15 +618,18 @@ void TextmodeBattleArea::explosions(int x, int y, int rad, int strength, int whi
 {
     int X1, Y1, D1, S1, z;
     for (z = 0; z < maxbots; z++) {
-        if (z == whichobject)
+        if (z == whichobject) {
             continue;
-        if (!objects[z]->areaExplosionAffects())
+        }
+        if (!objects[z]->areaExplosionAffects()) {
             continue;
+        }
         X1 = objects[z]->xPos();
         Y1 = objects[z]->yPos();
         D1 = int(sqrt(((X1 - x) * (X1 - x)) + ((Y1 - y) * (Y1 - y))));
-        if (D1 >= rad)
+        if (D1 >= rad) {
             continue;
+        }
         S1 = strength - (D1 * strength / rad);
         if (objects[z]->objectHit(9, S1) == 1) //If the damage killed him
         {
@@ -643,8 +661,9 @@ void TextmodeBattleArea::explosions(int x, int y, int rad, int strength, int whi
                 int x = whichobject;
                 int x2 = z;
                 if (objects[x2]->type() == ScreenObject::BotObject) {
-                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner())
+                    if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                         fightswon[objects[x]->owner()]++;
+                    }
                     checkwin = true;
                     //Calc X and Y position
                     xstarts[x2] = qrand() % m_xSize;

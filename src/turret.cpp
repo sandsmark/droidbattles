@@ -55,26 +55,32 @@ void Turret::execute()
 {
     if (stacktaken[0][0] == true) {
         wantedoffset = portstack[0][0];
-        if (wantedoffset > 1024)
+        if (wantedoffset > 1024) {
             wantedoffset %= 1024;
-        if (wantedoffset < 0)
+        }
+        if (wantedoffset < 0) {
             wantedoffset += 1024;
+        }
         moveportstack(0);
     }
     if (stacktaken[1][0] == true) {
         wantedoffset += portstack[1][0];
-        if (wantedoffset > 1023)
+        if (wantedoffset > 1023) {
             wantedoffset %= 1024;
-        if (wantedoffset < 0)
+        }
+        if (wantedoffset < 0) {
             wantedoffset += 1024;
+        }
         moveportstack(1);
     }
     if (stacktaken[2][0] == true) {
         wantedoffset = offset + portstack[2][0];
-        if (wantedoffset > 1023)
+        if (wantedoffset > 1023) {
             wantedoffset %= 1024;
-        if (wantedoffset < 0)
+        }
+        if (wantedoffset < 0) {
             wantedoffset += 1024;
+        }
         moveportstack(2);
     }
 
@@ -91,21 +97,25 @@ void Turret::execute()
     }
 
     if (right > left) {
-        if (left < ourlevel)
+        if (left < ourlevel) {
             offset = wantedoffset;
-        else
+        } else {
             offset -= ourlevel;
+        }
     } else {
-        if (right < ourlevel)
+        if (right < ourlevel) {
             offset = wantedoffset;
-        else
+        } else {
             offset += ourlevel;
+        }
     }
 
-    if (offset >= 1024)
+    if (offset >= 1024) {
         offset -= 1024;
-    if (offset < 0)
+    }
+    if (offset < 0) {
         offset += 1024;
+    }
 
     ourbot->writeToDevice(ourdev, 1, offset);
 }

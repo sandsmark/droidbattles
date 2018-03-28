@@ -327,10 +327,11 @@ int RobCpu::type()
 	*/
 int RobCpu::specialValue()
 {
-    if ((registers[flags] & 0x0400) == 0x0400)
+    if ((registers[flags] & 0x0400) == 0x0400) {
         return 5;
-    else
+    } else {
         return 4;
+    }
 }
 
 /**
@@ -358,8 +359,9 @@ struct DebugContents RobCpu::debugContents()
         temp.sicontents[x + 4] = mem->getbyte(registers[si] + x);
     }
 
-    for (x = 0; x < 30; x++)
+    for (x = 0; x < 30; x++) {
         temp.execmem[x] = lastexecmem[x];
+    }
 
     return temp;
 }
@@ -387,13 +389,15 @@ void RobCpu::execinstr()
     unsigned char bit;
     char message[20];
     int execmementry = 0;
-    for (x = 0; x < 30; x++)
+    for (x = 0; x < 30; x++) {
         lastexecmem[x] = -1;
+    }
 
     while (cyclesleft > 0) {
         unsigned char instr = mem->getbyte(registers[eip]); //Get the opcode
-        if (execmementry < 30)
+        if (execmementry < 30) {
             lastexecmem[execmementry++] = registers[eip];
+        }
         cyclesleft -= instrlatency[instr];
         switch (instr) {
             //NOP
@@ -724,10 +728,11 @@ void RobCpu::execinstr()
             if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
-                if (test == 1)
+                if (test == 1) {
                     registers[flags] |= setequalflag;
-                else
+                } else {
                     registers[flags] &= setunequalflag;
+                }
             }
             registers[eip] += 3;
             break;
@@ -739,10 +744,11 @@ void RobCpu::execinstr()
             if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
-                if (test == 1)
+                if (test == 1) {
                     registers[flags] |= setequalflag;
-                else
+                } else {
                     registers[flags] &= setunequalflag;
+                }
             }
             registers[eip] += 4;
             break;
@@ -754,10 +760,11 @@ void RobCpu::execinstr()
             if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
-                if (test == 1)
+                if (test == 1) {
                     registers[flags] |= setequalflag;
-                else
+                } else {
                     registers[flags] &= setunequalflag;
+                }
             }
             registers[eip] += 3;
             break;
@@ -769,10 +776,11 @@ void RobCpu::execinstr()
             if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
-                if (test == 1)
+                if (test == 1) {
                     registers[flags] |= setequalflag;
-                else
+                } else {
                     registers[flags] &= setunequalflag;
+                }
             }
             registers[eip] += 2;
             break;
@@ -784,10 +792,11 @@ void RobCpu::execinstr()
             if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
-                if (test == 1)
+                if (test == 1) {
                     registers[flags] |= setequalflag;
-                else
+                } else {
                     registers[flags] &= setunequalflag;
+                }
             }
             registers[eip] += 3;
             break;
@@ -799,10 +808,11 @@ void RobCpu::execinstr()
             if (bit <= 15) {
                 test <<= (15 - bit);
                 test >>= 15;
-                if (test == 1)
+                if (test == 1) {
                     registers[flags] |= setequalflag;
-                else
+                } else {
                     registers[flags] &= setunequalflag;
+                }
             }
             registers[eip] += 2;
             break;
@@ -1042,10 +1052,12 @@ void RobCpu::execinstr()
                 test1 = mem->getbyte(registers[di] + times);
                 test2 = mem->getbyte(registers[si] + times);
                 if (test1 != test2) {
-                    if (test1 > test2)
+                    if (test1 > test2) {
                         status = 1;
-                    if (test1 < test2)
+                    }
+                    if (test1 < test2) {
                         status = 2;
+                    }
                     break;
                 }
             }
@@ -1071,34 +1083,38 @@ void RobCpu::execinstr()
 
             //JZ imm
         case 0x3D:
-            if ((registers[flags] & equalflag) == equalflag)
+            if ((registers[flags] & equalflag) == equalflag) {
                 registers[eip] = mem->getword(registers[eip] + 1);
-            else
+            } else {
                 registers[eip] += 3;
+            }
             break;
 
             //JNZ imm
         case 0x3E:
-            if ((registers[flags] & equalflag) != equalflag)
+            if ((registers[flags] & equalflag) != equalflag) {
                 registers[eip] = mem->getword(registers[eip] + 1);
-            else
+            } else {
                 registers[eip] += 3;
+            }
             break;
 
             //JAE/JNB imm
         case 0x3F:
-            if ((registers[flags] & belowflag) != belowflag)
+            if ((registers[flags] & belowflag) != belowflag) {
                 registers[eip] = mem->getword(registers[eip] + 1);
-            else
+            } else {
                 registers[eip] += 3;
+            }
             break;
 
             //JBE/JNA imm
         case 0x40:
-            if ((registers[flags] & aboveflag) != aboveflag)
+            if ((registers[flags] & aboveflag) != aboveflag) {
                 registers[eip] = mem->getword(registers[eip] + 1);
-            else
+            } else {
                 registers[eip] += 3;
+            }
             break;
 
             //JMP reg
@@ -1485,10 +1501,11 @@ void RobCpu::execinstr()
             tt = registers[mem->getbyte(registers[eip] + 2)];
             rtemp = registers[mem->getbyte(registers[eip] + 1)];
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 0x8000) == 0x8000)
+                if ((rtemp & 0x8000) == 0x8000) {
                     rtemp = (rtemp << 1) + 1;
-                else
+                } else {
                     rtemp <<= 1;
+                }
             }
             registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
@@ -1499,10 +1516,11 @@ void RobCpu::execinstr()
             tt = mem->getbyte(registers[eip] + 2);
             rtemp = registers[mem->getbyte(registers[eip] + 1)];
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 0x8000) == 0x8000)
+                if ((rtemp & 0x8000) == 0x8000) {
                     rtemp = (rtemp << 1) + 1;
-                else
+                } else {
                     rtemp <<= 1;
+                }
             }
             registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
@@ -1513,10 +1531,11 @@ void RobCpu::execinstr()
             tt = mem->getbyte(registers[eip] + 2);
             rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 0x8000) == 0x8000)
+                if ((rtemp & 0x8000) == 0x8000) {
                     rtemp = (rtemp << 1) + 1;
-                else
+                } else {
                     rtemp <<= 1;
+                }
             }
             mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
@@ -1527,10 +1546,11 @@ void RobCpu::execinstr()
             tt = registers[mem->getbyte(registers[eip] + 2)];
             rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 0x8000) == 0x8000)
+                if ((rtemp & 0x8000) == 0x8000) {
                     rtemp = (rtemp << 1) + 1;
-                else
+                } else {
                     rtemp <<= 1;
+                }
             }
             mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
@@ -1541,10 +1561,11 @@ void RobCpu::execinstr()
             tt = registers[mem->getbyte(registers[eip] + 3)];
             rtemp = mem->getword(mem->getword(registers[eip] + 1));
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 0x8000) == 0x8000)
+                if ((rtemp & 0x8000) == 0x8000) {
                     rtemp = (rtemp << 1) + 1;
-                else
+                } else {
                     rtemp <<= 1;
+                }
             }
             mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
@@ -1555,10 +1576,11 @@ void RobCpu::execinstr()
             tt = mem->getbyte(registers[eip] + 3);
             rtemp = mem->getword(mem->getword(registers[eip] + 1));
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 0x8000) == 0x8000)
+                if ((rtemp & 0x8000) == 0x8000) {
                     rtemp = (rtemp << 1) + 1;
-                else
+                } else {
                     rtemp <<= 1;
+                }
             }
             mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
@@ -1569,10 +1591,11 @@ void RobCpu::execinstr()
             tt = registers[mem->getbyte(registers[eip] + 2)];
             rtemp = registers[mem->getbyte(registers[eip] + 1)];
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 1) == 1)
+                if ((rtemp & 1) == 1) {
                     rtemp = (rtemp >> 1) + 0x8000;
-                else
+                } else {
                     rtemp >>= 1;
+                }
             }
             registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
@@ -1583,10 +1606,11 @@ void RobCpu::execinstr()
             tt = mem->getbyte(registers[eip] + 2);
             rtemp = registers[mem->getbyte(registers[eip] + 1)];
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 1) == 1)
+                if ((rtemp & 1) == 1) {
                     rtemp = (rtemp >> 1) + 0x8000;
-                else
+                } else {
                     rtemp >>= 1;
+                }
             }
             registers[mem->getbyte(registers[eip] + 1)] = rtemp;
             registers[eip] += 3;
@@ -1597,10 +1621,11 @@ void RobCpu::execinstr()
             tt = mem->getbyte(registers[eip] + 2);
             rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 1) == 1)
+                if ((rtemp & 1) == 1) {
                     rtemp = (rtemp >> 1) + 0x8000;
-                else
+                } else {
                     rtemp >>= 1;
+                }
             }
             mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
@@ -1611,10 +1636,11 @@ void RobCpu::execinstr()
             tt = registers[mem->getbyte(registers[eip] + 2)];
             rtemp = mem->getword(registers[mem->getbyte(registers[eip] + 1)]);
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 1) == 1)
+                if ((rtemp & 1) == 1) {
                     rtemp = (rtemp >> 1) + 0x8000;
-                else
+                } else {
                     rtemp >>= 1;
+                }
             }
             mem->setword(registers[mem->getbyte(registers[eip] + 1)], rtemp);
             registers[eip] += 3;
@@ -1625,10 +1651,11 @@ void RobCpu::execinstr()
             tt = registers[mem->getbyte(registers[eip] + 3)];
             rtemp = mem->getword(mem->getword(registers[eip] + 1));
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 1) == 1)
+                if ((rtemp & 1) == 1) {
                     rtemp = (rtemp >> 1) + 0x8000;
-                else
+                } else {
                     rtemp >>= 1;
+                }
             }
             mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
@@ -1639,10 +1666,11 @@ void RobCpu::execinstr()
             tt = mem->getbyte(registers[eip] + 3);
             rtemp = mem->getword(mem->getword(registers[eip] + 1));
             for (x = 0; x < tt; x++) {
-                if ((rtemp & 1) == 1)
+                if ((rtemp & 1) == 1) {
                     rtemp = (rtemp >> 1) + 0x8000;
-                else
+                } else {
                     rtemp >>= 1;
+                }
             }
             mem->setword(mem->getword(registers[eip] + 1), rtemp);
             registers[eip] += 4;
@@ -1669,18 +1697,20 @@ void RobCpu::execinstr()
 
             //JA mem
         case 0x86:
-            if ((registers[flags] & aboveflag) == aboveflag)
+            if ((registers[flags] & aboveflag) == aboveflag) {
                 registers[eip] = mem->getword(registers[eip] + 1);
-            else
+            } else {
                 registers[eip] += 3;
+            }
             break;
 
             //JB mem
         case 0x87:
-            if ((registers[flags] & belowflag) == belowflag)
+            if ((registers[flags] & belowflag) == belowflag) {
                 registers[eip] = mem->getword(registers[eip] + 1);
-            else
+            } else {
                 registers[eip] += 3;
+            }
             break;
 
             //atanfunc
@@ -1688,11 +1718,13 @@ void RobCpu::execinstr()
         case 0x88:
             temp = int(atan2(iregisters[bx], iregisters[dx]) * 512 / pi);
             temp -= 256;
-            if (temp < 0)
+            if (temp < 0) {
                 temp += 1024;
+            }
             temp = -temp + 1024;
-            if (temp >= 1024)
+            if (temp >= 1024) {
                 temp -= 1024;
+            }
             registers[ax] = temp;
             registers[eip]++;
             break;
@@ -1824,8 +1856,9 @@ void RobCpu::execinstr()
             //MSG reg
         case 0x90:
             temp = registers[mem->getbyte(registers[eip] + 1)];
-            for (x = 0; x < 20; x++)
+            for (x = 0; x < 20; x++) {
                 message[x] = mem->getbyte(temp + x);
+            }
             message[19] = 0;
             sendmsg(message);
             registers[eip] += 2;
@@ -1834,8 +1867,9 @@ void RobCpu::execinstr()
             //MSG mem
         case 0x91:
             temp = mem->getword(registers[eip] + 1);
-            for (x = 0; x < 20; x++)
+            for (x = 0; x < 20; x++) {
                 message[x] = mem->getbyte(temp + x);
+            }
             message[19] = 0;
             sendmsg(message);
             registers[eip] += 3;
@@ -1877,28 +1911,31 @@ void RobCpu::execinstr()
 
             //LZ reg
         case 0x95:
-            if ((registers[flags] & equalflag) == equalflag)
+            if ((registers[flags] & equalflag) == equalflag) {
                 registers[mem->getbyte(registers[eip] + 1)] = 1;
-            else
+            } else {
                 registers[mem->getbyte(registers[eip] + 1)] = 0;
+            }
             registers[eip] += 2;
             break;
 
             //LNZ reg
         case 0x96:
-            if ((registers[flags] & equalflag) != equalflag)
+            if ((registers[flags] & equalflag) != equalflag) {
                 registers[mem->getbyte(registers[eip] + 1)] = 1;
-            else
+            } else {
                 registers[mem->getbyte(registers[eip] + 1)] = 0;
+            }
             registers[eip] += 2;
             break;
 
             //LA reg
         case 0x97:
-            if ((registers[flags] & aboveflag) == aboveflag)
+            if ((registers[flags] & aboveflag) == aboveflag) {
                 registers[mem->getbyte(registers[eip] + 1)] = 1;
-            else
+            } else {
                 registers[mem->getbyte(registers[eip] + 1)] = 0;
+            }
             registers[eip] += 2;
             break;
 
@@ -2507,58 +2544,65 @@ void RobCpu::execinstr()
             //HWAIT
         case 0xED:
             registers[eip]++;
-            if (cyclesleft > 0)
+            if (cyclesleft > 0) {
                 cyclesleft = 0;
+            }
             break;
 
             //LB reg
         case 0xEE:
-            if ((registers[flags] & belowflag) == belowflag)
+            if ((registers[flags] & belowflag) == belowflag) {
                 registers[mem->getbyte(registers[eip] + 1)] = 1;
-            else
+            } else {
                 registers[mem->getbyte(registers[eip] + 1)] = 0;
+            }
             registers[eip] += 2;
             break;
 
             //LAE/LNB reg
         case 0xEF:
-            if ((registers[flags] & belowflag) != belowflag)
+            if ((registers[flags] & belowflag) != belowflag) {
                 registers[mem->getbyte(registers[eip] + 1)] = 1;
-            else
+            } else {
                 registers[mem->getbyte(registers[eip] + 1)] = 0;
+            }
             registers[eip] += 2;
             break;
 
             //LBE/LNA reg
         case 0xF0:
-            if ((registers[flags] & aboveflag) != aboveflag)
+            if ((registers[flags] & aboveflag) != aboveflag) {
                 registers[mem->getbyte(registers[eip] + 1)] = 1;
-            else
+            } else {
                 registers[mem->getbyte(registers[eip] + 1)] = 0;
+            }
             registers[eip] += 2;
             break;
 
             //CJ reg label
         case 0xF1:
-            if (registers[mem->getbyte(registers[eip] + 1)] >= 1)
+            if (registers[mem->getbyte(registers[eip] + 1)] >= 1) {
                 registers[eip] = mem->getword(registers[eip] + 2);
-            else
+            } else {
                 registers[eip] += 4;
+            }
             break;
 
             //CJN reg label
         case 0xF2:
-            if (registers[mem->getbyte(registers[eip] + 1)] == 0)
+            if (registers[mem->getbyte(registers[eip] + 1)] == 0) {
                 registers[eip] = mem->getword(registers[eip] + 2);
-            else
+            } else {
                 registers[eip] += 4;
+            }
             break;
 
         default:
             registers[eip]++;
             cyclesleft--;
         }
-        if (SingleStepMode)
+        if (SingleStepMode) {
             cyclesleft = 0;
+        }
     }
 }

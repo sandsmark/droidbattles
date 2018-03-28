@@ -299,8 +299,9 @@ Instruction::Instruction(const char mnem[], int arg1t, int arg2t, int bit, int a
                          int arg2b, int op)
 {
     mnemonic = new char[strlen(mnem) + 1];
-    for (unsigned int x = 0; x < strlen(mnem) + 1; x++)
+    for (unsigned int x = 0; x < strlen(mnem) + 1; x++) {
         mnemonic[x] = mnem[x];
+    }
     arg1type = arg1t;
     arg2type = arg2t;
     bits = bit;
@@ -320,10 +321,11 @@ Instruction::~Instruction()
 	*/
 bool Instruction::checkmatch(QString &mnem, int arg1t, int arg2t, int bit) const
 {
-    if (mnem == mnemonic && arg1type == arg1t && arg2type == arg2t && ((bit == bits || bits == 0) || (bit == 0 && bits == 16)))
+    if (mnem == mnemonic && arg1type == arg1t && arg2type == arg2t && ((bit == bits || bits == 0) || (bit == 0 && bits == 16))) {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
 /**

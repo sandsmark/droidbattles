@@ -33,8 +33,9 @@ Ram::Ram(int amount, unsigned char *buf)
     RAMamount = amount;
     mem = new unsigned char[RAMamount];
     int x;
-    for (x = 0; x < RAMamount; x++)
+    for (x = 0; x < RAMamount; x++) {
         mem[x] = buf[x + 256];
+    }
     numowners = 1;
 }
 
@@ -51,10 +52,11 @@ Ram::~Ram()
 	*/
 unsigned char Ram::getbyte(int adress)
 {
-    if (adress > 0 && adress < RAMamount)
+    if (adress > 0 && adress < RAMamount) {
         return mem[adress];
-    else
+    } else {
         return 0xFF;
+    }
 }
 
 /**
@@ -65,8 +67,9 @@ char Ram::getibyte(int adress)
     if (adress < RAMamount) {
         cret = (char *)&mem[adress];
         return *cret;
-    } else
+    } else {
         return 0xFF;
+    }
 }
 
 /**
@@ -78,8 +81,9 @@ unsigned short Ram::getword(int adress)
         //		usret = (unsigned short *)&mem[adress];
         //		return *usret;
         return mem[adress] + mem[adress + 1] * 256;
-    } else
+    } else {
         return 0xFFFF;
+    }
 }
 
 /**
@@ -90,8 +94,9 @@ short Ram::getiword(int adress)
     if (adress < RAMamount - 1) {
         sret = (short *)&mem[adress];
         return *sret;
-    } else
+    } else {
         return 0xFFFF;
+    }
 }
 
 /**
@@ -99,8 +104,9 @@ short Ram::getiword(int adress)
 	*/
 void Ram::setbyte(int adress, unsigned char value)
 {
-    if (adress < RAMamount)
+    if (adress < RAMamount) {
         mem[adress] = value;
+    }
 }
 
 /**

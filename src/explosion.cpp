@@ -39,8 +39,9 @@ Explosion::~Explosion()
 	*/
 int Explosion::execute()
 {
-    if (++cycle > 32)
+    if (++cycle > 32) {
         return destroyself;
+    }
     return 0;
 }
 

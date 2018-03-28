@@ -59,8 +59,9 @@ int Fuel::readPort(unsigned char port)
 void Fuel::execute()
 {
     if (intenabled) {
-        if (ourbot->fuel() < fuelintlevel)
+        if (ourbot->fuel() < fuelintlevel) {
             ourbot->addInterrupt(4);
+        }
     }
     if (stacktaken[0][0] == true) {
         intenabled = portstack[0][0];

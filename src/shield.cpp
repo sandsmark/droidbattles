@@ -46,8 +46,9 @@ void Shield::execute()
         Isup = portstack[0][0];
         moveportstack(0);
     }
-    if (ourbot->fuel() <= 3)
+    if (ourbot->fuel() <= 3) {
         Isup = false;
+    }
     if (Isup == true) {
         ourbot->setFuel(-4);
         ourbot->changeHeat(1);
@@ -58,8 +59,9 @@ int Shield::absorbHit(int strength, int /*ifint*/)
 {
     if (Isup == true) {
         int strabsorb = int(strength * ourlevel * 0.01);
-        if (strabsorb > ourlevel)
+        if (strabsorb > ourlevel) {
             strabsorb = ourlevel;
+        }
         ourbot->changeHeat(strabsorb * 4);
         return (strength - strabsorb);
     }

@@ -73,16 +73,19 @@ void Scanner::execute()
 
                 mangle = ourbot->direction() + relang;
                 // when (relang != 0), mangle could contain an unnormalized angle
-                if (mangle >= 1024)
+                if (mangle >= 1024) {
                     mangle -= 1024;
+                }
                 // that's it, now mangle is normalized (0..1023)
                 startang = mangle - width;
-                if (startang < 0)
+                if (startang < 0) {
                     startang += 1024;
+                }
 
                 endang = mangle + width;
-                if (endang >= 1024)
+                if (endang >= 1024) {
                     endang -= 1024;
+                }
 
                 distX = ourX - hisX;
                 distY = ourY - hisY;
@@ -91,10 +94,12 @@ void Scanner::execute()
                 angle = int(atan2(distY, distX) * 512 / pi);
 
                 angle -= 512;
-                if (angle >= 1024)
+                if (angle >= 1024) {
                     angle -= 1024;
-                if (angle < 0)
+                }
+                if (angle < 0) {
                     angle += 1024;
+                }
 
                 if (mangle > angle) {
                     leftang = mangle - angle;
@@ -107,29 +112,33 @@ void Scanner::execute()
                 if ((leftang < width || rightang < width) && (abs(dist) < lastscandist) && (abs(dist) < maxscandist)) {
                     lastscandist = dist;
                     double widthinarc;
-                    if (leftang < width)
+                    if (leftang < width) {
                         widthinarc = width - leftang;
-                    else
+                    } else {
                         widthinarc = width + rightang;
+                    }
 
                     lastscanang = int(widthinarc / ((width * 2) / 5));
                     lastscanid = count;
                     lastscanfreq = ourbot->writetoBattleArea(0, 0, 8, count, 0);
                     lastscandir = ourbot->writetoBattleArea(0, 0, 3, count, 0);
                     lastscanspeed = ourbot->writetoBattleArea(0, 0, 4, count, 0);
-                    if (lastscanang == 5)
+                    if (lastscanang == 5) {
                         lastscanang--;
+                    }
 
                     int tdir, tbot, tint, tdist; //The following lines so
                     tdir = lastscanang - 2; //that the scanned bot gets notified
-                    if (tdir < 0)
+                    if (tdir < 0) {
                         tdir = -tdir;
+                    }
                     tdist = int(double(lastscandist) / double(maxscandist) * 4);
                     tint = tdir + tdist;
                     tdir = ((angle >> 7) << 7);
                     tdir += 512;
-                    if (tdir >= 1024)
+                    if (tdir >= 1024) {
                         tdir -= 1024;
+                    }
                     tbot = count;
                     ourbot->writetoBattleArea(tbot, 0, 9, tint, tdir);
                 }
@@ -199,14 +208,18 @@ int Scanner::readPort(unsigned char port)
         return width;
         break;
     case 3:
-        if (wret == 0)
+        if (wret == 0) {
             return lastscanfreq;
-        if (wret == 1)
+        }
+        if (wret == 1) {
             return lastscanid;
-        if (wret == 2)
+        }
+        if (wret == 2) {
             return lastscandir;
-        if (wret == 3)
+        }
+        if (wret == 3) {
             return lastscanspeed;
+        }
         break;
     }
     return 0;

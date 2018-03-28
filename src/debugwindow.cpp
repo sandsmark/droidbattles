@@ -181,31 +181,35 @@ void DebugWindow::updatedata(struct DebugContents contents)
     memcontents[3]->setText(tmp);
 
     tmp = "Equal Flag: ";
-    if ((contents.flags & 0x8000) == 0x8000)
+    if ((contents.flags & 0x8000) == 0x8000) {
         tmp += "1";
-    else
+    } else {
         tmp += "0";
+    }
     flagcontents[0]->setText(tmp);
 
     tmp = "Above Flag: ";
-    if ((contents.flags & 0x2000) == 0x2000)
+    if ((contents.flags & 0x2000) == 0x2000) {
         tmp += "1";
-    else
+    } else {
         tmp += "0";
+    }
     flagcontents[1]->setText(tmp);
 
     tmp = "Below Flag: ";
-    if ((contents.flags & 0x4000) == 0x4000)
+    if ((contents.flags & 0x4000) == 0x4000) {
         tmp += "1";
-    else
+    } else {
         tmp += "0";
+    }
     flagcontents[2]->setText(tmp);
 
     tmp = "Interrupt Enable: ";
-    if ((contents.flags & 0x0400) == 0x0400)
+    if ((contents.flags & 0x0400) == 0x0400) {
         tmp += "1";
-    else
+    } else {
         tmp += "0";
+    }
     flagcontents[3]->setText(tmp);
 
     if (maineditor) {
@@ -239,8 +243,9 @@ void DebugWindow::addint(QString &str, unsigned short integ)
         t2 = ((char)(integ % 10 + '0'));
         temp = t2 + temp;
         integ /= 10;
-        if (!integ)
+        if (!integ) {
             ready = true;
+        }
     }
     str += temp;
 }

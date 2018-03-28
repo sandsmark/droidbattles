@@ -99,15 +99,17 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
         }
         int x;
 
-        for (x = 0; x < 32; x++)
+        for (x = 0; x < 32; x++) {
             hitabsorborder[x] = 0;
+        }
         int backx = 31;
         int forx = 0;
         int levelvalue = 0;
         for (x = 0; x < 32; x++) {
             if (my[x * 6 + 2] <= NUMDEV) {
-                if (config.enabled[my[x * 6 + 2] - 1] == false && my[x * 6 + 2] != 0)
+                if (config.enabled[my[x * 6 + 2] - 1] == false && my[x * 6 + 2] != 0) {
                     showError(QString("Using disabled device %1").arg(Device::deviceName(my[x * 6 + 2])), name);
+                }
                 if (my[x * 6 + 3] <= 4 && my[x * 6 + 2] > 0) {
                     numdev++;
                     cost += config.cost[my[x * 6 + 3]][my[x * 6 + 2] - 1];
@@ -198,17 +200,20 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
                 devicelist[x] = new Device(*this);
             }
         }
-        if (numdev > config.maxdev)
+        if (numdev > config.maxdev) {
             showError(QString("Max number of devices (%1/%2").arg(numdev).arg(config.maxdev), name);
-        if (cost > config.maxcost)
+        }
+        if (cost > config.maxcost) {
             showError("Max cost of bot", name);
+        }
 
         delete[] my;
     } else {
         showError(QString("Couldn't open bot file %1!").arg(f.fileName()), name);
         ramdevice = new Ram;
-        for (int x = 0; x < 32; x++)
+        for (int x = 0; x < 32; x++) {
             devicelist[x] = new Device(*this);
+        }
     }
 
     if (useUI) {
@@ -243,11 +248,13 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
 Robots::~Robots()
 {
     int x;
-    for (x = 0; x < 32; x++)
+    for (x = 0; x < 32; x++) {
         delete devicelist[x];
+    }
     ramdevice->removeowner();
-    if (ramdevice->getowners() == 0)
+    if (ramdevice->getowners() == 0) {
         delete ramdevice;
+    }
     if (useUI) {
         delete graphics;
         delete erasegfx;
@@ -276,16 +283,19 @@ int Robots::execute()
         currentrow--;
         rowchangeval += 512;
     }
-    if (currentrow < 0)
+    if (currentrow < 0) {
         currentrow = picrows - 1;
-    if (currentrow == picrows)
+    }
+    if (currentrow == picrows) {
         currentrow = 0;
+    }
 
     upcount++;
     if (upcount > 10) {
         upcount = 0;
-        if (useUI)
+        if (useUI) {
             emit fuelchanged(fuelval, heat());
+        }
     }
     changeHeat(-7);
 
@@ -314,8 +324,9 @@ void Robots::eraseObject(QPixmap *buffer)
     painter.drawPixmap((oldX >> 6) - 16, (oldY >> 6) - 16, *erasegfx);
     int x;
     if (gfxin == true) {
-        for (x = 0; x < 32; x++)
+        for (x = 0; x < 32; x++) {
             devicelist[x]->erase(&painter);
+        }
         gfxin = false;
     }
 }
@@ -332,8 +343,9 @@ void Robots::drawObject(QPixmap *buffer, int opt)
     QPainter painter(buffer);
 
     int degrees = direction() + (degreesperpic / 2);
-    if (degrees > 1023)
+    if (degrees > 1023) {
         degrees -= 1024;
+    }
 
     int picpos = int(degrees / degreesperpic) * 32;
     int ypicpos = currentrow * 32;
@@ -342,8 +354,9 @@ void Robots::drawObject(QPixmap *buffer, int opt)
     if (opt == 1) {
         painter.drawPixmap((xPos() >> 6) - 16, (yPos() >> 6) - 16, 32, 32, *graphics, picpos, ypicpos, 32, 32);
     } else if (showextragfx) {
-        for (x = 0; x < 32; x++)
+        for (x = 0; x < 32; x++) {
             devicelist[x]->draw(&painter);
+        }
         gfxin = true;
     }
 }
@@ -399,8 +412,9 @@ int Robots::writeToDevice(int dev, int action, int value)
 {
     switch (action) {
     case 1:
-        if (dev < 32 && dev >= 0)
+        if (dev < 32 && dev >= 0) {
             devicelist[dev]->setRelativeAngle(value);
+        }
         break;
     case 2:
         return devicelist[dev]->type();
@@ -445,16 +459,19 @@ int Robots::objectHit(int type, int strength)
     for (x = 0; x < 32; x++) {
         xy = hitabsorborder[x];
         strengthleft = devicelist[xy]->absorbHit(strengthleft, ifint);
-        if (strengthleft <= 0)
+        if (strengthleft <= 0) {
             break;
+        }
     }
-    if (useUI)
+    if (useUI) {
         emit armorchanged(armorval);
+    }
 
-    if (strengthleft > 0)
+    if (strengthleft > 0) {
         return objhitdestroyed;
-    else
+    } else {
         return 0;
+    }
 }
 
 int Robots::size()
@@ -513,8 +530,9 @@ int Robots::memorySize()
 	*/
 void Robots::addInterrupt(int inter)
 {
-    if (inter > 255)
+    if (inter > 255) {
         return;
+    }
     int x;
     for (x = 0; x < 32; x++) {
         if (devicelist[x]->type() == CPUtype) {
@@ -548,9 +566,11 @@ struct DebugContents Robots::debugContents()
 int Robots::cpuCount()
 {
     int num = 0;
-    for (int x = 0; x < 32; x++)
-        if (devicelist[x] && (devicelist[x]->type() == 9))
+    for (int x = 0; x < 32; x++) {
+        if (devicelist[x] && (devicelist[x]->type() == 9)) {
             num++;
+        }
+    }
     return num;
 }
 
@@ -561,22 +581,24 @@ int Robots::cpuCount()
 QVector<struct DebugContents> *Robots::allDebugContents()
 {
     QVector<DebugContents> *dc = new QVector<DebugContents>;
-    for (int x = 0; x < 32; x++)
-        if (devicelist[x] && (devicelist[x]->type() == 9))
+    for (int x = 0; x < 32; x++) {
+        if (devicelist[x] && (devicelist[x]->type() == 9)) {
             dc->push_back(devicelist[x]->debugContents());
+        }
+    }
     return dc;
 }
 /**
-	* Object is seen by radar...
-	*/
+    * Object is seen by radar...
+    */
 int Robots::returnRadar()
 {
     return currentradar;
 }
 
 /**
-	* When object is scanned, check if we have a scandetector...
-	*/
+    * When object is scanned, check if we have a scandetector...
+    */
 void Robots::objectScanned(int intensity, int dir)
 {
     int x;
@@ -594,10 +616,10 @@ void Robots::setRadar(int x)
 }
 
 /**
-	* When dumpRAM button in debugwindow is pressed
-	* this function opens a file and dumps RAM
-	* contents to it
-	*/
+    * When dumpRAM button in debugwindow is pressed
+    * this function opens a file and dumps RAM
+    * contents to it
+    */
 void Robots::dumpRam()
 {
     for (int x = 0; x < 256; x++) {

@@ -50,8 +50,9 @@ void TextModeFileManip::assemble(char *filename)
 
     //Memory where the file contents are stored during assemble
     unsigned char mem[65536 + 256];
-    for (i = 0; i < 65536; i++)
+    for (i = 0; i < 65536; i++) {
         mem[i] = 0;
+    }
 
     //comb/QString array where forward referencing jumps are remembered
     QString jumpnames[512];
@@ -83,27 +84,37 @@ void TextModeFileManip::assemble(char *filename)
     }
 
     mem[1] = tint;
-    if (mem[1] == 0)
+    if (mem[1] == 0) {
         RAMAMOUNT = 1024;
-    if (mem[1] == 1)
+    }
+    if (mem[1] == 1) {
         RAMAMOUNT = 2048;
-    if (mem[1] == 2)
+    }
+    if (mem[1] == 2) {
         RAMAMOUNT = 4096;
-    if (mem[1] == 3)
+    }
+    if (mem[1] == 3) {
         RAMAMOUNT = 8192;
-    if (mem[1] == 4)
+    }
+    if (mem[1] == 4) {
         RAMAMOUNT = 16384;
-    if (mem[1] == 5)
+    }
+    if (mem[1] == 5) {
         RAMAMOUNT = 24576;
-    if (mem[1] == 6)
+    }
+    if (mem[1] == 6) {
         RAMAMOUNT = 32768;
-    if (mem[1] == 7)
+    }
+    if (mem[1] == 7) {
         RAMAMOUNT = 49152;
-    if (mem[1] == 8)
+    }
+    if (mem[1] == 8) {
         RAMAMOUNT = 65536;
+    }
     //Put in the devices chosen
-    for (i = 0; i < (NUMDEV * 2 + 1); i++)
+    for (i = 0; i < (NUMDEV * 2 + 1); i++) {
         numsortdec[i] = 0;
+    }
 
     //Zero alot of vars
     for (i = 0; i < 511; i++) {
@@ -696,8 +707,9 @@ void TextModeFileManip::assemble(char *filename)
     QString curmnem;
     bool tunres[16];
     short unresnum[16];
-    for (i = 0; i < 15; i++)
+    for (i = 0; i < 15; i++) {
         token[i] = "      ";
+    }
     bool exist[16];
     int type[16];
     unsigned char value[16][2];
@@ -768,8 +780,9 @@ void TextModeFileManip::assemble(char *filename)
                         type[0] = 1;
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == false)
+                            if (existn[x] == false) {
                                 break;
+                            }
                         }
                         names[x] = token[0].right(token[0].length() - 1);
                         nvalues[x] = posinmem;
@@ -789,8 +802,9 @@ void TextModeFileManip::assemble(char *filename)
                         type[0] = 6;
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == false)
+                            if (existn[x] == false) {
                                 break;
+                            }
                         }
                         names[x] = token[0].right(token[0].length() - 1);
                         nvalues[x] = posinmem;
@@ -811,8 +825,9 @@ void TextModeFileManip::assemble(char *filename)
                         type[0] = 8;
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == false)
+                            if (existn[x] == false) {
                                 break;
+                            }
                         }
                         names[x] = token[0].right(token[0].length() - 1);
                         existn[x] = true;
@@ -873,8 +888,9 @@ void TextModeFileManip::assemble(char *filename)
                                     }
                                 }
                             } else {
-                                if (tpos < 0)
+                                if (tpos < 0) {
                                     tpos += 65536;
+                                }
                                 mem[posinmem + 256] = tpos % 256;
                                 mem[posinmem + 257] = int(tpos / 256);
                                 posinmem += 2;
@@ -905,10 +921,11 @@ void TextModeFileManip::assemble(char *filename)
 
                         } else {
                             //If it's a direct value
-                            if (isplus) //if( token[1].left( 1 )=="+" )
+                            if (isplus) { //if( token[1].left( 1 )=="+" )
                                 posinmem += tpos;
-                            else
+                            } else {
                                 posinmem = tpos;
+                            }
                         }
                     } else {
                         qDebug() << "Expected: value for org on line" << linenum << endl;
@@ -1255,8 +1272,9 @@ void TextModeFileManip::assemble(char *filename)
                                     type[i] = 4;
                                     tunres[i] = true;
                                     for (x = 0; x < 4095; x++) {
-                                        if (unresexist[x] == false)
+                                        if (unresexist[x] == false) {
                                             break;
+                                        }
                                     }
                                     unresexist[x] = true;
                                     unresn[x] = tempstring.right(tempstring.length());
@@ -1276,10 +1294,11 @@ void TextModeFileManip::assemble(char *filename)
                         if (exist[i] == true && type[i] == 0) {
                             bool isplus = token[i].startsWith('+');
                             QString comp;
-                            if (isplus)
+                            if (isplus) {
                                 comp = token[i].right(token[i].length() - 1);
-                            else
+                            } else {
                                 comp = token[i];
+                            }
                             tpos = comp.toInt(&ok);
                             if (ok == false) {
                                 int x;
@@ -1296,8 +1315,9 @@ void TextModeFileManip::assemble(char *filename)
                                     type[i] = 3;
                                     tunres[i] = true;
                                     for (x = 0; x < 4095; x++) {
-                                        if (unresexist[x] == false)
+                                        if (unresexist[x] == false) {
                                             break;
+                                        }
                                     }
                                     unresexist[x] = true;
                                     unresn[x] = token[i].right(tempstring.length());
@@ -1305,8 +1325,9 @@ void TextModeFileManip::assemble(char *filename)
                                     unresnum[i] = x;
                                 }
                             } else {
-                                if (tpos < 0)
+                                if (tpos < 0) {
                                     tpos += 65536;
+                                }
                                 value[i][0] = tpos % 256;
                                 value[i][1] = tpos / 256;
                                 type[i] = 3;
@@ -1337,8 +1358,9 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Run through all available mnemonic-operand combinations available
                     for (i = 0; i < 245; i++) {
-                        if (Instruction::instructions[i].checkmatch(curmnem, type[1], type[2], bits) == true)
+                        if (Instruction::instructions[i].checkmatch(curmnem, type[1], type[2], bits) == true) {
                             goto found;
+                        }
                     }
                     //If not success return error
                     qDebug() << "Error: unknown mnemonic/operand combination on line " << linenum << endl;
@@ -1468,10 +1490,11 @@ void TextModeFileManip::checkConfig(char *filename)
     for (x = 0; x < NUMDEV; x++) {
         s >> dummy;
         s >> i;
-        if (i == 1)
+        if (i == 1) {
             config.enabled[x] = true;
-        else
+        } else {
             config.enabled[x] = false;
+        }
         for (y = 0; y < 5; y++) {
             s >> i;
             config.cost[y][x] = i;
@@ -1492,8 +1515,9 @@ void TextModeFileManip::checkConfig(char *filename)
     char *tc;
     s2.readBytes(tc, lng);
     unsigned char *my = (unsigned char *)&tc[0];
-    if (my[1] > config.maxram) //Read in all devices
+    if (my[1] > config.maxram) { //Read in all devices
         qDebug() << "ERROR!, Max amount of ram" << endl;
+    }
     if (my[1] <= 9) {
         cost += config.ramcost[my[1]];
     } else {
@@ -1503,8 +1527,9 @@ void TextModeFileManip::checkConfig(char *filename)
     int levelvalue = 0;
     for (x = 0; x < 32; x++) {
         if (my[x * 6 + 2] <= NUMDEV) {
-            if (config.enabled[my[x * 6 + 2] - 1] == false && my[x * 6 + 2] != 0)
+            if (config.enabled[my[x * 6 + 2] - 1] == false && my[x * 6 + 2] != 0) {
                 qDebug() << "ERROR!, Using disabled device" << endl;
+            }
             if (my[x * 6 + 3] <= 4 && my[x * 6 + 2] > 0) {
                 numdev++;
                 cost += config.cost[my[x * 6 + 3]][my[x * 6 + 2] - 1];
@@ -1518,10 +1543,12 @@ void TextModeFileManip::checkConfig(char *filename)
             qDebug() << "ERROR!, File format error" << endl;
         }
     }
-    if (numdev > config.maxdev)
+    if (numdev > config.maxdev) {
         qDebug() << "ERROR!, Max number of devices" << endl;
-    if (cost > config.maxcost)
+    }
+    if (cost > config.maxcost) {
         qDebug() << "ERROR!, Max cost fo bot" << endl;
+    }
     delete[] my;
 
     qDebug() << "Check finished" << endl;

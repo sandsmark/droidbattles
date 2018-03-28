@@ -216,8 +216,9 @@ void StartTournament::closeEvent(QCloseEvent *e)
 int StartTournament::getnumfights()
 {
     QString s = wnumfights->text();
-    if (s.length() == 0)
+    if (s.length() == 0) {
         return 0;
+    }
 
     return s.toInt();
 }

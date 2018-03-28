@@ -47,8 +47,9 @@ Missile::Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea 
 Missile::~Missile()
 {
     //	delete graphics;
-    if (useUI)
+    if (useUI) {
         delete erasegfx;
+    }
 }
 
 /**
@@ -114,14 +115,18 @@ int Missile::setPosition(double X, double Y)
     oldY = int(Ypos);
     Xpos += X;
     Ypos += Y;
-    if (Xpos < 0)
+    if (Xpos < 0) {
         return destroyself;
-    if (Xpos > ourarea->getareainfo(0))
+    }
+    if (Xpos > ourarea->getareainfo(0)) {
         return destroyself;
-    if (Ypos < 0)
+    }
+    if (Ypos < 0) {
         return destroyself;
-    if (Ypos > ourarea->getareainfo(1))
+    }
+    if (Ypos > ourarea->getareainfo(1)) {
         return destroyself;
+    }
     return 0;
 }
 

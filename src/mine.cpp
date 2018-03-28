@@ -44,8 +44,9 @@ Mine::Mine(int x, int y, TextmodeBattleArea &area, int owner, bool ui)
 	*/
 Mine::~Mine()
 {
-    if (useUI)
+    if (useUI) {
         delete erasegfx;
+    }
     //	delete graphics;
 }
 
@@ -108,10 +109,11 @@ void Mine::eraseObject(QPixmap *buffer)
 	*/
 int Mine::execute()
 {
-    if (time1++ > 1000)
+    if (time1++ > 1000) {
         return destroyself;
-    else
+    } else {
         return 0;
+    }
 }
 
 int Mine::returnRadar()

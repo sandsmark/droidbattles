@@ -87,7 +87,7 @@ void Shield::draw (QPainter *painter)
 {
     if (Isup == true)
     {
-        painter->setPen (QColor (0,0,255));
+        painter->setPen (QPen(QColor (0, 255, 0), 4));
         painter->drawEllipse ( (ourbot->xPos() >>6)-16, (ourbot->yPos() >>6)-16, 32, 32);
         lastpaintX = (ourbot->xPos() >>6)-16;
         lastpaintY = (ourbot->yPos() >>6)-16;

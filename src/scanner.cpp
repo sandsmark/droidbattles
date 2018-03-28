@@ -187,7 +187,7 @@ void Scanner::draw (QPainter *painter)
 {
     if (scanshow-- > 0)
     {
-        painter->setBrush(QColor(0, 255, 0, 16));
+        painter->setBrush(QColor(0, 255, 0, 10));
         painter->setPen (QColor (0, 255, 0, 96));
         painter->drawPie ( (ourbot->xPos()-maxscandist) >>6, (ourbot->yPos()
                     -maxscandist) >>6, (maxscandist*2) >>6, (maxscandist*2) >>6,

@@ -120,7 +120,7 @@ StartsBatt::StartsBatt(const QString &configFileName) :
     setPalette(palette);
 
     loadfilesettings();
-
+    readyb->setDefault(true);
 }
 
 void StartsBatt::loadfilesettings()

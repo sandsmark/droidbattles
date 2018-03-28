@@ -47,8 +47,8 @@ public:
     virtual int specialValue();
     virtual struct DebugContents debugContents();
     virtual void doSpecial (int, int=0);
-protected:
 
+protected:
     void moveportstack (int port);
 
     int portstack[4][4];

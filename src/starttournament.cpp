@@ -113,6 +113,8 @@ StartTournament::StartTournament(const QString &type) :
     setLayout(l);
 
     load();
+
+    readyb->setDefault(true);
 }
 
 StartTournament::~StartTournament()

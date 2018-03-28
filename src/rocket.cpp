@@ -100,15 +100,16 @@ void Rocket::drawObject(QPixmap *buffer, int opt)
     }
 
     QPainter p (buffer);
-    p.setPen (QColor (255,0,0));
     pointD[countpoint] = direction() +512 + (rand() %128)-64;
     if (pointD[countpoint] > 1024) pointD[countpoint] -= 1024;
     pointX[countpoint] = int (Xpos);
     pointY[countpoint] = int (Ypos);
+
     if (++countpoint >= 50) countpoint = 0;
     int x;
-    for (x=0; x<50; x++)
-    {
+
+    for (x=0; x<50; x++) {
+        p.setPen (QColor (255,0,0, (rand() % 128) + 64));
         double dira = pointD[x] * pi / 512;
         pointX[x] += int (cos (dira) * 64);
         pointY[x] += int (sin (dira) * 64);

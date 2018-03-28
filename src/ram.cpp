@@ -28,7 +28,7 @@ Ram::Ram()
 	* Constructs RAM and fills the RAM
 	* with contents
 	*/
-Ram::Ram(int amount, unsigned char *buf)
+Ram::Ram(int amount, const unsigned char *buf)
 {
     RAMamount = amount;
     mem = new unsigned char[RAMamount];
@@ -54,9 +54,8 @@ unsigned char Ram::getbyte(int adress)
 {
     if (adress > 0 && adress < RAMamount) {
         return mem[adress];
-    } else {
-        return 0xFF;
     }
+    return 0xFF;
 }
 
 /**
@@ -67,9 +66,8 @@ char Ram::getibyte(int adress)
     if (adress < RAMamount) {
         cret = (char *)&mem[adress];
         return *cret;
-    } else {
-        return 0xFF;
     }
+    return 0xFF;
 }
 
 /**
@@ -81,9 +79,8 @@ unsigned short Ram::getword(int adress)
         //		usret = (unsigned short *)&mem[adress];
         //		return *usret;
         return mem[adress] + mem[adress + 1] * 256;
-    } else {
-        return 0xFFFF;
     }
+    return 0xFFFF;
 }
 
 /**
@@ -94,9 +91,8 @@ short Ram::getiword(int adress)
     if (adress < RAMamount - 1) {
         sret = (short *)&mem[adress];
         return *sret;
-    } else {
-        return 0xFFFF;
     }
+    return 0xFFFF;
 }
 
 /**

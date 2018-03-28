@@ -17,11 +17,11 @@
 
 #include "starttournament.h"
 //Added by qt3to4:
-#include <QLabel>
-#include <QCloseEvent>
-#include <QSettings>
 #include "pixbutton.h"
+#include <QCloseEvent>
 #include <QGridLayout>
+#include <QLabel>
+#include <QSettings>
 
 #define SETTINGS_BOTFILES "BotFiles"
 #define SETTINGS_NUMFIGHTS "NumFights"

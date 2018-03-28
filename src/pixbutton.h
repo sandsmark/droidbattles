@@ -33,7 +33,7 @@
 class PixButton : public QPushButton
 {
 public:
-    PixButton(QString text, QWidget *parent);
+    PixButton(const QString &text, QWidget *parent);
     ~PixButton();
 
 protected:

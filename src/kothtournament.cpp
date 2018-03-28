@@ -17,12 +17,12 @@
 
 #include "kothtournament.h"
 //Added by qt3to4:
-#include <QTextStream>
-#include <QLabel>
-#include <QCloseEvent>
-#include <QSettings>
-#include <QGridLayout>
 #include "pixbutton.h"
+#include <QCloseEvent>
+#include <QGridLayout>
+#include <QLabel>
+#include <QSettings>
+#include <QTextStream>
 
 /**
 	* Init GUI elements

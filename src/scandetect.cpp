@@ -39,7 +39,7 @@ ScanDetect::~ScanDetect()
 
 void ScanDetect::execute()
 {
-    if (stacktaken[0][0] == true) //Zero scan counter
+    if (stacktaken[0][0]) //Zero scan counter
     {
         numscans = 0;
         moveportstack(0);

@@ -38,7 +38,7 @@ MineLayer::~MineLayer()
 
 void MineLayer::execute()
 {
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         moveportstack(0);
         if (minesleft > 0) {
             ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),

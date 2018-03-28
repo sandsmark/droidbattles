@@ -19,14 +19,14 @@
 
 #include "explosion.h"
 
-#include <QLabel>
 #include <QCloseEvent>
 #include <QDebug>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QtMath>
-#include <QStandardPaths>
+#include <QLabel>
 #include <QSettings>
+#include <QStandardPaths>
+#include <QVBoxLayout>
+#include <QtMath>
 
 bool SingleStepMode = false;
 
@@ -123,7 +123,7 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
 	*/
 void BattleArea::play()
 {
-    if (m_fastMode == true) {
+    if (m_fastMode) {
         eventH.start(0); //As fast as possible
     } else {
         eventH.start(20); //20 ms between ticks (50 times/second)
@@ -270,7 +270,7 @@ void BattleArea::startonebattle(int y)
     m_pixmap.fill(Qt::black);
     mydrw->setPixmap(m_pixmap);
 
-    if (m_fastMode == true) {
+    if (m_fastMode) {
         eventH.start(0);
         runmode = 1;
     } else {
@@ -609,7 +609,7 @@ void BattleArea::execute()
                 QString msg;
                 //				ermsg = new QMessageBox( );
                 //				ermsg->setCaption( "Fight ended" );
-                if (draw == false) {
+                if (!draw) {
                     msg = " Team ";
                     msg += int(winbot) + '1';
                     msg += " won!";
@@ -620,7 +620,7 @@ void BattleArea::execute()
                 //				ermsg->setButtonText( 0, "OK" );
                 //				int ret = ermsg->exec( );
                 //				delete ermsg;
-                QMessageBox::information(0, "Fight Ended", msg);
+                QMessageBox::information(nullptr, "Fight Ended", msg);
                 ifdelete = true;
             } else {
                 startonebattle(notfirstround); //If we have rounds left, continue
@@ -686,7 +686,7 @@ void BattleArea::execute()
                         }
                         break;
                     }
-                    QMessageBox::information(0, "Fight ended", msg);
+                    QMessageBox::information(nullptr, "Fight ended", msg);
                 } else {
                     emit battledone(fightswon[0], fightswon[1]);
                 }
@@ -719,7 +719,7 @@ void BattleArea::execute()
                 //				ermsg->setButtonText( 0, "OK" );
                 //				int ret = ermsg->exec( );
                 //				delete ermsg;
-                QMessageBox::information(0, "Fight ended", msg);
+                QMessageBox::information(nullptr, "Fight ended", msg);
                 ifdelete = true;
                 break;
             }
@@ -752,7 +752,7 @@ void BattleArea::execute()
     			eventH->start( 20 );
     	}*/
 
-    if (ifdelete == true) {
+    if (ifdelete) {
         deleteLater();
     }
 
@@ -1011,7 +1011,7 @@ void BattleArea::dmem()
     objects[7]->dumpRam();
 }
 
-void BattleArea::closeEvent(QCloseEvent *)
+void BattleArea::closeEvent(QCloseEvent * /*unused*/)
 {
     QSettings settings;
     settings.setValue("BattleAreaGeometry", saveGeometry());

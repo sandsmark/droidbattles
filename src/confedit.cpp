@@ -17,17 +17,17 @@
 
 #include "confedit.h"
 //Added by qt3to4:
-#include <QTextStream>
-#include <QLabel>
 #include <QDebug>
-#include <QVBoxLayout>
 #include <QGridLayout>
-#include <QStandardPaths>
+#include <QLabel>
 #include <QMessageBox>
 #include <QSettings>
+#include <QStandardPaths>
+#include <QTextStream>
+#include <QVBoxLayout>
 
-#include "confstruct.h"
 #include "commonsymbols.h"
+#include "confstruct.h"
 
 /**
 	* Constructor: Init GUI

@@ -62,19 +62,19 @@ void Armor::execute()
     if (ourbot->heat() > heatintlevel) {
         ourbot->addInterrupt(5);
     }
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         intenabled = portstack[0][0];
         moveportstack(0);
     }
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         intenabled2 = portstack[1][0];
         moveportstack(1);
     }
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         armorintlevel = portstack[2][0];
         moveportstack(2);
     }
-    if (stacktaken[3][0] == true) {
+    if (stacktaken[3][0]) {
         heatintlevel = portstack[3][0];
         moveportstack(3);
     }
@@ -89,16 +89,15 @@ int Armor::absorbHit(int str, int ifint)
     if (strength >= str) {
         strength -= str;
         ourbot->armorval -= str;
-        if (intenabled == true && ifint == 1) {
+        if (intenabled && ifint == 1) {
             ourbot->addInterrupt(hitinterrupt);
         }
         return 0;
-    } else {
-        str -= strength;
-        ourbot->armorval -= strength;
-        strength = 0;
-        return str;
     }
+    str -= strength;
+    ourbot->armorval -= strength;
+    strength = 0;
+    return str;
 }
 
 /**

@@ -52,7 +52,7 @@ void Scanner::execute()
 
     //Emit a scan pulse, search for closest visible object in
     //scan arc
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         moveportstack(0);
 
         //Check angles and distance for every object that's a bot
@@ -146,17 +146,17 @@ void Scanner::execute()
         }
     }
     //Set scan width
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         width = portstack[1][0];
         moveportstack(1);
     }
     //Select return from inport 3
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         wret = portstack[2][0];
         moveportstack(2);
     }
     //Set sensitivity
-    if (stacktaken[3][0] == true) {
+    if (stacktaken[3][0]) {
         threshold = portstack[3][0];
         moveportstack(3);
     }
@@ -167,7 +167,7 @@ void Scanner::execute()
 	*/
 void Scanner::erase(QPainter *painter)
 {
-    if (ispainted == true) {
+    if (ispainted) {
         painter->setBrush(Qt::black);
         painter->setPen(Qt::black);
         painter->drawPie((lastpaintX - maxscandist) >> 6, (lastpaintY - maxscandist) >> 6,

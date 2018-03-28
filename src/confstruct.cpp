@@ -1,8 +1,8 @@
 #include "confstruct.h"
-#include <QString>
-#include <QSettings>
-#include <QFile>
 #include "device.h"
+#include <QFile>
+#include <QSettings>
+#include <QString>
 
 #define KEY_MAXDEVICES "MaxDevices"
 #define KEY_MAXCOST "MaxCost"

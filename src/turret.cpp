@@ -53,7 +53,7 @@ int Turret::readPort(unsigned char port)
 
 void Turret::execute()
 {
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         wantedoffset = portstack[0][0];
         if (wantedoffset > 1024) {
             wantedoffset %= 1024;
@@ -63,7 +63,7 @@ void Turret::execute()
         }
         moveportstack(0);
     }
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         wantedoffset += portstack[1][0];
         if (wantedoffset > 1023) {
             wantedoffset %= 1024;
@@ -73,7 +73,7 @@ void Turret::execute()
         }
         moveportstack(1);
     }
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         wantedoffset = offset + portstack[2][0];
         if (wantedoffset > 1023) {
             wantedoffset %= 1024;

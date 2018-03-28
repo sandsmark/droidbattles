@@ -46,7 +46,7 @@ void Plasma::execute()
     if (readiness < 200) {
         readiness += ourlevel;
     }
-    if (stacktaken[0][0] == true && readiness > 0) {
+    if (stacktaken[0][0] && readiness > 0) {
         moveportstack(0);
         //Fire plasma missile code
         ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),

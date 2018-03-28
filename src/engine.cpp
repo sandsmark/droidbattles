@@ -42,7 +42,7 @@ Engine::~Engine()
 	*/
 void Engine::execute()
 {
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         thrust = portstack[0][0];
         if (thrust > ourlevel) {
             thrust = ourlevel;
@@ -53,7 +53,7 @@ void Engine::execute()
         moveportstack(0);
     }
 
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         thrust = -(portstack[1][0]);
         if (thrust < -(ourlevel / 2)) {
             thrust = -(ourlevel / 2);

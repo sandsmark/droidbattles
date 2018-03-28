@@ -17,10 +17,10 @@
 
 #include "myqmultilineedit.h"
 #include "instruktion.h"
-#include <QFont>
-#include <QSyntaxHighlighter>
-#include <QRegularExpression>
 #include <QDebug>
+#include <QFont>
+#include <QRegularExpression>
+#include <QSyntaxHighlighter>
 
 class Highlighter : public QSyntaxHighlighter
 {
@@ -31,16 +31,16 @@ class Highlighter : public QSyntaxHighlighter
     };
 
 public:
-    Highlighter(QTextDocument *document);
+    explicit Highlighter(QTextDocument *document);
 
 protected:
-    void highlightBlock(const QString &block);
+    void highlightBlock(const QString &block) override;
 
 private:
     void createDefRule(const Instruction &instruction);
     void createRule(const Instruction &instruction);
-    QString argPattern(const Instruction::Types type);
-    QTextCharFormat argFormat(const Instruction::Types type);
+    QString argPattern(Instruction::Types type);
+    QTextCharFormat argFormat(Instruction::Types type);
     void addRule(const QString &pattern, const QVector<QColor> &color, const QVector<QFont::Weight> &weight);
 
     QTextCharFormat m_commentFormat;
@@ -95,7 +95,7 @@ Highlighter::Highlighter(QTextDocument *document) :
     addRule("(%)(CPUstack) +(\\d+)", { Qt::black, Qt::darkGreen, Qt::darkYellow }, { QFont::Bold, QFont::Bold, QFont::Normal });
     addRule("(%org) +(\\d+)", { Qt::darkMagenta, Qt::darkYellow }, { QFont::Bold, QFont::Normal });
     addRule("(%interrupt) +(\\d+)", { Qt::darkCyan, Qt::darkYellow }, { QFont::Bold, QFont::Normal });
-    addRule("(\\$)(\\w+) +(\\d+)", { Qt::black, Qt::darkBlue, Qt::darkYellow }, { QFont::Normal, QFont::Bold, QFont::Normal });
+    addRule(R"((\$)(\w+) +(\d+))", { Qt::black, Qt::darkBlue, Qt::darkYellow }, { QFont::Normal, QFont::Bold, QFont::Normal });
     addRule("(iret|ret)", { Qt::darkMagenta }, { QFont::Bold });
 
     for (const Instruction &instruction : Instruction::instructions) {

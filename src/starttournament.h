@@ -46,7 +46,7 @@ public:
     StartTournament(const QString &type);
     ~StartTournament();
     int getnumofbots();
-    QString getbotfile(int bot);
+    QString getbotfile(int x);
     void closeEvent(QCloseEvent *e);
     int getnumfights();
     int getlength();

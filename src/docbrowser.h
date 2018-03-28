@@ -31,7 +31,7 @@ class DocBrowser : public QTextBrowser
 {
 
 public:
-    DocBrowser(QString src);
+    DocBrowser(const QString &src);
     ~DocBrowser();
     void closeEvent(QCloseEvent *e);
 

@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 #include "robots.h"
-#include <QPixmap>
 #include <QDebug>
+#include <QPixmap>
 #include <QtMath>
 
 /**
@@ -107,7 +107,7 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
         int levelvalue = 0;
         for (x = 0; x < 32; x++) {
             if (my[x * 6 + 2] <= NUMDEV) {
-                if (config.enabled[my[x * 6 + 2] - 1] == false && my[x * 6 + 2] != 0) {
+                if (!config.enabled[my[x * 6 + 2] - 1] && my[x * 6 + 2] != 0) {
                     showError(QString("Using disabled device %1").arg(Device::deviceName(my[x * 6 + 2])), name);
                 }
                 if (my[x * 6 + 3] <= 4 && my[x * 6 + 2] > 0) {
@@ -225,10 +225,10 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
         temp = temp.left(temp.length() - 3);
         temp += "png";
         QFile f2(temp);
-        if (f2.exists() == false) {
+        if (!f2.exists()) {
             temp = ":/images/ship" + QString::number(mynum) + ".png";
         }
-        if (graphics->load(temp) == false) {
+        if (!graphics->load(temp)) {
             *graphics = QPixmap(32, 32);
             graphics->fill(Qt::white);
         } else {
@@ -323,7 +323,7 @@ void Robots::eraseObject(QPixmap *buffer)
     QPainter painter(buffer);
     painter.drawPixmap((oldX >> 6) - 16, (oldY >> 6) - 16, *erasegfx);
     int x;
-    if (gfxin == true) {
+    if (gfxin) {
         for (x = 0; x < 32; x++) {
             devicelist[x]->erase(&painter);
         }
@@ -469,9 +469,8 @@ int Robots::objectHit(int type, int strength)
 
     if (strengthleft > 0) {
         return objhitdestroyed;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 int Robots::size()
@@ -510,7 +509,7 @@ void Robots::showError(const QString &string, const QString &name)
         msg += "\nbreaks the following rule in the config file: \n";
         msg += string;
         //        msg += QString::number(team);
-        QMessageBox::information(0, "Message from the bot", msg);
+        QMessageBox::information(nullptr, "Message from the bot", msg);
         return;
     }
 }

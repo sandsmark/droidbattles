@@ -40,7 +40,7 @@ public:
     };
 
     Ram();
-    Ram(int amount, unsigned char *buf);
+    Ram(int amount, const unsigned char *buf);
     ~Ram();
     unsigned char getbyte(int adress);
     char getibyte(int adress);

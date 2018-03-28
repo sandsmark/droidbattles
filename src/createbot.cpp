@@ -19,21 +19,21 @@
 #include "myqmultilineedit.h"
 #include <qcombobox.h>
 //Added by qt3to4:
-#include <QResizeEvent>
-#include <QMenu>
-#include <QCloseEvent>
-#include <QScrollBar>
+#include "battlearea.h"
 #include "commonsymbols.h"
 #include "instruktion.h"
-#include <qregexp.h>
-#include <QTextStream>
-#include <QTextBlock>
-#include <QSettings>
-#include "battlearea.h"
 #include "startsbatt.h"
-#include <QVBoxLayout>
+#include <QCloseEvent>
 #include <QHBoxLayout>
+#include <QMenu>
+#include <QResizeEvent>
+#include <QScrollBar>
+#include <QSettings>
 #include <QStandardPaths>
+#include <QTextBlock>
+#include <QTextStream>
+#include <QVBoxLayout>
+#include <qregexp.h>
 
 /**
 	* Constructor Inits GUI
@@ -432,13 +432,13 @@ CreateBot::~CreateBot()
 /**
 	* Deletes window (if user clicksthe X )
 	*/
-void CreateBot::closeEvent(QCloseEvent *)
+void CreateBot::closeEvent(QCloseEvent * /*event*/)
 {
     if (changed || edittxt->document()->isModified()) {
         switch (QMessageBox::information(this, "BattleBots",
                                          "The document contains unsaved work\n"
                                          "Do you want to save it before exiting?",
-                                         "&Save and exit", "&Exit", 0, 1)) {
+                                         "&Save and exit", "&Exit", nullptr, 1)) {
         case 0:
             save();
             break;
@@ -459,7 +459,7 @@ void CreateBot::newb()
         switch (QMessageBox::information(this, "BattleBots",
                                          "The document contains unsaved work\n"
                                          "Do you want to save it before creating new?",
-                                         "&Save and New", "&New", 0, 1)) {
+                                         "&Save and New", "&New", nullptr, 1)) {
         case 0:
             save();
             break;
@@ -472,7 +472,7 @@ void CreateBot::newb()
     for (x = 0; x < 32; x++) {
         devices[x]->setitem(0);
         devices[x]->levelchosen(0);
-        devices[x]->setarg1(0);
+        devices[x]->setarg1(nullptr);
     }
     amountRAM->setCurrentIndex(0);
 
@@ -496,7 +496,7 @@ void CreateBot::open()
         switch (QMessageBox::information(this, "BattleBots",
                                          "The document contains unsaved work\n"
                                          "Do you want to save it before opening?",
-                                         "&Save and open", "&Open", 0, 1)) {
+                                         "&Save and open", "&Open", nullptr, 1)) {
         case 0:
             save();
             break;
@@ -1393,14 +1393,14 @@ bool CreateBot::assemble()
             type[0] = Instruction::Label;
             int x;
             for (x = 0; x < 2047; x++) {
-                if (existn[x] == false) {
+                if (!existn[x]) {
                     break;
                 }
             }
             names[x] = token[0].right(token[0].length() - 1);
             nvalues[x] = posinmem;
             existn[x] = true;
-            if (exist[1] == true) {
+            if (exist[1]) {
                 error("Expected: only one token", linenum);
                 return false;
             }
@@ -1411,7 +1411,7 @@ bool CreateBot::assemble()
                 type[0] = Instruction::ConstDecl;
                 int x;
                 for (x = 0; x < 2047; x++) {
-                    if (existn[x] == false) {
+                    if (!existn[x]) {
                         break;
                     }
                 }
@@ -1419,7 +1419,7 @@ bool CreateBot::assemble()
                 nvalues[x] = posinmem;
                 existn[x] = true;
 
-                if (exist[1] == true) {
+                if (exist[1]) {
                     error("Expected: only one token", linenum);
                     return false;
                 }
@@ -1435,20 +1435,20 @@ bool CreateBot::assemble()
                 type[0] = Instruction::VarDecl;
                 int x;
                 for (x = 0; x < 2047; x++) {
-                    if (existn[x] == false) {
+                    if (!existn[x]) {
                         break;
                     }
                 }
                 names[x] = token[0].right(token[0].length() - 1);
                 existn[x] = true;
-                if (exist[1] == true) {
+                if (exist[1]) {
                     nvalues[x] = token[1].toInt();
                     //							if( nvalues[x] < 0 )nvalues[x] += 65536;
                 } else {
                     error("Expected: value of constant", linenum);
                     return false;
                 }
-                if (exist[2] == true) {
+                if (exist[2]) {
                     error("Expected: only two tokens", linenum);
                     return false;
                 }
@@ -1461,12 +1461,12 @@ bool CreateBot::assemble()
         if (type[0] == Instruction::None && token[0] == QString("db")) {
             type[0] = Instruction::Db;
             for (i = 1; i < 15; i++) {
-                if (exist[i] == true) {
+                if (exist[i]) {
                     tpos = token[i].toInt(&ok);
-                    if (ok == false) {
+                    if (!ok) {
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == true) {
+                            if (existn[x]) {
                                 if (token[i] == names[x]) {
                                     mem[posinmem + 256] = nvalues[x];
                                     posinmem++;
@@ -1485,12 +1485,12 @@ bool CreateBot::assemble()
         if (type[0] == Instruction::None && token[0] == QString("dw")) {
             type[0] = Instruction::Db;
             for (i = 1; i < 15; i++) {
-                if (exist[i] == true) {
+                if (exist[i]) {
                     tpos = token[i].toInt(&ok);
-                    if (ok == false) {
+                    if (!ok) {
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == true) {
+                            if (existn[x]) {
                                 if (token[i] == names[x]) {
                                     mem[posinmem + 256] = nvalues[x] % 256;
                                     mem[posinmem + 257] = int(nvalues[x] / 256);
@@ -1513,18 +1513,18 @@ bool CreateBot::assemble()
         //Check for %org
         if (type[0] == Instruction::None && token[0] == QString("%org")) {
             type[0] = Instruction::Offset;
-            if (exist[1] == true) {
+            if (exist[1]) {
                 bool isplus = token[1].startsWith('+');
                 QString comp = token[1];
                 if (isplus) {
                     comp.remove(0, 1);
                 }
                 tpos = token[1].toInt(&ok);
-                if (ok == false) {
+                if (!ok) {
                     //If it's a symbol
                     int x;
                     for (x = 0; x < 2047; x++) {
-                        if (existn[x] == true) {
+                        if (existn[x]) {
                             if (token[1] == names[x]) {
                                 posinmem = nvalues[x];
                             }
@@ -1557,7 +1557,7 @@ bool CreateBot::assemble()
             }
 
             tpos = token[1].toInt(&ok);
-            if (ok == false) {
+            if (!ok) {
                 int x;
                 for (x = 0; x < 2047; x++) {
                     if (!existn[x]) {
@@ -1639,7 +1639,7 @@ bool CreateBot::assemble()
             }
 
             tpos = token[1].toInt(&ok);
-            if (ok == false) {
+            if (!ok) {
                 int x;
                 for (x = 0; x < 2047; x++) {
                     if (!existn[x]) {
@@ -1681,7 +1681,7 @@ bool CreateBot::assemble()
 
             //Check for register
             for (i = 1; i < 4; i++) {
-                if (exist[i] == true && type[i] == Instruction::None) {
+                if (exist[i] && type[i] == Instruction::None) {
                     if (token[i] == QString("ax")) {
                         type[i] = Instruction::Register;
                         value[i][0] = ax;
@@ -1777,7 +1777,7 @@ bool CreateBot::assemble()
 
             //Check for @register
             for (i = 1; i < 3; i++) {
-                if (exist[i] == true && type[i] == Instruction::None && token[i].left(1) == "@") {
+                if (exist[i] && type[i] == Instruction::None && token[i].left(1) == "@") {
                     QString tempstring = token[i].right(token[i].length() - 1);
                     if (tempstring == QString("ax")) {
                         type[i] = Instruction::RegisterRef;
@@ -1856,7 +1856,7 @@ bool CreateBot::assemble()
 
             //Check for bit identifier
             for (i = 1; i < 3; i++) {
-                if (exist[i] == true && type[i] == Instruction::None) {
+                if (exist[i] && type[i] == Instruction::None) {
                     if (token[i] == QString("byte")) {
                         type[i] = Instruction::BitId;
                         value[i][0] = 8;
@@ -1872,13 +1872,13 @@ bool CreateBot::assemble()
 
             //Check for @value
             for (i = 1; i < 3; i++) {
-                if (exist[i] == true && type[i] == Instruction::None && token[i].left(1) == "@") {
+                if (exist[i] && type[i] == Instruction::None && token[i].left(1) == "@") {
                     QString tempstring = token[i].right(token[i].length() - 1);
                     tpos = tempstring.toInt(&ok);
-                    if (ok == false) {
+                    if (!ok) {
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == true) {
+                            if (existn[x]) {
                                 if (tempstring == names[x]) {
                                     value[i][0] = nvalues[x] % 256;
                                     value[i][1] = nvalues[x] / 256;
@@ -1890,7 +1890,7 @@ bool CreateBot::assemble()
                             type[i] = Instruction::MemAddress;
                             tunres[i] = true;
                             for (x = 0; x < 4095; x++) {
-                                if (unresexist[x] == false) {
+                                if (!unresexist[x]) {
                                     break;
                                 }
                             }
@@ -1909,7 +1909,7 @@ bool CreateBot::assemble()
 
             //Check for value
             for (i = 1; i < 4; i++) {
-                if (exist[i] == true && type[i] == Instruction::None) {
+                if (exist[i] && type[i] == Instruction::None) {
                     QString comp = token[i];
                     if (comp.startsWith('+')) {
                         comp.remove(0, 1);
@@ -1918,7 +1918,7 @@ bool CreateBot::assemble()
                     if (!ok) {
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == true) {
+                            if (existn[x]) {
                                 if (comp == names[x]) {
                                     value[i][0] = nvalues[x] % 256;
                                     value[i][1] = nvalues[x] / 256;
@@ -1930,7 +1930,7 @@ bool CreateBot::assemble()
                             type[i] = Instruction::Value;
                             tunres[i] = true;
                             for (x = 0; x < 4095; x++) {
-                                if (unresexist[x] == false) {
+                                if (!unresexist[x]) {
                                     break;
                                 }
                             }
@@ -1954,7 +1954,7 @@ bool CreateBot::assemble()
                 value[1][1] = value[2][0];
                 value[2][0] = value[3][0];
                 i = 245;
-                if (tunres[3] == true) {
+                if (tunres[3]) {
                     error("Sorry, this instruction can't use symbols not declared yet",
                           linenum);
                     return false;
@@ -1963,7 +1963,7 @@ bool CreateBot::assemble()
                 value[1][1] = value[2][0];
                 value[2][0] = value[3][0];
                 i = 246;
-                if (tunres[2] == true) {
+                if (tunres[2]) {
                     error("Sorry, this instruction can't use symbols not declared yet",
                           linenum);
                     return false;
@@ -2002,7 +2002,7 @@ bool CreateBot::assemble()
             ///////////////
             posinmem++;
 
-            if (tunres[1] == true) {
+            if (tunres[1]) {
                 unrespos[unresnum[1]] = posinmem;
                 if (Instruction::instructions[i].getarg1bits() > 0) {
                     unresbits[unresnum[1]] = 8;
@@ -2023,7 +2023,7 @@ bool CreateBot::assemble()
                 }
             }
 
-            if (tunres[2] == true) {
+            if (tunres[2]) {
                 unrespos[unresnum[2]] = posinmem;
                 if (Instruction::instructions[i].getarg2bits() > 0) {
                     unresbits[unresnum[2]] = 8;
@@ -2057,7 +2057,7 @@ bool CreateBot::assemble()
     bool resolved[4096];
 
     for (i = 0; i < 4095; i++) {
-        if (unresexist[i] == true) {
+        if (unresexist[i]) {
             resolved[i] = false;
             for (i2 = 0; i2 < 2047; i2++) {
                 if (names[i2] == unresn[i]) {
@@ -2070,7 +2070,7 @@ bool CreateBot::assemble()
                     }
                 }
             }
-            if (resolved[i] == false) {
+            if (!resolved[i]) {
                 error("Undeclared symbol", unresline[i]);
                 return false;
             }
@@ -2096,7 +2096,7 @@ bool CreateBot::assemble()
 	*/
 void CreateBot::error(const QString &msg, int line)
 {
-    QMessageBox::information(0, "Message from the almighty assembler", msg);
+    QMessageBox::information(nullptr, "Message from the almighty assembler", msg);
     if (line >= 0) {
         edittxt->setTextCursor(QTextCursor(edittxt->document()->findBlockByLineNumber(line)));
     }
@@ -2262,7 +2262,7 @@ void CreateBot::addint(QString &str, int integ)
     str += temp;
 }
 
-void CreateBot::scrollview(int)
+void CreateBot::scrollview(int /*unused*/)
 {
     //	showlatency->setYoffset( x );
 }

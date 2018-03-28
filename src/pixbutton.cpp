@@ -17,10 +17,10 @@
 
 #include "pixbutton.h"
 #include <QDebug>
-#include <QStylePainter>
 #include <QStyleOptionButton>
+#include <QStylePainter>
 
-PixButton::PixButton(QString text, QWidget *parent) :
+PixButton::PixButton(const QString &text, QWidget *parent) :
     QPushButton(text, parent)
 {
     tex = text;
@@ -31,7 +31,7 @@ PixButton::~PixButton()
 {
 }
 
-void PixButton::paintEvent(QPaintEvent *)
+void PixButton::paintEvent(QPaintEvent * /*unused*/)
 {
     // Draw our own background and text
     QPainter paint(this);

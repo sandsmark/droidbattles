@@ -45,7 +45,7 @@ ChaffLauncher::~ChaffLauncher()
 void ChaffLauncher::execute()
 {
     int count;
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         for (count = 1; count < 4; count++) {
             portstack[0][count - 1] = portstack[0][count];
             stacktaken[0][count - 1] = stacktaken[0][count];

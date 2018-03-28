@@ -64,7 +64,7 @@ class Robots : public ScreenObject
     Q_OBJECT
 
 public:
-    Robots(const QString &name, TextmodeBattleArea &area, int mnum, ConfStruct, int tm,
+    Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfStruct, int tm,
            bool er = true, bool ui = true);
     ~Robots();
     int execute() override;

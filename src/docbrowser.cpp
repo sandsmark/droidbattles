@@ -19,7 +19,7 @@
 //Added by qt3to4:
 #include <QCloseEvent>
 
-DocBrowser::DocBrowser(QString src)
+DocBrowser::DocBrowser(const QString &src)
 {
     setSource(src);
     resize(800, 600);
@@ -30,7 +30,7 @@ DocBrowser::~DocBrowser()
 {
 }
 
-void DocBrowser::closeEvent(QCloseEvent *)
+void DocBrowser::closeEvent(QCloseEvent * /*event*/)
 {
     delete this;
 }

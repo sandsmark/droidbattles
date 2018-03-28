@@ -17,8 +17,8 @@
 
 #include "debugwindow.h"
 
-#include <qmessagebox.h>
 #include <QTextBlock>
+#include <qmessagebox.h>
 //Added by qt3to4:
 #include <QLabel>
 
@@ -27,8 +27,7 @@
 /**
 	* Constructor, create GUI elements
 	*/
-DebugWindow::DebugWindow(QPlainTextEdit *Medit, int *dbl, int *dbm) :
-    QDialog()
+DebugWindow::DebugWindow(QPlainTextEdit *Medit, int *dbl, int *dbm)
 {
     QFont monoFont("Monospace");
     monoFont.setStyleHint(QFont::Monospace);

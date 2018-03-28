@@ -90,9 +90,8 @@ ScreenObject::ObjectType Beam::type()
 {
     if (effect <= 1) {
         return ScreenObject::Collidable;
-    } else {
-        return ScreenObject::NonCollidable;
     }
+    return ScreenObject::NonCollidable;
 }
 
 /**

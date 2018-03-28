@@ -42,7 +42,7 @@ Steering::~Steering()
 	*/
 void Steering::execute()
 {
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         aimatdir += portstack[0][0];
         if (aimatdir > 1024) {
             aimatdir %= 1024;
@@ -53,7 +53,7 @@ void Steering::execute()
         moveportstack(0);
     }
 
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         aimatdir = portstack[1][0];
         if (aimatdir > 1024) {
             aimatdir %= 1024;
@@ -64,7 +64,7 @@ void Steering::execute()
         moveportstack(1);
     }
 
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         aimatdir = ourbot->direction() + portstack[2][0];
         if (aimatdir > 1024) {
             aimatdir %= 1024;

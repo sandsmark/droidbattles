@@ -168,12 +168,12 @@ int ScreenObject::collisionStrength()
 
 QString ScreenObject::getDebugMessage1()
 {
-    return 0;
+    return nullptr;
 }
 
 QString ScreenObject::getDebugMessage2()
 {
-    return 0;
+    return nullptr;
 }
 
 void ScreenObject::setDebugVariable1(int /*msg*/)

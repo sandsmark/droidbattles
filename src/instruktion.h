@@ -75,7 +75,7 @@ public:
     Instruction(const char mnem[], int arg1t, int arg2t, int bit, int arg1b, int arg2b,
                 int op);
     ~Instruction();
-    bool checkmatch(QString &mnem, int arg1t, int arg2t, int bits) const;
+    bool checkmatch(QString &mnem, int arg1t, int arg2t, int bit) const;
     unsigned char getopcode() const;
 
     int getarg1bits() const;

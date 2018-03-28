@@ -17,11 +17,11 @@
 
 #include "botinfo.h"
 //Added by qt3to4:
-#include <QLabel>
-#include <QProgressBar>
-#include <QHBoxLayout>
 #include <QFileInfo>
 #include <QGridLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QProgressBar>
 
 /**
     * Constructor, create all GUI elements

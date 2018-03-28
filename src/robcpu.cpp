@@ -300,7 +300,7 @@ RobCpu::~RobCpu()
 void RobCpu::execute()
 {
     cyclesleft += ourlevel;
-    if (stacktaken[0][0] == true) // Port 0, cause interrupt
+    if (stacktaken[0][0]) // Port 0, cause interrupt
     {
         int inter = portstack[0][0];
         moveportstack(0);
@@ -329,9 +329,8 @@ int RobCpu::specialValue()
 {
     if ((registers[flags] & 0x0400) == 0x0400) {
         return 5;
-    } else {
-        return 4;
     }
+    return 4;
 }
 
 /**

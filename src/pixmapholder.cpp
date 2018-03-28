@@ -17,8 +17,8 @@
 
 #include "pixmapholder.h"
 //Added by qt3to4:
-#include <QPixmap>
 #include <QDebug>
+#include <QPixmap>
 
 static QPixmap *pm[20];
 bool PixmapHolder::initialized = false;
@@ -31,7 +31,7 @@ PixmapHolder::~PixmapHolder()
 {
 }
 
-void PixmapHolder::addpm(QString name, PixmapId num)
+void PixmapHolder::addpm(const QString &name, PixmapId num)
 {
     pm[num] = new QPixmap(name);
     if (pm[num]->isNull()) {

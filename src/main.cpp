@@ -19,14 +19,14 @@
 #include <qfont.h>
 
 //If you want another look, change this include
-#include "droidbattles.h"
-#include "textmodefilemanip.h"
-#include "textmodebattlearea.h"
-#include <QDebug>
-#include <QStyleFactory>
-#include <QCommandLineParser>
 #include "battlearea.h"
+#include "droidbattles.h"
+#include "textmodebattlearea.h"
+#include "textmodefilemanip.h"
+#include <QCommandLineParser>
+#include <QDebug>
 #include <QMessageBox>
+#include <QStyleFactory>
 
 void startbattle(int argc, char *argv[])
 {
@@ -169,14 +169,14 @@ int main(int argc, char *argv[])
     if (useGUI) {
         QGuiApplication *guiApp = new QApplication(argc, argv);
         app = guiApp;
-        QFont font(guiApp->font());
+        QFont font(QGuiApplication::font());
         font.setPixelSize(12);
-        guiApp->setFont(font);
+        QGuiApplication::setFont(font);
     } else {
         app = new QCoreApplication(argc, argv);
     }
-    app->setApplicationName("droidbattles");
-    app->setOrganizationName("martin");
+    QCoreApplication::setApplicationName("droidbattles");
+    QCoreApplication::setOrganizationName("martin");
 
     QCommandLineParser parser;
     QCommandLineOption botOption("bot",
@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
         QObject::connect(battleArea, &BattleArea::destroyed, app, &QCoreApplication::quit);
         battleArea->show();
 
-        return app->exec();
+        return QCoreApplication::exec();
     }
 
     if (useGUI) {
@@ -234,22 +234,21 @@ int main(int argc, char *argv[])
         DroidBattles *droidbattles = new DroidBattles();
 
         droidbattles->show();
-        return app->exec();
-    } else {
-        if (strcmp(argv[2], "-assemble") == 0) {
-            if (argc >= 4) {
-                TextModeFileManip::assemble(argv[3]);
-            }
-        } else if (strcmp(argv[2], "-check") == 0) {
-            if (argc >= 4) {
-                TextModeFileManip::checkConfig(argv[3]);
-            }
-        } else if (strcmp(argv[2], "-loadconfig") == 0) {
-            if (argc >= 4) {
-                TextModeFileManip::loadConfig(argv[3]);
-            }
-        } else if (strcmp(argv[2], "-battle") == 0) {
-            startbattle(argc, argv);
+        return QCoreApplication::exec();
+    }
+    if (strcmp(argv[2], "-assemble") == 0) {
+        if (argc >= 4) {
+            TextModeFileManip::assemble(argv[3]);
         }
+    } else if (strcmp(argv[2], "-check") == 0) {
+        if (argc >= 4) {
+            TextModeFileManip::checkConfig(argv[3]);
+        }
+    } else if (strcmp(argv[2], "-loadconfig") == 0) {
+        if (argc >= 4) {
+            TextModeFileManip::loadConfig(argv[3]);
+        }
+    } else if (strcmp(argv[2], "-battle") == 0) {
+        startbattle(argc, argv);
     }
 }

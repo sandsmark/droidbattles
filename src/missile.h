@@ -33,7 +33,7 @@ class Missile : public ScreenObject
 {
 
 public:
-    Missile(int X, int Y, int dir, int owner, int mynum, TextmodeBattleArea &area, bool ui = true);
+    Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea &area, bool ui = true);
     ~Missile();
     int execute();
     void eraseObject(QPixmap *buffer);

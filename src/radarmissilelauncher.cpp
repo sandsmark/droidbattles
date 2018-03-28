@@ -47,17 +47,17 @@ void RadarMissileLauncher::execute()
         reloadtime--;
     }
     //Set boot mem
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         bootmem = portstack[0][0];
         moveportstack(0);
     }
     //Set stack mem
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         stackmem = portstack[1][0];
         moveportstack(1);
     }
     //Fire a missile
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         if (reloadtime <= 0) {
             ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
                                     ourbot->direction() + relang, 4, bootmem, stackmem, memd);

@@ -17,9 +17,9 @@
 
 #include "textmodefilemanip.h"
 //Added by qt3to4:
-#include <QTextStream>
 #include <QDebug>
 #include <QStandardPaths>
+#include <QTextStream>
 
 TextModeFileManip::TextModeFileManip()
 {
@@ -780,14 +780,14 @@ void TextModeFileManip::assemble(char *filename)
                         type[0] = 1;
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == false) {
+                            if (!existn[x]) {
                                 break;
                             }
                         }
                         names[x] = token[0].right(token[0].length() - 1);
                         nvalues[x] = posinmem;
                         existn[x] = true;
-                        if (exist[1] == true) {
+                        if (exist[1]) {
                             qDebug() << "Expected: only one token on line " << linenum << endl;
                             goto ende;
                         }
@@ -802,14 +802,14 @@ void TextModeFileManip::assemble(char *filename)
                         type[0] = 6;
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == false) {
+                            if (!existn[x]) {
                                 break;
                             }
                         }
                         names[x] = token[0].right(token[0].length() - 1);
                         nvalues[x] = posinmem;
                         existn[x] = true;
-                        if (exist[1] == true) {
+                        if (exist[1]) {
                             qDebug() << "Expected: only one token, line " << linenum << endl;
                             goto ende;
                         }
@@ -825,19 +825,19 @@ void TextModeFileManip::assemble(char *filename)
                         type[0] = 8;
                         int x;
                         for (x = 0; x < 2047; x++) {
-                            if (existn[x] == false) {
+                            if (!existn[x]) {
                                 break;
                             }
                         }
                         names[x] = token[0].right(token[0].length() - 1);
                         existn[x] = true;
-                        if (exist[1] == true) {
+                        if (exist[1]) {
                             nvalues[x] = token[1].toInt();
                         } else {
                             qDebug() << "Expected: value of constant, line " << linenum << endl;
                             goto ende;
                         }
-                        if (exist[2] == true) {
+                        if (exist[2]) {
                             qDebug() << "Expected: only two tokens, line " << linenum << endl;
                             goto ende;
                         }
@@ -850,12 +850,12 @@ void TextModeFileManip::assemble(char *filename)
                 if (type[0] == 0 && token[0] == QString("db")) {
                     type[0] = 11;
                     for (i = 1; i < 15; i++) {
-                        if (exist[i] == true) {
+                        if (exist[i]) {
                             tpos = token[i].toInt(&ok);
-                            if (ok == false) {
+                            if (!ok) {
                                 int x;
                                 for (x = 0; x < 2047; x++) {
-                                    if (existn[x] == true) {
+                                    if (existn[x]) {
                                         if (token[i] == names[x]) {
                                             mem[posinmem + 256] = nvalues[x];
                                             posinmem++;
@@ -874,12 +874,12 @@ void TextModeFileManip::assemble(char *filename)
                 if (type[0] == 0 && token[0] == QString("dw")) {
                     type[0] = 11;
                     for (i = 1; i < 15; i++) {
-                        if (exist[i] == true) {
+                        if (exist[i]) {
                             tpos = token[i].toInt(&ok);
-                            if (ok == false) {
+                            if (!ok) {
                                 int x;
                                 for (x = 0; x < 2047; x++) {
-                                    if (existn[x] == true) {
+                                    if (existn[x]) {
                                         if (token[i] == names[x]) {
                                             mem[posinmem + 256] = nvalues[x] % 256;
                                             mem[posinmem + 257] = int(nvalues[x] / 256);
@@ -902,14 +902,14 @@ void TextModeFileManip::assemble(char *filename)
                 //Check for %org
                 if (type[0] == 0 && token[0] == QString("%org")) {
                     type[0] = 7;
-                    if (exist[1] == true) {
+                    if (exist[1]) {
                         bool isplus = token[1].startsWith('+');
                         tpos = token[1].toInt(&ok);
-                        if (ok == false) {
+                        if (!ok) {
                             //If it's a symbol
                             int x;
                             for (x = 0; x < 2047; x++) {
-                                if (existn[x] == true) {
+                                if (existn[x]) {
                                     if (token[1] == names[x]) {
                                         posinmem = nvalues[x];
                                     }
@@ -936,12 +936,12 @@ void TextModeFileManip::assemble(char *filename)
                 //Check for %CPUboot
                 if (type[0] == 0 && token[0] == QString("%CPUboot")) {
                     type[0] = 9;
-                    if (exist[1] == true) {
+                    if (exist[1]) {
                         tpos = token[1].toInt(&ok);
-                        if (ok == false) {
+                        if (!ok) {
                             int x;
                             for (x = 0; x < 2047; x++) {
-                                if (existn[x] == true) {
+                                if (existn[x]) {
                                     if (token[1] == names[x]) {
                                         if (nvalues[x] < 32 && mem[nvalues[x] * 6 + 2] == 1) {
                                             mem[nvalues[x] * 6 + 4] = posinmem % 256;
@@ -975,12 +975,12 @@ void TextModeFileManip::assemble(char *filename)
                 //Check for %CPUstack
                 if (type[0] == 0 && token[0] == QString("%CPUstack")) {
                     type[0] = 10;
-                    if (exist[1] == true) {
+                    if (exist[1]) {
                         tpos = token[1].toInt(&ok);
-                        if (ok == false) {
+                        if (!ok) {
                             int x;
                             for (x = 0; x < 2047; x++) {
-                                if (existn[x] == true) {
+                                if (existn[x]) {
                                     if (token[1] == names[x]) {
                                         if (nvalues[x] < 32 && mem[nvalues[x] * 6 + 2] == 1) {
                                             mem[nvalues[x] * 6 + 6] = posinmem % 256;
@@ -1015,12 +1015,12 @@ void TextModeFileManip::assemble(char *filename)
                 //Check for %interrupt
                 if (type[0] == 0 && token[0] == QString("%interrupt")) {
                     type[0] = 14;
-                    if (exist[1] == true) {
+                    if (exist[1]) {
                         tpos = token[1].toInt(&ok);
-                        if (ok == false) {
+                        if (!ok) {
                             int x;
                             for (x = 0; x < 2047; x++) {
-                                if (existn[x] == true) {
+                                if (existn[x]) {
                                     if (token[1] == names[x]) {
                                         if (nvalues[x] < 256) {
                                             mem[(RAMAMOUNT + 256 - (nvalues[x] * 2 + 2))] = posinmem % 256;
@@ -1063,7 +1063,7 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Check for register
                     for (i = 1; i < 4; i++) {
-                        if (exist[i] == true && type[i] == 0) {
+                        if (exist[i] && type[i] == 0) {
                             if (token[i] == QString("ax")) {
                                 type[i] = 5;
                                 value[i][0] = ax;
@@ -1159,7 +1159,7 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Check for @register
                     for (i = 1; i < 3; i++) {
-                        if (exist[i] == true && type[i] == 0 && token[i].left(1) == "@") {
+                        if (exist[i] && type[i] == 0 && token[i].left(1) == "@") {
                             QString tempstring = token[i].right(token[i].length() - 1);
                             if (tempstring == QString("ax")) {
                                 type[i] = 13;
@@ -1238,7 +1238,7 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Check for bit identifier
                     for (i = 1; i < 3; i++) {
-                        if (exist[i] == true && type[i] == 0) {
+                        if (exist[i] && type[i] == 0) {
                             if (token[i] == QString("byte")) {
                                 type[i] = 12;
                                 value[i][0] = 8;
@@ -1254,13 +1254,13 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Check for @value
                     for (i = 1; i < 3; i++) {
-                        if (exist[i] == true && type[i] == 0 && token[i].left(1) == "@") {
+                        if (exist[i] && type[i] == 0 && token[i].left(1) == "@") {
                             QString tempstring = token[i].right(token[i].length() - 1);
                             tpos = tempstring.toInt(&ok);
-                            if (ok == false) {
+                            if (!ok) {
                                 int x;
                                 for (x = 0; x < 2047; x++) {
-                                    if (existn[x] == true) {
+                                    if (existn[x]) {
                                         if (tempstring == names[x]) {
                                             value[i][0] = nvalues[x] % 256;
                                             value[i][1] = nvalues[x] / 256;
@@ -1272,7 +1272,7 @@ void TextModeFileManip::assemble(char *filename)
                                     type[i] = 4;
                                     tunres[i] = true;
                                     for (x = 0; x < 4095; x++) {
-                                        if (unresexist[x] == false) {
+                                        if (!unresexist[x]) {
                                             break;
                                         }
                                     }
@@ -1291,7 +1291,7 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Check for value
                     for (i = 1; i < 4; i++) {
-                        if (exist[i] == true && type[i] == 0) {
+                        if (exist[i] && type[i] == 0) {
                             bool isplus = token[i].startsWith('+');
                             QString comp;
                             if (isplus) {
@@ -1300,10 +1300,10 @@ void TextModeFileManip::assemble(char *filename)
                                 comp = token[i];
                             }
                             tpos = comp.toInt(&ok);
-                            if (ok == false) {
+                            if (!ok) {
                                 int x;
                                 for (x = 0; x < 2047; x++) {
-                                    if (existn[x] == true) {
+                                    if (existn[x]) {
                                         if (comp == names[x]) {
                                             value[i][0] = nvalues[x] % 256;
                                             value[i][1] = nvalues[x] / 256;
@@ -1315,7 +1315,7 @@ void TextModeFileManip::assemble(char *filename)
                                     type[i] = 3;
                                     tunres[i] = true;
                                     for (x = 0; x < 4095; x++) {
-                                        if (unresexist[x] == false) {
+                                        if (!unresexist[x]) {
                                             break;
                                         }
                                     }
@@ -1339,7 +1339,7 @@ void TextModeFileManip::assemble(char *filename)
                         value[1][1] = value[2][0];
                         value[2][0] = value[3][0];
                         i = 245;
-                        if (tunres[3] == true) {
+                        if (tunres[3]) {
                             qDebug() << "Sorry, this instruction cant use symbols not declared yet " << linenum << endl;
                             goto ende;
                         }
@@ -1349,7 +1349,7 @@ void TextModeFileManip::assemble(char *filename)
                         value[1][1] = value[2][0];
                         value[2][0] = value[3][0];
                         i = 246;
-                        if (tunres[2] == true) {
+                        if (tunres[2]) {
                             qDebug() << "Sorry, this instruction cant use symbols not declared yet " << linenum << endl;
                             goto ende;
                         }
@@ -1358,7 +1358,7 @@ void TextModeFileManip::assemble(char *filename)
 
                     //Run through all available mnemonic-operand combinations available
                     for (i = 0; i < 245; i++) {
-                        if (Instruction::instructions[i].checkmatch(curmnem, type[1], type[2], bits) == true) {
+                        if (Instruction::instructions[i].checkmatch(curmnem, type[1], type[2], bits)) {
                             goto found;
                         }
                     }
@@ -1371,7 +1371,7 @@ void TextModeFileManip::assemble(char *filename)
                     ///////////////
                     posinmem++;
 
-                    if (tunres[1] == true) {
+                    if (tunres[1]) {
                         unrespos[unresnum[1]] = posinmem;
                         if (Instruction::instructions[i].getarg1bits() > 0) {
                             unresbits[unresnum[1]] = 8;
@@ -1392,7 +1392,7 @@ void TextModeFileManip::assemble(char *filename)
                         }
                     }
 
-                    if (tunres[2] == true) {
+                    if (tunres[2]) {
                         unrespos[unresnum[2]] = posinmem;
                         if (Instruction::instructions[i].getarg2bits() > 0) {
                             unresbits[unresnum[2]] = 8;
@@ -1425,7 +1425,7 @@ void TextModeFileManip::assemble(char *filename)
     bool resolved[4096];
 
     for (i = 0; i < 4095; i++) {
-        if (unresexist[i] == true) {
+        if (unresexist[i]) {
             resolved[i] = false;
             for (i2 = 0; i2 < 2047; i2++) {
                 if (names[i2] == unresn[i]) {
@@ -1438,7 +1438,7 @@ void TextModeFileManip::assemble(char *filename)
                     }
                 }
             }
-            if (resolved[i] == false) {
+            if (!resolved[i]) {
                 qWarning() << "Undeclared symbol " << unresn[i] << " on line " << unresline[i];
                 goto ende;
             }
@@ -1527,7 +1527,7 @@ void TextModeFileManip::checkConfig(char *filename)
     int levelvalue = 0;
     for (x = 0; x < 32; x++) {
         if (my[x * 6 + 2] <= NUMDEV) {
-            if (config.enabled[my[x * 6 + 2] - 1] == false && my[x * 6 + 2] != 0) {
+            if (!config.enabled[my[x * 6 + 2] - 1] && my[x * 6 + 2] != 0) {
                 qDebug() << "ERROR!, Using disabled device" << endl;
             }
             if (my[x * 6 + 3] <= 4 && my[x * 6 + 2] > 0) {

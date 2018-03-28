@@ -17,14 +17,14 @@
 
 #include "startsbatt.h"
 //Added by qt3to4:
-#include <QResizeEvent>
-#include <QTextStream>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QGridLayout>
-#include <QStandardPaths>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QResizeEvent>
 #include <QSettings>
+#include <QStandardPaths>
+#include <QTextStream>
+#include <QVBoxLayout>
 
 /**
 	* init GUI, load file from last battle
@@ -152,7 +152,7 @@ void StartsBatt::loadfilesettings()
     }
 }
 
-void StartsBatt::closeEvent(QCloseEvent *)
+void StartsBatt::closeEvent(QCloseEvent * /*unused*/)
 {
     emit cancelclicked();
 }
@@ -166,9 +166,9 @@ int StartsBatt::getnumofbots()
     return 0;
 }
 
-QString StartsBatt::getbotfile(int x)
+QString StartsBatt::getbotfile(int bot)
 {
-    return botfiles[x];
+    return botfiles[bot];
 }
 
 /**

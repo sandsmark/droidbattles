@@ -44,7 +44,7 @@ void Chiller::execute()
     } else {
         ourbot->changeHeat(-(heatdiss));
     }
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         ison = portstack[0][0];
         moveportstack(0);
     }

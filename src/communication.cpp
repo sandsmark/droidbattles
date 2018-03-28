@@ -52,20 +52,20 @@ Communication::~Communication()
 void Communication::execute()
 {
     //First port, set receiver
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         receiver = portstack[0][0];
         moveportstack(0);
     }
 
     //Second port... send number
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         int numbertosend = portstack[1][0];
         moveportstack(1);
         ourbot->writetoBattleArea(ourbot->team(), 0, 7, numbertosend, receiver);
     }
 
     //Third port, set interrupt enable/disable
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         intenabled = portstack[2][0];
         moveportstack(2);
     }

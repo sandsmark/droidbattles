@@ -63,11 +63,11 @@ void Fuel::execute()
             ourbot->addInterrupt(4);
         }
     }
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         intenabled = portstack[0][0];
         moveportstack(0);
     }
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         fuelintlevel = portstack[1][0];
         moveportstack(1);
     }

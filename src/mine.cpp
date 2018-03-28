@@ -71,9 +71,8 @@ ScreenObject::ObjectType Mine::type()
 {
     if (time1 < 100) {
         return ScreenObject::NonCollidable;
-    } else {
-        return ScreenObject::Collidable;
     }
+    return ScreenObject::Collidable;
 }
 
 int Mine::objectHit(int /*type*/, int /*strength*/)
@@ -111,9 +110,8 @@ int Mine::execute()
 {
     if (time1++ > 1000) {
         return destroyself;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 int Mine::returnRadar()

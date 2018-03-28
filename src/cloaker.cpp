@@ -43,7 +43,7 @@ void Cloaker::execute()
         ourbot->changeHeat(5 + ourlevel);
         ourbot->setRadar(5 - ourlevel);
     }
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         cloakon = portstack[0][0];
         moveportstack(0);
     }

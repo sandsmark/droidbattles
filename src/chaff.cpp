@@ -94,9 +94,8 @@ int Chaff::execute()
     timeleft--;
     if (!timeleft) {
         return destroyself;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 /**

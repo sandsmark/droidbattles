@@ -89,7 +89,7 @@ private slots:
     void makecurrc();
     void savec();
     void defaultc();
-    void openfile(const QString &tempname);
+    void openfile(const QString &filename);
 
     void save(const QString &filename);
 };

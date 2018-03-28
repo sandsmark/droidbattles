@@ -16,24 +16,24 @@
  ***************************************************************************/
 
 #include "droidbattles.h"
-#include "createbot.h"
-#include "startsbatt.h"
-#include "startsurvbatt.h"
-#include "startdeathbatt.h"
 #include "battlearea.h"
 #include "commonsymbols.h"
 #include "confedit.h"
-#include "starttournament.h"
-#include "kothtournament.h"
-#include "startcup.h"
+#include "createbot.h"
 #include "docbrowser.h"
+#include "kothtournament.h"
 #include "pixbutton.h"
 #include "pixmapholder.h"
+#include "startcup.h"
+#include "startdeathbatt.h"
+#include "startsbatt.h"
+#include "startsurvbatt.h"
+#include "starttournament.h"
 #include <QDebug>
-#include <time.h>
+#include <ctime>
 //Added by qt3to4:
-#include <QTextStream>
 #include <QStandardPaths>
+#include <QTextStream>
 
 #define VERSION "2.0.0"
 /**
@@ -45,7 +45,7 @@ DroidBattles::DroidBattles()
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("DroidBattles " VERSION);
 
-    qsrand(time(0)); //Initialize random seed
+    qsrand(time(nullptr)); //Initialize random seed
 
     /**
         * If the base dir doesn't exist, create it
@@ -506,7 +506,7 @@ void DroidBattles::managetourney(int wins1, int wins2)
             int maxpointm = -1;
             int curmaxbot = -1;
             for (y = 0; y < numofbots; y++) {
-                if (taken[y] == false && (wingames[y] > maxpointg || (wingames[y] == maxpointg && winmatches[y] > maxpointm))) {
+                if (!taken[y] && (wingames[y] > maxpointg || (wingames[y] == maxpointg && winmatches[y] > maxpointm))) {
                     maxpointg = wingames[y];
                     maxpointm = winmatches[y];
                     curmaxbot = y;

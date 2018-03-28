@@ -30,7 +30,7 @@
 class InfoBox : public QDialog
 {
 public:
-    InfoBox(QString msg, QWidget *parent = 0);
+    InfoBox(const QString &msg, QWidget *parent = 0);
     ~InfoBox();
     void closeEvent(QCloseEvent *e);
 

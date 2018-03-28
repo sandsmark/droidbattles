@@ -53,7 +53,7 @@ RadarMissile::RadarMissile(int X, int Y, int dir, int bootm, int stm, int mnum,
                             stm / 256);
 
     fuelval = 300;
-    dbgWindow = NULL;
+    dbgWindow = nullptr;
 }
 
 RadarMissile::~RadarMissile()

@@ -18,8 +18,8 @@
 #include "textmodebattlearea.h"
 //Added by qt3to4:
 #include <QDebug>
-#include <QtMath>
 #include <QStandardPaths>
+#include <QtMath>
 
 using namespace std;
 
@@ -33,7 +33,7 @@ TextmodeBattleArea::TextmodeBattleArea(const BattleConfig &battleConfig)
 {
     m_battleMode = battleConfig.mode;
     m_maxPoints = battleConfig.numFights;
-    qsrand(time(0)); //Initialize random seed
+    qsrand(time(nullptr)); //Initialize random seed
 
     m_isTeams = battleConfig.isTeams;
     m_xSize = battleConfig.xSize;
@@ -377,7 +377,7 @@ int TextmodeBattleArea::execround()
                     }
                 }
                 QString msg;
-                if (draw == false) {
+                if (!draw) {
                     msg = " Team ";
                     msg += int(winbot) + '1';
                     msg += " won!";
@@ -391,9 +391,9 @@ int TextmodeBattleArea::execround()
                 //				QMessageBox::information( 0, "Fight Ended",msg );
                 qDebug() << "Result: " << msg.data() << endl;
                 return 3;
-            } else {
-                startonebattle(notfirstround); //If we have rounds left, continue
             }
+            startonebattle(notfirstround); //If we have rounds left, continue
+
         } // with a new round
     }
 

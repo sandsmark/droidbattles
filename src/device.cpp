@@ -49,9 +49,8 @@ const QString Device::deviceName(int index)
 {
     if (index >= 0 && index < s_deviceNames.size()) {
         return s_deviceNames[index];
-    } else {
-        return QString::asprintf("Unknown device %d", index);
     }
+    return QString::asprintf("Unknown device %d", index);
 }
 
 int Device::deviceId(const QString &name)
@@ -59,9 +58,8 @@ int Device::deviceId(const QString &name)
     int ret = s_deviceNames.indexOf(name);
     if (ret == -1) {
         return 0;
-    } else {
-        return ret;
     }
+    return ret;
 }
 
 Device::Device()
@@ -79,7 +77,7 @@ Device::~Device()
 void Device::addInputPort(unsigned char port, unsigned short value)
 {
     for (int count = 0; count < 4; count++) {
-        if (stacktaken[port][count] == false) {
+        if (!stacktaken[port][count]) {
             stacktaken[port][0] = true;
             portstack[port][0] = value;
             break;

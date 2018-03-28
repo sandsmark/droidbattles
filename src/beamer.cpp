@@ -46,7 +46,7 @@ Beamer::~Beamer()
 	*/
 void Beamer::execute()
 {
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         moveportstack(0);
         //Fire beam
         if (ourbot->fuel() <= 20) {
@@ -57,12 +57,12 @@ void Beamer::execute()
         ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
                                 ourbot->direction() + relang, 5, length);
     }
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         relang = portstack[1][0];
         moveportstack(1);
     }
 
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         length = portstack[2][0];
         moveportstack(2);
     }

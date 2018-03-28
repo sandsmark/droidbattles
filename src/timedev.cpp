@@ -43,19 +43,19 @@ TimeDev::~TimeDev()
 void TimeDev::execute()
 {
     timecount++;
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         timecount = portstack[0][0];
         moveportstack(0);
     }
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         interrupttime = portstack[1][0];
         moveportstack(1);
     }
-    if (stacktaken[2][0] == true) {
+    if (stacktaken[2][0]) {
         intenabled = portstack[2][0];
         moveportstack(2);
     }
-    if (timecount == interrupttime && intenabled == true) {
+    if (timecount == interrupttime && intenabled) {
         ourbot->addInterrupt(1);
     }
 }

@@ -17,12 +17,12 @@
 
 #include "devchoice.h"
 //Added by qt3to4:
-#include <QLabel>
+#include <QDebug>
 #include <QFrame>
 #include <QGroupBox>
-#include <QVBoxLayout>
-#include <QDebug>
+#include <QLabel>
 #include <QStandardPaths>
+#include <QVBoxLayout>
 
 /** Holds one group of the device choosing group of combobox etc. in
 	* the createbot dialog
@@ -1057,5 +1057,5 @@ void DevChoice::showinfo()
         break;
     }
     //	QMessageBox::information( this,"Devinfo",msg );
-    showbox = new InfoBox(msg, 0);
+    showbox = new InfoBox(msg, nullptr);
 }

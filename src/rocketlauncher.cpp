@@ -46,12 +46,12 @@ void RocketLauncher::execute()
         readiness++;
     }
     //Set distance
-    if (stacktaken[0][0] == true) {
+    if (stacktaken[0][0]) {
         distance = portstack[0][0];
         moveportstack(0);
     }
     //Fire a rocket
-    if (stacktaken[1][0] == true) {
+    if (stacktaken[1][0]) {
         if (readiness > 100) {
             ourbot->addScreenObject(ourbot->xPos(), ourbot->yPos(),
                                     ourbot->direction() + relang, 6, distance);

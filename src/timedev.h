@@ -36,7 +36,6 @@ public:
 
 private:
     int timecount;
-    bool interruptenabled;
     int interrupttime;
 };
 

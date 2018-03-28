@@ -35,11 +35,7 @@ public:
     void execute();
 
 private:
-
-    int strength;
-    int speed;
     int readiness;
-
 };
 
 #endif

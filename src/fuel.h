@@ -35,10 +35,7 @@ public:
     int readPort (unsigned char port);
     void execute();
 private:
-
-    int fuelleft;
     int fuelintlevel;
-//		bool intenabled;
 };
 
 #endif

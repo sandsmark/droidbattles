@@ -45,8 +45,9 @@ Plasma::~Plasma()
 	*/
 void Plasma::execute()
 {
-    if (readiness < 200)
+    if (readiness < 200) {
         readiness += ourlevel;
+    }
     if (stacktaken[0][0] == true && readiness > 0)
     {
         moveportstack (0);

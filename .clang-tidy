@@ -1,0 +1,33 @@
+Checks: "*, \
+    -cppcoreguidelines-pro-bounds-array-to-pointer-decay, \
+    -modernize-use-auto, \
+    -cppcoreguidelines-pro-bounds-constant-array-index, \
+    -clang-analyzer-cplusplus.NewDeleteLeaks, \
+    -modernize-pass-by-value, \
+    -cppcoreguidelines-pro-type-vararg, \
+    -cert-err58-cpp, \
+    -hicpp-special-member-functions, \
+    -cppcoreguidelines-special-member-functions, \
+    -modernize-return-braced-init-list, \
+    -google-readability-todo, \
+    -readability-implicit-bool-cast, \
+    -cppcoreguidelines-pro-type-member-init, \
+    -hicpp-member-init, \
+    -hicpp-use-auto, \
+    "
+
+WarningsAsErrors: "*, \
+    -llvm-include-order, \
+    -cppcoreguidelines-pro-type-vararg, \
+    -cert-err58-cpp, \
+    -cppcoreguidelines-special-member-functions, \
+    -hicpp-special-member-functions, \
+    -modernize-return-braced-init-list, \
+    -google-readability-todo, \
+    "
+
+CheckOptions:
+- key: readability-implicit-bool-cast.AllowPointerConditions
+  value: 1
+- key: readability-implicit-bool-conversion.AllowPointerConditions
+  value: 1

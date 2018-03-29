@@ -20,6 +20,7 @@
 
 Scanner::Scanner(ScreenObject &object, int arg1, int offset)
 {
+    ispainted = false;
     ourlevel = arg1;
     ourbot = &object;
     width = 128;

@@ -26,6 +26,7 @@
 Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfStruct config,
                int tm, bool er, bool ui)
 {
+    gfxin = false;
     useUI = ui;
     int numdev = 0;
     int cost = 0;

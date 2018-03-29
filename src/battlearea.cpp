@@ -344,7 +344,7 @@ void BattleArea::execute()
                 continue;
             }
 
-            int xx1, xx2, yy1, yy2, dist, dx, dy;
+            float xx1, xx2, yy1, yy2, dist, dx, dy;
 
             xx1 = objects[x]->xPos(); //
             xx2 = objects[x2]->xPos(); // Get positions

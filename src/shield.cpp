@@ -85,7 +85,8 @@ int Shield::readPort(uint8_t port)
 void Shield::draw(QPainter *painter)
 {
     if (Isup) {
-        painter->setPen(QPen(QColor(0, 255, 0), 4));
+        const int heatVal = qBound(0, 255 * (850 - ourbot->heat()) / 850, 255);
+        painter->setPen(QPen(QColor(255, heatVal, heatVal), ourlevel / 10));
         painter->drawEllipse((ourbot->xPos() >> 6) - 16, (ourbot->yPos() >> 6) - 16, 32, 32);
         lastpaintX = (ourbot->xPos() >> 6) - 16;
         lastpaintY = (ourbot->yPos() >> 6) - 16;
@@ -99,7 +100,7 @@ void Shield::draw(QPainter *painter)
 void Shield::erase(QPainter *painter)
 {
     if (ispainted) {
-        painter->setPen(QColor(0, 0, 0));
+        painter->setPen(QPen(Qt::black, ourlevel / 10));
         painter->drawEllipse(lastpaintX, lastpaintY, 32, 32);
         ispainted = false;
     }

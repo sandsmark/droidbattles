@@ -384,7 +384,7 @@ void RobCpu::execinstr()
     uint32_t intpart, restpart, result;
     int32_t iintpart, irestpart, iresult;
     uint16_t rtemp;
-    uint8_t status;
+    int8_t status;
     uint8_t bit;
     char message[20];
     int execmementry = 0;

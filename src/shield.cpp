@@ -19,6 +19,7 @@
 
 Shield::Shield(ScreenObject &object, int arg1)
 {
+    ispainted = false;
     ourbot = &object;
     ourlevel = arg1;
     Isup = false;

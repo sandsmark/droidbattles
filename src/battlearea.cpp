@@ -898,8 +898,8 @@ void BattleArea::addscrobject(int owner, int X, int Y, int dir, int type,
 	*/
 void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject)
 {
-    int X1, Y1, D1, S1, z;
-    for (z = 0; z < maxbots; z++) {
+    double X1, Y1, D1, S1;
+    for (int z = 0; z < maxbots; z++) {
         if (z == whichobject) {
             continue;
         }

@@ -38,6 +38,7 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::Dialog);
 
+
     m_debugEnabled = ifdebug;
     m_fastMode = battleConfig.fastMode;
     m_battleMode = battleConfig.mode;
@@ -51,6 +52,7 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
     ifdelete = false;
 
     m_maxRounds = battleConfig.maxRounds;
+
 
     // OPen the current config file
     config.load(QStandardPaths::locate(QStandardPaths::AppConfigLocation, "current.cfg"));
@@ -87,11 +89,16 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
     playb = new PixButton("Play", this);
     pauseb = new PixButton("Pause", this);
     singles = new PixButton("Singlestep", this);
+    m_roundCounter = new QLabel("Rounds:");
+    m_roundCounter->setVisible(numfights > 1);
+    m_roundCounter->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
     QVBoxLayout *sideLayout = new QVBoxLayout;
     sideLayout->addWidget(playb);
     sideLayout->addWidget(pauseb);
     sideLayout->addWidget(singles);
+    sideLayout->addStretch();
+    sideLayout->addWidget(m_roundCounter);
     sideLayout->addStretch();
     horizontalLayout->addLayout(sideLayout);
 
@@ -175,6 +182,9 @@ BattleArea::~BattleArea()
 void BattleArea::startonebattle(int y)
 {
     int x;
+
+    m_roundCounter->setText(QString("<b>Round %1/%2</b>").arg(fightsfought).arg(numfights));
+
     //If this isn't the first run, deallocate the memory
     //from the run before this
     if (y == notfirstround) {

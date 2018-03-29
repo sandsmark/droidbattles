@@ -100,6 +100,8 @@ private:
 
     int updatescreen;
     QPointer<BotInfo> binfo[8];
+
+    QLabel *m_roundCounter;
     /*		QString names[8];
     		//QPixmap *backpm;
     		int numfights;

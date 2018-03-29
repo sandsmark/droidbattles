@@ -312,6 +312,9 @@ int Robots::execute()
     if (heat() > 800) {
         objectHit(9, 999);
     }
+    if (armorval <= 0) {
+        return destroyself;
+    }
 
     return 0;
 }
@@ -471,6 +474,7 @@ int Robots::objectHit(int type, int strength)
     if (strengthleft > 0) {
         return objhitdestroyed;
     }
+
     return 0;
 }
 

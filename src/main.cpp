@@ -182,17 +182,28 @@ int main(int argc, char *argv[])
     QCommandLineOption botOption("bot",
                                  "Pass a path to a .bot file to use",
                                  "path");
-    QCommandLineOption ticksOption("max-rounds",
+    QCommandLineOption ticksOption("rounds",
                                    "Max rounds per battle (~50 rounds per second by default)",
                                    "number");
     QCommandLineOption battlesOption("num-battles",
                                      "Number of battles to run",
                                      "number");
+    QCommandLineOption ticklessOption("tickless",
+                                     "Run without delay between ticks");
+    QCommandLineOption headlessOption("headless",
+                                     "Run without UI");
+    QCommandLineOption tickIntervalOption("tick-interval",
+                                     "Interval between each tick",
+                                          "milliseconds");
 
     parser.addHelpOption();
     parser.addOption(botOption);
     parser.addOption(ticksOption);
     parser.addOption(battlesOption);
+    parser.addOption(ticklessOption);
+    parser.addOption(headlessOption);
+    parser.addOption(tickIntervalOption);
+
     parser.process(*app);
 
     QStringList bots = parser.values(botOption);
@@ -201,7 +212,7 @@ int main(int argc, char *argv[])
         BattleConfig battleConf;
 
         if (bots.count() >= int(battleConf.names.size())) {
-            QMessageBox::critical(nullptr, "Invalid options", "Too many bots passed");
+            QMessageBox::critical(nullptr, "Invalid options", QString("Too many bots passed (passed %1 bots, max bots %1)").arg(bots.count()).arg(battleConf.names.size()));
             return 1;
         }
         if (bots.count() < 2) {

@@ -75,6 +75,8 @@ protected:
     void closeEvent(QCloseEvent *);
 
 private:
+    void storeScores();
+
     QList<DebugWindow *> dbgwindows;
     QPlainTextEdit *_dbedit;
     int *_dbl;

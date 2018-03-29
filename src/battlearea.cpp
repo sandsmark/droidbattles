@@ -753,6 +753,7 @@ void BattleArea::execute()
     	}*/
 
     if (ifdelete) {
+        storeScores();
         deleteLater();
     }
 
@@ -1016,4 +1017,24 @@ void BattleArea::closeEvent(QCloseEvent * /*unused*/)
     QSettings settings;
     settings.setValue("BattleAreaGeometry", saveGeometry());
     emit closed();
+}
+
+void BattleArea::storeScores()
+{
+    QFile scoreLog("scores.txt");
+    if (!scoreLog.open(QIODevice::WriteOnly)) {
+        QMessageBox::warning(this, "Error writing cores", "Failed to write score file: " + scoreLog.errorString());
+        return;
+    }
+
+    for (int i=0; i<maxbots; i++) {
+        if (names[i].isEmpty()) {
+            continue;
+        }
+        QString name = QFileInfo(names[i]).baseName();
+        name.remove(';');
+        scoreLog.write(name.toUtf8() + ";");
+        scoreLog.write(QByteArray::number(fightswon[i]) + ";");
+        scoreLog.write(QByteArray::number(0) + "\n"); // todo some kind of points as a tie breaker
+    }
 }

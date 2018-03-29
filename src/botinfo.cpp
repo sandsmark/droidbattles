@@ -22,20 +22,23 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QProgressBar>
+#include "robots.h"
+#include <QDebug>
 
 /**
     * Constructor, create all GUI elements
     */
-BotInfo::BotInfo(const QString &botname, ScreenObject *rb, int armor)
+BotInfo::BotInfo(const QString &botname, ScreenObject *rb)
 {
-    bot = rb;
-    if (botname.isEmpty()) {
+    bot = qobject_cast<Robots*>(rb);
+
+    if (!bot || botname.isEmpty()) {
         botnam.setVisible(false);
         armormsg.setVisible(false);
         armorlevel.setVisible(false);
         heatmsg.setVisible(false);
         heatlevel.setVisible(false);
-        msgmsg.setVisible(false);
+        m_fuelLevel.setVisible(false);
         message.setVisible(false);
         ifscanner.setVisible(false);
         showgfx.setVisible(false);
@@ -46,15 +49,18 @@ BotInfo::BotInfo(const QString &botname, ScreenObject *rb, int armor)
 
     armormsg.setText("A:");
 
-    armorlevel.setMaximum(armor);
-    armorlevel.setValue(armor);
+    armorlevel.setMaximum(bot->armorval);
+    armorlevel.setValue(bot->armorval);
+
+    m_fuelLevel.setMaximum(bot->fuelval);
+    m_fuelLevel.setMaximum(bot->fuelval);
 
     heatmsg.setText("H:");
 
     heatlevel.setMaximum(850);
     heatlevel.setValue(0);
 
-    msgmsg.setText("F: ");
+    m_fuelLabel.setText("F: ");
 
     message.setText("M: ");
 
@@ -74,7 +80,7 @@ BotInfo::~BotInfo()
 
 BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name, ScreenObject *screenObject)
 {
-    BotInfo *botInfo = new BotInfo(name, screenObject, screenObject->armorval);
+    BotInfo *botInfo = new BotInfo(name, screenObject);
     botInfo->setParent(layout);
 
     layout->addWidget(&botInfo->botnam, index, 0);
@@ -82,10 +88,11 @@ BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name
     layout->addWidget(&botInfo->armorlevel, index, 2);
     layout->addWidget(&botInfo->heatmsg, index, 3);
     layout->addWidget(&botInfo->heatlevel, index, 4);
-    layout->addWidget(&botInfo->msgmsg, index, 5);
-    layout->addWidget(&botInfo->message, index, 6);
-    layout->addWidget(&botInfo->ifscanner, index, 7);
-    layout->addWidget(&botInfo->showgfx, index, 8);
+    layout->addWidget(&botInfo->m_fuelLabel, index, 5);
+    layout->addWidget(&botInfo->m_fuelLevel, index, 6);
+    layout->addWidget(&botInfo->message, index, 7);
+    layout->addWidget(&botInfo->ifscanner, index, 8);
+    layout->addWidget(&botInfo->showgfx, index, 9);
 
     return botInfo;
 }
@@ -104,7 +111,8 @@ void BotInfo::armorupdated(int x)
         armorlevel.setEnabled(false);
         heatmsg.setEnabled(false);
         heatlevel.setEnabled(false);
-        msgmsg.setEnabled(false);
+        m_fuelLabel.setEnabled(false);
+        m_fuelLevel.setEnabled(false);
         message.setEnabled(false);
     }
 }
@@ -122,7 +130,7 @@ void BotInfo::statch(bool x)
     */
 void BotInfo::updatefuel(int fuel, int heat)
 {
-    msgmsg.setText(QString::asprintf("F: %d", fuel));
+    m_fuelLevel.setValue(fuel);
     heatlevel.setValue(heat);
 }
 

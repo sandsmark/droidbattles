@@ -78,6 +78,7 @@ public:
     virtual void writeRadio(int);
     virtual bool areaExplosionAffects();
     int armorval;
+    int fuelval;
     int team();
     virtual void addInterrupt(int);
     virtual struct DebugContents debugContents();
@@ -95,7 +96,6 @@ public:
 
 protected:
     int upcount;
-    int fuelval;
     int heatval;
     double Xpos;
     double Ypos;

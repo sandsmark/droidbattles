@@ -27,6 +27,7 @@
 #include <QString>
 #include <QTextStream>
 #include <QFile>
+#include <QPointer>
 #include <array>
 #include "confstruct.h"
 #include "screenobject.h"
@@ -50,10 +51,11 @@ public:
     int execround();
 
 protected:
-    ScreenObject *objects[256];
+    QPointer<ScreenObject> objects[256];
     std::array<QString, 8> names;
     int numfights;
     int fightswon[8];
+    std::array<int, 8> m_scorePoints;
     int fightsfought;
     ConfStruct config;
     int roundsrun;

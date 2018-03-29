@@ -211,17 +211,18 @@ void BattleArea::startonebattle(int y)
 
     //Load the bots
     QString tn;
+    QGridLayout *botInfosLayout = qobject_cast<QGridLayout *>(infowindow->layout());
+    Q_ASSERT(botInfosLayout);
     for (x = 0; x < maxbots; x++) {
         tn = names[x];
-        if (!tn.isEmpty()) {
-            objects[x] = new Robots(tn, *this, x, config, botteams[x]);
-        } else {
+        if (tn.isEmpty()) {
             objects[x] = new ScreenObject();
+            continue;
         }
 
-        QGridLayout *gl = qobject_cast<QGridLayout *>(infowindow->layout());
-        Q_ASSERT(gl);
-        binfo[x] = BotInfo::addBotInfo(gl, x, names[x], objects[x]);
+        objects[x] = new Robots(tn, *this, x, config, botteams[x]);
+
+        binfo[x] = BotInfo::addBotInfo(botInfosLayout, x, names[x], objects[x]);
     }
 
     if (m_debugEnabled) {
@@ -236,7 +237,7 @@ void BattleArea::startonebattle(int y)
             QMessageBox::critical(this, "Internal error", "Internal error.\nBot object wrong type!", QMessageBox::Ok);
             return;
         }
-        int nCpus = ((Robots *)objects[debugbot])->cpuCount();
+        int nCpus = qobject_cast<Robots*>(objects[debugbot])->cpuCount();
         for (int x = 0; x < nCpus; x++) {
             DebugWindow *dw = new DebugWindow(_dbedit, &_dbl[0], &_dbm[0]);
             connect(dw, &DebugWindow::dumpmem, this, &BattleArea::dmem);
@@ -256,6 +257,9 @@ void BattleArea::startonebattle(int y)
 
     //Create the infoboxes for the bots
     for (x = 0; x < maxbots; x++) {
+        if (!binfo[x]) {
+            continue;
+        }
         QObject::connect(objects[x], SIGNAL(armorchanged(int)), binfo[x],
                          SLOT(armorupdated(int)));
         QObject::connect(binfo[x], SIGNAL(changeinset(bool)), objects[x],
@@ -729,7 +733,7 @@ void BattleArea::execute()
     if (m_debugEnabled) { //If this is a "quick battle", update register content info and such
         if (objects[debugbot]->type() == ScreenObject::BotObject) // for robots only
         {
-            QVector<DebugContents> *dc = ((Robots *)objects[debugbot])->allDebugContents();
+            QVector<DebugContents> *dc = qobject_cast<Robots*>(objects[debugbot])->allDebugContents();
             if (dc->size() != dbgwindows.size()) {
                 QMessageBox::critical(this, "Internal error", "Internal error.\nWrong number of debug windows!", QMessageBox::Ok);
                 return;
@@ -795,7 +799,7 @@ void BattleArea::addscrobject(int owner, int X, int Y, int dir, int type,
                 objects[x] = new RadarMissile(X, Y, dir, arg1, arg2, x, *this, temp3, owner);
                 ++missilesLaunched;
                 if (m_debugEnabled && (owner == debugbot)) {
-                    ((RadarMissile *)objects[x])->createDbgWindow(missilesLaunched, _dbedit, _dbl, _dbm);
+                    qobject_cast<RadarMissile*>(objects[x])->createDbgWindow(missilesLaunched, _dbedit, _dbl, _dbm);
                 }
                 break;
             case 5:

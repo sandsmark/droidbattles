@@ -33,6 +33,7 @@
 
 class RadarMissile : public ScreenObject
 {
+    Q_OBJECT
 
 public:
     RadarMissile(int, int, int, int, int, int, TextmodeBattleArea &, Ram *, int owner, bool ui = true);

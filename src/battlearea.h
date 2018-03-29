@@ -99,7 +99,7 @@ private:
     QPixmap *dumm;
 
     int updatescreen;
-    BotInfo *binfo[8];
+    QPointer<BotInfo> binfo[8];
     /*		QString names[8];
     		//QPixmap *backpm;
     		int numfights;

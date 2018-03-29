@@ -22,7 +22,11 @@
 #include <QCheckBox>
 #include <QString>
 #include <QProgressBar>
-#include "screenobject.h"
+#include <QPointer>
+
+//#include "screenobject.h"
+class Robots;
+class ScreenObject;
 
 class QGridLayout;
 
@@ -48,18 +52,20 @@ signals:
     void changeinset(bool x);
 
 private:
-    BotInfo(const QString &botname, ScreenObject *rb, int armor);
+    BotInfo(const QString &botname, ScreenObject *rb);
 
     QLabel botnam;
     QProgressBar armorlevel;
     QProgressBar heatlevel;
+    QProgressBar m_fuelLevel;
     QLabel armormsg;
     QLabel heatmsg;
-    QLabel msgmsg;
+    QLabel m_fuelLabel;
     QLabel message;
     QCheckBox ifscanner;
     QLabel showgfx;
-    ScreenObject *bot;
+    QPointer<Robots> bot;
+    int m_cost;
 };
 
 #endif

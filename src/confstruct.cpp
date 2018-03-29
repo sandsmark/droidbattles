@@ -19,32 +19,39 @@ void ConfStruct::load(QString filename)
         filename = ":/misc/current.cfg";
     }
 
-    QSettings conf(filename, QSettings::IniFormat);
-    maxdev = conf.value(KEY_MAXDEVICES, 12).toInt();
-    maxcost = conf.value(KEY_MAXCOST, 3300).toInt();
-    maxram = conf.value(KEY_MAXRAM, 1).toInt();
+    QScopedPointer<QSettings> conf(new QSettings(filename, QSettings::IniFormat));
 
-    conf.beginGroup(GROUP_RAMCOSTS);
+    if (conf->childGroups().isEmpty()) {
+        conf.reset(new QSettings(":/misc/current.cfg", QSettings::IniFormat));
+
+    }
+
+
+    maxdev = conf->value(KEY_MAXDEVICES, 12).toInt();
+    maxcost = conf->value(KEY_MAXCOST, 3300).toInt();
+    maxram = conf->value(KEY_MAXRAM, 1).toInt();
+
+    conf->beginGroup(GROUP_RAMCOSTS);
     const int defaultRamCost[9] = { 100, 150, 225, 350, 500, 750, 1200, 1800, 3000 };
     for (int i = 0; i < 9; i++) {
-        ramcost[i] = conf.value(QString::number(i), defaultRamCost[i]).toInt();
+        ramcost[i] = conf->value(QString::number(i), defaultRamCost[i]).toInt();
     }
-    conf.endGroup();
+    conf->endGroup();
 
-    conf.beginGroup(GROUP_DEVICES);
+    conf->beginGroup(GROUP_DEVICES);
     for (int dev = 0; dev < 20; dev++) {
-        conf.beginGroup(Device::deviceName(dev));
-        enabled[dev] = conf.value(KEY_ENABLED, true).toBool();
+        conf->beginGroup(Device::deviceName(dev));
+        enabled[dev] = conf->value(KEY_ENABLED, true).toBool();
         for (int level = 0; level < 5; level++) {
-            conf.beginGroup(QString::number(level));
-            cost[level][dev] = conf.value(KEY_COST).toInt();
-            values[level][dev] = conf.value(KEY_VALUE).toInt();
-            conf.endGroup();
+            conf->beginGroup(QString::number(level));
+            cost[level][dev] = conf->value(KEY_COST).toInt();
+            values[level][dev] = conf->value(KEY_VALUE).toInt();
+            conf->endGroup();
         }
-        conf.endGroup();
+        conf->endGroup();
     }
 
-    conf.endGroup();
+    conf->endGroup();
 }
 
 void ConfStruct::save(const QString &filename)

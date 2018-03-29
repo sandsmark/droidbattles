@@ -1,3 +1,12 @@
+droidbattles
+============
+
+![screenshot](/doc/screenshot.png)
+
+
+Building
+========
+
 To build on Linux, run qmake && make after installing the relevant Qt packages and a C++ compiler.
 
 On Arch Linux; `pacman -S gcc qt5-base`.

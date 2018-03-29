@@ -71,6 +71,7 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
     for (int x = 0; x < 8; x++) {
         names[x] = battleConfig.names[x];
         fightswon[x] = 0;
+        m_scorePoints[x] = 0;
     }
 
     mydrw = new QLabel();
@@ -372,6 +373,10 @@ void BattleArea::execute()
             type2 = objects[x2]->collisionType();
             str1 = objects[x]->collisionStrength(); // Get the damage they will
             str2 = objects[x2]->collisionStrength(); // inflict on each other
+
+            m_scorePoints[objects[x]->owner()] += str1;
+            m_scorePoints[objects[x2]->owner()] += str2;
+
             if (type1 == 1) // If he collided with a bot
             {
                 objects[x2]->setSpeed(-(objects[x2]->speed() / 2));
@@ -402,7 +407,9 @@ void BattleArea::execute()
                 objects[x2]->setPosition(cos(angl + pi) * ((dst + 16) / 2),
                                          sin(angl + pi) * ((dst + 16) / 2));
             }
+
             int x2owner = objects[x2]->owner();
+
             if (objects[x2]->objectHit(9, str1) == 1) {
                 switch (m_battleMode) {
                 case 0:
@@ -1035,10 +1042,13 @@ void BattleArea::storeScores()
         if (names[i].isEmpty()) {
             continue;
         }
+
+        int points = m_scorePoints[i] * 10 + binfo[i]->score();
+
         QString name = QFileInfo(names[i]).baseName();
         name.remove(';');
         scoreLog.write(name.toUtf8() + ";");
         scoreLog.write(QByteArray::number(fightswon[i]) + ";");
-        scoreLog.write(QByteArray::number(0) + "\n"); // todo some kind of points as a tie breaker
+        scoreLog.write(QByteArray::number(points) + "\n");
     }
 }

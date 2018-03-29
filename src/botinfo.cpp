@@ -97,6 +97,27 @@ BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name
     return botInfo;
 }
 
+int BotInfo::score()
+{
+    if (!bot) {
+        return 0;
+    }
+    int ret = 0;
+
+    // Score calculation
+    ret -= bot->cost();
+
+    if (armorlevel.maximum()) {
+        ret += 1000 * armorlevel.value() / armorlevel.maximum();
+    }
+
+    if (m_fuelLevel.maximum()) {
+        ret += 1000 * m_fuelLevel.value() / m_fuelLevel.maximum();
+    }
+
+    return ret;
+}
+
 /**
     * Updates armor progressbar
     * Connected to armorchanged signal that the bot emits

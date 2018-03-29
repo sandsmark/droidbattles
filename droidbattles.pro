@@ -3,7 +3,7 @@ TARGET = droidbattles
 QT += widgets
 CONFIG += c++11
 
-CONFIG += sanitizer sanitize_address
+#CONFIG += sanitizer sanitize_address sanitize_undefined
 
 windows {
     CONFIG += static exceptions_off rtti_off stl_off

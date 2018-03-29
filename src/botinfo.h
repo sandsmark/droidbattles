@@ -42,6 +42,8 @@ public:
     ~BotInfo();
     static BotInfo *addBotInfo(QGridLayout *layout, int index, const QString &name, ScreenObject *screenObject);
 
+    int score();
+
 private slots:
     void armorupdated(int x);
     void updatefuel(int fuel, int heat);

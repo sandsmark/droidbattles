@@ -29,7 +29,7 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
     gfxin = false;
     useUI = ui;
     int numdev = 0;
-    int cost = 0;
+    m_cost = 0;
     upcount = 0;
     m_team = tm;
     showerror = er;
@@ -64,7 +64,7 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
             showError("Max amount of ram", name);
         }
         if (my[1] <= 9) {
-            cost += config.ramcost[my[1]];
+            m_cost += config.ramcost[my[1]];
             switch (my[1]) {
             case 0:
                 ramdevice = new Ram(1024, my);
@@ -108,12 +108,12 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
         int levelvalue = 0;
         for (x = 0; x < 32; x++) {
             if (my[x * 6 + 2] <= NUMDEV) {
-                if (!config.enabled[my[x * 6 + 2] - 1] && my[x * 6 + 2] != 0) {
+                if (my[x * 6 + 2] > 0 && !config.enabled[my[x * 6 + 2] - 1]) {
                     showError(QString("Using disabled device %1").arg(Device::deviceName(my[x * 6 + 2])), name);
                 }
                 if (my[x * 6 + 3] <= 4 && my[x * 6 + 2] > 0) {
                     numdev++;
-                    cost += config.cost[my[x * 6 + 3]][my[x * 6 + 2] - 1];
+                    m_cost += config.cost[my[x * 6 + 3]][my[x * 6 + 2] - 1];
                     levelvalue = config.values[my[x * 6 + 3]][my[x * 6 + 2] - 1];
                 }
                 if (my[x * 6 + 3] > 4) {
@@ -204,7 +204,7 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
         if (numdev > config.maxdev) {
             showError(QString("Max number of devices (%1/%2").arg(numdev).arg(config.maxdev), name);
         }
-        if (cost > config.maxcost) {
+        if (m_cost > config.maxcost) {
             showError("Max cost of bot", name);
         }
 
@@ -637,4 +637,9 @@ void Robots::dumpRam()
             break;
         }
     }
+}
+
+int Robots::cost() const
+{
+    return m_cost;
 }

@@ -56,6 +56,7 @@ TextmodeBattleArea::TextmodeBattleArea(const BattleConfig &battleConfig)
     names = battleConfig.names;
     for (int x = 0; x < 8; x++) {
         fightswon[x] = 0;
+        m_scorePoints[x] = 0;
     }
 
     startonebattle(firstrun);

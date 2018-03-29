@@ -98,6 +98,8 @@ public:
     void setRadar(int x) override;
     void dumpRam() override;
 
+    int cost() const;
+
 private:
     int RAMamount;
     Ram *ramdevice;
@@ -115,6 +117,7 @@ private:
     int currentrow;
     int rowchangeval;
     int degreesperpic;
+    int m_cost;
 };
 
 #endif

@@ -55,7 +55,7 @@ protected:
     std::array<QString, 8> names;
     int numfights;
     int fightswon[8];
-    std::array<int, 8> m_scorePoints;
+    std::array<uint64_t, 8> m_scorePoints;
     int fightsfought;
     ConfStruct config;
     int roundsrun;

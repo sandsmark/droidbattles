@@ -556,7 +556,8 @@ bool CreateBot::loadFile(const QString &filename)
     tline = s.readLine();
     tline = s.readLine();
     edittxt->clear();
-    while (!s.atEnd()) {
+    int linesRead = 0;
+    while (!s.atEnd() && ++linesRead < 10000) {
         tline = s.readLine();
         edittxt->appendPlainText(tline);
     }

@@ -33,6 +33,7 @@
 #include <QTextBlock>
 #include <QTextStream>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <qregexp.h>
 
 /**
@@ -79,6 +80,10 @@ CreateBot::CreateBot()
     action->setShortcut(QKeySequence::Cut);
     action = Edit->addAction("&Paste", this, SLOT(paste()));
     action->setShortcut(QKeySequence::Paste);
+    action = Edit->addAction("&Search", this, SLOT(search()));
+    action->setShortcut(QKeySequence::Find);
+    action = Edit->addAction("&Find next", this, SLOT(searchNext()));
+    action->setShortcut(QKeySequence::FindNext);
 
     Assemble = menb->addMenu("&Assemble");
     action = Assemble->addAction("&Assemble", this, SLOT(onAssembleAction()));
@@ -133,12 +138,24 @@ CreateBot::CreateBot()
     editorLayout->addWidget(scrvw);
     mainLayout->addLayout(editorLayout);
 
-    dirname = new char[100];
     QDir botsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/droidbattles/";
     if (!botsPath.exists()) {
         botsPath.mkpath(botsPath.absolutePath());
     }
     botname = botsPath.absoluteFilePath("unnamed");
+
+    m_searchWidget = new QWidget;
+    m_searchWidget->setLayout(new QHBoxLayout);
+    m_searchInput = new SearchEdit;
+    m_searchWidget->layout()->addWidget(m_searchInput);
+    m_searchButton = new QPushButton("Find next");
+    m_searchWidget->layout()->addWidget(m_searchButton);
+    m_searchWidget->setVisible(false);
+    connect(m_searchButton, &QPushButton::clicked, this, &CreateBot::searchNext);
+    connect(m_searchInput, &QLineEdit::returnPressed, this, &CreateBot::searchNext);
+    connect(m_searchInput, &SearchEdit::escapePressed, m_searchWidget, &QWidget::hide);
+    connect(m_searchInput, SIGNAL(escapePressed()), edittxt, SLOT(setFocus()));
+    mainLayout->addWidget(m_searchWidget);
 
     gfxbutton = new QPushButton(this);
     gfxbutton->setIcon(QIcon(gfx));
@@ -425,7 +442,6 @@ void CreateBot::choosepic()
 	*/
 CreateBot::~CreateBot()
 {
-    delete[] dirname;
     //	delete backpm;
 }
 
@@ -2323,4 +2339,23 @@ void CreateBot::onAssembleAction()
     if (assemble()) {
         error("Assemble successful", -1);
     }
+}
+
+void CreateBot::search()
+{
+    m_searchWidget->setVisible(true);
+    m_searchInput->setFocus();
+
+}
+
+void CreateBot::searchNext()
+{
+    QTextCursor result = edittxt->document()->find(m_searchInput->text(), edittxt->textCursor().position());
+    if (result.isNull()) {
+        result = edittxt->document()->find(m_searchInput->text(), 0);
+    }
+    if (result.isNull()) {
+        return;
+    }
+    edittxt->setTextCursor(result);
 }

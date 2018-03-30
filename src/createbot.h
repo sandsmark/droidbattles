@@ -31,6 +31,7 @@
 //Added by qt3to4:
 #include <QCloseEvent>
 #include <QScopedPointer>
+#include <QLineEdit>
 #include "confstruct.h"
 #include "pixmapholder.h"
 /**The base widget for the bot editor, contains an editor, an assembler
@@ -44,6 +45,24 @@ class QComboBox;
 class Instruction;
 class BattleArea;
 class StartsBatt;
+
+class SearchEdit : public QLineEdit
+{
+    Q_OBJECT
+
+signals:
+    void escapePressed();
+
+protected:
+    void keyPressEvent(QKeyEvent *event) {
+        if (event->key() == Qt::Key_Escape) {
+            emit escapePressed();
+            return;
+        }
+
+        QLineEdit::keyPressEvent(event);
+    }
+};
 
 class CreateBot : public QWidget
 {
@@ -78,6 +97,8 @@ private slots:
     void setShowlatencyScrollValue(int i);
     void onHelpAction();
     void onAssembleAction();
+    void search();
+    void searchNext();
 
 signals:
     void helpRequested(const QString &word);
@@ -102,7 +123,6 @@ private:
     QScrollArea *scrvw;
     QWidget *boxarea;
     QString botname;
-    char *dirname;
     QPushButton *gfxbutton;
     QPixmap gfx;
     //		QPixmap *backpm;
@@ -115,6 +135,9 @@ private:
     int debugmem[4096];
     int debugentry;
     QString m_fileName;
+    QWidget *m_searchWidget;
+    SearchEdit *m_searchInput;
+    QPushButton *m_searchButton;
 };
 #include "devchoice.h"
 

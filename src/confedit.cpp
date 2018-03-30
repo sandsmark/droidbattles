@@ -56,7 +56,7 @@ ConfEdit::ConfEdit()
     mainLayout->addLayout(buttonsLayout);
 
     connect(defaultbutton, &QAbstractButton::clicked, this, &ConfEdit::defaultc);
-    connect(openbutton, &QAbstractButton::clicked, this, &ConfEdit::openc);
+    connect(openbutton, &QAbstractButton::clicked, this, &ConfEdit::openConfig);
     connect(savebutton, &QAbstractButton::clicked, this, &ConfEdit::savec);
     connect(closebutton, &QPushButton::clicked, this, &ConfEdit::close);
     connect(makecurrentbutton, &QAbstractButton::clicked, this, &ConfEdit::makecurrc);
@@ -214,7 +214,7 @@ void ConfEdit::defaultc()
 /**
 	* Opens existing config file and loads those values
 	*/
-void ConfEdit::openc()
+void ConfEdit::openConfig()
 {
     QSettings settings;
 

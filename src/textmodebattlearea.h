@@ -51,7 +51,7 @@ public:
     int execround();
 
 protected:
-    QPointer<ScreenObject> objects[256];
+    ScreenObject *objects[256];
     std::array<QString, 8> names;
     int numfights;
     int fightswon[8];

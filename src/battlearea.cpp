@@ -76,14 +76,13 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
         m_scorePoints[x] = 0;
     }
 
-    mydrw = new QLabel();
+    mydrw = new Drawable(this);
     horizontalLayout->addWidget(mydrw);
     infowindow = new QWidget();
     infowindow->setLayout(new QGridLayout);
     mainLayout->addWidget(infowindow);
 
-    m_pixmap = QPixmap(m_xSize >> 6, m_ySize >> 6);
-    mydrw->setMinimumSize(m_pixmap.size());
+    mydrw->setMinimumSize(m_xSize >> 6, m_ySize >> 6);
     mydrw->show();
     mydrw->setPalette(QPalette(QColor(0, 0, 0)));
     playb = new PixButton("Play", this);
@@ -282,8 +281,6 @@ void BattleArea::startonebattle(int y)
     }
     roundsrun = 0;
     infowindow->show();
-    m_pixmap.fill(Qt::black);
-    mydrw->setPixmap(m_pixmap);
 
     if (m_fastMode) {
         eventH.start(0);
@@ -303,8 +300,6 @@ void BattleArea::startonebattle(int y)
 
 void BattleArea::execute()
 {
-    QPainter painter(&m_pixmap);
-
     //	eventH->stop( );
     int x;
     roundsrun++;
@@ -312,7 +307,6 @@ void BattleArea::execute()
     {
         if (m_battleMode == 1 || m_battleMode == 0) {
             for (x = 0; x < maxbots; x++) {
-                objects[x]->eraseObject(&painter); //Erase all bots (to call a draw)
                 delete objects[x];
                 objects[x] = new ScreenObject();
             }
@@ -322,22 +316,17 @@ void BattleArea::execute()
             m_maxPoints = 0;
         }
     }
-    for (x = 0; x < maxobjects; x++) { //Remove the gfx from last round
-        objects[x]->eraseObject(&painter);
-    }
 
     for (x = 0; x < maxobjects; x++) {
         int ifdel = objects[x]->execute(); //Let each object execute,
         //move around and things like that
         if (ifdel == -1) //If the object ordered it's own destruction
         { //Example: shot that gets outside of screen
-            objects[x]->eraseObject(&painter);
             delete objects[x];
             objects[x] = new ScreenObject();
             continue;
         }
 
-        objects[x]->drawObject(&painter, 0); //Let each object paint itself
         int x2;
 
         if (objects[x]->type() <= 0) { //Check If the object exists and
@@ -425,12 +414,10 @@ void BattleArea::execute()
             if (objects[x2]->objectHit(9, str1) == 1) {
                 switch (m_battleMode) {
                 case 0:
-                    objects[x2]->eraseObject(&painter);
                     delete objects[x2];
                     objects[x2] = new ScreenObject();
                     break;
                 case 1:
-                    objects[x2]->eraseObject(&painter);
                     if (x < 8 && objects[x2]->type() == ScreenObject::BotObject) {
                         fightswon[x2]++;
                         delete objects[x2];
@@ -463,7 +450,6 @@ void BattleArea::execute()
                     }
                     break;
                 case 2: //If it's a deathmatch battle
-                    objects[x2]->eraseObject(&painter);
                     if (objects[x2]->type() == ScreenObject::BotObject) {
                         if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                             fightswon[objects[x]->owner()]++;
@@ -498,14 +484,12 @@ void BattleArea::execute()
             {
                 switch (m_battleMode) {
                 case 0: //If it's a normal battle
-                    objects[x]->eraseObject(&painter); //Erase him
                     delete objects[x];
                     objects[x] = new ScreenObject();
                     x2 = maxobjects;
                     continue;
                     break;
                 case 1: //If it's a survival battle
-                    objects[x]->eraseObject(&painter);
                     if (x < 8 && objects[x]->type() == ScreenObject::BotObject) {
                         fightswon[x]++;
                         delete objects[x];
@@ -541,7 +525,6 @@ void BattleArea::execute()
                     }
                     break;
                 case 2: //If it's a deathmatch battle
-                    objects[x]->eraseObject(&painter);
                     if (objects[x]->type() == ScreenObject::BotObject) {
                         if (x2owner < 8 && x != x2owner) {
                             fightswon[x2owner]++;
@@ -780,13 +763,7 @@ void BattleArea::execute()
         deleteLater();
     }
 
-    for (x = 0; x < maxobjects; x++) {
-        objects[x]->drawObject(&painter, 1); //Let each object paint itself
-    }
-    for (x = 0; x < maxobjects; x++) {
-        objects[x]->drawObject(&painter, 2); //Let each object paint itself
-    }
-    mydrw->setPixmap(m_pixmap.scaled(mydrw->size(), Qt::KeepAspectRatio));
+    mydrw->onRedrawRequested();
 }
 
 /**
@@ -921,8 +898,6 @@ void BattleArea::addscrobject(int owner, int X, int Y, int dir, int type,
 	*/
 void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject)
 {
-    QPainter painter(&m_pixmap);
-
     double X1, Y1, D1, S1;
     for (int z = 0; z < maxbots; z++) {
         if (z == whichobject) {
@@ -940,7 +915,6 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
         S1 = strength - (D1 * strength / rad);
         if (objects[z]->objectHit(9, S1) == 1) //If the damage killed him
         {
-            objects[z]->eraseObject(&painter); //Erase him
             switch (m_battleMode) {
             case 0:
                 delete objects[z];
@@ -976,7 +950,6 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
             case 2:
                 int x = whichobject;
                 int x2 = z;
-                objects[x2]->eraseObject(&painter);
                 if (objects[x2]->type() == ScreenObject::BotObject) {
                     if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                         fightswon[objects[x]->owner()]++;
@@ -1064,5 +1037,42 @@ void BattleArea::storeScores()
         scoreLog.write(name.toUtf8() + ";");
         scoreLog.write(QByteArray::number(fightswon[i]) + ";");
         scoreLog.write(QByteArray::number(points) + "\n");
+    }
+}
+
+Drawable::Drawable(BattleArea *area) : m_area(area)
+{
+    m_redrawTimer = new QTimer(this);
+    connect(m_redrawTimer, &QTimer::timeout, this, [=](){
+        update();
+    });
+    m_redrawTimer->setInterval(16);
+    m_redrawTimer->setSingleShot(true);
+}
+
+void Drawable::onRedrawRequested()
+{
+    if (!m_redrawTimer->isActive()) {
+        m_redrawTimer->start();
+    }
+}
+
+void Drawable::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    painter.fillRect(rect(), Qt::black);
+
+    for (int x = 0; x < maxobjects; x++) { //Remove the gfx from last round
+        m_area->objects[x]->eraseObject(&painter);
+    }
+
+    for (int x = 0; x < maxobjects; x++) { // Redraw
+        m_area->objects[x]->drawObject(&painter, 0);
+    }
+    for (int x = 0; x < maxobjects; x++) { // Redraw
+        m_area->objects[x]->drawObject(&painter, 1);
+    }
+    for (int x = 0; x < maxobjects; x++) { // Redraw
+        m_area->objects[x]->drawObject(&painter, 2);
     }
 }

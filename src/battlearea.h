@@ -34,6 +34,25 @@
 
 #include <QList>
 
+class BattleArea;
+
+class Drawable : public QWidget
+{
+    Q_OBJECT
+
+public:
+    Drawable(BattleArea *area);
+
+    void onRedrawRequested();
+
+protected:
+    void paintEvent(QPaintEvent * /*event*/);
+
+private:
+    BattleArea *m_area;
+    QTimer *m_redrawTimer;
+};
+
 /**
 	* The class that takes care of showing and computing the actual fight
   * @author Andreas Agorander
@@ -75,6 +94,8 @@ protected:
     void closeEvent(QCloseEvent *) override;
 
 private:
+    friend class Drawable;
+
     void storeScores();
 
     QList<DebugWindow *> dbgwindows;
@@ -84,9 +105,7 @@ private:
 
     int missilesLaunched;
 
-    //		screenobject *objects[256];
-    QPixmap m_pixmap;
-    QLabel *mydrw;
+    Drawable *mydrw;
     QWidget *infowindow;
     QTimer eventH;
     QMessageBox *ermsg;

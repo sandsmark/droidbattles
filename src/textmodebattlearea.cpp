@@ -68,6 +68,7 @@ TextmodeBattleArea::~TextmodeBattleArea()
     int x;
     for (x = 0; x < maxobjects; x++) {
         delete objects[x];
+        objects[x] = nullptr;
     }
 }
 
@@ -84,6 +85,7 @@ void TextmodeBattleArea::startonebattle(int y)
         //Deallocate memory
         for (x = 0; x < maxobjects; x++) {
             delete objects[x];
+            objects[x] = nullptr;
         }
     }
 

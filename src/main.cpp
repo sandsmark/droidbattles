@@ -232,6 +232,9 @@ int main(int argc, char *argv[])
         if (numFights > 1) {
             battleConf.numFights = numFights;
         }
+        if (parser.isSet(ticklessOption)) {
+            battleConf.fastMode = true;
+        }
 
         BattleArea *battleArea = new BattleArea(battleConf);
         QObject::connect(battleArea, &BattleArea::destroyed, app, &QCoreApplication::quit);

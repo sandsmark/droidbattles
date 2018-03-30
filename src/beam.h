@@ -32,8 +32,8 @@ public:
     Beam(int X, int Y, int dir, int l, TextmodeBattleArea &area, int owner, bool ui = true);
     ~Beam() override;
     int execute() override;
-    void eraseObject(QPixmap *buffer) override;
-    void drawObject(QPixmap *buffer, int opt = 0) override;
+    void eraseObject(QPainter *painter) override;
+    void drawObject(QPainter *painter, int opt = 0) override;
     int objectHit(int type, int strength) override;
     ObjectType type() override;
     int collisionStrength() override;

@@ -34,8 +34,8 @@ public:
     Explosion(int X, int Y, BattleArea &area);
     ~Explosion() override;
     int execute() override;
-    void eraseObject(QPixmap *buffer) override;
-    void drawObject(QPixmap *buffer, int opt) override;
+    void eraseObject(QPainter *painter) override;
+    void drawObject(QPainter *painter, int opt) override;
     ObjectType type() override;
 
 private:

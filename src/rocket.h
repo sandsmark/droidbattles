@@ -36,8 +36,8 @@ public:
            int owner, bool ui = true);
     int objectHit(int type, int strength) override;
     ObjectType type() override;
-    void eraseObject(QPixmap *buffer) override;
-    void drawObject(QPixmap *buffer, int opt) override;
+    void eraseObject(QPainter *painter) override;
+    void drawObject(QPainter *painter, int opt) override;
     int execute() override;
     int setPosition(double X, double Y) override;
     int collisionType() override;

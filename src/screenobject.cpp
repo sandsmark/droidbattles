@@ -31,11 +31,11 @@ ScreenObject::~ScreenObject()
 {
 }
 
-void ScreenObject::drawObject(QPixmap * /*buffer*/, int /*opt*/)
+void ScreenObject::drawObject(QPainter * /*painter*/, int /*opt*/)
 {
 }
 
-void ScreenObject::eraseObject(QPixmap * /*buffer*/)
+void ScreenObject::eraseObject(QPainter * /*painter*/)
 {
 }
 

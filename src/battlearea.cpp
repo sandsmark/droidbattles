@@ -303,6 +303,8 @@ void BattleArea::startonebattle(int y)
 
 void BattleArea::execute()
 {
+    QPainter painter(&m_pixmap);
+
     //	eventH->stop( );
     int x;
     roundsrun++;
@@ -310,7 +312,7 @@ void BattleArea::execute()
     {
         if (m_battleMode == 1 || m_battleMode == 0) {
             for (x = 0; x < maxbots; x++) {
-                objects[x]->eraseObject(&m_pixmap); //Erase all bots (to call a draw)
+                objects[x]->eraseObject(&painter); //Erase all bots (to call a draw)
                 delete objects[x];
                 objects[x] = new ScreenObject();
             }
@@ -321,7 +323,7 @@ void BattleArea::execute()
         }
     }
     for (x = 0; x < maxobjects; x++) { //Remove the gfx from last round
-        objects[x]->eraseObject(&m_pixmap);
+        objects[x]->eraseObject(&painter);
     }
 
     for (x = 0; x < maxobjects; x++) {
@@ -329,13 +331,13 @@ void BattleArea::execute()
         //move around and things like that
         if (ifdel == -1) //If the object ordered it's own destruction
         { //Example: shot that gets outside of screen
-            objects[x]->eraseObject(&m_pixmap);
+            objects[x]->eraseObject(&painter);
             delete objects[x];
             objects[x] = new ScreenObject();
             continue;
         }
 
-        objects[x]->drawObject(&m_pixmap, 0); //Let each object paint itself
+        objects[x]->drawObject(&painter, 0); //Let each object paint itself
         int x2;
 
         if (objects[x]->type() <= 0) { //Check If the object exists and
@@ -423,12 +425,12 @@ void BattleArea::execute()
             if (objects[x2]->objectHit(9, str1) == 1) {
                 switch (m_battleMode) {
                 case 0:
-                    objects[x2]->eraseObject(&m_pixmap);
+                    objects[x2]->eraseObject(&painter);
                     delete objects[x2];
                     objects[x2] = new ScreenObject();
                     break;
                 case 1:
-                    objects[x2]->eraseObject(&m_pixmap);
+                    objects[x2]->eraseObject(&painter);
                     if (x < 8 && objects[x2]->type() == ScreenObject::BotObject) {
                         fightswon[x2]++;
                         delete objects[x2];
@@ -461,7 +463,7 @@ void BattleArea::execute()
                     }
                     break;
                 case 2: //If it's a deathmatch battle
-                    objects[x2]->eraseObject(&m_pixmap);
+                    objects[x2]->eraseObject(&painter);
                     if (objects[x2]->type() == ScreenObject::BotObject) {
                         if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                             fightswon[objects[x]->owner()]++;
@@ -496,14 +498,14 @@ void BattleArea::execute()
             {
                 switch (m_battleMode) {
                 case 0: //If it's a normal battle
-                    objects[x]->eraseObject(&m_pixmap); //Erase him
+                    objects[x]->eraseObject(&painter); //Erase him
                     delete objects[x];
                     objects[x] = new ScreenObject();
                     x2 = maxobjects;
                     continue;
                     break;
                 case 1: //If it's a survival battle
-                    objects[x]->eraseObject(&m_pixmap);
+                    objects[x]->eraseObject(&painter);
                     if (x < 8 && objects[x]->type() == ScreenObject::BotObject) {
                         fightswon[x]++;
                         delete objects[x];
@@ -539,7 +541,7 @@ void BattleArea::execute()
                     }
                     break;
                 case 2: //If it's a deathmatch battle
-                    objects[x]->eraseObject(&m_pixmap);
+                    objects[x]->eraseObject(&painter);
                     if (objects[x]->type() == ScreenObject::BotObject) {
                         if (x2owner < 8 && x != x2owner) {
                             fightswon[x2owner]++;
@@ -779,10 +781,10 @@ void BattleArea::execute()
     }
 
     for (x = 0; x < maxobjects; x++) {
-        objects[x]->drawObject(&m_pixmap, 1); //Let each object paint itself
+        objects[x]->drawObject(&painter, 1); //Let each object paint itself
     }
     for (x = 0; x < maxobjects; x++) {
-        objects[x]->drawObject(&m_pixmap, 2); //Let each object paint itself
+        objects[x]->drawObject(&painter, 2); //Let each object paint itself
     }
     mydrw->setPixmap(m_pixmap.scaled(mydrw->size(), Qt::KeepAspectRatio));
 }
@@ -919,6 +921,8 @@ void BattleArea::addscrobject(int owner, int X, int Y, int dir, int type,
 	*/
 void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject)
 {
+    QPainter painter(&m_pixmap);
+
     double X1, Y1, D1, S1;
     for (int z = 0; z < maxbots; z++) {
         if (z == whichobject) {
@@ -936,7 +940,7 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
         S1 = strength - (D1 * strength / rad);
         if (objects[z]->objectHit(9, S1) == 1) //If the damage killed him
         {
-            objects[z]->eraseObject(&m_pixmap); //Erase him
+            objects[z]->eraseObject(&painter); //Erase him
             switch (m_battleMode) {
             case 0:
                 delete objects[z];
@@ -972,7 +976,7 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
             case 2:
                 int x = whichobject;
                 int x2 = z;
-                objects[x2]->eraseObject(&m_pixmap);
+                objects[x2]->eraseObject(&painter);
                 if (objects[x2]->type() == ScreenObject::BotObject) {
                     if (objects[x]->owner() < 8 && x2 != objects[x]->owner()) {
                         fightswon[objects[x]->owner()]++;

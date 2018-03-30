@@ -49,15 +49,14 @@ int Explosion::execute()
 	* Paints the circle on the screen, with size affected by
 	* the counter
 	*/
-void Explosion::drawObject(QPixmap *buffer, int opt)
+void Explosion::drawObject(QPainter *painter, int opt)
 {
     if (opt < 2) {
         return;
     }
 
-    QPainter p(buffer);
-    p.setPen(QColor(255, 255, 0, 4 * (32 - cycle)));
-    p.drawEllipse(Xpos - (cycle / 2), Ypos - (cycle / 2), cycle, cycle);
+    painter->setPen(QColor(255, 255, 0, 4 * (32 - cycle)));
+    painter->drawEllipse(Xpos - (cycle / 2), Ypos - (cycle / 2), cycle, cycle);
     oldX = int(Xpos - (cycle / 2));
     oldY = int(Ypos - (cycle / 2));
 }
@@ -65,11 +64,10 @@ void Explosion::drawObject(QPixmap *buffer, int opt)
 /**
 	* Paints a black circle where the yellow was painted before
 	*/
-void Explosion::eraseObject(QPixmap *buffer)
+void Explosion::eraseObject(QPainter *painter)
 {
-    QPainter p(buffer);
-    p.setPen(QColor(0, 0, 0));
-    p.drawEllipse(oldX, oldY, (cycle), (cycle));
+    painter->setPen(QColor(0, 0, 0));
+    painter->drawEllipse(oldX, oldY, (cycle), (cycle));
 }
 
 /**

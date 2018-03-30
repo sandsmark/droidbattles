@@ -81,28 +81,26 @@ ScreenObject::ObjectType Rocket::type()
 /**
 	* Paint gfx black
 	*/
-void Rocket::eraseObject(QPixmap *buffer)
+void Rocket::eraseObject(QPainter *painter)
 {
-    QPainter p(buffer);
-    p.setPen(QColor(0, 0, 0));
+    painter->setPen(QColor(0, 0, 0));
     int x;
     for (x = 0; x < 50; x++) {
-        p.drawPoint(pointX[x] >> 6, pointY[x] >> 6);
+        painter->drawPoint(pointX[x] >> 6, pointY[x] >> 6);
     }
 
-    p.drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
+    painter->drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
 }
 
 /**
 	* Paint the flame from the rocket
 	*/
-void Rocket::drawObject(QPixmap *buffer, int opt)
+void Rocket::drawObject(QPainter *painter, int opt)
 {
     if (opt > 0) {
         return;
     }
 
-    QPainter p(buffer);
     pointD[countpoint] = direction() + 512 + (rand() % 128) - 64;
     if (pointD[countpoint] > 1024) {
         pointD[countpoint] -= 1024;
@@ -116,13 +114,13 @@ void Rocket::drawObject(QPixmap *buffer, int opt)
     int x;
 
     for (x = 0; x < 50; x++) {
-        p.setPen(QColor(255, 0, 0, (rand() % 128) + 64));
+        painter->setPen(QColor(255, 0, 0, (rand() % 128) + 64));
         double dira = pointD[x] * pi / 512;
         pointX[x] += int(cos(dira) * 64);
         pointY[x] += int(sin(dira) * 64);
-        p.drawPoint(pointX[x] >> 6, pointY[x] >> 6);
+        painter->drawPoint(pointX[x] >> 6, pointY[x] >> 6);
     }
-    p.drawPixmap((int(Xpos) >> 6) - 4, (int(Ypos) >> 6) - 4, *graphics);
+    painter->drawPixmap((int(Xpos) >> 6) - 4, (int(Ypos) >> 6) - 4, *graphics);
 }
 
 /**

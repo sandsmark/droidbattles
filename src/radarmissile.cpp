@@ -89,27 +89,25 @@ ScreenObject::ObjectType RadarMissile::type()
 /**
 	* Paint object black
 	*/
-void RadarMissile::eraseObject(QPixmap *buffer)
+void RadarMissile::eraseObject(QPainter *painter)
 {
-    QPainter painter(buffer);
-    painter.drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
-    devices[2]->erase(&painter);
+    painter->drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
+    devices[2]->erase(painter);
 }
 
 /**
 	* Paint object gfx
 	*/
-void RadarMissile::drawObject(QPixmap *buffer, int opt)
+void RadarMissile::drawObject(QPainter *painter, int opt)
 {
     if (opt > 0) {
         return;
     }
 
-    QPainter painter(buffer);
-    painter.drawPixmap((xPos() >> 6) - 4, (yPos() >> 6) - 4, *graphics);
+    painter->drawPixmap((xPos() >> 6) - 4, (yPos() >> 6) - 4, *graphics);
     oldX = int(Xpos);
     oldY = int(Ypos);
-    devices[2]->draw(&painter);
+    devices[2]->draw(painter);
 }
 
 /**

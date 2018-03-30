@@ -67,23 +67,21 @@ int Missile::execute()
 /**
 	* Paint the shot black
 	*/
-void Missile::eraseObject(QPixmap *buffer)
+void Missile::eraseObject(QPainter *painter)
 {
-    QPainter painter(buffer);
-    painter.drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
+    painter->drawPixmap((oldX >> 6) - 4, (oldY >> 6) - 4, *erasegfx);
 }
 
 /**
 	* Paint the shot on the screen
 	*/
-void Missile::drawObject(QPixmap *buffer, int opt)
+void Missile::drawObject(QPainter *painter, int opt)
 {
     if (opt > 0) {
         return;
     }
 
-    QPainter painter(buffer);
-    painter.drawPixmap((xPos() >> 6) - 4, (yPos() >> 6) - 4, *graphics);
+    painter->drawPixmap((xPos() >> 6) - 4, (yPos() >> 6) - 4, *graphics);
     oldX = int(Xpos);
     oldY = int(Ypos);
 }

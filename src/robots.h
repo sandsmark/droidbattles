@@ -68,8 +68,8 @@ public:
            bool er = true, bool ui = true);
     ~Robots() override;
     int execute() override;
-    void eraseObject(QPixmap *buffer) override;
-    void drawObject(QPixmap *buffer, int opt) override;
+    void eraseObject(QPainter *painter) override;
+    void drawObject(QPainter *painter, int opt) override;
     int readDevicePort(uint8_t port) override;
     void writeDevicePort(uint8_t port, uint16_t value) override;
     int objectHit(int type, int strength) override;

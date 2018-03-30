@@ -97,26 +97,24 @@ ScreenObject::ObjectType Beam::type()
 /**
 	* Paint object
 	*/
-void Beam::drawObject(QPixmap *buffer, int opt)
+void Beam::drawObject(QPainter *painter, int opt)
 {
     if (opt > 0) {
         return;
     }
 
-    QPainter p(buffer);
-    p.setPen(QColor(0, 0, (5 - effect) * 50));
-    p.drawLine(uX >> 6, uY >> 6, xPos() >> 6, yPos() >> 6);
+    painter->setPen(QColor(0, 0, (5 - effect) * 50));
+    painter->drawLine(uX >> 6, uY >> 6, xPos() >> 6, yPos() >> 6);
     ispainted = true;
 }
 
 /**
 	* Paint object black
 	*/
-void Beam::eraseObject(QPixmap *buffer)
+void Beam::eraseObject(QPainter *painter)
 {
-    QPainter p(buffer);
-    p.setPen(QColor(0, 0, 0));
-    p.drawLine(uX >> 6, uY >> 6, xPos() >> 6, yPos() >> 6);
+    painter->setPen(QColor(0, 0, 0));
+    painter->drawLine(uX >> 6, uY >> 6, xPos() >> 6, yPos() >> 6);
     ispainted = false;
 }
 

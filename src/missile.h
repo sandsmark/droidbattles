@@ -36,8 +36,8 @@ public:
     Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea &area, bool ui = true);
     ~Missile() override;
     int execute() override;
-    void eraseObject(QPixmap *buffer) override;
-    void drawObject(QPixmap *buffer, int opt) override;
+    void eraseObject(QPainter *painter) override;
+    void drawObject(QPainter *painter, int opt) override;
     ObjectType type() override;
     int collisionType() override;
     int collisionStrength() override;

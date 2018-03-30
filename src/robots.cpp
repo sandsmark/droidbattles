@@ -322,14 +322,13 @@ int Robots::execute()
 /**
 	* Paint bot black
 	*/
-void Robots::eraseObject(QPixmap *buffer)
+void Robots::eraseObject(QPainter *painter)
 {
-    QPainter painter(buffer);
-    painter.drawPixmap((oldX >> 6) - 16, (oldY >> 6) - 16, *erasegfx);
+    painter->drawPixmap((oldX >> 6) - 16, (oldY >> 6) - 16, *erasegfx);
     int x;
     if (gfxin) {
         for (x = 0; x < 32; x++) {
-            devicelist[x]->erase(&painter);
+            devicelist[x]->erase(painter);
         }
         gfxin = false;
     }
@@ -338,13 +337,11 @@ void Robots::eraseObject(QPixmap *buffer)
 /**
 	* Show bot gfx on screen
 	*/
-void Robots::drawObject(QPixmap *buffer, int opt)
+void Robots::drawObject(QPainter *painter, int opt)
 {
     if (opt > 1) {
         return;
     }
-
-    QPainter painter(buffer);
 
     int degrees = direction() + (degreesperpic / 2);
     if (degrees > 1023) {
@@ -356,10 +353,10 @@ void Robots::drawObject(QPixmap *buffer, int opt)
 
     int x;
     if (opt == 1) {
-        painter.drawPixmap((xPos() >> 6) - 16, (yPos() >> 6) - 16, 32, 32, *graphics, picpos, ypicpos, 32, 32);
+        painter->drawPixmap((xPos() >> 6) - 16, (yPos() >> 6) - 16, 32, 32, *graphics, picpos, ypicpos, 32, 32);
     } else if (showextragfx) {
         for (x = 0; x < 32; x++) {
-            devicelist[x]->draw(&painter);
+            devicelist[x]->draw(painter);
         }
         gfxin = true;
     }

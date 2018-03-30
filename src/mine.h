@@ -38,8 +38,8 @@ public:
     int collisionType() override;
     int collisionStrength() override;
     int objectHit(int, int) override;
-    void drawObject(QPixmap *buffer, int) override;
-    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPainter *painter, int) override;
+    void eraseObject(QPainter *painter) override;
     int returnRadar() override;
 
 private:

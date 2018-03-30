@@ -51,13 +51,14 @@ public:
     int speed();
     int number();
 
+    virtual void eraseObject(QPainter *painter);
+    virtual void drawObject(QPainter *painter, int opt);
+
     virtual void addScreenObject(int X, int Y, int dir, int type, int arg1 = 0,
                                  int arg2 = 0, void *arg3 = 0);
     virtual int readDevicePort(uint8_t port);
     virtual void writeDevicePort(uint8_t port, uint16_t value);
     virtual int execute();
-    virtual void eraseObject(QPixmap *buffer);
-    virtual void drawObject(QPixmap *buffer, int opt);
     virtual int objectHit(int type, int strength);
     virtual void objectScanned(int intensity, int dir);
     virtual int collisionType();

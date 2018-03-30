@@ -39,8 +39,8 @@ public:
     RadarMissile(int, int, int, int, int, int, TextmodeBattleArea &, Ram *, int owner, bool ui = true);
     ~RadarMissile() override;
     int execute() override;
-    void eraseObject(QPixmap *buffer) override;
-    void drawObject(QPixmap *buffer, int opt) override;
+    void eraseObject(QPainter *painter) override;
+    void drawObject(QPainter *painter, int opt) override;
     ObjectType type() override;
     int collisionType() override;
     int collisionStrength() override;

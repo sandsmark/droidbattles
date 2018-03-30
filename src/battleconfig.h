@@ -21,6 +21,7 @@ struct BattleConfig
     int numFights = 1;
     std::array<int, 8> teams = { 0 };
     bool fastMode = false;
+    bool debugMode = false;
 };
 
 #endif // BATTLECONFIG_H

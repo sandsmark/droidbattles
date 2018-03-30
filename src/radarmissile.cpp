@@ -206,7 +206,7 @@ int RadarMissile::returnRadar()
 void RadarMissile::createDbgWindow(int id, QPlainTextEdit *e, int *l, int *m)
 {
     delete dbgWindow;
-    dbgWindow = new DebugWindow(e, &l[0], &m[0]);
+    dbgWindow = new DebugWindow(e, l, m);
     dbgWindow->resize(300, 405);
     dbgWindow->show();
     QString title;

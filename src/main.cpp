@@ -168,6 +168,7 @@ int main(int argc, char *argv[])
     }
     if (useGUI) {
         QGuiApplication *guiApp = new QApplication(argc, argv);
+        QApplication::setStyle(QStyleFactory::create("Fusion"));
         app = guiApp;
         QFont font(QGuiApplication::font());
         font.setPixelSize(12);
@@ -238,13 +239,13 @@ int main(int argc, char *argv[])
 
         BattleArea *battleArea = new BattleArea(battleConf);
         QObject::connect(battleArea, &BattleArea::destroyed, app, &QCoreApplication::quit);
+        QObject::connect(battleArea, &BattleArea::closed, app, &QCoreApplication::quit);
         battleArea->show();
 
-        return QCoreApplication::exec();
+        return app->exec();
     }
 
     if (useGUI) {
-        QApplication::setStyle(QStyleFactory::create("Fusion"));
         DroidBattles *droidbattles = new DroidBattles();
 
         droidbattles->show();

@@ -83,8 +83,8 @@ DebugWindow::DebugWindow(QPlainTextEdit *Medit, int *dbl, int *dbm)
     mainLayout->addWidget(dumpmemb);
 
     maineditor = Medit;
-    debuglines = &dbl[0];
-    debugmem = &dbm[0];
+    debuglines = dbl;
+    debugmem = dbm;
 
     QObject::connect(dumpmemb, SIGNAL(clicked()), this, SLOT(distsignal()));
 }

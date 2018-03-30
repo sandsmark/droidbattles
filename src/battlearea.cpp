@@ -27,19 +27,19 @@
 #include <QStandardPaths>
 #include <QVBoxLayout>
 #include <QtMath>
+#include <QSlider>
 
 bool SingleStepMode = false;
 
 /**
 	* Constructor, inits area and starts first battle round
 	*/
-BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTextEdit *dbedit, int *dbl, int *dbm)
+BattleArea::BattleArea(const BattleConfig &battleConfig, QPlainTextEdit *dbedit, int *dbl, int *dbm)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::Dialog);
 
-
-    m_debugEnabled = ifdebug;
+    m_debugEnabled = battleConfig.debugMode;
     m_fastMode = battleConfig.fastMode;
     m_battleMode = battleConfig.mode;
     m_maxPoints = battleConfig.maxPoints;
@@ -92,6 +92,14 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
     m_roundCounter = new QLabel("Rounds:");
     m_roundCounter->setVisible(numfights > 1);
     m_roundCounter->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    QLabel *speedLabel = new QLabel("Delay");
+    speedLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    m_speedSlider = new QSlider();
+    m_speedSlider->setOrientation(Qt::Horizontal);
+    m_speedSlider->setMinimum(1);
+    m_speedSlider->setMaximum(75);
+    m_speedSlider->setMinimumWidth(150);
+    m_speedSlider->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
     QVBoxLayout *sideLayout = new QVBoxLayout;
     sideLayout->addWidget(playb);
@@ -100,14 +108,24 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
     sideLayout->addStretch();
     sideLayout->addWidget(m_roundCounter);
     sideLayout->addStretch();
+    sideLayout->addWidget(speedLabel);
+    sideLayout->addWidget(m_speedSlider);
     horizontalLayout->addLayout(sideLayout);
 
     connect(playb, &QAbstractButton::clicked, this, &BattleArea::play);
     connect(pauseb, &QAbstractButton::clicked, this, &BattleArea::pause);
     connect(singles, &QAbstractButton::clicked, this, &BattleArea::singlestep);
+    connect(m_speedSlider, &QAbstractSlider::valueChanged, this, &BattleArea::onSpeedChange);
+
+    if (m_fastMode) {
+        eventH.setInterval(0);
+    } else {
+        eventH.setInterval(20);
+    }
+    m_speedSlider->setValue(eventH.interval());
 
     connect(&eventH, &QTimer::timeout, this, &BattleArea::execute);
-    if (ifdebug) {
+    if (m_debugEnabled) {
         // keep parameters
         _dbedit = dbedit;
         _dbl = dbl;
@@ -131,11 +149,7 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
 	*/
 void BattleArea::play()
 {
-    if (m_fastMode) {
-        eventH.start(0); //As fast as possible
-    } else {
-        eventH.start(20); //20 ms between ticks (50 times/second)
-    }
+    eventH.start();
     runmode = 1;
 }
 
@@ -250,7 +264,7 @@ void BattleArea::startonebattle(int y)
         }
         int nCpus = qobject_cast<Robots*>(objects[debugbot])->cpuCount();
         for (int x = 0; x < nCpus; x++) {
-            DebugWindow *dw = new DebugWindow(_dbedit, &_dbl[0], &_dbm[0]);
+            DebugWindow *dw = new DebugWindow(_dbedit, _dbl, _dbm);
             connect(dw, &DebugWindow::dumpmem, this, &BattleArea::dmem);
             dw->resize(300, 405);
             dw->show();
@@ -284,11 +298,11 @@ void BattleArea::startonebattle(int y)
     infowindow->show();
 
     if (m_fastMode) {
-        eventH.start(0);
+        eventH.start();
         runmode = 1;
     } else {
         if (!m_debugEnabled) {
-            eventH.start(20);
+            eventH.start();
             runmode = 1;
         }
     }
@@ -1011,10 +1025,16 @@ void BattleArea::dmem()
     objects[7]->dumpRam();
 }
 
+void BattleArea::onSpeedChange(int value)
+{
+    eventH.setInterval(value);
+}
+
 void BattleArea::closeEvent(QCloseEvent * /*unused*/)
 {
     QSettings settings;
     settings.setValue("BattleAreaGeometry", saveGeometry());
+    qDebug() << "CLosed";
     emit closed();
 }
 
@@ -1060,6 +1080,10 @@ void Drawable::onRedrawRequested()
 
 void Drawable::paintEvent(QPaintEvent *)
 {
+    if (!m_area) {
+        return;
+    }
+
     const int shortestSide = qMin(width(), height());
     const QRect drawRect(0, 0, shortestSide, shortestSide);
 

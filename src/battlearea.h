@@ -33,6 +33,7 @@
 #include "textmodebattlearea.h"
 
 #include <QList>
+class QSlider;
 
 class BattleArea;
 
@@ -49,7 +50,7 @@ protected:
     void paintEvent(QPaintEvent * /*event*/);
 
 private:
-    BattleArea *m_area;
+    QPointer<BattleArea> m_area;
     QTimer *m_redrawTimer;
 };
 
@@ -64,7 +65,7 @@ class BattleArea : public QDialog, public TextmodeBattleArea
     Q_OBJECT
 
 public:
-    BattleArea(const BattleConfig &battleConfig, bool ifdebug = false,
+    BattleArea(const BattleConfig &battleConfig,
                QPlainTextEdit *dbedit = NULL, int *dbl = 0, int *dbm = 0);
     ~BattleArea() override;
     void addscrobject(int owner, int X, int Y, int dir, int type, int arg1 = 0,
@@ -80,11 +81,11 @@ public slots:
     void play();
 
 private slots:
-
     void execute();
     void pause();
     void singlestep();
     void dmem();
+    void onSpeedChange(int value);
 
 signals:
     void battledone(int, int);
@@ -99,9 +100,9 @@ private:
     void storeScores();
 
     QList<DebugWindow *> dbgwindows;
-    QPlainTextEdit *_dbedit;
-    int *_dbl;
-    int *_dbm;
+    QPlainTextEdit *_dbedit = nullptr;
+    int *_dbl = nullptr;
+    int *_dbm = nullptr;
 
     int missilesLaunched;
 
@@ -121,6 +122,7 @@ private:
     QPointer<BotInfo> binfo[8];
 
     QLabel *m_roundCounter;
+    QSlider *m_speedSlider;
     /*		QString names[8];
     		//QPixmap *backpm;
     		int numfights;

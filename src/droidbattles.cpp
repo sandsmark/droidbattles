@@ -201,7 +201,7 @@ void DroidBattles::startskirmish()
         battleConfig.teams = teams;
         battleConfig.isTournament = false;
 
-        batt = new BattleArea(battleConfig, false);
+        batt = new BattleArea(battleConfig);
         batt->show();
     }
     delete ssb;

@@ -2158,7 +2158,8 @@ bool CreateBot::startquick()
     battleConfig.fastMode = false;
     battleConfig.mode = 0;
     battleConfig.maxPoints = 0;
-    batt = new BattleArea(battleConfig, true, edittxt, &debuglines[0], &debugmem[0]);
+    battleConfig.debugMode = true;
+    batt = new BattleArea(battleConfig, edittxt, &debuglines[0], &debugmem[0]);
     batt->show();
     return true;
 }

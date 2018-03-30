@@ -29,9 +29,9 @@ class Turret : public Device
 
 public:
     Turret(ScreenObject &, int, int);
-    ~Turret();
-    int readPort(uint8_t);
-    void execute();
+    ~Turret() override;
+    int readPort(uint8_t) override;
+    void execute() override;
 
 private:
     int ourdev;

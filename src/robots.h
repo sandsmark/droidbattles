@@ -66,7 +66,7 @@ class Robots : public ScreenObject
 public:
     Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfStruct, int tm,
            bool er = true, bool ui = true);
-    ~Robots();
+    ~Robots() override;
     int execute() override;
     void eraseObject(QPixmap *buffer) override;
     void drawObject(QPixmap *buffer, int opt) override;

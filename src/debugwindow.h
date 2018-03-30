@@ -38,7 +38,7 @@ class DebugWindow : public QDialog
 
 public:
     DebugWindow(QPlainTextEdit *Medit, int *dbl, int *dbm);
-    ~DebugWindow();
+    ~DebugWindow() override;
     void updatedata(struct DebugContents);
 
 private slots:

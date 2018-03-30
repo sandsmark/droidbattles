@@ -30,8 +30,8 @@ class Cloaker : public Device
 
 public:
     Cloaker(ScreenObject &object, int arg1);
-    ~Cloaker();
-    void execute();
+    ~Cloaker() override;
+    void execute() override;
 
 private:
     bool cloakon;

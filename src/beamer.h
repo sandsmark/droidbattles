@@ -30,9 +30,9 @@ class Beamer : public Device
 
 public:
     Beamer(ScreenObject &, int arg1);
-    ~Beamer();
-    void execute();
-    int readPort(uint8_t port);
+    ~Beamer() override;
+    void execute() override;
+    int readPort(uint8_t port) override;
 
 private:
     int length;

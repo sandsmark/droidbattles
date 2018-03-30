@@ -30,9 +30,9 @@ class TimeDev : public Device
 
 public:
     TimeDev(ScreenObject &);
-    ~TimeDev();
-    void execute();
-    int readPort(uint8_t port);
+    ~TimeDev() override;
+    void execute() override;
+    int readPort(uint8_t port) override;
 
 private:
     int timecount;

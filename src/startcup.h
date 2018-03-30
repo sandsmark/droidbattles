@@ -30,7 +30,7 @@ class StartCup : public StartTournament
     Q_OBJECT
 public:
     StartCup();
-    ~StartCup();
+    ~StartCup() override;
 private slots:
     void ocl();
 };

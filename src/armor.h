@@ -30,13 +30,13 @@ class Armor : public Device
 
 public:
     Armor(ScreenObject &object, int);
-    ~Armor();
-    void execute();
-    int absorbHit(int str, int ifint);
-    int type();
-    int specialValue();
-    int readPort(uint8_t port);
-    void doSpecial(int, int = 0);
+    ~Armor() override;
+    void execute() override;
+    int absorbHit(int str, int ifint) override;
+    int type() override;
+    int specialValue() override;
+    int readPort(uint8_t port) override;
+    void doSpecial(int, int = 0) override;
 
 private:
     int strength;

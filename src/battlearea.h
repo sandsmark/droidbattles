@@ -47,13 +47,13 @@ class BattleArea : public QDialog, public TextmodeBattleArea
 public:
     BattleArea(const BattleConfig &battleConfig, bool ifdebug = false,
                QPlainTextEdit *dbedit = NULL, int *dbl = 0, int *dbm = 0);
-    ~BattleArea();
+    ~BattleArea() override;
     void addscrobject(int owner, int X, int Y, int dir, int type, int arg1 = 0,
-                      int arg2 = 0, void *arg3 = 0);
+                      int arg2 = 0, void *arg3 = 0) override;
     //int devio( int bot,int dev,int choice,int arg1,int arg2 );
-    void startonebattle(int);
+    void startonebattle(int) override;
     //int	getareainfo( int );
-    void explosions(int x, int y, int rad, int strength, int whichobject);
+    void explosions(int x, int y, int rad, int strength, int whichobject) override;
     //int getstartx( int );
     //int getstarty( int );
 
@@ -72,7 +72,7 @@ signals:
     void closed();
 
 protected:
-    void closeEvent(QCloseEvent *);
+    void closeEvent(QCloseEvent *) override;
 
 private:
     void storeScores();

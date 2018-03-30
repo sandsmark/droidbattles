@@ -32,9 +32,9 @@ class RadarMissileLauncher : public Device
 public:
     RadarMissileLauncher(ScreenObject &object, int level, Ram *memdevice,
                          int offset);
-    ~RadarMissileLauncher();
-    int readPort(uint8_t port);
-    void execute();
+    ~RadarMissileLauncher() override;
+    int readPort(uint8_t port) override;
+    void execute() override;
 
 private:
     int reloadtime;

@@ -31,19 +31,19 @@ class Rocket : public ScreenObject
 
 public:
     Rocket();
-    ~Rocket();
+    ~Rocket() override;
     Rocket(int X, int Y, int dir, int leng, int mnum, TextmodeBattleArea &area,
            int owner, bool ui = true);
-    int objectHit(int type, int strength);
-    ObjectType type();
-    void eraseObject(QPixmap *buffer);
-    void drawObject(QPixmap *buffer, int opt);
-    int execute();
-    int setPosition(double X, double Y);
-    int collisionType();
-    int collisionStrength();
-    bool areaExplosionAffects();
-    int returnRadar();
+    int objectHit(int type, int strength) override;
+    ObjectType type() override;
+    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPixmap *buffer, int opt) override;
+    int execute() override;
+    int setPosition(double X, double Y) override;
+    int collisionType() override;
+    int collisionStrength() override;
+    bool areaExplosionAffects() override;
+    int returnRadar() override;
 
 private:
     int length;

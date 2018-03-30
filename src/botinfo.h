@@ -39,7 +39,7 @@ class BotInfo : public QObject
     Q_OBJECT
 
 public:
-    ~BotInfo();
+    ~BotInfo() override;
     static BotInfo *addBotInfo(QGridLayout *layout, int index, const QString &name, ScreenObject *screenObject);
 
     int score();

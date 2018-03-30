@@ -30,9 +30,9 @@ class MineLayer : public Device
 
 public:
     MineLayer(ScreenObject &, int);
-    ~MineLayer();
-    int readPort(uint8_t port);
-    void execute();
+    ~MineLayer() override;
+    int readPort(uint8_t port) override;
+    void execute() override;
 
 private:
     int minesleft;

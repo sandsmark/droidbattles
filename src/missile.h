@@ -34,16 +34,16 @@ class Missile : public ScreenObject
 
 public:
     Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea &area, bool ui = true);
-    ~Missile();
-    int execute();
-    void eraseObject(QPixmap *buffer);
-    void drawObject(QPixmap *buffer, int opt);
-    ObjectType type();
-    int collisionType();
-    int collisionStrength();
-    int setPosition(double X, double Y);
-    int objectHit(int type, int strength);
-    int returnRadar();
+    ~Missile() override;
+    int execute() override;
+    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPixmap *buffer, int opt) override;
+    ObjectType type() override;
+    int collisionType() override;
+    int collisionStrength() override;
+    int setPosition(double X, double Y) override;
+    int objectHit(int type, int strength) override;
+    int returnRadar() override;
 
 private:
     int strength;

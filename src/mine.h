@@ -32,15 +32,15 @@ class Mine : public ScreenObject
 
 public:
     Mine(int, int, TextmodeBattleArea &, int owner, bool ui = true);
-    ~Mine();
-    ObjectType type();
-    int execute();
-    int collisionType();
-    int collisionStrength();
-    int objectHit(int, int);
-    void drawObject(QPixmap *buffer, int);
-    void eraseObject(QPixmap *buffer);
-    int returnRadar();
+    ~Mine() override;
+    ObjectType type() override;
+    int execute() override;
+    int collisionType() override;
+    int collisionStrength() override;
+    int objectHit(int, int) override;
+    void drawObject(QPixmap *buffer, int) override;
+    void eraseObject(QPixmap *buffer) override;
+    int returnRadar() override;
 
 private:
     int time1;

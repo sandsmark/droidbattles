@@ -34,14 +34,14 @@ class CPU : public Device
 public:
     CPU();
     CPU(Ram &ramdev, ScreenObject &object);
-    virtual ~CPU();
+    ~CPU() override;
     virtual void callobout(uint8_t one, uint16_t two);
     virtual int callobin(uint8_t one);
     virtual void sendmsg(char *msg);
     virtual int writefile(int start, int length, int adress);
     virtual int readfile(int start, int length, int adress);
     virtual void execinstr();
-    virtual int readPort(uint8_t port);
+    int readPort(uint8_t port) override;
 
 protected:
     Ram *mem;

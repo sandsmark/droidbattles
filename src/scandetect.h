@@ -31,11 +31,11 @@ class ScanDetect : public Device
 {
 public:
     ScanDetect(ScreenObject &object);
-    ~ScanDetect();
-    int readPort(uint8_t port);
-    void execute();
-    int type();
-    void doSpecial(int, int);
+    ~ScanDetect() override;
+    int readPort(uint8_t port) override;
+    void execute() override;
+    int type() override;
+    void doSpecial(int, int) override;
 
 private:
     int numscans;

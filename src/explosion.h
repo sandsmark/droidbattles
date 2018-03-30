@@ -32,11 +32,11 @@ class Explosion : public ScreenObject
 
 public:
     Explosion(int X, int Y, BattleArea &area);
-    ~Explosion();
-    int execute();
-    void eraseObject(QPixmap *buffer);
-    void drawObject(QPixmap *buffer, int opt);
-    ObjectType type();
+    ~Explosion() override;
+    int execute() override;
+    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPixmap *buffer, int opt) override;
+    ObjectType type() override;
 
 private:
     int cycle;

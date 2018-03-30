@@ -37,19 +37,19 @@ class RadarMissile : public ScreenObject
 
 public:
     RadarMissile(int, int, int, int, int, int, TextmodeBattleArea &, Ram *, int owner, bool ui = true);
-    ~RadarMissile();
-    int execute();
-    void eraseObject(QPixmap *buffer);
-    void drawObject(QPixmap *buffer, int opt);
-    ObjectType type();
-    int collisionType();
-    int collisionStrength();
-    int setPosition(double X, double Y);
-    int objectHit(int type, int strength);
-    int readDevicePort(uint8_t port);
-    void writeDevicePort(uint8_t port, uint16_t value);
-    int writetoBattleArea(int bot, int dev, int choice, int arg1, int arg2);
-    int returnRadar();
+    ~RadarMissile() override;
+    int execute() override;
+    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPixmap *buffer, int opt) override;
+    ObjectType type() override;
+    int collisionType() override;
+    int collisionStrength() override;
+    int setPosition(double X, double Y) override;
+    int objectHit(int type, int strength) override;
+    int readDevicePort(uint8_t port) override;
+    void writeDevicePort(uint8_t port, uint16_t value) override;
+    int writetoBattleArea(int bot, int dev, int choice, int arg1, int arg2) override;
+    int returnRadar() override;
     void createDbgWindow(int, QPlainTextEdit *, int *, int *);
 
 private:

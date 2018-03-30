@@ -31,9 +31,9 @@ class RocketLauncher : public Device
 
 public:
     RocketLauncher(ScreenObject &object, int level, int offset);
-    ~RocketLauncher();
-    void execute();
-    int readPort(uint8_t port);
+    ~RocketLauncher() override;
+    void execute() override;
+    int readPort(uint8_t port) override;
 
 private:
     int readiness;

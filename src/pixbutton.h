@@ -34,7 +34,7 @@ class PixButton : public QPushButton
 {
 public:
     PixButton(const QString &text, QWidget *parent);
-    ~PixButton();
+    ~PixButton() override;
 
 protected:
     void paintEvent(QPaintEvent *event) override;

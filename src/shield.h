@@ -33,12 +33,12 @@ class Shield : public Device
 
 public:
     Shield(ScreenObject &object, int arg1);
-    ~Shield();
-    int absorbHit(int strength, int ifint);
-    void execute();
-    int readPort(uint8_t port);
-    void draw(QPainter *painter);
-    void erase(QPainter *painter);
+    ~Shield() override;
+    int absorbHit(int strength, int ifint) override;
+    void execute() override;
+    int readPort(uint8_t port) override;
+    void draw(QPainter *painter) override;
+    void erase(QPainter *painter) override;
 
 private:
     int ourlevel;

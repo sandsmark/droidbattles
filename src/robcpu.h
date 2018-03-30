@@ -32,13 +32,13 @@ public:
     RobCpu();
     RobCpu(Ram &ramdev, ScreenObject &object, int arg1, int arg2, int arg3,
            int arg4, int arg5);
-    ~RobCpu();
-    void execute();
-    int type();
-    int specialValue();
-    void sendmsg(char *msg);
-    struct DebugContents debugContents();
-    void execinstr();
+    ~RobCpu() override;
+    void execute() override;
+    int type() override;
+    int specialValue() override;
+    void sendmsg(char *msg) override;
+    struct DebugContents debugContents() override;
+    void execinstr() override;
 };
 
 #endif

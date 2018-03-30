@@ -31,9 +31,9 @@ class ChaffLauncher : public Device
 
 public:
     ChaffLauncher(ScreenObject &object, int level);
-    ~ChaffLauncher();
-    void execute();
-    int readPort(uint8_t port);
+    ~ChaffLauncher() override;
+    void execute() override;
+    int readPort(uint8_t port) override;
 
 private:
     int chaffleft;

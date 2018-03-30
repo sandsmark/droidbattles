@@ -30,8 +30,8 @@ class Plasma : public Device
 
 public:
     Plasma(ScreenObject &object, int arg1, int offset);
-    ~Plasma();
-    void execute();
+    ~Plasma() override;
+    void execute() override;
 
 private:
     int readiness;

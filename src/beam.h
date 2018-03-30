@@ -30,14 +30,14 @@ class Beam : public ScreenObject
 
 public:
     Beam(int X, int Y, int dir, int l, TextmodeBattleArea &area, int owner, bool ui = true);
-    ~Beam();
-    int execute();
-    void eraseObject(QPixmap *buffer);
-    void drawObject(QPixmap *buffer, int opt = 0);
-    int objectHit(int type, int strength);
-    ObjectType type();
-    int collisionStrength();
-    int collisionType();
+    ~Beam() override;
+    int execute() override;
+    void eraseObject(QPixmap *buffer) override;
+    void drawObject(QPixmap *buffer, int opt = 0) override;
+    int objectHit(int type, int strength) override;
+    ObjectType type() override;
+    int collisionStrength() override;
+    int collisionType() override;
 
 private:
     int length;

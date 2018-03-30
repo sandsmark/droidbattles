@@ -31,10 +31,10 @@ class Communication : public Device
 
 public:
     Communication(ScreenObject &object);
-    ~Communication();
-    int readPort(uint8_t port);
-    void execute();
-    void doSpecial(int x, int y);
+    ~Communication() override;
+    int readPort(uint8_t port) override;
+    void execute() override;
+    void doSpecial(int x, int y) override;
 
 private:
     int msglist[32];

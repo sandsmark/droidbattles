@@ -29,10 +29,10 @@ class Engine : public Device
 {
 
 public:
-    ~Engine();
+    ~Engine() override;
     Engine(ScreenObject &object, int);
-    int readPort(uint8_t port);
-    void execute();
+    int readPort(uint8_t port) override;
+    void execute() override;
 
 private:
     int thrust;

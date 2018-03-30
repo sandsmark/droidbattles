@@ -41,7 +41,7 @@ public:
     };
 
     ScreenObject();
-    virtual ~ScreenObject();
+    ~ScreenObject() override;
     virtual int setPosition(double X, double Y);
     void changeDirection(int Z);
     void changeSpeed(int Z);

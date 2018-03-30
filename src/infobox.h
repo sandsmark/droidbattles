@@ -31,8 +31,8 @@ class InfoBox : public QDialog
 {
 public:
     InfoBox(const QString &msg, QWidget *parent = 0);
-    ~InfoBox();
-    void closeEvent(QCloseEvent *e);
+    ~InfoBox() override;
+    void closeEvent(QCloseEvent *e) override;
 
 private:
     QLabel *text;

@@ -31,9 +31,9 @@ class Steering : public Device
 
 public:
     Steering(ScreenObject &object, int);
-    ~Steering();
-    int readPort(uint8_t port);
-    void execute();
+    ~Steering() override;
+    int readPort(uint8_t port) override;
+    void execute() override;
 
 private:
     int aimatdir;

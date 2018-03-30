@@ -31,11 +31,11 @@ class Scanner : public Device
 {
 public:
     Scanner(ScreenObject &object, int arg1, int offset);
-    ~Scanner();
-    void execute();
-    int readPort(uint8_t port);
-    void erase(QPainter *painter);
-    void draw(QPainter *painter);
+    ~Scanner() override;
+    void execute() override;
+    int readPort(uint8_t port) override;
+    void erase(QPainter *painter) override;
+    void draw(QPainter *painter) override;
 
 private:
     int threshold;

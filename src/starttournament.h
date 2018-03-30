@@ -44,10 +44,10 @@ class StartTournament : public QDialog
 
 public:
     StartTournament(const QString &type);
-    ~StartTournament();
+    ~StartTournament() override;
     int getnumofbots();
     QString getbotfile(int x);
-    void closeEvent(QCloseEvent *e);
+    void closeEvent(QCloseEvent *e) override;
     int getnumfights();
     int getlength();
     int getxsize();

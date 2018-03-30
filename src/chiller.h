@@ -28,8 +28,8 @@ class Chiller : public Device
 {
 public:
     Chiller(ScreenObject &object, int arg1);
-    ~Chiller();
-    void execute();
+    ~Chiller() override;
+    void execute() override;
 
 private:
     bool ison;

@@ -48,7 +48,7 @@ class StartsBatt : public QDialog
 
 public:
     StartsBatt(const QString &configFileName);
-    ~StartsBatt();
+    ~StartsBatt() override;
     int getnumofbots();
     QString getbotfile(int bot);
     int getnumfights();
@@ -71,7 +71,7 @@ signals:
 
 protected:
     virtual void loadfilesettings();
-    void closeEvent(QCloseEvent *);
+    void closeEvent(QCloseEvent *) override;
 
     int numofbots;
     QString botfiles[8];

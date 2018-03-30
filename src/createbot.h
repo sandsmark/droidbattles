@@ -51,8 +51,8 @@ class CreateBot : public QWidget
 
 public:
     CreateBot();
-    ~CreateBot();
-    void closeEvent(QCloseEvent *e);
+    ~CreateBot() override;
+    void closeEvent(QCloseEvent *e) override;
     void error(const QString &msg, int line);
     void addint(QString &str, int integ);
     int devnum(int sort, int num);

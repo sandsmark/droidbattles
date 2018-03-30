@@ -44,7 +44,7 @@ class ConfEdit : public QDialog
 
 public:
     ConfEdit();
-    ~ConfEdit();
+    ~ConfEdit() override;
 
 signals:
     void helpRequested();

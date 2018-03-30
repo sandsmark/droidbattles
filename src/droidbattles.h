@@ -67,7 +67,7 @@ class DroidBattles : public QWidget
 
 public:
     DroidBattles();
-    ~DroidBattles();
+    ~DroidBattles() override;
 
 private:
     void enabletourneys();

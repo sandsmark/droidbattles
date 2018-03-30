@@ -31,9 +31,9 @@ class Repair : public Device
 
 public:
     Repair(ScreenObject &object, int arg1);
-    ~Repair();
-    void execute();
-    int readPort(uint8_t port);
+    ~Repair() override;
+    void execute() override;
+    int readPort(uint8_t port) override;
 
 private:
     int repaircycles;

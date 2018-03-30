@@ -24,7 +24,9 @@ Rocket::Rocket()
 
 Rocket::~Rocket()
 {
+    delete erasegfx;
 }
+
 /**
 	* Init position, gfx
 	*/

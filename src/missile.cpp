@@ -33,10 +33,13 @@ Missile::Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea 
     m_direction = dir;
     m_speed = 256;
     noncollid = owner;
-    Xpos = X;
-    Ypos = Y;
+
+    oldX = X;
+    oldY = Y;
     double dira = direction() * pi / 512;
-    setPosition(cos(dira) * 1500, sin(dira) * 1500);
+    Xpos = X + cos(dira) * 1500;
+    Ypos = Y + sin(dira) * 1500;
+
     if (useUI) {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill(Qt::black);

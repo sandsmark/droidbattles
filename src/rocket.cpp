@@ -40,12 +40,16 @@ Rocket::Rocket(int X, int Y, int dir, int leng, int mnum, TextmodeBattleArea &ar
     m_direction = dir;
     m_speed = 220;
     noncollid = 256;
-    Xpos = X;
-    Ypos = Y;
+
     uX = X;
     uY = Y;
+
+    oldX = X;
+    oldY = Y;
     double dira = direction() * pi / 512;
-    setPosition(cos(dira) * 1500, sin(dira) * 1500);
+    Xpos = X + cos(dira) * 1500;
+    Ypos = Y + sin(dira) * 1500;
+
     m_size = 16;
     countpoint = 0;
     length = leng;

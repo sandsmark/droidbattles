@@ -21,8 +21,6 @@
 #include <QStandardPaths>
 #include <QtMath>
 
-using namespace std;
-
 TextmodeBattleArea::TextmodeBattleArea()
 {
 }

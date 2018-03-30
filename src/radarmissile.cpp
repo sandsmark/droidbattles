@@ -34,12 +34,16 @@ RadarMissile::RadarMissile(int X, int Y, int dir, int bootm, int stm, int mnum,
     strength = 175;
     m_direction = dir;
     m_speed = 150;
-    Xpos = X;
-    Ypos = Y;
     noncollid = 256;
+
+    oldX = X;
+    oldY = Y;
     double dira = direction() * pi / 512;
-    setPosition(cos(dira) * 1500, sin(dira) * 1500);
+    Xpos = X + cos(dira) * 1500;
+    Ypos = Y + sin(dira) * 1500;
+
     m_size = 8;
+
     if (useUI) {
         erasegfx = new QPixmap(8, 8);
         erasegfx->fill(Qt::black);

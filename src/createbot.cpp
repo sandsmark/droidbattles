@@ -546,7 +546,7 @@ bool CreateBot::loadFile(const QString &filename)
 
     QFile f(filename);
     if (!f.open(QIODevice::ReadOnly)) {
-        error("Couldn't open file!", 0);
+        error("Couldn't open file!", -1);
         return false;
     }
     m_fileName.clear();
@@ -643,7 +643,7 @@ void CreateBot::saveas()
     if (!filename.isEmpty()) {
         QFile f(filename);
         if (!f.open(QIODevice::WriteOnly)) {
-            error("Couldn't open file!", 0);
+            error("Couldn't open file!", -1);
             return;
         }
         QTextStream s(&f);
@@ -1375,13 +1375,25 @@ bool CreateBot::assemble()
             continue;
         }
 
-        // divide into tokens
-        /////////////////////
-        // take the tokens
-        const QStringList tokens = curline.split(QRegExp("[\\s,\\x0]"), QString::SkipEmptyParts);
-        for (i = 0; i < tokens.length(); i++) {
-            token[i] = tokens[i];
-            exist[i] = true;
+        // I'm too lazy to implement this properly
+        if (curline.startsWith("db") && curline.count('"') == 2) {
+            const QStringList parts = curline.split('"');
+            token[0] = "db";
+            exist[0] = true;
+            const QByteArray string = parts[1].toLatin1();
+            for (int i=0; i<qMin(parts[1].length(), 15); i++) {
+                token[i+1] = QString::number(string[i]);
+                exist[i+1] = true;
+            }
+        } else {
+            // divide into tokens
+            /////////////////////
+            // take the tokens
+            const QStringList tokens = curline.split(QRegExp("[\\s,\\x0]"), QString::SkipEmptyParts);
+            for (i = 0; i < qMin(tokens.length(), 16); i++) {
+                token[i] = tokens[i];
+                exist[i] = true;
+            }
         }
 
         //Assign types and values to all tokens
@@ -1401,7 +1413,7 @@ bool CreateBot::assemble()
         //	  13-@register
         ///////////////////////////////////////
         //Check if the first token is a label
-        if (token[0].left(1) == QString(":")) {
+        if (token[0].startsWith(":")) {
             if (token[0].length() <= 1) {
                 error("Expected: name of label", linenum);
                 return false;
@@ -1423,7 +1435,7 @@ bool CreateBot::assemble()
             }
         }
         //Check for vardeclaration
-        if (type[0] == Instruction::None && token[0].left(1) == QString("#")) {
+        if (type[0] == Instruction::None && token[0].startsWith("#")) {
             if (token[0].length() > 1) {
                 type[0] = Instruction::ConstDecl;
                 int x;
@@ -1447,7 +1459,7 @@ bool CreateBot::assemble()
         }
 
         //Check for const declarations
-        if (type[0] == Instruction::None && token[0].left(1) == QString("$")) {
+        if (type[0] == Instruction::None && token[0].startsWith("$")) {
             if (token[0].length() > 1) {
                 type[0] = Instruction::VarDecl;
                 int x;
@@ -1794,7 +1806,7 @@ bool CreateBot::assemble()
 
             //Check for @register
             for (i = 1; i < 3; i++) {
-                if (exist[i] && type[i] == Instruction::None && token[i].left(1) == "@") {
+                if (exist[i] && type[i] == Instruction::None && token[i].startsWith("@")) {
                     QString tempstring = token[i].right(token[i].length() - 1);
                     if (tempstring == QString("ax")) {
                         type[i] = Instruction::RegisterRef;
@@ -1889,7 +1901,7 @@ bool CreateBot::assemble()
 
             //Check for @value
             for (i = 1; i < 3; i++) {
-                if (exist[i] && type[i] == Instruction::None && token[i].left(1) == "@") {
+                if (exist[i] && type[i] == Instruction::None && token[i].startsWith("@")) {
                     QString tempstring = token[i].right(token[i].length() - 1);
                     tpos = tempstring.toInt(&ok);
                     if (!ok) {
@@ -2100,7 +2112,7 @@ bool CreateBot::assemble()
         s.writeBytes((char *)mem, RAMAMOUNT + 256);
         f.close();
     } else {
-        error("Couldn't open output file " + f.fileName(), 0);
+        error("Couldn't open output file " + f.fileName(), -1);
         return false;
     }
 
@@ -2159,7 +2171,7 @@ bool CreateBot::startquick()
         ysize = temp.toInt();
         f2.close();
     } else {
-        error("config file for quick battle not found", 0);
+        error("config file for quick battle not found", -1);
         return false;
     }
 
@@ -2258,7 +2270,7 @@ void CreateBot::checkconf()
             resulttext += " is a disabled device";
         }
     }
-    error(resulttext, 0);
+    error(resulttext, -1);
 }
 
 /**

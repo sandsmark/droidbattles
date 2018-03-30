@@ -48,6 +48,7 @@ private:
 
     QRegularExpression m_declareDataRegex;
     QRegularExpression m_dataRegex;
+    QRegularExpression m_stringRegex;
 
     QHash<Instruction::Types, QString> m_argTypePatterns;
 };
@@ -89,6 +90,7 @@ Highlighter::Highlighter(QTextDocument *document) :
 
     m_declareDataRegex = QRegularExpression("(#\\w+)");
     m_dataRegex = QRegularExpression("(dw|db) +(\\w+)");
+    m_stringRegex = QRegularExpression("(db) +(\"[^\"]*\")");
 
     addRule("(:)(\\w+)", { Qt::black, Qt::blue }, { QFont::Normal, QFont::Bold });
     addRule("(%CPUboot) +(\\d+)", { Qt::black, Qt::darkYellow }, { QFont::Bold, QFont::Normal });
@@ -111,6 +113,10 @@ void Highlighter::highlightBlock(const QString &block)
 
     if (previousBlockState() != -1) {
         QRegularExpressionMatch dataMatch = m_dataRegex.match(block);
+
+        if (!dataMatch.hasMatch()) {
+            dataMatch = m_stringRegex.match(block);
+        }
 
         if (!dataMatch.hasMatch()) {
             return;

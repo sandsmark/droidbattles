@@ -36,7 +36,7 @@ Missile::Missile(int X, int Y, int dir, int owner, int mnum, TextmodeBattleArea 
 
     oldX = X;
     oldY = Y;
-    double dira = direction() * pi / 512;
+    double dira = direction() * M_PI / 512;
     Xpos = X + cos(dira) * 1500;
     Ypos = Y + sin(dira) * 1500;
 
@@ -60,7 +60,7 @@ Missile::~Missile()
 	*/
 int Missile::execute()
 {
-    double dir = direction() * pi / 512;
+    double dir = direction() * M_PI / 512;
     return setPosition(cos(dir) * speed(), sin(dir) * speed());
 }
 

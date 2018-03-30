@@ -273,7 +273,7 @@ int Robots::execute()
     {
         devicelist[x]->execute();
     }
-    double dir = direction() * pi / 512;
+    double dir = direction() * M_PI / 512;
     setPosition(cos(dir) * speed(), sin(dir) * speed()); //Update position
     rowchangeval += speed();
     if (rowchangeval > 512) {

@@ -19,6 +19,7 @@
 #define COMMONSYMBOLS_H
 
 #include <qstring.h>
+#include <QtMath>
 
 //global variabel for textmode...
 
@@ -44,7 +45,6 @@ const int di = 6;
 const int si = 7;
 const int flags = 0;
 
-const double pi = 3.14159265358979;
 const int portsperdev = 4;
 
 //Indexes for the interrupts
@@ -86,8 +86,8 @@ const int notfirstround = 1;
 
 const int minstartdistance = 2000;
 
-const double toradians = pi / 512;
-const double tobotgrades = 512 / pi;
+const double toradians = M_PI / 512;
+const double tobotgrades = 512 / M_PI;
 const int debugbot = 7;
 
 const int NUMDEV = 20;

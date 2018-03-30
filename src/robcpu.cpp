@@ -1715,7 +1715,7 @@ void RobCpu::execinstr()
             //atanfunc
             // AX = atan2(BX,DX)
         case 0x88:
-            temp = int(atan2(iregisters[bx], iregisters[dx]) * 512 / pi);
+            temp = int(atan2(iregisters[bx], iregisters[dx]) * 512 / M_PI);
             temp -= 256;
             if (temp < 0) {
                 temp += 1024;

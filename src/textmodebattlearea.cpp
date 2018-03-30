@@ -213,8 +213,8 @@ int TextmodeBattleArea::execround()
                             double angl = atan2(dy, dx);
                             int dst = (objects[x]->size() << 6) + (objects[x2]->size() << 6) - dist;
                             objects[x]->setPosition(cos(angl) * ((dst + 16) / 2), sin(angl) * ((dst + 16) / 2));
-                            objects[x2]->setPosition(cos(angl + pi) * ((dst + 16) / 2),
-                                                     sin(angl + pi) * ((dst + 16) / 2));
+                            objects[x2]->setPosition(cos(angl + M_PI) * ((dst + 16) / 2),
+                                                     sin(angl + M_PI) * ((dst + 16) / 2));
                         }
                         int x2owner = objects[x2]->owner();
                         if (objects[x2]->objectHit(9, str1) == 1) {

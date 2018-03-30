@@ -92,7 +92,7 @@ void Scanner::execute()
                 distY = ourY - hisY;
                 dist = int(sqrt(distX * distX + distY * distY));
 
-                angle = int(atan2(distY, distX) * 512 / pi);
+                angle = int(atan2(distY, distX) * 512 / M_PI);
 
                 angle -= 512;
                 if (angle >= 1024) {

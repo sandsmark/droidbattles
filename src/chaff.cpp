@@ -84,7 +84,7 @@ void Chaff::eraseObject(QPainter *painter)
 	*/
 int Chaff::execute()
 {
-    double dira = direction() * pi / 512;
+    double dira = direction() * M_PI / 512;
     double tempX, tempY;
     tempX = cos(dira) * speed();
     tempY = sin(dira) * speed();

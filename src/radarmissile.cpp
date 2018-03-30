@@ -38,7 +38,7 @@ RadarMissile::RadarMissile(int X, int Y, int dir, int bootm, int stm, int mnum,
 
     oldX = X;
     oldY = Y;
-    double dira = direction() * pi / 512;
+    double dira = direction() * M_PI / 512;
     Xpos = X + cos(dira) * 1500;
     Ypos = Y + sin(dira) * 1500;
 
@@ -122,7 +122,7 @@ int RadarMissile::execute()
     if (dbgWindow) {
         dbgWindow->updatedata(devices[0]->debugContents());
     }
-    double dir = direction() * pi / 512;
+    double dir = direction() * M_PI / 512;
     if (--fuelval <= 0) {
         return -1;
     }

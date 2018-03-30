@@ -46,7 +46,7 @@ Rocket::Rocket(int X, int Y, int dir, int leng, int mnum, TextmodeBattleArea &ar
 
     oldX = X;
     oldY = Y;
-    double dira = direction() * pi / 512;
+    double dira = direction() * M_PI / 512;
     Xpos = X + cos(dira) * 1500;
     Ypos = Y + sin(dira) * 1500;
 
@@ -115,7 +115,7 @@ void Rocket::drawObject(QPainter *painter, int opt)
 
     for (x = 0; x < 50; x++) {
         painter->setPen(QColor(255, 0, 0, (rand() % 128) + 64));
-        double dira = pointD[x] * pi / 512;
+        double dira = pointD[x] * M_PI / 512;
         pointX[x] += int(cos(dira) * 64);
         pointY[x] += int(sin(dira) * 64);
         painter->drawPoint(pointX[x] >> 6, pointY[x] >> 6);
@@ -129,7 +129,7 @@ void Rocket::drawObject(QPainter *painter, int opt)
 	*/
 int Rocket::execute()
 {
-    double dir = direction() * pi / 512;
+    double dir = direction() * M_PI / 512;
     int ret = setPosition(cos(dir) * m_speed, sin(dir) * m_speed); //Update position
     int dist = int(sqrt((Xpos - uX) * (Xpos - uX) + (Ypos - uY) * (Ypos - uY)));
     if (dist > length) {

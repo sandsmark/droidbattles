@@ -1877,7 +1877,7 @@ void RobCpu::execinstr()
             //ERR val
         case 0x92:
             temp = mem->getbyte(registers[eip] + 1);
-            strcpy(message, "ERROR #: ");
+            strncpy(message, "ERROR #: ", sizeof(message));
             message[9] = temp + '0';
             message[10] = 0;
             sendmsg(message);

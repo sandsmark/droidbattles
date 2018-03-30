@@ -62,6 +62,7 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, bool ifdebug, QPlainTex
 
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     mainLayout->addLayout(horizontalLayout);
+    mainLayout->setMargin(0);
 
     for (int i = 0; i < maxbots; i++) {
         botteams[i] = battleConfig.teams[i];
@@ -1059,12 +1060,17 @@ void Drawable::onRedrawRequested()
 
 void Drawable::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
-    painter.fillRect(rect(), Qt::black);
+    const int shortestSide = qMin(width(), height());
+    const QRect drawRect(0, 0, shortestSide, shortestSide);
 
-    for (int x = 0; x < maxobjects; x++) { //Remove the gfx from last round
-        m_area->objects[x]->eraseObject(&painter);
-    }
+    QPainter painter(this);
+    painter.fillRect(drawRect, Qt::black);
+
+    painter.setClipRect(drawRect);
+    painter.translate(20, 20);
+    const double scale = qMin(float(width() - 40) / minimumWidth(),
+                              float(height() - 40) / minimumHeight());
+    painter.scale(scale, scale);
 
     for (int x = 0; x < maxobjects; x++) { // Redraw
         m_area->objects[x]->drawObject(&painter, 0);

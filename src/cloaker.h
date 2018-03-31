@@ -37,7 +37,7 @@ public:
 
 private:
     bool cloakon;
-    bool drewLastTime;
+    bool m_tickOrTock;
 };
 
 #endif

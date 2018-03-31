@@ -111,6 +111,8 @@ StartTournament::StartTournament(const QString &type) :
 
     setLayout(l);
 
+    m_randomDevice = std::make_shared<std::mt19937>(BattleConfig::seedingDevice());
+
     load();
 
     readyb->setDefault(true);
@@ -199,7 +201,11 @@ void StartTournament::load()
     maxx->setValue(settings.value(SETTINGS_MAX_X, 32768).toInt());
     maxy->setValue(settings.value(SETTINGS_MAX_Y, 32768).toInt());
     iffast->setChecked(settings.value(SETTINGS_FAST).toBool());
-    seed->setText(settings.value(SETTINGS_SEED).toString());
+
+    uint loadedSeed = settings.value(SETTINGS_SEED, BattleConfig::seedingDevice()).toUInt();
+    seed->setText(QString::number(loadedSeed));
+
+    m_randomDevice->seed(loadedSeed);
 }
 
 /**
@@ -246,12 +252,12 @@ bool StartTournament::getiffast()
 /**
 	* Returns the random seed
 	*/
-int StartTournament::getseed()
+uint StartTournament::getseed()
 {
-    return seed->text().toInt();
+    return seed->text().toUInt();
 }
 
-void StartTournament::setseed(int s)
+void StartTournament::setseed(uint s)
 {
     seed->setText(QString::number(s));
 
@@ -267,5 +273,6 @@ BattleConfig StartTournament::getBattleConfig()
     battleConfig.maxRounds = length->value();
     battleConfig.fastMode = iffast->isChecked();
     battleConfig.isTournament = true;
+    battleConfig.random_seed = getseed();
     return battleConfig;
 }

@@ -145,6 +145,7 @@ void startbattle(int argc, char *argv[])
         battleConfig.teams = teams;
         battleConfig.fastMode = false;
         battleConfig.mode = battletype;
+        battleConfig.random_seed = BattleConfig::seedingDevice();
         TextmodeBattleArea *area = new TextmodeBattleArea(battleConfig);
         while (true) {
             if (area->execround() == 3) {
@@ -199,6 +200,9 @@ int main(int argc, char *argv[])
     QCommandLineOption tickIntervalOption("tick-interval",
                                      "Interval between each tick",
                                           "milliseconds");
+    QCommandLineOption seedOption("seed",
+                                     "Randomness seed to ues",
+                                          "number");
 
     parser.addHelpOption();
     parser.addOption(botOption);
@@ -207,6 +211,7 @@ int main(int argc, char *argv[])
     parser.addOption(ticklessOption);
     parser.addOption(headlessOption);
     parser.addOption(tickIntervalOption);
+    parser.addOption(seedOption);
 
     parser.process(*app);
 
@@ -238,6 +243,10 @@ int main(int argc, char *argv[])
         }
         if (parser.isSet(ticklessOption)) {
             battleConf.fastMode = true;
+        }
+        battleConf.random_seed =  parser.value(seedOption).toUInt();
+        if (!battleConf.random_seed) {
+            battleConf.random_seed = BattleConfig::seedingDevice();
         }
 
         BattleArea *battleArea = new BattleArea(battleConf);

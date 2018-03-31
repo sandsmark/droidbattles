@@ -53,8 +53,8 @@ public:
     int getxsize();
     int getysize();
     bool getiffast();
-    int getseed();
-    void setseed(int s);
+    uint getseed();
+    void setseed(uint s);
 
     BattleConfig getBattleConfig();
 
@@ -90,6 +90,8 @@ private:
     void save();
     void load();
     QString m_type;
+
+    std::shared_ptr<std::mt19937> m_randomDevice;
 };
 
 #endif

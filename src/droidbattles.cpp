@@ -200,6 +200,7 @@ void DroidBattles::startskirmish()
         battleConfig.isTeams = ifteamfight;
         battleConfig.teams = teams;
         battleConfig.isTournament = false;
+        battleConfig.random_seed = BattleConfig::seedingDevice();
 
         batt = new BattleArea(battleConfig);
         batt->show();
@@ -260,6 +261,7 @@ void DroidBattles::startsurvival()
         battleConfig.teams = teams;
         battleConfig.isTournament = false;
         battleConfig.mode = 1;
+        battleConfig.random_seed = BattleConfig::seedingDevice();
 
         batt = new BattleArea(battleConfig);
         batt->show();
@@ -315,6 +317,7 @@ void DroidBattles::startdeath()
         battleConfig.teams = teams;
         battleConfig.isTournament = false;
         battleConfig.mode = BattleConfig::Deathmatch;
+        battleConfig.random_seed = BattleConfig::seedingDevice();
 
         batt = new BattleArea(battleConfig);
         batt->show();
@@ -413,10 +416,6 @@ void DroidBattles::starttourney()
         winmatches[x] = 0;
         wingames[x] = 0;
     }
-    if (!stment->getseed()) {
-        stment->setseed(qrand());
-    }
-    qsrand(stment->getseed());
     teams[0] = 0;
     teams[1] = 1;
 
@@ -608,10 +607,6 @@ void DroidBattles::startkoth()
     ln = kotht->getlength(); //Get the max length of fight
     xs = kotht->getxsize();
     ys = kotht->getysize();
-    if (!kotht->getseed()) {
-        kotht->setseed(qrand());
-    }
-    qsrand(kotht->getseed());
 
     teams[0] = 0;
     teams[1] = 1;
@@ -841,10 +836,6 @@ void DroidBattles::startcupt()
         names[x] = cuptournament->getbotfile(x);
         nextround[x] = x;
     }
-    if (!cuptournament->getseed()) {
-        cuptournament->setseed(qrand());
-    }
-    qsrand(cuptournament->getseed());
 
     teams[0] = 0;
     teams[1] = 1;

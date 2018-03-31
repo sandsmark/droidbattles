@@ -123,6 +123,9 @@ private:
 
     QLabel *m_roundCounter;
     QSlider *m_speedSlider;
+    std::mt19937 m_randomEngine;
+    std::uniform_int_distribution<> m_randomX;
+    std::uniform_int_distribution<> m_randomY;
     /*		QString names[8];
     		//QPixmap *backpm;
     		int numfights;

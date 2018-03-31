@@ -2,9 +2,13 @@
 #define BATTLECONFIG_H
 
 #include <array>
+#include <memory>
+#include <random>
 
 struct BattleConfig
 {
+    static std::random_device seedingDevice;
+
     enum FightMode {
         Normal = 0,
         Survival = 1,
@@ -22,6 +26,8 @@ struct BattleConfig
     std::array<int, 8> teams = { 0 };
     bool fastMode = false;
     bool debugMode = false;
+
+    std::random_device::result_type random_seed;
 };
 
 #endif // BATTLECONFIG_H

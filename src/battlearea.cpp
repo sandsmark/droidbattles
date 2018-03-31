@@ -31,6 +31,8 @@
 
 bool SingleStepMode = false;
 
+std::random_device BattleConfig::seedingDevice;
+
 /**
 	* Constructor, inits area and starts first battle round
 	*/
@@ -49,6 +51,11 @@ BattleArea::BattleArea(const BattleConfig &battleConfig, QPlainTextEdit *dbedit,
     m_isTeams = battleConfig.isTeams;
     m_xSize = battleConfig.xSize;
     m_ySize = battleConfig.ySize;
+
+    m_randomEngine.seed(battleConfig.random_seed);
+    m_randomX = std::uniform_int_distribution<>(0, m_xSize);
+    m_randomY = std::uniform_int_distribution<>(0, m_ySize);
+
     ifdelete = false;
 
     m_maxRounds = battleConfig.maxRounds;
@@ -213,15 +220,15 @@ void BattleArea::startonebattle(int y)
 
     //Randomize start positions and make sure the bots don't start to
     //close to each other
-    xstarts[0] = qrand() % m_xSize;
-    ystarts[0] = qrand() % m_ySize;
+    xstarts[0] = m_randomX(m_randomEngine);
+    ystarts[0] = m_randomY(m_randomEngine);
     for (x = 1; x < maxbots; x++) {
         int dst = minstartdistance - 1;
         int tries = 0;
         while (dst < minstartdistance && tries < 128) {
             dst = minstartdistance;
-            xstarts[x] = qrand() % m_xSize;
-            ystarts[x] = qrand() % m_ySize;
+            xstarts[x] = m_randomX(m_randomEngine);
+            ystarts[x] = m_randomY(m_randomEngine);
             for (y = 0; y < x; y++) {
                 int xdiff = abs(xstarts[y] - xstarts[x]);
                 int ydiff = abs(ystarts[y] - ystarts[x]);
@@ -438,8 +445,8 @@ void BattleArea::execute()
                         delete objects[x2];
                         if (fightswon[x2] < m_maxPoints) {
                             //Calc X and Y position
-                            xstarts[x2] = qrand() % m_xSize;
-                            ystarts[x2] = qrand() % m_ySize;
+                            xstarts[x2] = m_randomX(m_randomEngine);
+                            ystarts[x2] = m_randomY(m_randomEngine);
                             objects[x2] = new Robots(names[x2],
                                                      *this, x2, config, botteams[x2], false);
                             QObject::connect(objects[x2],
@@ -471,8 +478,8 @@ void BattleArea::execute()
                         }
                         checkwin = true;
                         //Calc X and Y position
-                        xstarts[x2] = qrand() % m_xSize;
-                        ystarts[x2] = qrand() % m_ySize;
+                        xstarts[x2] = m_randomX(m_randomEngine);
+                        ystarts[x2] = m_randomY(m_randomEngine);
                         objects[x2] = new Robots(names[x2], *this,
                                                  x2, config, botteams[x2], false);
                         QObject::connect(objects[x2],
@@ -511,8 +518,8 @@ void BattleArea::execute()
                         x2 = maxobjects;
                         if (fightswon[x] < m_maxPoints) {
                             //Calc X and Y position
-                            xstarts[x] = qrand() % m_xSize;
-                            ystarts[x] = qrand() % m_ySize;
+                            xstarts[x] = m_randomX(m_randomEngine);
+                            ystarts[x] = m_randomY(m_randomEngine);
                             objects[x] = new Robots(names[x], *this,
                                                     x, config, botteams[x], false);
                             QObject::connect(objects[x],
@@ -548,8 +555,8 @@ void BattleArea::execute()
                         x2 = maxobjects;
                         checkwin = true;
                         //Calc X and Y position
-                        xstarts[x] = qrand() % m_xSize;
-                        ystarts[x] = qrand() % m_ySize;
+                        xstarts[x] = m_randomX(m_randomEngine);
+                        ystarts[x] = m_randomY(m_randomEngine);
                         objects[x] = new Robots(names[x], *this, x,
                                                 config, botteams[x], false);
                         QObject::connect(objects[x],
@@ -941,8 +948,8 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
                     delete objects[z];
                     if (fightswon[z] < m_maxPoints) {
                         //Calc X and Y position
-                        xstarts[z] = qrand() % m_xSize;
-                        ystarts[z] = qrand() % m_ySize;
+                        xstarts[z] = m_randomX(m_randomEngine);
+                        ystarts[z] = m_randomY(m_randomEngine);
                         objects[z] = new Robots(names[z], *this, z,
                                                 config, botteams[z], false);
                         QObject::connect(objects[z], SIGNAL(armorchanged(int)),
@@ -971,8 +978,8 @@ void BattleArea::explosions(int x, int y, int rad, int strength, int whichobject
                     }
                     checkwin = true;
                     //Calc X and Y position
-                    xstarts[x2] = qrand() % m_xSize;
-                    ystarts[x2] = qrand() % m_ySize;
+                    xstarts[x2] = m_randomX(m_randomEngine);
+                    ystarts[x2] = m_randomY(m_randomEngine);
                     objects[x2] = new Robots(names[x2], *this, x2,
                                              config, botteams[x2], false);
                     QObject::connect(objects[x2], SIGNAL(armorchanged(int)),

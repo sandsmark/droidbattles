@@ -2183,11 +2183,9 @@ bool CreateBot::startquick()
     battleConfig.ySize = ysize;
     battleConfig.isTeams = ifteams;
     battleConfig.teams = teams;
-    battleConfig.isTournament = false;
-    battleConfig.fastMode = false;
-    battleConfig.mode = 0;
     battleConfig.maxPoints = 0;
     battleConfig.debugMode = true;
+    battleConfig.random_seed = BattleConfig::seedingDevice();
     batt = new BattleArea(battleConfig, edittxt, &debuglines[0], &debugmem[0]);
     batt->show();
     return true;

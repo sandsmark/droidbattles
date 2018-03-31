@@ -166,6 +166,9 @@ int main(int argc, char *argv[])
             useGUI = false;
         }
     }
+
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
     if (useGUI) {
         QGuiApplication *guiApp = new QApplication(argc, argv);
         QApplication::setStyle(QStyleFactory::create("Fusion"));

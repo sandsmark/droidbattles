@@ -85,16 +85,16 @@ BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name
     BotInfo *botInfo = new BotInfo(name, screenObject);
     botInfo->setParent(layout);
 
-    layout->addWidget(&botInfo->botnam, index, 0);
-    layout->addWidget(&botInfo->armormsg, index, 1);
-    layout->addWidget(&botInfo->armorlevel, index, 2);
-    layout->addWidget(&botInfo->heatmsg, index, 3);
-    layout->addWidget(&botInfo->heatlevel, index, 4);
-    layout->addWidget(&botInfo->m_fuelLabel, index, 5);
-    layout->addWidget(&botInfo->m_fuelLevel, index, 6);
-    layout->addWidget(&botInfo->message, index, 7);
-    layout->addWidget(&botInfo->ifscanner, index, 8);
-    layout->addWidget(&botInfo->showgfx, index, 9);
+    layout->addWidget(&botInfo->showgfx, index, 0);
+    layout->addWidget(&botInfo->botnam, index, 1);
+    layout->addWidget(&botInfo->armormsg, index, 2);
+    layout->addWidget(&botInfo->armorlevel, index, 3);
+    layout->addWidget(&botInfo->heatmsg, index, 4);
+    layout->addWidget(&botInfo->heatlevel, index, 5);
+    layout->addWidget(&botInfo->m_fuelLabel, index, 6);
+    layout->addWidget(&botInfo->m_fuelLevel, index, 7);
+    layout->addWidget(&botInfo->message, index, 8);
+    layout->addWidget(&botInfo->ifscanner, index, 9);
 
     return botInfo;
 }

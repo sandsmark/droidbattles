@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "cloaker.h"
+#include <QPainter>
 
 Cloaker::Cloaker(ScreenObject &object, int arg1)
 {
@@ -30,6 +31,7 @@ Cloaker::Cloaker(ScreenObject &object, int arg1)
             portstack[count][count2] = 0;
         }
     }
+    m_tickOrTock = false;
 }
 
 Cloaker::~Cloaker()
@@ -46,5 +48,25 @@ void Cloaker::execute()
     if (stacktaken[0][0]) {
         cloakon = portstack[0][0];
         moveportstack(0);
+    }
+
+    m_tickOrTock = !m_tickOrTock;
+}
+
+void Cloaker::draw(QPainter *painter)
+{
+    if (!cloakon) {
+        return;
+    }
+
+    const int minX = (ourbot->xPos() >> 6) - 16;
+    int minY = (ourbot->yPos() >> 6) - 16;
+    if (m_tickOrTock) {
+        minY += 1;
+    }
+
+    painter->setPen(QPen(QColor(0, 0, 0, 128)));
+    for (int y=0; y<32; y+=2) {
+        painter->drawLine(minX, minY + y, minX + 32, minY + y);
     }
 }

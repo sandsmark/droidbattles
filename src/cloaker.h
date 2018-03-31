@@ -33,8 +33,11 @@ public:
     ~Cloaker() override;
     void execute() override;
 
+    void draw(QPainter *painter) override;
+
 private:
     bool cloakon;
+    bool drewLastTime;
 };
 
 #endif

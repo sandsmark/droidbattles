@@ -2361,6 +2361,11 @@ void RobCpu::execinstr()
         case 0xD4:
             iregisters[mem->getbyte(registers[eip] + 1)] <<=
                 mem->getbyte(registers[eip] + 2);
+
+            iregisters[mem->getbyte(registers[eip] + 1)] =
+                    uint16_t(iregisters[mem->getbyte(registers[eip] + 1)])
+                    <<  mem->getbyte(registers[eip] + 2);
+
             registers[eip] += 3;
             break;
 

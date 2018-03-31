@@ -45,6 +45,8 @@ BotInfo::BotInfo(const QString &botname, ScreenObject *rb)
         return;
     }
 
+    m_cost = bot->cost();
+
     botnam.setText(QFileInfo(botname).baseName());
 
     armormsg.setText("A:");
@@ -99,13 +101,10 @@ BotInfo *BotInfo::addBotInfo(QGridLayout *layout, int index, const QString &name
 
 int BotInfo::score()
 {
-    if (!bot) {
-        return 0;
-    }
     int ret = 0;
 
     // Score calculation
-    ret -= bot->cost();
+    ret -= m_cost;
 
     if (armorlevel.maximum()) {
         ret += 1000 * armorlevel.value() / armorlevel.maximum();

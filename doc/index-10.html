@@ -661,7 +661,9 @@ atanfunc    ;calculate angle
 <P>rnd :
 <BLOCKQUOTE><CODE>
 <PRE>
-This instruction puts a random number into ax. (It uses the stdlib function rand( ))
+This instruction puts a random number into ax.
+
+It uses a 32-bit Mersenne Twister engine for generating randomness, with uniform distribution in the entire range of 16 bits numbers.
 </PRE>
 </CODE></BLOCKQUOTE>
 <P>

@@ -21,6 +21,8 @@
 #include "cpu.h"
 #include "screenobject.h"
 #include <qfile.h>
+#include <random>
+
 
 /**CPU adapted for bot
   *@author Andreas Agorander
@@ -31,7 +33,7 @@ class RobCpu : public CPU
 public:
     RobCpu();
     RobCpu(Ram &ramdev, ScreenObject &object, int arg1, int arg2, int arg3,
-           int arg4, int arg5);
+           int arg4, int arg5, const std::mt19937 &randomness);
     ~RobCpu() override;
     void execute() override;
     int type() override;
@@ -39,6 +41,10 @@ public:
     void sendmsg(char *msg) override;
     struct DebugContents debugContents() override;
     void execinstr() override;
+
+private:
+    std::mt19937 m_randomness;
+    std::uniform_int_distribution<uint16_t> m_randDistribution;
 };
 
 #endif

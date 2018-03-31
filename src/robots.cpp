@@ -41,7 +41,8 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
 
     Xpos = ourarea->getstartx(mnum); //Get start position from battlearea
     Ypos = ourarea->getstarty(mnum);
-    m_direction = qrand() % 1024;
+    std::uniform_int_distribution<> directionRand(0, 1024);
+    m_direction = directionRand(object.randomEngine());
 
     fuelval = 0;
     mynum = mnum;
@@ -127,7 +128,8 @@ Robots::Robots(const QString &name, TextmodeBattleArea &object, int mnum, ConfSt
                     break;
                 case 1:
                     devicelist[x] = new RobCpu(*ramdevice, *this, levelvalue, my[x * 6 + 4],
-                                               my[x * 6 + 5], my[x * 6 + 6], my[x * 6 + 7]);
+                                               my[x * 6 + 5], my[x * 6 + 6], my[x * 6 + 7],
+                                               object.randomEngine());
                     break;
                 case 2:
                     devicelist[x] = new Engine(*this, levelvalue);

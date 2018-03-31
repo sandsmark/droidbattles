@@ -47,8 +47,9 @@ public:
     virtual void explosions(int x, int y, int rad, int strength, int whichobject);
     int getstartx(int);
     int getstarty(int);
-
     int execround();
+
+    std::mt19937 &randomEngine() { return m_randomEngine; }
 
 protected:
     ScreenObject *objects[256];
@@ -77,6 +78,7 @@ protected:
     int m_battleMode; //0 - normal, 1 - survival, 2 - Deathmatch
     int runmode; //0 - not running, 1 - running
     int m_maxPoints;
+    std::mt19937 m_randomEngine;
 };
 #include "robots.h"
 #include "mine.h"

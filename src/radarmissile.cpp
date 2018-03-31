@@ -54,7 +54,7 @@ RadarMissile::RadarMissile(int X, int Y, int dir, int bootm, int stm, int mnum,
     devices[1] = new Steering(*this, 4);
     devices[2] = new Scanner(*this, 20000, 0);
     devices[0] = new RobCpu(*ramdevice, *this, 2, bootm % 256, bootm / 256, stm % 256,
-                            stm / 256);
+                            stm / 256, area.randomEngine());
 
     fuelval = 300;
     dbgWindow = nullptr;

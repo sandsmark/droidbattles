@@ -25,8 +25,10 @@ RobCpu::RobCpu()
 }
 
 RobCpu::RobCpu(Ram &ramdev, ScreenObject &object, int arg1, int arg2, int arg3,
-               int arg4, int arg5)
+               int arg4, int arg5, const std::mt19937 &randomness)
 {
+    m_randomness = randomness;
+
     ourlevel = arg1;
     mem = &ramdev;
     ourbot = &object;
@@ -2541,7 +2543,7 @@ void RobCpu::execinstr()
 
             //RND
         case 0xEC:
-            registers[ax] = qrand();
+            registers[ax] = m_randDistribution(m_randomness);
             registers[eip]++;
             break;
 

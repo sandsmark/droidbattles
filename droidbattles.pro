@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = droidbattles
-QT += widgets
+QT += widgets quick quick_private
 CONFIG += c++11
 
 #CONFIG += sanitizer sanitize_address sanitize_undefined
@@ -68,7 +68,8 @@ HEADERS += src/armor.h \
            src/textmodefilemanip.h \
            src/timedev.h \
            src/turret.h \
-           src/battleconfig.h
+           src/battleconfig.h \
+    src/jscpu.h
 
 SOURCES += src/armor.cpp \
            src/battlearea.cpp \
@@ -124,7 +125,8 @@ SOURCES += src/armor.cpp \
            src/textmodefilemanip.cpp \
            src/timedev.cpp \
            src/turret.cpp \
-           src/confstruct.cpp
+           src/confstruct.cpp \
+    src/jscpu.cpp
 
 RESOURCES += images.qrc \
     configs.qrc \

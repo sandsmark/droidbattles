@@ -129,3 +129,9 @@ SOURCES += src/armor.cpp \
 RESOURCES += images.qrc \
     configs.qrc \
     doc.qrc
+
+unix:!mac {
+    isEmpty(PREFIX):PREFIX = /usr
+    target.path = $$PREFIX/bin
+    INSTALLS += target
+}
